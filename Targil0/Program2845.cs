@@ -10,7 +10,7 @@ namespace Targil0
             welcome5562();
             Console.ReadKey();
         }
-        static partial void welcome5562();
+        static partial void welcome5562();  
         private static void welcome2845()
         {
             Console.WriteLine("enter your name:");
