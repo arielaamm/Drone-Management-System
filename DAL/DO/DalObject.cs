@@ -80,7 +80,7 @@ namespace IDAL.DO
                         TargetId = customers[i].ID,
                         Weight = (WEIGHT)rnd.Next(0, 3),
                         Priority = (PRIORITY)rnd.Next(0, 3),
-                        DroneId = drones[(i + 1 > 6 ? i + 1 : 0)].ID
+                        DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID
                     };
                 }
                 Config.DroneIndex = 9;
