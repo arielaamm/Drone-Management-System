@@ -21,12 +21,12 @@ namespace IDAL.DO
             public static Station[] station = new Station[5];
             public static Customers[] customers = new Customers[100];
             public static Parcel[] parcel = new Parcel[1000];
-            internal class Config {
-                static int DroneIndex = 0;
-                static int StationIndex = 0;
-                static int CustomersIndex = 0;
-                static int ParcelIndex = 0;
-                static int Idforparcel = 0;
+            internal static class Config {
+                public static int DroneIndex = 0;
+                public static int StationIndex = 0;
+                public static int CustomersIndex = 0;
+                public static int ParcelIndex = 0;
+                public static int Idforparcel = 0;
             }
             public void Initialize()
             {
@@ -42,7 +42,9 @@ namespace IDAL.DO
                         Weight = (WEIGHT)rnd.Next(0, 3),
                         Buttery = rnd.Next(0, 100),
                     };
+
                 }
+                Config.DroneIndex = 4;
                 for (int i = 0; i <2; i++)
                 {
                     station[i] = new Station()
@@ -54,6 +56,8 @@ namespace IDAL.DO
                         ChargeSlots = 5,
                     };
                 }
+                Config.DroneIndex = 1;
+
                 for (int i = 0; i < 10; i++)
                 {
                     customers[i] = new Customers()
@@ -65,6 +69,8 @@ namespace IDAL.DO
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
                     };
                 }
+                Config.DroneIndex = 9;
+
                 for (int i = 0; i < 10; i++)
                 {
                     parcel[i] = new Parcel()
@@ -77,6 +83,8 @@ namespace IDAL.DO
                         DroneId = drones[(i + 1 > 6 ? i + 1 : 0)].ID
                     };
                 }
+                Config.DroneIndex = 9;
+
             }
         }
     }
