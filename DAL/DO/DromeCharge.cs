@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.DO
+namespace IDAL.DO
 {
-    class DromeCharge
+    struct DromeCharge
     {
         public int DroneId { set; get; }
         public int StationId { set; get; }

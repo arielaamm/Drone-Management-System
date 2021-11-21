@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.DO
+namespace IDAL.DO
 {
-    class @enum
-    {
-        public enum WEIGHT { LIGHT,MEDIUM,HEAVY}
-        public enum PRIORITY { REGULAR,FAST,SOS}
-    }
-}
+    public enum WEIGHT { LIGHT=0,MEDIUM=1,HEAVY=2}
+    public enum PRIORITY { REGULAR=0,FAST=1,SOS=2}
+    public enum STATUS {FREE=0, MAINTENANCE=1 ,DELIVERED=2 }
+} 
     
