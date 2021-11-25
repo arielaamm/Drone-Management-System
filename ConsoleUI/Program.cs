@@ -4,8 +4,27 @@ namespace ConsoleUI
 {
     class Program   
     {
+        public void FunAddition()
+        {
+            Console.WriteLine("OK, what do you want to add ? choose");
+            Console.WriteLine("add station \nadd drone \nadd customer \nadd parcel");
+        }
+        public void FunUpdating()
+        {
+            Console.WriteLine("OK, what do you want to update ? choose");
+            Console.WriteLine("parcel to drone \npackage collection \ndelivery package \nsend for loadingor \nrelease from charging");
+        }
+        public void FunDisplay()
+        {
+
+        }
+        public void FunListview()
+        {
+
+        }
         static void Main(string[] args)
         {
+            var P = new Program();
             string Option;
             Console.WriteLine("Hey you got to ariel&babauv drone's");
             Console.WriteLine("Choose what you want to do");
@@ -15,16 +34,16 @@ namespace ConsoleUI
             switch (Option)
             {
                 case "Addition":
-                    FunAddition();
+                    P.FunAddition();
                     break;
                 case "Updating":
-                    FunUpdating();
+                    P.FunUpdating();
                     break;
                 case "Display":
-                    FunDisplay();
+                    P.FunDisplay();
                     break;
                 case "List view":
-                    FunListview();
+                    P.FunListview();
                     break;
                 case "Exit":
                     Console.WriteLine("Thank you have a good day");

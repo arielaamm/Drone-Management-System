@@ -42,28 +42,27 @@ namespace IDAL.DO
                     {
                         ID = rnd.Next(123456789, 999999999),
                         Model = "" + (rnd.Next(0, 100)),
-                        Status = (STATUS)rnd.Next(0, 3),
-                        Weight = (WEIGHT)rnd.Next(0, 3),
-                        Buttery = rnd.Next(0, 100),
+                        Status = (STATUS)0,
+                        Buttery = 100,
                     };
 
                 }
 
-                Config.DroneIndex = drones.Length;
+                Config.DroneIndex = 5;
 
                 for (int i = 0; i < 2; i++)
                 {
                     station[i] = new Station()
                     {
                         ID = rnd.Next(123456789, 999999999),
-                        StationName = "Station" + i,
+                        StationName = "Station" + i+1,
                         Longitude = GetRandomNumber(33.289273, 29.494665),
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
-                        ChargeSlots = 5,
+                        ChargeSlots = 0,
                     };
                 }
 
-                Config.DroneIndex = station.Length;
+                Config.DroneIndex = 2;
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -71,13 +70,13 @@ namespace IDAL.DO
                     {
                         ID = rnd.Next(123456789, 999999999),
                         CustomerName = "Customer" + i,
-                        Phone = "050" + rnd.Next(1000000, 9999999),
+                        Phone = "05" + rnd.Next(10000000, 99999999),
                         Longitude = GetRandomNumber(33.289273, 29.494665),
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
                     };
                 }
 
-                Config.DroneIndex = customers.Length;
+                Config.DroneIndex = 10;
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -86,16 +85,18 @@ namespace IDAL.DO
                         ID = rnd.Next(123456789, 999999999),
                         SenderId = customers[i].ID,
                         TargetId = customers[i].ID,
-                        Weight = (WEIGHT)rnd.Next(0, 3),
-                        Priority = (PRIORITY)rnd.Next(0, 3),
+                        Weight = 0,
                         DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID
                     };
                 }
 
-                Config.DroneIndex = parcel.Length;
+                Config.DroneIndex = 10;
                 sta++;
                 Config.Idforparcel = sta;
             }
         }
+
+        /*מימושים*/
+
     }
 }

@@ -10,7 +10,6 @@ namespace IDAL.DO
 {
     public struct Drone
     {
-
         public int ID { get; set; }
         public string Model { set; get;}
         public WEIGHT Weight { set; get; }
