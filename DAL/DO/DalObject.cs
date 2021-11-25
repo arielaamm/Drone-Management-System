@@ -9,9 +9,11 @@ namespace IDAL.DO
 {
     namespace DalObject
     {
-        
+
         internal class DataSource
         {
+            public static int sta = 123456;
+
             public double GetRandomNumber(double minimum, double maximum)
             {
                 Random random = new Random();
@@ -21,6 +23,7 @@ namespace IDAL.DO
             public static Station[] station = new Station[5];
             public static Customers[] customers = new Customers[100];
             public static Parcel[] parcel = new Parcel[1000];
+
             internal static class Config {
                 public static int DroneIndex = 0;
                 public static int StationIndex = 0;
@@ -28,6 +31,7 @@ namespace IDAL.DO
                 public static int ParcelIndex = 0;
                 public static int Idforparcel = 0;
             }
+
             public void Initialize()
             {
 
@@ -37,15 +41,17 @@ namespace IDAL.DO
                     drones[i] = new Drone()
                     {
                         ID = rnd.Next(123456789, 999999999),
-                        Model =  ""+(rnd.Next(0, 100)),
+                        Model = "" + (rnd.Next(0, 100)),
                         Status = (STATUS)rnd.Next(0, 3),
                         Weight = (WEIGHT)rnd.Next(0, 3),
                         Buttery = rnd.Next(0, 100),
                     };
 
                 }
-                Config.DroneIndex = 4;
-                for (int i = 0; i <2; i++)
+
+                Config.DroneIndex = drones.Length;
+
+                for (int i = 0; i < 2; i++)
                 {
                     station[i] = new Station()
                     {
@@ -56,7 +62,8 @@ namespace IDAL.DO
                         ChargeSlots = 5,
                     };
                 }
-                Config.DroneIndex = 1;
+
+                Config.DroneIndex = station.Length;
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -64,12 +71,13 @@ namespace IDAL.DO
                     {
                         ID = rnd.Next(123456789, 999999999),
                         CustomerName = "Customer" + i,
-                        Phone = "050"+ rnd.Next(1000000, 9999999),
+                        Phone = "050" + rnd.Next(1000000, 9999999),
                         Longitude = GetRandomNumber(33.289273, 29.494665),
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
                     };
                 }
-                Config.DroneIndex = 9;
+
+                Config.DroneIndex = customers.Length;
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -83,8 +91,10 @@ namespace IDAL.DO
                         DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID
                     };
                 }
-                Config.DroneIndex = 9;
 
+                Config.DroneIndex = parcel.Length;
+                sta++;
+                Config.Idforparcel = sta;
             }
         }
     }
