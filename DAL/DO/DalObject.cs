@@ -24,7 +24,7 @@ namespace IDAL.DO
             public static Customers[] customers = new Customers[100];
             public static Parcel[] parcel = new Parcel[1000];
 
-            internal static class Config {
+            internal class Config {///static class or not?
                 public static int DroneIndex = 0;
                 public static int StationIndex = 0;
                 public static int CustomersIndex = 0;
