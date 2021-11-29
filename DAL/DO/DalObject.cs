@@ -9,10 +9,11 @@ namespace DAL
 {
     namespace DalObject
     {
-
-        internal class DataSource
+        //הוספתי מספר לאי די אם אתה רוצה שיטה אחרת אפשר גם
+        public class DataSource
         {
-            public static int sta = 123456;
+            public static int sta = 123456;// מספר בשביל מזהה החבילה
+            public static int staticId = 1;// מספר לאי די
 
             public double GetRandomNumber(double minimum, double maximum)
             {
@@ -22,7 +23,7 @@ namespace DAL
             public static Drone[] drones = new Drone[10];
             public static Station[] station = new Station[5];
             public static Customers[] customers = new Customers[100];
-            public static Parcel[] parcel = new Parcel[1000];
+            public static Parcel[] parcels = new Parcel[1000];
 
             internal class Config {///static class or not?
                 public static int DroneIndex = 0;
@@ -34,15 +35,13 @@ namespace DAL
 
             public void Initialize()
             {
-
                 Random rnd = new Random();
                 for (int i = 0; i < 5; i++)
                 {
                     drones[i] = new Drone()
                     {
-                        ID = rnd.Next(123456789, 999999999),//ntc
+                        ID = 11111111 + staticId,
                         Model = "" + (rnd.Next(0, 100)),
-                        Status = (STATUS)0,
                         Buttery = 100,
                     };
 
@@ -54,7 +53,7 @@ namespace DAL
                 {
                     station[i] = new Station()
                     {
-                        ID = rnd.Next(123456789, 999999999),//ntc
+                        ID = 11111111 + staticId,
                         StationName = "Station" + i+1,
                         Longitude = GetRandomNumber(33.289273, 29.494665),
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
@@ -62,13 +61,13 @@ namespace DAL
                     };
                 }
 
-                Config.DroneIndex = 2;
+                Config.StationIndex = 2;
 
                 for (int i = 0; i < 10; i++)
                 {
                     customers[i] = new Customers()
                     {
-                        ID = rnd.Next(123456789, 999999999),//ntc
+                        ID = 11111111 + staticId,
                         CustomerName = "Customer" + i,
                         Phone = "05" + rnd.Next(10000000, 99999999),
                         Longitude = GetRandomNumber(33.289273, 29.494665),
@@ -76,22 +75,22 @@ namespace DAL
                     };
                 }
 
-                Config.DroneIndex = 10;
+                Config.CustomersIndex = 10;
 
                 for (int i = 0; i < 10; i++)
                 {
-                    parcel[i] = new Parcel()
+                    parcels[i] = new Parcel()
                     {
-                        ID = rnd.Next(123456789, 999999999),//ntc
-                        SenderId = customers[i].ID,
+                        ID = 11111111 + staticId,
+ /*                     SenderId = customers[i].ID,
                         TargetId = customers[i].ID,
-                        Weight = 0,
-                        DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID
+                        DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID    אין שום צורך*/
                     };
                 }
 
-                Config.DroneIndex = 10;
+                Config.ParcelIndex = 10;
                 sta++;
+                staticId+=2;
                 Config.Idforparcel = sta;
             }
         }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace IDAL.DO
 {
-    struct Station
+    public struct Station
     {
         public int ID { set; get; }
         public string StationName { set; get; }

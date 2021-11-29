@@ -8,5 +8,6 @@ namespace DAL.DO
 {
     class DalObjectDrone
     {
+        
     }
 }

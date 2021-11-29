@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DateTime = System.DateTime;
 namespace IDAL.DO
 {
-    struct Parcel
+    public struct Parcel
     {
         public int ID { set; get; }
         public int SenderId { set; get; }
