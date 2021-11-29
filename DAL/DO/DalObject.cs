@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
-namespace IDAL.DO
+namespace DAL
 {
     namespace DalObject
     {
