@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
-namespace IDAL.DO
+namespace DAL
 {
     namespace DalObject
     {
@@ -40,7 +40,7 @@ namespace IDAL.DO
                 {
                     drones[i] = new Drone()
                     {
-                        ID = rnd.Next(123456789, 999999999),
+                        ID = rnd.Next(123456789, 999999999),//ntc
                         Model = "" + (rnd.Next(0, 100)),
                         Status = (STATUS)0,
                         Buttery = 100,
@@ -54,7 +54,7 @@ namespace IDAL.DO
                 {
                     station[i] = new Station()
                     {
-                        ID = rnd.Next(123456789, 999999999),
+                        ID = rnd.Next(123456789, 999999999),//ntc
                         StationName = "Station" + i+1,
                         Longitude = GetRandomNumber(33.289273, 29.494665),
                         Lattitude = GetRandomNumber(35.569495, 34.904675),
@@ -68,7 +68,7 @@ namespace IDAL.DO
                 {
                     customers[i] = new Customers()
                     {
-                        ID = rnd.Next(123456789, 999999999),
+                        ID = rnd.Next(123456789, 999999999),//ntc
                         CustomerName = "Customer" + i,
                         Phone = "05" + rnd.Next(10000000, 99999999),
                         Longitude = GetRandomNumber(33.289273, 29.494665),
@@ -82,7 +82,7 @@ namespace IDAL.DO
                 {
                     parcel[i] = new Parcel()
                     {
-                        ID = rnd.Next(123456789, 999999999),
+                        ID = rnd.Next(123456789, 999999999),//ntc
                         SenderId = customers[i].ID,
                         TargetId = customers[i].ID,
                         Weight = 0,
