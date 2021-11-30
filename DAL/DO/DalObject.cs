@@ -64,7 +64,8 @@ namespace DAL
         {
             Station s = new Station();
             s.ID = id;
-            foreachid==DataSource.stations{
+            foreach(id==(DataSource.stations.ID)
+                {
             }
 )
             s.StationName = (string)name;
