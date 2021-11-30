@@ -111,6 +111,34 @@ namespace DAL
             }
             return p;
         }
-        #endregion 
+        #endregion
+        public static void printeAllStation()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+               //print func
+            }
+        }
+        public static void printeAllDrones()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                //print func
+            }
+        }
+        public static void printeAllCustomers()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                //print func
+            }
+        }
+        public static void printeAllParcels()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                //print func
+            }
+        }
     }
 }
