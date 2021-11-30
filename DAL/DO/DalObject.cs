@@ -63,7 +63,7 @@ namespace DAL
         }
 #endregion
         #region print(3)
-        public static Station printeStation(int id)
+        public static Station FindStation(int id)
         {
             Station s = new Station();
             foreach (var i in DataSource.stations)
@@ -75,7 +75,7 @@ namespace DAL
                 }
             return s;
         }
-        public static Drone printeDrone(int id)
+        public static Drone FindDrone(int id)
         {
             Drone d = new Drone();
             foreach (var i in DataSource.drones)
@@ -87,9 +87,10 @@ namespace DAL
             }
             return d;
         }
-        public static Customers printeCustomers(int id)
+        public static Customers FindCustomers(int id)
         {
             Customers c = new Customers();
+
             foreach (var i in DataSource.customers)
             {
                 if (i.ID == id)
@@ -99,7 +100,7 @@ namespace DAL
             }
             return c;
         }
-        public static Parcel printeParcel(int id)
+        public static Parcel FindParcel(int id)
         {
             Parcel p = new Parcel();
             foreach (var i in DataSource.parcels)
@@ -112,6 +113,37 @@ namespace DAL
             return p;
         }
         #endregion
+        public static void printeStation(int id)
+        {
+            Station printed= FindStation(id);
+            Console.WriteLine(printed.StationName);
+            Console.WriteLine(printed.ChargeSlots);
+            Console.WriteLine(printed.ID);
+            Console.WriteLine(printed.Longitude);
+            Console.WriteLine(printed.Lattitude);
+            
+        }
+        public static void printeDrones()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                //print func
+            }
+        }
+        public static void printeCustomers()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                //print func
+            }
+        }
+        public static void printeParcels()
+        {
+            foreach (var i in DataSource.parcels)
+            {
+                
+            }
+        }
         public static void printeAllStation()
         {
             foreach (var i in DataSource.parcels)
@@ -121,14 +153,14 @@ namespace DAL
         }
         public static void printeAllDrones()
         {
-            foreach (var i in DataSource.parcels)
+            foreach (var i in DataSource.drones)
             {
                 //print func
             }
         }
         public static void printeAllCustomers()
         {
-            foreach (var i in DataSource.parcels)
+            foreach (var i in DataSource.customers)
             {
                 //print func
             }
