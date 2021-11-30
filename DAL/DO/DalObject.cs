@@ -8,20 +8,21 @@ using Randon = System.Random;
 namespace DAL
 {
 
-        public class DalObject
+    public class DalObject
+    {
+        #region add (1)
+        static Random random = new Random();
+        public static void AddStation(string name, int num)
         {
-            static Random random = new Random();
-            public static void AddStation(string name, int num)
-            {
-                Station s = new Station();
-                s.StationName = (string)name;
-                s.ChargeSlots = num;
-                s.ID = 11111111 + DataSource.staticId;
-                s.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
-                s.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
-                DataSource.staticId++;
-                DataSource.stations.Add(s);
-            }
+            Station s = new Station();
+            s.StationName = (string)name;
+            s.ChargeSlots = num;
+            s.ID = 11111111 + DataSource.staticId;
+            s.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
+            s.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
+            DataSource.staticId++;
+            DataSource.stations.Add(s);
+        }
         public static void AddDrone(string name, int num, WEIGHT Weight,double Buttery)
         {
             Drone d = new Drone();
@@ -60,22 +61,56 @@ namespace DAL
             parcel.Deliverd = Deliverd;
             DataSource.parcels.Add(parcel);
         }
-        public static void printeStation(int id)
+#endregion
+        #region print(3)
+        public static Station printeStation(int id)
         {
             Station s = new Station();
-            s.ID = id;
-            foreach(id==(DataSource.stations.ID)
+            foreach (var i in DataSource.stations)
                 {
-            }
-)
-            s.StationName = (string)name;
-            s.ChargeSlots = num;
-            s.ID = 11111111 + DataSource.staticId;
-            s.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
-            s.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
-            DataSource.staticId++;
-            DataSource.stations.Add(s);
+                    if (i.ID==id)
+                    {
+                        return i;
+                    }
+                }
+            return s;
         }
+        public static Drone printeDrone(int id)
+        {
+            Drone d = new Drone();
+            foreach (var i in DataSource.drones)
+            {
+                if (i.ID == id)
+                {
+                    return i;
+                }
+            }
+            return d;
+        }
+        public static Customers printeCustomers(int id)
+        {
+            Customers c = new Customers();
+            foreach (var i in DataSource.customers)
+            {
+                if (i.ID == id)
+                {
+                    return i;
+                }
+            }
+            return c;
+        }
+        public static Parcel printeParcel(int id)
+        {
+            Parcel p = new Parcel();
+            foreach (var i in DataSource.parcels)
+            {
+                if (i.ID == id)
+                {
+                    return i;
+                }
+            }
+            return p;
+        }
+        #endregion 
     }
-    
 }
