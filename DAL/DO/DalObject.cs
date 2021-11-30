@@ -47,17 +47,13 @@ namespace DAL
         public static void AddParcel(int ID, int SenderId, int TargetId, WEIGHT Weight, PRIORITY Priority, int DroneId, DateTime Requested, DateTime Scheduled, DateTime PickedUp, DateTime Deliverd)
         {
             Parcel parcel = new Parcel();
-           
-            parcel.ID = 11111111 + DataSource.staticId;
-            DataSource.staticId++;
-            parcel.SenderId= 11111111 + DataSource.staticId;
-            DataSource.staticId++;
-            parcel.TargetId = 11111111 + DataSource.staticId;
-            DataSource.staticId++;
+
+            parcel.ID = ID;
+            parcel.SenderId = SenderId;
+            parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;
-            parcel.DroneId = 11111111 + DataSource.staticId;
-            DataSource.staticId++;
+            parcel.DroneId = DroneId;
             parcel.Requested = Requested;
             parcel.Scheduled = Scheduled;
             parcel.PickedUp = PickedUp;
