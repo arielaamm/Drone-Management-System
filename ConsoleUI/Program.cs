@@ -44,11 +44,13 @@ namespace ConsoleUI
                 break;
             }
         }
+
         public static void FunUpdating()
         {
             Console.WriteLine("OK, what do you want to update ? choose");
             Console.WriteLine("parcel to drone \npackage collection \ndelivery package \nsend for loadingor \nrelease from charging");
-        }
+        } //צריך לטפל
+
         public static void FunDisplay()
         {
             Console.WriteLine("OK, what do you want to display ? choose");
@@ -79,6 +81,7 @@ namespace ConsoleUI
             }
 
         }
+
         public static void FunListview()
         {
             Console.WriteLine("OK, which list you what to see ? choose");
@@ -134,9 +137,10 @@ namespace ConsoleUI
                 break;
             }
         }
+
         static void Main(string[] args)
         {
-            var P = new DataSource();
+            DataSource P = new DataSource();
             DataSource.Initialize();
             string Option = "0";
             Console.WriteLine("Hey you got to ariel&babauv drone's");
