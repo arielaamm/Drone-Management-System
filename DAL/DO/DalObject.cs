@@ -23,7 +23,7 @@ namespace DAL
             DataSource.staticId++;
             DataSource.stations.Add(s);
         }
-        public static void AddDrone(string name, int num, WEIGHT Weight, double Buttery)
+        public static void AddDrone(string name, WEIGHT Weight, double Buttery)
         {
             Drone d = new Drone();
             d.Model = (string)name;
@@ -45,11 +45,11 @@ namespace DAL
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
-        public static void AddParcel(int ID, int SenderId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
+        public static void AddParcel(int SenderId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
         {
             // שים לב מה ששמתי בהערה לא יכול להתקבל מראש זה משהו שאנחנו עושים זה כל הרעיון של משלוחים....
             Parcel parcel = new Parcel();
-            parcel.ID = ID;
+            parcel.ID = 11111111 + DataSource.staticId;
             parcel.SenderId = SenderId;
             //parcel.TargetId = TargetId;
             parcel.Weight = Weight;
@@ -59,6 +59,7 @@ namespace DAL
             //parcel.Scheduled =     Scheduled;
             //parcel.PickedUp = PickedUp;
             //parcel.Deliverd = Deliverd;
+            DataSource.staticId++;
             DataSource.parcels.Add(parcel);
         }
         #endregion
@@ -145,16 +146,14 @@ namespace DAL
         }
         public static void AttacheDrone(Parcel parcel)
         {
-        foreach (var i in DataSource.drones)
-        {
-            if ((i.Status == 0)&&(i.Weight> parcel.Weight))//battery?
+            foreach (var i in DataSource.drones)
             {
-                    parcel.DroneId = i.ID;
-                    parcel.Requested = DateTime.Now;
+                if ((i.Status == 0)&&(i.Weight> parcel.Weight))//battery?
+                {
+                        parcel.DroneId = i.ID;
+                        parcel.Requested = DateTime.Now;
+                }
             }
-        }
-            
-
         }
         #endregion
     }
