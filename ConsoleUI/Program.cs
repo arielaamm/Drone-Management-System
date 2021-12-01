@@ -82,41 +82,56 @@ namespace ConsoleUI
         public static void FunListview()
         {
             Console.WriteLine("OK, which list you what to see ? choose");
-            Console.WriteLine("List Station(1), List Drone(2), List Customer(3), List Parcel(4)");
+            Console.WriteLine("List Station(1), List Drone(2), List Customer(3), List Parcel(4), List not associated(5), List free chargeslots(6)");
             string t;
             t = Console.ReadLine();
             int id = Convert.ToInt32(Console.ReadLine());
             switch (t)
             {
-                case "List Station" or "1":
-                    List<Station> st = DAL.DalObject.Stationlist();
-                    foreach (var s in st)
-                    {
-                        Console.WriteLine($"ID: {s.ID}\nStationName: {s.StationName}\nLongitude: {s.Longitude}\nLattitude: {s.Lattitude}\nChargeSlots: {s.ChargeSlots}");
-                    }
-                    break;
-                case "List Drone" or "2":
-                    List<Drone> dr = DAL.DalObject.Dronelist();
-                    foreach (var d in dr)
-                    {
-                        Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Buttery}");
-                    }
-                    break;
-                case "List Customer" or "3":
-                    List<Customer> cu = DAL.DalObject.Customerlist();
-                    foreach (var c in cu)
-                    {
-                        Console.WriteLine($"ID: {c.ID}\nCustomerName: {c.CustomerName}\nPhone: {c.Phone}\nLongitude: {c.Longitude}\nLattitude: {c.Lattitude}");
-                    }
-                    break;
-                case "List Parcel" or "4":
-                    List<Parcel> pa = DAL.DalObject.Parcellist();
-                    foreach (var p in pa)
-                    {
-                        Console.WriteLine($"ID: {p.ID}\nSenderId: {p.SenderId}\nTargetId: {p.TargetId}\nWeight: {p.Weight}\nPriority: {p.Priority}");
-                        Console.WriteLine($"DroneId: {p.DroneId}\nRequested: {p.Requested}\nScheduled: {p.Scheduled}\nPickedUp: {p.PickedUp}\nDeliverd: {p.Deliverd}");
-                    }
-                    break;
+            case "List Station" or "1":
+                List<Station> st = DAL.DalObject.Stationlist();
+                foreach (var s in st)
+                {
+                    Console.WriteLine($"ID: {s.ID}\nStationName: {s.StationName}\nLongitude: {s.Longitude}\nLattitude: {s.Lattitude}\nChargeSlots: {s.ChargeSlots}");
+                }
+                break;
+            case "List Drone" or "2":
+                List<Drone> dr = DAL.DalObject.Dronelist();
+                foreach (var d in dr)
+                {
+                    Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Buttery}");
+                }
+                break;
+            case "List Customer" or "3":
+                List<Customer> cu = DAL.DalObject.Customerlist();
+                foreach (var c in cu)
+                {
+                    Console.WriteLine($"ID: {c.ID}\nCustomerName: {c.CustomerName}\nPhone: {c.Phone}\nLongitude: {c.Longitude}\nLattitude: {c.Lattitude}");
+                }
+                break;
+            case "List Parcel" or "4":
+                List<Parcel> pa = DAL.DalObject.Parcellist();
+                foreach (var p in pa)
+                {
+                    Console.WriteLine($"ID: {p.ID}\nSenderId: {p.SenderId}\nTargetId: {p.TargetId}\nWeight: {p.Weight}\nPriority: {p.Priority}");
+                    Console.WriteLine($"DroneId: {p.DroneId}\nRequested: {p.Requested}\nScheduled: {p.Scheduled}\nPickedUp: {p.PickedUp}\nDeliverd: {p.Deliverd}");
+                }
+                break;
+            case "List not associated" or "5":
+                List<Parcel> par = DAL.DalObject.Parcellist();
+                foreach (var p in par)
+                {
+                    Console.WriteLine($"ID: {p.ID}\nSenderId: {p.SenderId}\nTargetId: {p.TargetId}\nWeight: {p.Weight}\nPriority: {p.Priority}");
+                    Console.WriteLine($"DroneId: {p.DroneId}\nRequested: {p.Requested}\nScheduled: {p.Scheduled}\nPickedUp: {p.PickedUp}\nDeliverd: {p.Deliverd}");
+                }
+                break;
+            case "List free chargeslots" or "6":
+                List<Station> sta = DAL.DalObject.Stationlist();
+                foreach (var s in sta)
+                {
+                    Console.WriteLine($"ID: {s.ID}\nStationName: {s.StationName}\nLongitude: {s.Longitude}\nLattitude: {s.Lattitude}\nChargeSlots: {s.ChargeSlots}");
+                }
+                break;
             }
         }
         static void Main(string[] args)
