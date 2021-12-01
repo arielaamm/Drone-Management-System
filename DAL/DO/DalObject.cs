@@ -143,6 +143,19 @@ namespace DAL
             }
             return Freechargeslots;
         }
+        public static void AttacheDrone(Parcel parcel)
+        {
+        foreach (var i in DataSource.drones)
+        {
+            if ((i.Status == 0)&&(i.Weight> parcel.Weight))//battery?
+            {
+                    parcel.DroneId = i.ID;
+                    parcel.Requested = DateTime.Now;
+            }
+        }
+            
+
+        }
         #endregion
     }
 }
