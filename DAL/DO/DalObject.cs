@@ -151,9 +151,24 @@ namespace DAL
                 if ((i.Status == 0)&&(i.Weight> parcel.Weight))//battery?
                 {
                         parcel.DroneId = i.ID;
-                        parcel.Requested = DateTime.Now;
+                        parcel.Scheduled = DateTime.Now;
                 }
             }
+        }
+        public static void PickParcel(Parcel parcel)
+        {
+            int keeper = 0;
+            foreach (var i in DataSource.drones)
+            {
+                
+                if (i.ID == parcel.DroneId)
+                {
+                    parcel.PickedUp = DateTime.Now;
+                    keeper = i.ID;
+                }
+            }
+            FindDrone(keeper).Status = 1;
+
         }
         #endregion
     }
