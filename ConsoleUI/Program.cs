@@ -18,14 +18,14 @@ namespace ConsoleUI
                 Console.WriteLine("enter station name and how meny charge slots are");
                 string name;
                 name = Console.ReadLine();
-                int num = Convert.ToInt32(Console.ReadLine());
+                int num = Int32.Parse(Console.ReadLine());
                 DAL.DalObject.AddStation(name,num);
                 break;
             case "add drone" or "2":
                 Console.WriteLine("enter Model name, weight(1,2,3), battery");
                 string m = Console.ReadLine();
-                int w = Convert.ToInt32(Console.ReadLine());
-                double b = Convert.ToDouble(Console.ReadLine());
+                int w = Int32.Parse(Console.ReadLine());
+                double b = Double.Parse(Console.ReadLine());
                 DAL.DalObject.AddDrone(m, (WEIGHT)w, b);
                 break;
             case "add customer" or "3":
@@ -36,10 +36,10 @@ namespace ConsoleUI
                 break;
             case "add parcel" or "4":
                 Console.WriteLine("enter SenderId, TargetId, weight(1,2,3), priority(1,2,3)");
-                int s = Convert.ToInt32(Console.ReadLine());
-                int tar = Convert.ToInt32(Console.ReadLine());
-                int weight = Convert.ToInt32(Console.ReadLine());
-                int priority = Convert.ToInt32(Console.ReadLine());
+                int s = Int32.Parse(Console.ReadLine());
+                int tar = Int32.Parse(Console.ReadLine());
+                int weight = Int32.Parse(Console.ReadLine());
+                int priority = Int32.Parse(Console.ReadLine());
                 DAL.DalObject.AddParcel(s,tar, (WEIGHT)weight, (PRIORITY)priority, DateTime.Now);
                 break;
             }
@@ -56,7 +56,7 @@ namespace ConsoleUI
             string t;
             t = Console.ReadLine();
             Console.WriteLine("enter id");
-            int id = Convert.ToInt32(Console.ReadLine());
+            int id = Int32.Parse(Console.ReadLine());
             switch (t)
             {
             case "Station" or "1":
@@ -85,7 +85,7 @@ namespace ConsoleUI
             Console.WriteLine("List Station(1), List Drone(2), List Customer(3), List Parcel(4), List not associated(5), List free chargeslots(6)");
             string t;
             t = Console.ReadLine();
-            int id = Convert.ToInt32(Console.ReadLine());
+            int id = Int32.Parse(Console.ReadLine());
             switch (t)
             {
             case "List Station" or "1":
