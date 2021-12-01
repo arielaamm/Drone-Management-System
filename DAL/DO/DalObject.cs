@@ -167,7 +167,22 @@ namespace DAL
                     keeper = i.ID;
                 }
             }
-            FindDrone(keeper).Status = 1;
+            //FindDrone(keeper).Status = 1;
+
+        }
+        public static void ParcelToCustomer(Parcel parcel)
+        {
+            foreach (var i in DataSource.customers)
+            {
+
+                if (i.ID == parcel.TargetId)// == DataSource.customers)
+                {
+                    
+
+                    parcel.Deliverd = DateTime.Now;
+                }
+            }
+            //FindDrone(keeper).Status = 1;
 
         }
         #endregion
