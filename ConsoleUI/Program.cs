@@ -35,11 +35,12 @@ namespace ConsoleUI
                 DAL.DalObject.AddCustomer(n, p);
                 break;
             case "add parcel" or "4":
-                Console.WriteLine("enter SenderId, weight(1,2,3), priority(1,2,3)");
+                Console.WriteLine("enter SenderId, TargetId, weight(1,2,3), priority(1,2,3)");
                 int s = Convert.ToInt32(Console.ReadLine());
+                int tar = Convert.ToInt32(Console.ReadLine());
                 int weight = Convert.ToInt32(Console.ReadLine());
                 int priority = Convert.ToInt32(Console.ReadLine());
-                DAL.DalObject.AddParcel(s, (WEIGHT)weight, (PRIORITY)priority, DateTime.Now);
+                DAL.DalObject.AddParcel(s,tar, (WEIGHT)weight, (PRIORITY)priority, DateTime.Now);
                 break;
             }
         }
