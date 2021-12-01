@@ -24,7 +24,7 @@ namespace DAL
         }
         public static List <Drone> drones = new();
         public static List <Station> stations = new();
-        public static List <Customers> customers = new();
+        public static List <Customer> customers = new();
         public static List <Parcel> parcels = new();
 
         internal class Config
@@ -69,7 +69,7 @@ namespace DAL
             Config.StationIndex = 2;
             for (int i = 0; i < 10; i++)
             {
-                Customers c = new Customers()
+                Customer c = new Customer()
                 {
                     ID = 11111111 + staticId,
                     CustomerName = "Customer" + i,
@@ -87,9 +87,8 @@ namespace DAL
                 Parcel p = new Parcel()
                 {
                     ID = 11111111 + staticId,
-                    /*                     SenderId = customers[i].ID,
-                                           TargetId = customers[i].ID,
-                                           DroneId = drones[(i + 1 > 6 ? 0 : i + 1)].ID    אין שום צורך*/
+                    Requested = DateTime.Now,
+                    DroneId = 0,
                 };
                 staticId++;
                 parcels.Add(p);

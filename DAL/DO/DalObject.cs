@@ -23,7 +23,7 @@ namespace DAL
             DataSource.staticId++;
             DataSource.stations.Add(s);
         }
-        public static void AddDrone(string name, int num, WEIGHT Weight,double Buttery)
+        public static void AddDrone(string name, int num, WEIGHT Weight, double Buttery)
         {
             Drone d = new Drone();
             d.Model = (string)name;
@@ -36,7 +36,7 @@ namespace DAL
         }
         public static void AddCustomer(string name, string phone, int num)
         {
-            Customers c = new Customers();
+            Customer c = new Customer();
             c.CustomerName = (string)name;
             c.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
             c.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
@@ -45,34 +45,35 @@ namespace DAL
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
-        public static void AddParcel(int ID, int SenderId, int TargetId, WEIGHT Weight, PRIORITY Priority, int DroneId, DateTime Requested, DateTime Scheduled, DateTime PickedUp, DateTime Deliverd)
+        public static void AddParcel(int ID, int SenderId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
         {
+            // שים לב מה ששמתי בהערה לא יכול להתקבל מראש זה משהו שאנחנו עושים זה כל הרעיון של משלוחים....
             Parcel parcel = new Parcel();
-
             parcel.ID = ID;
             parcel.SenderId = SenderId;
-            parcel.TargetId = TargetId;
+            //parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;
-            parcel.DroneId = DroneId;
+            //parcel.DroneId = DroneId;
             parcel.Requested = Requested;
-            parcel.Scheduled = Scheduled;
-            parcel.PickedUp = PickedUp;
-            parcel.Deliverd = Deliverd;
+            //parcel.Scheduled =     Scheduled;
+            //parcel.PickedUp = PickedUp;
+            //parcel.Deliverd = Deliverd;
             DataSource.parcels.Add(parcel);
         }
-#endregion
+        #endregion
         #region print(3)
+
         public static Station FindStation(int id)
         {
             Station s = new Station();
             foreach (var i in DataSource.stations)
+            {
+                if (i.ID == id)
                 {
-                    if (i.ID==id)
-                    {
-                        return i;
-                    }
+                    return i;
                 }
+            }
             return s;
         }
         public static Drone FindDrone(int id)
@@ -87,9 +88,9 @@ namespace DAL
             }
             return d;
         }
-        public static Customers FindCustomers(int id)
+        public static Customer FindCustomers(int id)
         {
-            Customers c = new Customers();
+            Customer c = new Customer();
 
             foreach (var i in DataSource.customers)
             {
@@ -113,64 +114,35 @@ namespace DAL
             return p;
         }
         #endregion
-        public static void printeStation(int id)
+        #region print lists (4)
+        public static List<Station> Stationlist() => DataSource.stations;
+        public static List<Customer> Customerlist() => DataSource.customers;
+        public static List<Parcel> Parcellist() => DataSource.parcels;
+        public static List<Drone> Dronelist() => DataSource.drones;
+        public static List<Parcel> Parcelnotassociatedlist()
         {
-            Station printed= FindStation(id);
-            Console.WriteLine(printed.StationName);
-            Console.WriteLine(printed.ChargeSlots);
-            Console.WriteLine(printed.ID);
-            Console.WriteLine(printed.Longitude);
-            Console.WriteLine(printed.Lattitude);
-            
-        }
-        public static void printeDrones()
-        {
+            List<Parcel> notassociated = new();
             foreach (var i in DataSource.parcels)
             {
-                //print func
+                if (i.DroneId==0) // חבילה שלא שויכה לרחפן מוגדרת בקונפיג שה אידי של הרחפן שלה הוא 0
+                {
+                    notassociated.Add(i);
+                }
             }
+            return notassociated;
         }
-        public static void printeCustomers()
+        public static List<Station> Freechargeslotslist()
         {
-            foreach (var i in DataSource.parcels)
+            List<Station> Freechargeslots = new();
+            foreach (var i in DataSource.stations)
             {
-                //print func
+                if (i.ChargeSlots > 0) // חבילה שלא שויכה לרחפן מוגדרת בקונפיג שה אידי של הרחפן שלה הוא 0
+                {
+                    Freechargeslots.Add(i);
+                }
             }
+            return Freechargeslots;
         }
-        public static void printeParcels()
-        {
-            foreach (var i in DataSource.parcels)
-            {
-                
-            }
-        }
-        public static void printeAllStation()
-        {
-            foreach (var i in DataSource.parcels)
-            {
-               //print func
-            }
-        }
-        public static void printeAllDrones()
-        {
-            foreach (var i in DataSource.drones)
-            {
-                //print func
-            }
-        }
-        public static void printeAllCustomers()
-        {
-            foreach (var i in DataSource.customers)
-            {
-                //print func
-            }
-        }
-        public static void printeAllParcels()
-        {
-            foreach (var i in DataSource.parcels)
-            {
-                //print func
-            }
-        }
+        #endregion
     }
 }
