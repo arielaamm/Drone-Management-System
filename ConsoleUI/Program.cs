@@ -15,19 +15,27 @@ namespace ConsoleUI
             switch (t)
             {
                 case "add station" or "1":
-                    Console.WriteLine("enter station name");
+                    Console.WriteLine("enter station name and how meny charge slots are");
                     string name;
                     name = Console.ReadLine();
-                    Console.WriteLine("enetr how meny charge slots are");
                     int num = Convert.ToInt32(Console.ReadLine());
                     DAL.DalObject.AddStation(name,num);
                     break;
                 case "add drone" or "2":
-
+                    Console.WriteLine("enter Model name, weight(1,2,3), buttery");
+                    string m = Console.ReadLine();
+                    int w = Convert.ToInt32(Console.ReadLine());
+                    double b = Convert.ToDouble(Console.ReadLine());
+                    DAL.DalObject.AddDrone(m, (WEIGHT)w, b);
                     break;
                 case "add customer" or "3":
+                    Console.WriteLine("enter customer name and a phone numer");
+                    string n = Console.ReadLine();
+                    string p = Console.ReadLine();
+                    DAL.DalObject.AddCustomer(n, p);
                     break;
                 case "add parcel" or "4":
+                    Console.WriteLine("enter customer name and a phone numer");
                     break;
 
             }
