@@ -45,13 +45,13 @@ namespace DAL
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
-        public static void AddParcel(int SenderId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
+        public static void AddParcel(int SenderId, int TargetId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
         {
             // שים לב מה ששמתי בהערה לא יכול להתקבל מראש זה משהו שאנחנו עושים זה כל הרעיון של משלוחים....
             Parcel parcel = new Parcel();
             parcel.ID = 11111111 + DataSource.staticId;
             parcel.SenderId = SenderId;
-            //parcel.TargetId = TargetId;
+            parcel.TargetId = TargetId;
             parcel.Weight = Weight;
             parcel.Priority = Priority;
             //parcel.DroneId = DroneId;
