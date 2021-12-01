@@ -62,6 +62,13 @@ namespace DAL
             DataSource.staticId++;
             DataSource.parcels.Add(parcel);
         }
+        public static void AddDroneCharge(int DroneId,int StationId)
+        {
+            DroneCharge d = new DroneCharge();
+            d.DroneId = DroneId;
+            d.StationId = StationId;
+            DataSource.droneCharges.Add(d);
+        }
         #endregion
         #region print(3)
 
@@ -182,9 +189,53 @@ namespace DAL
                     parcel.Deliverd = DateTime.Now;
                 }
             }
-            //FindDrone(keeper).Status = 1;
+            //FindDrone(keeper).Status = 2;
 
         }
         #endregion
+        public static void DroneToCharge(int drone, int station)//station name\id???? 
+        {
+            Drone d = new Drone();
+            int index = 0;
+            foreach (var i in DataSource.drones)
+            { 
+                if (i.ID == drone)// == DataSource.customers)
+                {
+                  d = i;
+                }
+                index++;
+                break;
+            }
+            d.Status = (STATUS)1;
+            DataSource.drones.Insert(index, d);
+            AddDroneCharge(drone, station);
+        }
+        public static void DroneOutCharge(int drone)//station name\id???? 
+        {
+            Drone d = new Drone();
+            int index = 0;
+            foreach (var i in DataSource.drones)
+            {
+                if (i.ID == drone)// == DataSource.customers)
+                {
+                    d = i;
+                }
+                index++;
+                break;
+            }
+            d.Status = (STATUS)0;
+            DataSource.drones.Insert(index, d);
+            index = 0;
+            foreach (var i in DataSource.droneCharges)
+            {
+                if (d.ID == drone)// == DataSource.customers)
+                {
+                    index++;
+                    DataSource.droneCharges.RemoveAt(index);
+                }
+
+            }
+
+        }
     }
 }
