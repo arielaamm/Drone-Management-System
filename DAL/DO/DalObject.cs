@@ -34,7 +34,7 @@ namespace DAL
             DataSource.staticId++;
             DataSource.drones.Add(d);
         }
-        public static void AddCustomer(string name, string phone, int num)
+        public static void AddCustomer(string name, string phone)
         {
             Customer c = new Customer();
             c.CustomerName = (string)name;
