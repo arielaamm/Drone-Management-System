@@ -25,6 +25,7 @@ namespace DAL
         }
 
         public static void AddDrone(string name, WEIGHT Weight, double Buttery)
+        
         {
             Drone d = new Drone();
             d.Model = (string)name;
@@ -75,28 +76,51 @@ namespace DAL
         }
         #endregion
         #region update (2)
-        public static void AttacheDrone(Parcel parcel)
+        public static void AttacheDrone(int parcelID)
         {
+            Parcel p = new();
+            Drone d = new();
+            foreach (var i in DataSource.parcels)
+            {
+                if (i.ID == parcelID)
+                {
+                    p = i;
+                    break;
+                }
+            }
             foreach (var i in DataSource.drones)
             {
-                if ((i.Status == 0) && (i.Weight > parcel.Weight))//battery?
+                if ((i.Status == 0))//battery?
                 {
-                    parcel.DroneId = i.ID;
-                    parcel.Scheduled = DateTime.Now;
+                    p.DroneId = i.ID;
+                    p.Scheduled = DateTime.Now;//לעדכן רחפן
+                    d = i;
+                    d.Status = (STATUS)2;
+                    break;
                 }
             }
         }
 
-        public static void PickParcel(Parcel parcel)
+        public static void PickParcel(int parcelID)
         {
+            Parcel p = new();
+            foreach (var i in DataSource.parcels)
+            {
+                if (i.ID == parcelID)
+                {
+                    p = i;
+                    break;
+                }
+            }
             int keeper = 0;
             foreach (var i in DataSource.drones)
             {
 
-                if (i.ID == parcel.DroneId)
+                if (i.ID == p.DroneId)
                 {
-                    parcel.PickedUp = DateTime.Now;
+                    p.PickedUp = DateTime.Now;
                     keeper = i.ID;
+                    break;
                 }
             }
             Drone d = FindDrone(keeper);
@@ -104,17 +128,26 @@ namespace DAL
 
         }
 
-        public static void ParcelToCustomer(Parcel parcel)
+        public static void ParcelToCustomer(int parcelID)
         {
+            Parcel p = new();
+            foreach (var i in DataSource.parcels)
+            {
+                if (i.ID == parcelID)
+                {
+                    p = i;
+                    break;
+                }
+            }
             int keeper = 0;
             foreach (var i in DataSource.customers)
             {
 
-                if (i.ID == parcel.TargetId)// == DataSource.customers)
+                if (i.ID == p.TargetId)// == DataSource.customers)
                 {
-                    parcel.Deliverd = DateTime.Now;
-                    keeper = parcel.DroneId;
-
+                    p.Deliverd = DateTime.Now;
+                    keeper = p.DroneId;
+                    break;
                 }
             }
             Drone d = FindDrone(keeper);
@@ -122,13 +155,13 @@ namespace DAL
 
         }
 
-        public static void DroneToCharge(int drone, int station)//station name\id???? 
+        public static void DroneToCharge(int droneID, int stationID)//station name\id???? 
         {
             Drone d = new();
             int index = 0;
             foreach (var i in DataSource.drones)
             {
-                if (i.ID == drone)// == DataSource.customers)
+                if (i.ID == droneID)// == DataSource.customers)
                 {
                     d = i;
                     break;
@@ -140,7 +173,7 @@ namespace DAL
             Station s = new();
             foreach (var i in DataSource.stations)
             {
-                if (i.ID == station)
+                if (i.ID == stationID)
                 {
                     s = i;
                     break;
@@ -148,16 +181,16 @@ namespace DAL
             }
             s.ChargeSlots++;
             DataSource.drones.Insert(index - 1, d);
-            AddDroneCharge(drone, station);
+            AddDroneCharge(droneID, stationID);
         }
 
-        public static void DroneOutCharge(int drone)//station name\id???? 
+        public static void DroneOutCharge(int droneID)//station name\id???? 
         {
             Drone d = new();
             int index = 0;
             foreach (var i in DataSource.drones)
             {
-                if (i.ID == drone)// == DataSource.customers)
+                if (i.ID == droneID)// == DataSource.customers)
                 {
                     d = i;
                     break;
@@ -170,7 +203,7 @@ namespace DAL
             ;
             foreach (var i in DataSource.droneCharges)
             {
-                if (d.ID == drone)// == DataSource.customers)
+                if (d.ID == droneID)// == DataSource.customers)
                 {
                     Station s = new();
                     foreach (var o in DataSource.stations)

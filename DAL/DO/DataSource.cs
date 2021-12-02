@@ -90,7 +90,7 @@ namespace DAL
                 staticId++;
                 parcels.Add(p);
             }
-
+            Console.WriteLine("all good");
             Config.ParcelIndex = 10;
             sta++;
             Config.Idforparcel = sta;
