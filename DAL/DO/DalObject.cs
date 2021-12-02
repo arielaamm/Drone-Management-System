@@ -158,7 +158,7 @@ namespace DAL
         public static void DroneToCharge(int droneID, int stationID)//station name\id???? 
         {
             Drone d = new();
-            int index = 0;
+            int index = -1;
             foreach (var i in DataSource.drones)
             {
                 if (i.ID == droneID)// == DataSource.customers)
@@ -180,14 +180,15 @@ namespace DAL
                 }
             }
             s.ChargeSlots++;
-            DataSource.drones.Insert(index - 1, d);
+            DataSource.drones.RemoveAt(index);
+            DataSource.drones.Insert(index, d);
             AddDroneCharge(droneID, stationID);
         }
 
         public static void DroneOutCharge(int droneID)//station name\id???? 
         {
             Drone d = new();
-            int index = 0;
+            int index = -1;
             foreach (var i in DataSource.drones)
             {
                 if (i.ID == droneID)// == DataSource.customers)
@@ -198,7 +199,8 @@ namespace DAL
                 index++;
             }
             d.Status = (STATUS)0;
-            DataSource.drones.Insert(index - 1, d);
+            DataSource.drones.RemoveAt(index);
+            DataSource.drones.Insert(index , d);
             index = 0;
             ;
             foreach (var i in DataSource.droneCharges)

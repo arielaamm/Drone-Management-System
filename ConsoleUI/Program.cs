@@ -131,14 +131,16 @@ namespace ConsoleUI
                     DAL.DalObject.ParcelToCustomer(num3);
                     break;
                 case "send for loadingor" or "4":
-                    Console.WriteLine("enter droneID and stationID");
+                    Console.WriteLine("enter droneID");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("d");
                     }
-                    Console.WriteLine("enter parcel's droneid new");
+                    Console.WriteLine("enter parcel's droneid new");                    
+                    int droneID = Int32.Parse(Console.ReadLine());
+                    Console.WriteLine("enter parcel's stationID new");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
@@ -146,7 +148,6 @@ namespace ConsoleUI
                         Viewid("p");
                     }
                     Console.WriteLine("enter parcel's stationID new");
-                    int droneID = Int32.Parse(Console.ReadLine());
                     int stationID = Int32.Parse(Console.ReadLine());
                     DAL.DalObject.DroneToCharge(droneID,stationID);
                     break;
@@ -156,9 +157,9 @@ namespace ConsoleUI
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("d");
                     }
-                    Console.WriteLine("enter parcel's droneid new");
+                    Console.WriteLine("enter droneid new");
                     int d = Int32.Parse(Console.ReadLine());
                     DAL.DalObject.DroneOutCharge(d);
                     break;
@@ -180,7 +181,7 @@ namespace ConsoleUI
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("s");
                     }
                     Console.WriteLine("enter id new");
                     id = Int32.Parse(Console.ReadLine());
@@ -193,7 +194,7 @@ namespace ConsoleUI
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("d");
                     }
                     Console.WriteLine("enter id new");
                     id = Int32.Parse(Console.ReadLine());
@@ -206,7 +207,7 @@ namespace ConsoleUI
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("c");
                     }
                     Console.WriteLine("enter id new");
                     id = Int32.Parse(Console.ReadLine());
