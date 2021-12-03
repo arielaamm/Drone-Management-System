@@ -23,6 +23,7 @@ namespace DAL
         public static List <Customer> customers = new();
         public static List <Parcel> parcels = new();
 
+
         internal class Config
         {
             public static int DroneIndex = 0;
