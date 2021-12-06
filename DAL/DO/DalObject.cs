@@ -90,12 +90,12 @@ namespace DAL
             }
             foreach (var i in DataSource.drones)
             {
-                if ((i.Status == 0))//battery?
+                if ((i.Status == 0)&&(i.Weight>p.Weight))//battery?
                 {
                     p.DroneId = i.ID;
                     p.Scheduled = DateTime.Now;//לעדכן רחפן
                     d = i;
-                    d.Status = (STATUS)2;
+                    d.Status = (STATUS)0;
                     break;
                 }
             }
@@ -124,7 +124,7 @@ namespace DAL
                 }
             }
             Drone d = FindDrone(keeper);
-            d.Status = (STATUS)1;
+            d.Status = (STATUS)2;
 
         }
 
@@ -151,7 +151,7 @@ namespace DAL
                 }
             }
             Drone d = FindDrone(keeper);
-            d.Status = (STATUS)2;
+            d.Status = (STATUS)0;
 
         }
 
