@@ -26,11 +26,6 @@ namespace DAL
 
         internal class Config
         {
-            public static int DroneIndex = 0;
-            public static int StationIndex = 0;
-            public static int CustomersIndex = 0;
-            public static int ParcelIndex = 0;
-            public static int DataSourceIndex = 0;
             public static int Idforparcel = 0;
         }
 
@@ -50,7 +45,6 @@ namespace DAL
                 staticId++;
             }
 
-            Config.DroneIndex = 5;
             for (int i = 0; i < 2; i++)
             {
                 Station s = new Station()
@@ -64,7 +58,6 @@ namespace DAL
                 staticId++;
                 stations.Add(s);
             }
-            Config.StationIndex = 2;
             for (int i = 0; i < 10; i++)
             {
                 Customer c = new Customer()
@@ -79,7 +72,6 @@ namespace DAL
                 customers.Add(c);
             }
 
-            Config.CustomersIndex = 10;
             for (int i = 0; i < 10; i++)
             {
                 Parcel p = new Parcel()
@@ -92,7 +84,6 @@ namespace DAL
                 parcels.Add(p);
             }
             Console.WriteLine("all good");
-            Config.ParcelIndex = 10;
             sta++;
             Config.Idforparcel = sta;
         }
