@@ -82,7 +82,7 @@ namespace DAL
         #region update (2)
         public /*static*/ void AttacheDrone(int parcelID)
         {
-            Parcel p = new();
+            Parcel p = new(); 
             Drone d = new();
             foreach (var i in DataSource.parcels)
             {
