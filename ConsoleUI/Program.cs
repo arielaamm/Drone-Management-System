@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DAL;
 namespace ConsoleUI
 {
-    class Program   
+    class Program   ///תיעוד ,מוסכמות קוד ,שמות משמעותיים,
     {
         public static void Viewid(string type)
         {

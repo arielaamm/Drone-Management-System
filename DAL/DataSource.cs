@@ -17,11 +17,11 @@ namespace DAL
             Random random = new Random();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
-        public static List <Drone> drones = new();
+        public static List<Drone> drones = new();
         public static List<DroneCharge> droneCharges = new();
-        public static List <Station> stations = new();
-        public static List <Customer> customers = new();
-        public static List <Parcel> parcels = new();
+        public static List<Station> stations = new();
+        public static List<Customer> customers = new();
+        public static List<Parcel> parcels = new();
 
 
         internal class Config
