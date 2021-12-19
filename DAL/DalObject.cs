@@ -10,9 +10,15 @@ namespace DAL
     //static
     public class DalObject : IDAL.IDal
     {
+        public DalObject()
+        {
+            DataSource.Initialize();
+        }
         public double[] power()
         {
             /*צריך לממש*/
+            double[] a= { 0.2};
+            return a;
         }
         #region add (1)
         static Random random = new Random();
@@ -323,3 +329,4 @@ namespace DAL
         #endregion
     }
 }
+

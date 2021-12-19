@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using IBL;
 
-namespace BL : IBL.IBL
+namespace BL
 {
-    class BLObject
+    class BLObject : IBL.IBL
     {
+
     }
 }
