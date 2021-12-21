@@ -8,5 +8,7 @@ namespace BL.BO
 {
     class CustomerInParcel
     {
-    }
+        public int ID { set; get; }
+        public string CustomerName { set; get; }
+    }//done
 }

@@ -8,5 +8,6 @@ namespace BL.BO
 {
     class Drone
     {
+
     }
 }

@@ -8,5 +8,7 @@ namespace BL.BO
 {
     class Location
     {
-    }
+        public double Longitude { set; get; }
+        public double Lattitude { set; get; }
+    }//done
 }
