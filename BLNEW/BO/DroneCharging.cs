@@ -8,5 +8,7 @@ namespace BL.BO
 {
     class DroneCharging
     {
+        public int ID { get; set; }
+        public double Buttery { set; get; }
     }
 }

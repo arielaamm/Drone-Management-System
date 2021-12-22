@@ -8,5 +8,10 @@ namespace BL.BO
 {
     class StationToList
     {
+        public int ID { set; get; }
+        public string StationName { set; get; }
+        public int FreeChargeSlots { set; get; }
+        public int UsedChargeSlots { set; get; }
+
     }
 }
