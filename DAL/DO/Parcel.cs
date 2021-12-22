@@ -15,10 +15,10 @@ namespace IDAL.DO
         public PRIORITY Priority { set; get; }
         public int DroneId { set; get; }
         //added later
-        public DateTime Requested { set; get; }
-        public DateTime Scheduled { set; get; }
-        public DateTime PickedUp { set; get; }
-        public DateTime Deliverd { set; get; }
+        public DateTime Requested { set; get; } // זמן יצירת חבילה למשלוח
+        public DateTime Scheduled { set; get; }// זמן שיוך החבילה לרחפן 
+        public DateTime PickedUp { set; get; }//זמן אסיפת החבילה מהשולח
+        public DateTime Deliverd { set; get; }//זמן נתינת המשלוח ללקוח
 
 
     }

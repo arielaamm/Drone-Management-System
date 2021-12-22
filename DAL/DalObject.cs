@@ -17,7 +17,7 @@ namespace DAL
         public double[] power()
         {
             /*צריך לממש*/
-            double[] a= { 0.2};
+            double[] a= {};
             return a;
         }
         #region add (1)
@@ -301,7 +301,7 @@ namespace DAL
 
         public /*static*/ IEnumerable<Drone> Dronelist() => DataSource.drones;
 
-        public /*static*/ IEnumerable<Parcel> Parcelnotassociatedlist()
+        public /*static*/ IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             List<Parcel> notassociated = new();
             foreach (var i in DataSource.parcels)

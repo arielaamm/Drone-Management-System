@@ -8,6 +8,7 @@ namespace IDAL
 {
     public interface IDal
     {
+        double[] power();
         void AddStation(string name, int num);
         void AddDrone(string name, DO.WEIGHT Weight, double Buttery);
         void AddCustomer(string name, string phone);
@@ -26,8 +27,8 @@ namespace IDAL
         IEnumerable<DO.Customer> Customerlist();
         IEnumerable<DO.Parcel> Parcellist();
         IEnumerable<DO.Drone> Dronelist();
-        IEnumerable<DO.Parcel> Parcelnotassociatedlist();
+        IEnumerable<DO.Parcel> ParcelNotAssociatedList();
         IEnumerable<DO.Station> Freechargeslotslist();
-        double[] power();
+
     }
 }

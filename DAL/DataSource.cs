@@ -24,10 +24,11 @@ namespace DAL
         public static List<Customer> customers = new();
         public static List<Parcel> parcels = new();
 
-
         internal class Config
         {
             public static int Idforparcel = 0;
+            //static enum PowerByDrone {free,light, medium,heavy}
+            //static int ChargePerHour;
         }
 
         public static void Initialize()
@@ -80,6 +81,9 @@ namespace DAL
                     ID = 11111111 + staticId,
                     Requested = DateTime.Now,
                     DroneId = 0,
+                    Scheduled = DateTime.MinValue,
+                    PickedUp = DateTime.MinValue,
+                    Deliverd = DateTime.MinValue,
                 };
                 staticId++;
                 parcels.Add(p);
@@ -87,6 +91,21 @@ namespace DAL
             Console.WriteLine("all good");
             sta++;
             Config.Idforparcel = sta;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
