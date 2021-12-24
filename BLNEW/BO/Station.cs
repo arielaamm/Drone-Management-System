@@ -12,6 +12,7 @@ namespace BL.BO
         public string StationName { set; get; }
         public Location location { set; get; }
         public int FreeChargeSlots { set; get; }
+        public DroneCharging DroneChargingInStation { set; get; }
         //רשימת רחפנים בטעינה
     }
 }

@@ -13,6 +13,6 @@ namespace BL.BO
         public PRIORITY priority { set; get; }
         public STATUS status { set; get; }
         public CustomerInParcel otherSide { set; get; }
-
+        //done
     }
 }

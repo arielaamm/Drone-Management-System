@@ -11,10 +11,11 @@ namespace BL.BO
         public int ID { set; get; }
         public string CustomerName { set; get; }
         public string Phone { set; get; }
-       /* מספר חבילות ששלח וסופקו
-מספר חבילות ששלח אך עוד לא סופקו
-מספר חבילות שקיבל
-מספר חבילות שבדרך אל הלקוח
-*/
+        public int   ParcelSentAndDelivered { set; get; }
+        public int ParcelSent { set; get; }
+        public int ParcelReceived { set; get; }
+        public int ParcelOnWay { set; get; }
+        
+//done
     }
 }

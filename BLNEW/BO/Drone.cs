@@ -15,6 +15,7 @@ namespace BL.BO
         public double Buttery { set; get; }
         public Location current { set; get; }
         public ParcelTransactining parcel { set; get; }
+        //done
     }
     
 }

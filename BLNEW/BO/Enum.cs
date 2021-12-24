@@ -8,6 +8,6 @@ namespace BL.BO
 {
     public enum WEIGHT { LIGHT = 0, MEDIUM = 1, HEAVY = 2 }
     public enum PRIORITY { REGULAR = 0, FAST = 1, SOS = 2 }
-    public enum STATUS { FREE = 0, MAINTENANCE = 1, DELIVERING = 2 }
+    public enum STATUS { CREAT = 0, BELONG = 1, PICKUP = 2, PROVID =3 }
     
 }

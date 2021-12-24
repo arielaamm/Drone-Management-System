@@ -11,5 +11,6 @@ namespace BL.BO
         public int ID { get; set; }
         public double Buttery { set; get; }
         public Location current { set; get; }
+        //done
     }
 }
