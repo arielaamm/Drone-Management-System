@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    class Location
+    public class Location
     {
         public double Longitude { set; get; }
         public double Lattitude { set; get; }

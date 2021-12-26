@@ -21,13 +21,13 @@ namespace ConsoleUI_BL
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
                     string nameStation = Console.ReadLine();
-                    LocationToInput locationStation = new()
+                    Location locationStation = new()
                     {
-                        longitude = int.Parse(Console.ReadLine()),
-                        lattitude = int.Parse(Console.ReadLine()),
+                        Longitude = int.Parse(Console.ReadLine()),
+                        Lattitude = int.Parse(Console.ReadLine()),
                     };
                     int numChargeSlotsStation = int.Parse(Console.ReadLine());
-                    p.AddStation(idStation, nameStation, locationStation.longitude,locationStation.lattitude, numChargeSlotsStation);
+                    p.AddStation(idStation, nameStation, locationStation, numChargeSlotsStation);
                     break;
                 case "add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
