@@ -2,7 +2,7 @@
 using BL.BO;
 namespace ConsoleUI_BL
 {
-    class LocationToInput
+    public class LocationToInput
     {
         public double longitude { set; get; }
         public double lattitude { set; get; }
@@ -27,15 +27,15 @@ namespace ConsoleUI_BL
                         lattitude = int.Parse(Console.ReadLine()),
                     };
                     int numChargeSlotsStation = int.Parse(Console.ReadLine());
-                    //func
+                    p.AddStation(idStation, nameStation, locationStation.longitude,locationStation.lattitude, numChargeSlotsStation);
                     break;
                 case "add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
                     string nameDrone = Console.ReadLine();
-                    int weightDrone = int.Parse(Console.ReadLine());
+                    BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
                     int IDStartingStation = int.Parse(Console.ReadLine());
-                    //func
+                    p.AddDrone(idDrone, nameDrone, weightDrone, IDStartingStation);
                     break;
                 case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");

@@ -7,7 +7,11 @@ using DAL;
 using IBL;
 using IDAL;
 using IDAL.DO;
-
+public class LocationToInput
+{
+    public double longitude { set; get; }
+    public double lattitude { set; get; }
+}
 namespace BL
 {
     public class BL : IBL.IBL
@@ -28,6 +32,14 @@ namespace BL
 
                 }
             }
+
+        }
+        public void AddStation(int id, string name, double longitude, double lattitude, int ChargeSlots)
+        {
+
+        }
+        public void AddDrone(int id, string name, BO.WEIGHT weight,int IDStarting)
+        {
 
         }
     }
