@@ -43,7 +43,7 @@ namespace ConsoleUI
                     }
                     count = 0;
                     break;
-            }
+            }//
         }
         public static void FunAddition(DalObject pro)
         {

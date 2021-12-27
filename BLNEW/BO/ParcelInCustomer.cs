@@ -12,7 +12,9 @@ namespace BL.BO
         public WEIGHT weight { set; get; }
         public PRIORITY priority { set; get; }
         public STATUS status { set; get; }
-        public CustomerInParcel otherSide { set; get; }
+        public CustomerInParcel sender { set; get; }
+        public CustomerInParcel target { set; get; }
+
         //done
     }
 }
