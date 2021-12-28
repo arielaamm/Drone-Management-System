@@ -31,7 +31,7 @@ namespace BL
         {
 
         }
-        public void AddCustomer(int id, string name, int PhoneNumber, Location location)
+        public void AddCustomer(int id, string name, string PhoneNumber, Location location)
         {
 
         }
@@ -46,26 +46,30 @@ namespace BL
         {
 
         }
-        public void UpdateStation(int id, int chargeslots)
+#nullable enable
+        public void UpdateStation(int id,string ? name ,int ? freechargeslots)
         {
 
         }
-        public void UpdateStation(int id, string name)
+
+        public void UpdateCustomer(int id, string ?NewName,int ? NewPhoneNumber)
         {
 
         }
-        public void UpdateCustomer(int id, string NewName)
+#nullable disable
+        public void DroneToCharge(int id)
         {
 
         }
-        public void UpdateCustomer(int id, int NewPhoneNumber)
+        public void DroneOutCharge(int id,TimeSpan time)
         {
 
         }
+
         //---------------------------------------------------------------------------------
         //charging functions:
         //---------------------------------------------------------------------------------
-      //  ......
+        //  ......
         //---------------------------------------------------------------------------------
         //pick-up functions:
         //---------------------------------------------------------------------------------
