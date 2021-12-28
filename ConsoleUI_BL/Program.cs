@@ -160,7 +160,43 @@ namespace ConsoleUI_BL
                     TimeSpan timeInCharge = TimeSpan.FromHours(int.Parse(Console.ReadLine()));
                     p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
                     break;
-              }
+                case "Attache drone to parcel" or "6":
+                    Console.WriteLine("enter drone's id");
+                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    type = Console.ReadLine();
+                    if (type == "1")
+                    {
+                        Viewid("p");
+                    }
+                    Console.WriteLine("enter drone's id new");
+                    int idDroneAttache = Int32.Parse(Console.ReadLine());
+                    p.AttacheDrone(idDroneAttache);
+                    break;
+                case "PickUp parcel" or "7":
+                    Console.WriteLine("enter drone's id");
+                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    type = Console.ReadLine();
+                    if (type == "1")
+                    {
+                        Viewid("p");
+                    }
+                    Console.WriteLine("enter drone's id new");
+                    int idDronePickUp = Int32.Parse(Console.ReadLine());
+                    p.PickUpParcel(idDronePickUp);
+                    break;
+                case "delivery package" or "8":
+                    Console.WriteLine("enter drone's id");
+                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    type = Console.ReadLine();
+                    if (type == "1")
+                    {
+                        Viewid("p");
+                    }
+                    Console.WriteLine("enter drone's id new");
+                    int idDroneDelivery = Int32.Parse(Console.ReadLine());
+                    p.Parceldelivery(idDroneDelivery);
+                    break;
+            }
         }
         private static void FunListview(BL.BL p)
         {
