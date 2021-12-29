@@ -18,7 +18,13 @@ namespace BL
             IDal dal;
             dal = new DalObject();
             IEnumerable<IDAL.DO.Drone> doDrone = (List<IDAL.DO.Drone>)dal.Dronelist();
-            //לעבוד על הבנאי
+            foreach (var i in DAL.DataSource.parcels)
+            {
+                if ((i.DroneId!=0)&&(i.Scheduled!=DateTime.MinValue))
+                {
+                    //צריך ליצור רחפן ולתת לו משלוח 
+                }
+            }
             
         }
         //add functaions:
@@ -80,6 +86,7 @@ namespace BL
         //-----------------------------------------------------------------------------
         //display func
         //------------------------------------------------------------------------------
+        
         //-----------------------------------------------------------------------------------
         //listView func
         //-----------------------------------------------------------------------------------------
