@@ -22,57 +22,41 @@ namespace DAL
         }
         #region add (1)
         static Random random = new Random();
-        public /*static*/ void AddStation(string name, int num)
+        public /*static*/ void AddStation(Station s)
         {
-            Station s = new Station();
-            s.StationName = (string)name;
-            s.ChargeSlots = num;
-            s.ID = 11111111 + DataSource.staticId;
-            s.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
-            s.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
             DataSource.staticId++;
             DataSource.stations.Add(s);
         }
 
-        public /*static*/ void AddDrone(string name, WEIGHT Weight, double Buttery)
-        
+        public /*static*/ void AddDrone(Drone d)
         {
-            Drone d = new Drone();
-            d.Model = (string)name;
-            d.Weight = Weight;
-            d.Status = 0;
-            d.ID = 11111111 + DataSource.staticId;
-            d.Buttery = Buttery;
             DataSource.staticId++;
             DataSource.drones.Add(d);
+            Station s = new Station();
+            //foreach (var item in DataSource.stations)
+            //{
+            //    if (item.ChargeSlots!=0)
+            //    {
+            //        s = item;
+            //        break;
+            //    }
+            //}
+            //DroneCharge temp = new DroneCharge()
+            //{
+            //    DroneId = d.ID,
+            //    StationId = s.ID,
+            //};
         }
 
-        public /*static*/ void AddCustomer(string name, string phone)
+        public /*static*/ void AddCustomer(Customer c)
         {
-            Customer c = new Customer();
-            c.CustomerName = (string)name;
-            c.Longitude = random.NextDouble() * (33.289273 - 29.494665) + 29.494665;
-            c.Lattitude = random.NextDouble() * (35.569495 - 34.904675) + 34.904675;
-            c.ID = 11111111 + DataSource.staticId;
-            c.Phone = (string)phone;
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
 
-        public /*static*/ void AddParcel(int SenderId, int TargetId, WEIGHT Weight, PRIORITY Priority, DateTime Requested)
+        public /*static*/ void AddParcel(Parcel parcel)
         {
-            // שים לב מה ששמתי בהערה לא יכול להתקבל מראש זה משהו שאנחנו עושים זה כל הרעיון של משלוחים....
-            Parcel parcel = new Parcel();
-            parcel.ID = 11111111 + DataSource.staticId;
-            parcel.SenderId = SenderId;
-            parcel.TargetId = TargetId;
-            parcel.Weight = Weight;
-            parcel.Priority = Priority;
-            //parcel.DroneId = DroneId;
-            parcel.Requested = Requested;
-            //parcel.Scheduled =     Scheduled;
-            //parcel.PickedUp = PickedUp;
-            //parcel.Deliverd = Deliverd;
+            parcel.ID = DataSource.staticId;
             DataSource.staticId++;
             DataSource.parcels.Add(parcel);
         }
@@ -82,6 +66,10 @@ namespace DAL
             DroneCharge d = new DroneCharge();
             d.DroneId = DroneId;
             d.StationId = StationId;
+            DataSource.droneCharges.Add(d);
+        }
+        public /*static*/ void AddDroneCharge(DroneCharge d)
+        {
             DataSource.droneCharges.Add(d);
         }
         #endregion

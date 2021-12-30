@@ -13,7 +13,7 @@ namespace IDAL.DO
         public int TargetId { set; get; }
         public WEIGHT Weight { set; get; }
         public PRIORITY Priority { set; get; }
-        public int DroneId { set; get; }
+        public int? DroneId { set; get; }
         //added later
         public DateTime Requested { set; get; } // זמן יצירת חבילה למשלוח
         public DateTime Scheduled { set; get; }// זמן שיוך החבילה לרחפן 

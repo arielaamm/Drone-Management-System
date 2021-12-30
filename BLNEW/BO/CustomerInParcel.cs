@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    class CustomerInParcel
+    public class CustomerInParcel
     {
         public int ID { set; get; }
         public string CustomerName { set; get; }

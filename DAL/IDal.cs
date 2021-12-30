@@ -9,10 +9,11 @@ namespace IDAL
     public interface IDal
     {
         double[] power();
-        void AddStation(string name, int num);
-        void AddDrone(string name, DO.WEIGHT Weight, double Buttery);
-        void AddCustomer(string name, string phone);
-        void AddParcel(int SenderId, int TargetId, DO.WEIGHT Weight, DO.PRIORITY Priority, DateTime Requested);
+        void AddStation(DO.Station s);
+        void AddDrone(DO.Drone d);
+        void AddCustomer(DO.Customer c);
+        void AddParcel(DO.Parcel parcel);
+        void AddDroneCharge(DO.DroneCharge d);
         void AddDroneCharge(int DroneId, int StationId);
         void AttacheDrone(int parcelID);
         void PickParcel(int parcelID);

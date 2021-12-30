@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    class ParcelInCustomer
+    public class ParcelInCustomer
     {
         public int ID { set; get; }
         public WEIGHT weight { set; get; }

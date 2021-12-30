@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.BO
 {
-    class ParcelTransactining
+    public class ParcelTransactining
     {
         public int ID { set; get; }
         public bool ParcelStatus { set; get; } // on the way - true, waitnig - false
