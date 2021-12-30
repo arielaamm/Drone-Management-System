@@ -32,7 +32,7 @@ namespace DAL
         {
             DataSource.staticId++;
             DataSource.drones.Add(d);
-            Station s = new Station();
+            //Station s = new Station();
             //foreach (var item in DataSource.stations)
             //{
             //    if (item.ChargeSlots!=0)
@@ -144,7 +144,7 @@ namespace DAL
                 if (i.ID == p.TargetId)// == DataSource.customers)
                 {
                     p.Deliverd = DateTime.Now;
-                    keeper = p.DroneId;
+                    keeper = (int)p.DroneId;
                     break;
                 }
             }

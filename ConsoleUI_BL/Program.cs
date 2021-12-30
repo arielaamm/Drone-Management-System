@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using BL.BO;
+using BLExceptions;
+
 namespace ConsoleUI_BL
 {
     class Program
@@ -15,14 +18,22 @@ namespace ConsoleUI_BL
                 case "add station" or "1":
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
-                    string nameStation = Console.ReadLine();
+                    if (true)//בדיקה עלן האידי
+                    {
+
+                    }
+                    var nameStation = Console.ReadLine();
+
                     Location locationStation = new()
                     {
                         Longitude = double.Parse(Console.ReadLine()),
                         Lattitude = double.Parse(Console.ReadLine()),
                     };
+                    
                     int numChargeSlotsStation = int.Parse(Console.ReadLine());
+                    
                     p.AddStation(idStation, nameStation, locationStation, numChargeSlotsStation);
+
                     break;
                 case "add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
@@ -280,5 +291,7 @@ namespace ConsoleUI_BL
             //}
         } // לטפל בסוף
     }
+
+    
 }
 

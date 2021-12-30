@@ -18,17 +18,21 @@ namespace BL
         public BL()
         {
 
-
-            foreach (IDAL.DO.Drone i in dal.Dronelist())
+            IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
+            List<IDAL.DO.Drone> d = DataSource.drones;
+            IDAL.DO.Drone t = new IDAL.DO.Drone();
+            foreach (IDAL.DO.Parcel i in p)
             {
-                DroneToList d = new DroneToList()
-                {
-                    ID = i.ID,
-                    Model = i.Model,
-                    Weight=(BO.WEIGHT)i.Weight,
-                };
+                foreach (IDAL.DO.Drone item in d)
+                {                
+                    if ((i.Deliverd==DateTime.MinValue)&&(i.DroneId==item.ID))
+                    {
+                        t=item;
+                        t.Status = (IDAL.DO.STATUS)1;
+                        //לא עשיתי צריך לעשות
+                    }
+                }
             }
-            
         }
         //add functaions:
         //---------------------------------------------------------------------------------
@@ -53,28 +57,33 @@ namespace BL
         }
         public void AddDrone(int id, string name, BO.WEIGHT weight,int IDStarting)
         {
-            Random random = new Random();
-            IDAL.DO.Drone tempDrone = new IDAL.DO.Drone()
-            {
-                ID = id,
-                Model = name,
-                Weight = (IDAL.DO.WEIGHT)weight,
-                Buttery = random.Next(20, 40),
-            };
-            IDAL.DO.DroneCharge tempDroneCharge = new IDAL.DO.DroneCharge()
-            {
-                DroneId = id,
-                StationId = IDStarting,
-            };
             try
             {
-                dal.AddDrone(tempDrone);
-                dal.AddDroneCharge(tempDroneCharge);
+
+
+
+                Random random = new Random();
+                IDAL.DO.Drone tempDrone = new IDAL.DO.Drone()
+                {
+                    ID = id,
+                    Model = name,
+                    Weight = (IDAL.DO.WEIGHT)weight,
+                    Buttery = random.Next(20, 40),
+                };
+                IDAL.DO.DroneCharge tempDroneCharge = new IDAL.DO.DroneCharge()
+                {
+                    DroneId = id,
+                    StationId = IDStarting,
+                };
+
+                    dal.AddDrone(tempDrone);
+                    dal.AddDroneCharge(tempDroneCharge);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new AlreadyExistException(ex.Message, ex);
+
             }
+
         }
         public void AddCustomer(int id, string name, string PhoneNumber, Location location)
         {

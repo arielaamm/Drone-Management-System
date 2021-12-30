@@ -58,20 +58,20 @@ namespace ConsoleUI
                     string name;
                     name = Console.ReadLine();
                     int num = Int32.Parse(Console.ReadLine());
-                    pro.AddStation(name, num);
+                    //pro.AddStation(name, num);
                     break;
                 case "add drone" or "2":
                     Console.WriteLine("enter Model name, weight(1,2,3), battery");
                     string m = Console.ReadLine();
                     int w = Int32.Parse(Console.ReadLine());
                     double b = Double.Parse(Console.ReadLine());
-                    pro.AddDrone(m, (WEIGHT)w, b);
+                    //pro.AddDrone(m, (WEIGHT)w, b);
                     break;
                 case "add customer" or "3":
                     Console.WriteLine("enter customer name and a phone numer");
                     string n = Console.ReadLine();
                     string p = Console.ReadLine();
-                    pro.AddCustomer(n, p);
+                    //pro.AddCustomer(n, p);
                     break;
                 case "add parcel" or "4":
                     Console.WriteLine("enter SenderId, TargetId, weight(1,2,3), priority(1,2,3)");
@@ -79,7 +79,7 @@ namespace ConsoleUI
                     int tar = Int32.Parse(Console.ReadLine());
                     int weight = Int32.Parse(Console.ReadLine());
                     int priority = Int32.Parse(Console.ReadLine());
-                    pro.AddParcel(s, tar, (WEIGHT)weight, (PRIORITY)priority, DateTime.Now);
+                    //pro.AddParcel(s, tar, (WEIGHT)weight, (PRIORITY)priority, DateTime.Now);
                     break;
             }
         }
