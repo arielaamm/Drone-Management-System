@@ -31,7 +31,7 @@ namespace DAL
             internal static double light { get { return 20; } }
             internal static double medium { get { return 30; } }
             internal static double heavy { get { return 40; } }
-            static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
+            internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
         }
 
         public static void Initialize()

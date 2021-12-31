@@ -13,7 +13,6 @@ namespace ConsoleUI_BL
             switch (type)
             {
                 case "s":
-                    Console.WriteLine( DataSource.stations.FindIndex(i=>i.ID == id ));
                     return DataSource.stations.FindIndex(i => i.ID == id);
                 case "d":
                     return DataSource.drones.FindIndex(i => i.ID == id);
@@ -38,7 +37,6 @@ namespace ConsoleUI_BL
                         throw new AlreadyExistException($"this id {idStation} already exist");
                     }
                     string nameStation = Console.ReadLine();
-
                     Location locationStation = new()
                     {
                         Longitude = double.Parse(Console.ReadLine()),
@@ -56,7 +54,10 @@ namespace ConsoleUI_BL
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
                     string nameDrone = Console.ReadLine();
-                    BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
+                    BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
+                    if (((int)weightDrone != 1) || ((int)weightDrone != 2) || ((int)weightDrone != 3))
+                        throw new PutTheRightNumber($"this phone number {weightDrone} is not in the right form");
+
                     int IDStartingStation = int.Parse(Console.ReadLine());
                     p.AddDrone(idDrone, nameDrone, weightDrone, IDStartingStation);
                     break;
@@ -69,6 +70,8 @@ namespace ConsoleUI_BL
                     }
                     string nameCustomer = Console.ReadLine();
                     string phoneCustomer = Console.ReadLine();
+                    if ((phoneCustomer.Length==10)&&(phoneCustomer[0]=='0')&&(phoneCustomer[1]=='5')) 
+                        throw new NotTheRightForm($"this phone number {phoneCustomer} is not in the right form");
                     Location locationCustomer = new()
                     {
                         Longitude = double.Parse(Console.ReadLine()),
@@ -80,9 +83,13 @@ namespace ConsoleUI_BL
                     Console.WriteLine("enter SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
                     int SenderIdParcel = int.Parse(Console.ReadLine());
                     int TargetIdParcel = int.Parse(Console.ReadLine());
-                    int weightParcel = int.Parse(Console.ReadLine());
-                    int priorityParcel = int.Parse(Console.ReadLine());
-                    p.AddParcel(SenderIdParcel, TargetIdParcel, (WEIGHT)weightParcel, (PRIORITY)priorityParcel);
+                    BL.BO.WEIGHT weightParcel = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
+                    if(((int)weightParcel !=1) || ((int)weightParcel != 2) || ((int)weightParcel != 3))
+                        throw new PutTheRightNumber($"this phone number {weightParcel} is not in the right form");
+                    BL.BO.PRIORITY priorityParcel = (BL.BO.PRIORITY)int.Parse(Console.ReadLine());
+                    if (((int)priorityParcel != 1) || ((int)priorityParcel != 2) || ((int)priorityParcel != 3))
+                        throw new PutTheRightNumber($"this phone number {priorityParcel} is not in the right form");
+                    p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
                     break;
             }
         }
@@ -126,7 +133,12 @@ namespace ConsoleUI_BL
 
                     }
                     int idStationUpdata = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine("if you want to updata the station name enter 1\nelse press ayn key");
+                    if (chackID(idStationUpdata, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idStationUpdata} already exist");
+
+                    }
+                    Console.WriteLine("if you want to updata the station name enter 1\nelse press any key");
                     int i = int.Parse(Console.ReadLine());
 #nullable enable
                     string? nameStationUpData = null;
@@ -135,7 +147,7 @@ namespace ConsoleUI_BL
                     {
                         nameStationUpData = Console.ReadLine();
                     }
-                    Console.WriteLine("if you want to updata the station chargeslot enter 1\nelse press ayn key");
+                    Console.WriteLine("if you want to updata the station chargeslot enter 1\nelse press any key");
                     i = int.Parse(Console.ReadLine());
                     int? chargeSlotsStationuUpData = null;
                     if (i == 1)
@@ -155,6 +167,11 @@ namespace ConsoleUI_BL
 
                     }
                     int idCustomerUpdata = Int32.Parse(Console.ReadLine());
+                    if (chackID(idCustomerUpdata, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idCustomerUpdata} already exist");
+
+                    }
                     Console.WriteLine("if you want to updata the customer name enter 1\nelse press ayn key");
                     int e = int.Parse(Console.ReadLine());
 #nullable enable
@@ -184,6 +201,11 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter parcel's droneid new");
                     }
                     int droneID = Int32.Parse(Console.ReadLine());
+                    if (chackID(droneID, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {droneID} already exist");
+
+                    }
                     p.DroneToCharge(droneID);
                     break;
                 case "release from charging" or "5":
@@ -197,6 +219,11 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
+                    if (chackID(idDroneReleaseFromCharge, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} already exist");
+
+                    }
                     Console.WriteLine("how many hour the drone has charged (in full hours)");
                     TimeSpan timeInCharge = TimeSpan.FromHours(int.Parse(Console.ReadLine()));
                     p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
@@ -212,6 +239,11 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneAttache = Int32.Parse(Console.ReadLine());
+                    if (chackID(idDroneAttache, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idDroneAttache} already exist");
+
+                    }
                     p.AttacheDrone(idDroneAttache);
                     break;
                 case "PickUp parcel" or "7":
@@ -225,6 +257,11 @@ namespace ConsoleUI_BL
 
                     }
                     int idDronePickUp = Int32.Parse(Console.ReadLine());
+                    if (chackID(idDronePickUp, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idDronePickUp} already exist");
+
+                    }
                     p.PickUpParcel(idDronePickUp);
                     break;
                 case "delivery package" or "8":
@@ -238,6 +275,11 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneDelivery = Int32.Parse(Console.ReadLine());
+                    if (chackID(idDroneDelivery, "d") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idDroneDelivery} already exist");
+
+                    }
                     p.Parceldelivery(idDroneDelivery);
                     break;
             }
@@ -332,7 +374,5 @@ namespace ConsoleUI_BL
             }
         } // לטפל בסוף
     }
-
-    
 }
 

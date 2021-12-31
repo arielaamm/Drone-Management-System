@@ -17,8 +17,12 @@ namespace DAL
         }
         public double[] power()
         {
-            /*צריך לממש*/
-            double[] a= {};
+            double[] a = {
+                DataSource.Config.free,
+                DataSource.Config.light,
+                DataSource.Config.medium,
+                DataSource.Config.heavy,
+                DataSource.Config.ChargePerHour };
             return a;
         }
         #region add (1)
@@ -34,7 +38,7 @@ namespace DAL
             DataSource.staticId++;
             DataSource.drones.Add(d);
             Station s = new Station();
-            foreach (var item in DataSource.stations)
+            foreach (var item in DataSource.stations)//Freechargeslotslist() אפשר ליעל ראה 
             {
                 if (item.ChargeSlots != 0)
                 {
@@ -70,6 +74,7 @@ namespace DAL
             d.StationId = StationId;
             DataSource.droneCharges.Add(d);
         }
+
         public /*static*/ void AddDroneCharge(DroneCharge d)
         {
             DataSource.droneCharges.Add(d);

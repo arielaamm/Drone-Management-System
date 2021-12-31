@@ -31,4 +31,11 @@ namespace BLExceptions
         public DoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
         protected DoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    public class PutTheRightNumber : Exception
+    {
+        public PutTheRightNumber() { }
+        public PutTheRightNumber(string message) : base(message) { }
+        public PutTheRightNumber(string message, Exception innerException) : base(message, innerException) { }
+        protected PutTheRightNumber(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

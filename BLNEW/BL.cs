@@ -17,7 +17,7 @@ namespace BL
         IDal dal = new DalObject();
         public BL()
         {
-
+            //ניתן להעזר ראה ParcelNotAssociatedList() בגל אובגקט
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
             List<IDAL.DO.Drone> d = DataSource.drones;
             IDAL.DO.Drone t = new IDAL.DO.Drone();
@@ -74,8 +74,8 @@ namespace BL
                     StationId = IDStarting,
                 };
 
-                    dal.AddDrone(tempDrone);
-                    dal.AddDroneCharge(tempDroneCharge);
+                dal.AddDrone(tempDrone);
+                dal.AddDroneCharge(tempDroneCharge);
             }
             catch(Exception ex)
             {
@@ -169,7 +169,100 @@ namespace BL
         //-----------------------------------------------------------------------------
         //display func
         //------------------------------------------------------------------------------
-        
+        public Station findStation(int id)
+        {
+            List<DroneCharging> droneChargingTemp = new();
+            IDAL.DO.Station s = dal.FindStation(id);
+            Location temp = new Location() 
+            { 
+                Lattitude=s.Lattitude,
+                Longitude=s.Longitude,
+            };
+            int count = 0;
+            foreach (var item in DataSource.droneCharges)
+            {
+                if (item.StationId==id)
+                {
+                    droneChargingTemp[count].ID = (int)item.DroneId;
+                    droneChargingTemp[count].Buttery= (dal.FindDrone(id)).Buttery;
+                    count++;
+                }
+            }
+            Station newStation = new Station()
+            {
+                ID = (int)s.ID,
+                StationName = s.StationName,
+                location = temp,
+                FreeChargeSlots = s.ChargeSlots,
+                DroneChargingInStation = droneChargingTemp,
+            };
+            return newStation;
+        }
+        public Drone findDrone(int id)
+        {
+            IDAL.DO.Drone d = dal.FindDrone(id);
+            ParcelTransactining parcelTransactiningTemp = new();
+            if (d.Status == IDAL.DO.STATUS.DELIVERING)
+            {
+                IDAL.DO.Parcel p = new();
+                foreach (var item in DataSource.parcels)
+                {
+                    if (item.DroneId == id)
+                        p = item;
+                }
+                IDAL.DO.Customer s = dal.FindCustomers(p.SenderId);
+                IDAL.DO.Customer t = dal.FindCustomers(p.TargetId);
+                CustomerInParcel send = new()
+                {
+                    ID=(int)s.ID,
+                    CustomerName = s.CustomerName,
+                };
+                CustomerInParcel target = new()
+                {
+                    ID = (int)t.ID,
+                    CustomerName = t.CustomerName,
+                };
+                Location locationSend = new() 
+                { 
+                    Lattitude = s.Lattitude,
+                    Longitude = s.Longitude,
+                };
+                Location locationTarget = new()
+                {
+                    Lattitude = t.Lattitude,
+                    Longitude = t.Longitude,
+                };
+                
+                parcelTransactiningTemp.ID = (int)p.ID;
+                parcelTransactiningTemp.ParcelStatus = p.PickedUp == DateTime.MinValue;
+                parcelTransactiningTemp.priority = (PRIORITY)p.Priority;
+                parcelTransactiningTemp.weight = (WEIGHT)p.Weight;
+                parcelTransactiningTemp.sender = send;
+                parcelTransactiningTemp.target = target;
+                parcelTransactiningTemp.Lsender = locationSend;
+                parcelTransactiningTemp.Ltarget = locationTarget;
+                parcelTransactiningTemp.distance = Math.Sqrt((Math.Pow(s.Lattitude - t.Lattitude, 2) + Math.Pow(s.Longitude - t.Longitude, 2)));
+            }
+            Drone newStation = new Drone()
+            {
+                ID = (int)d.ID,
+                Model = d.Model,
+                Weight = (WEIGHT)d.Weight,
+                Status = (STATUS)d.Status,
+                Buttery = d.Buttery,
+                //לברר איך מוצאים מיקום של רחפן
+                parcel= parcelTransactiningTemp,
+            };
+            return newStation;
+        }
+        //public Customer findCustomer(int id)// לעשות במוצש
+        //{
+
+        //}
+        //public Parcel findParcel(int id)
+        //{
+
+        //}
         //-----------------------------------------------------------------------------------
         //listView func
         //-----------------------------------------------------------------------------------------
