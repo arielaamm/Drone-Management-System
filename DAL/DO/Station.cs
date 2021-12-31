@@ -7,7 +7,7 @@ namespace IDAL.DO
 {
     public struct Station
     {
-        public int ID { set; get; }
+        public int ? ID { set; get; }
         public string StationName { set; get; }
         public double Longitude { set; get; }
         public double Lattitude { set; get; }

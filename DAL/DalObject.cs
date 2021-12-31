@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
+using DALExceptionscs;
 namespace DAL
 {
     //static
@@ -23,42 +24,43 @@ namespace DAL
         #region add (1)
         static Random random = new Random();
         public /*static*/ void AddStation(Station s)
-        {
+        {         
             DataSource.staticId++;
             DataSource.stations.Add(s);
         }
 
         public /*static*/ void AddDrone(Drone d)
-        {
+        {        
             DataSource.staticId++;
             DataSource.drones.Add(d);
-            //Station s = new Station();
-            //foreach (var item in DataSource.stations)
-            //{
-            //    if (item.ChargeSlots!=0)
-            //    {
-            //        s = item;
-            //        break;
-            //    }
-            //}
-            //DroneCharge temp = new DroneCharge()
-            //{
-            //    DroneId = d.ID,
-            //    StationId = s.ID,
-            //};
+            Station s = new Station();
+            foreach (var item in DataSource.stations)
+            {
+                if (item.ChargeSlots != 0)
+                {
+                    s = item;
+                    break;
+                }
+            }
+            DroneCharge temp = new DroneCharge()
+            {
+                DroneId = d.ID,
+                StationId = (int)s.ID,
+            };
+            AddDroneCharge(temp);
         }
 
         public /*static*/ void AddCustomer(Customer c)
-        {
+        { 
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
 
-        public /*static*/ void AddParcel(Parcel parcel)
+        public /*static*/ void AddParcel(Parcel p)
         {
-            parcel.ID = DataSource.staticId;
+            p.ID = DataSource.staticId;
             DataSource.staticId++;
-            DataSource.parcels.Add(parcel);
+            DataSource.parcels.Add(p);
         }
 
         public /*static*/ void AddDroneCharge(int DroneId, int StationId)
@@ -117,7 +119,7 @@ namespace DAL
                 if (i.ID == p.DroneId)
                 {
                     p.PickedUp = DateTime.Now;
-                    keeper = i.ID;
+                    keeper = (int)i.ID;
                     break;
                 }
             }
@@ -246,8 +248,9 @@ namespace DAL
             {
                 if (i.ID == id)
                 {
-                    return i;
+                     return i;
                 }
+                
             }
             return d;
         }
@@ -255,7 +258,6 @@ namespace DAL
         public /*static*/ Customer FindCustomers(int id)
         {
             Customer c = new Customer();
-
             foreach (var i in DataSource.customers)
             {
                 if (i.ID == id)

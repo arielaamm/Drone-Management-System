@@ -1,12 +1,27 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using BL.BO;
+using DAL;
 using BLExceptions;
 
 namespace ConsoleUI_BL
 {
     class Program
     {
+        public static int chackID (int id,string type)
+        {
+            switch (type)
+            {
+                case "s":
+                    Console.WriteLine( DataSource.stations.FindIndex(i=>i.ID == id ));
+                    return DataSource.stations.FindIndex(i => i.ID == id);
+                case "d":
+                    return DataSource.drones.FindIndex(i => i.ID == id);
+                case "c":
+                    return DataSource.customers.FindIndex(i => i.ID == id);
+            }
+            return 0;
+        }
         private static void FunAddition(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
@@ -18,11 +33,11 @@ namespace ConsoleUI_BL
                 case "add station" or "1":
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
-                    if (true)//בדיקה עלן האידי
+                    if (chackID(idStation, "s")!=-1)
                     {
-
+                        throw new AlreadyExistException($"this id {idStation} already exist");
                     }
-                    var nameStation = Console.ReadLine();
+                    string nameStation = Console.ReadLine();
 
                     Location locationStation = new()
                     {
@@ -31,13 +46,15 @@ namespace ConsoleUI_BL
                     };
                     
                     int numChargeSlotsStation = int.Parse(Console.ReadLine());
-                    
                     p.AddStation(idStation, nameStation, locationStation, numChargeSlotsStation);
-
                     break;
                 case "add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
+                    if (chackID(idDrone, "d") != 1)
+                    {
+                        throw new AlreadyExistException($"this id {idDrone} already exist");
+                    }
                     string nameDrone = Console.ReadLine();
                     BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
                     int IDStartingStation = int.Parse(Console.ReadLine());
@@ -46,6 +63,10 @@ namespace ConsoleUI_BL
                 case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");
                     int idCustomer = int.Parse(Console.ReadLine());
+                    if (chackID(idCustomer, "c") != 1)
+                    {
+                        throw new AlreadyExistException($"this id {idCustomer} already exist");
+                    }
                     string nameCustomer = Console.ReadLine();
                     string phoneCustomer = Console.ReadLine();
                     Location locationCustomer = new()
@@ -65,7 +86,7 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-        private static void FunUpdating(BL.BL p)
+        public static void FunUpdating(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
             Console.WriteLine("Updata drone model(1)\nUpdata Station(2) \nUpdate Customer(3) \nsend for loadingor(4) \nrelease from charging(5)");
@@ -82,9 +103,14 @@ namespace ConsoleUI_BL
                     if (type == "1")
                     {
                         Viewid("p");
+                        Console.WriteLine("enter drone's id new");
                     }
-                    Console.WriteLine("enter drone's id new");
                     int idUpDataDrone = Int32.Parse(Console.ReadLine());
+                    if (chackID(idUpDataDrone,"d")==-1)
+                    {
+                        throw new DoesNotExistException($"this id {idUpDataDrone} already exist");
+
+                    }
                     Console.WriteLine("enter the new model");
                     string newModelUpDataDrone = Console.ReadLine();
                     p.UpdateDrone(idUpDataDrone, newModelUpDataDrone);
@@ -95,9 +121,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("p");   
+                        Console.WriteLine("enter Station's id new");
+
                     }
-                    Console.WriteLine("enter Station's id new");
                     int idStationUpdata = Int32.Parse(Console.ReadLine());
                     Console.WriteLine("if you want to updata the station name enter 1\nelse press ayn key");
                     int i = int.Parse(Console.ReadLine());
@@ -123,9 +150,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("p");    
+                        Console.WriteLine("enter Customer's id new");
+
                     }
-                    Console.WriteLine("enter Customer's id new");
                     int idCustomerUpdata = Int32.Parse(Console.ReadLine());
                     Console.WriteLine("if you want to updata the customer name enter 1\nelse press ayn key");
                     int e = int.Parse(Console.ReadLine());
@@ -150,10 +178,11 @@ namespace ConsoleUI_BL
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
-                    {
+                    {                    
+
                         Viewid("d");
+                        Console.WriteLine("enter parcel's droneid new");
                     }
-                    Console.WriteLine("enter parcel's droneid new");
                     int droneID = Int32.Parse(Console.ReadLine());
                     p.DroneToCharge(droneID);
                     break;
@@ -163,9 +192,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("d");
+                        Viewid("d");    
+                        Console.WriteLine("enter droneId new");
+
                     }
-                    Console.WriteLine("enter droneId new");
                     int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
                     Console.WriteLine("how many hour the drone has charged (in full hours)");
                     TimeSpan timeInCharge = TimeSpan.FromHours(int.Parse(Console.ReadLine()));
@@ -177,9 +207,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("p");        
+                        Console.WriteLine("enter drone's id new");
+
                     }
-                    Console.WriteLine("enter drone's id new");
                     int idDroneAttache = Int32.Parse(Console.ReadLine());
                     p.AttacheDrone(idDroneAttache);
                     break;
@@ -189,9 +220,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("p");          
+                        Console.WriteLine("enter drone's id new");
+
                     }
-                    Console.WriteLine("enter drone's id new");
                     int idDronePickUp = Int32.Parse(Console.ReadLine());
                     p.PickUpParcel(idDronePickUp);
                     break;
@@ -201,9 +233,10 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p");
+                        Viewid("p");    
+                        Console.WriteLine("enter drone's id new");
+
                     }
-                    Console.WriteLine("enter drone's id new");
                     int idDroneDelivery = Int32.Parse(Console.ReadLine());
                     p.Parceldelivery(idDroneDelivery);
                     break;
@@ -227,25 +260,33 @@ namespace ConsoleUI_BL
             {
                 Console.WriteLine("Addition(= 1), Updating(= 2), Display(= 3), List view(= 4) or Exit(= 5)");
                 Option = Console.ReadLine();
-                switch (Option)
+                try
                 {
-                    case "Addition" or "1":
-                        FunAddition(p);
-                        break;
-                    case "Updating" or "2":
-                        FunUpdating(p);
-                        break;
-                    case "Display" or "3":
-                        FunDisplay(p);
-                        break;
-                    case "List view" or "4":
-                        FunListview(p);
-                        break;
-                    case "Exit" or "5":
-                        Console.WriteLine("Thank you have a good day");
-                        break;
-                    default:
-                        break;
+                    switch (Option)
+                    {
+                        case "Addition" or "1":
+                            FunAddition(p);
+                            break;
+                        case "Updating" or "2":
+                            FunUpdating(p);
+                            break;
+                        case "Display" or "3":
+                            FunDisplay(p);
+                            break;
+                        case "List view" or "4":
+                            FunListview(p);
+                            break;
+                        case "Exit" or "5":
+                            Console.WriteLine("Thank you have a good day");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                    Console.WriteLine("we doing to do it again");
                 }
             }
             while (Option != "5");
@@ -253,42 +294,42 @@ namespace ConsoleUI_BL
 
         public static void Viewid(string type)
         {
-            //int count = 0;
-            //switch (type)
-            //{
-            //case "p":
-            //    foreach (var i in DataSource.parcels)
-            //    {
-            //        count++;
-            //        Console.WriteLine($"id:{count} = {i.ID}");
-            //    }
-            //    count = 0;
-            //    break;
-            //case "d":
-            //    foreach (var i in DataSource.drones)
-            //    {
-            //        count++;
-            //        Console.WriteLine($"id:{count} = {i.ID}");
-            //    }
-            //    count = 0;
-            //    break;
-            //case "c":
-            //    foreach (var i in DataSource.customers)
-            //    {
-            //        count++;
-            //        Console.WriteLine($"id:{count} = {i.ID}");
-            //    }
-            //    count = 0;
-            //    break;
-            //case "s":
-            //    foreach (var i in DataSource.stations)
-            //    {
-            //        count++;
-            //        Console.WriteLine($"id:{count} = {i.ID}");
-            //    }
-            //    count = 0;
-            //    break;
-            //}
+            int count = 0;
+            switch (type)
+            {
+                case "p":
+                    foreach (var i in DataSource.parcels)
+                    {
+                        count++;
+                        Console.WriteLine($"id:{count} = {i.ID}");
+                    }
+                    count = 0;
+                    break;
+                case "d":
+                    foreach (var i in DataSource.drones)
+                    {
+                        count++;
+                        Console.WriteLine($"id:{count} = {i.ID}");
+                    }
+                    count = 0;
+                    break;
+                case "c":
+                    foreach (var i in DataSource.customers)
+                    {
+                        count++;
+                        Console.WriteLine($"id:{count} = {i.ID}");
+                    }
+                    count = 0;
+                    break;
+                case "s":
+                    foreach (var i in DataSource.stations)
+                    {
+                        count++;
+                        Console.WriteLine($"id:{count} = {i.ID}");
+                    }
+                    count = 0;
+                    break;
+            }
         } // לטפל בסוף
     }
 

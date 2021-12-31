@@ -19,11 +19,16 @@ namespace BLExceptions
     public class NotTheRightForm : Exception
     {
         public NotTheRightForm() :base() { }
-
         public NotTheRightForm(string message) : base(message) { }
-
-        public NotTheRightForm(string message, Exception innerException) : base(message, innerException){ }
+        public NotTheRightForm(string message, Exception innerException) : base(message, innerException) { }
         protected NotTheRightForm(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
+    }
+    public class DoesNotExistException : Exception
+    {
+        public DoesNotExistException() { }
+        public DoesNotExistException(string message) : base(message) { }
+        public DoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
+        protected DoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

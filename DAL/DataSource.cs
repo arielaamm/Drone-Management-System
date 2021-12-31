@@ -31,7 +31,7 @@ namespace DAL
             internal static double light { get { return 20; } }
             internal static double medium { get { return 30; } }
             internal static double heavy { get { return 40; } }
-            static int ChargePerHour { get { return 50; } }
+            static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
         }
 
         public static void Initialize()
@@ -42,7 +42,7 @@ namespace DAL
 
                 Drone d = new Drone()
                 {
-                    ID = 11111111 + staticId,
+                    ID = staticId,
                     Model = "" + (rnd.Next(0, 100)),
                     Buttery = 100,
                 };
@@ -54,7 +54,7 @@ namespace DAL
             {
                 Station s = new Station()
                 {
-                    ID = 11111111 + staticId,
+                    ID = staticId,
                     StationName = "Station" + i + 1,
                     Longitude = GetRandomNumber(33.289273, 29.494665),
                     Lattitude = GetRandomNumber(35.569495, 34.904675),
@@ -67,7 +67,7 @@ namespace DAL
             {
                 Customer c = new Customer()
                 {
-                    ID = 11111111 + staticId,
+                    ID = staticId,
                     CustomerName = "Customer" + i,
                     Phone = "05" + rnd.Next(10000000, 99999999),
                     Longitude = GetRandomNumber(33.289273, 29.494665),
@@ -81,7 +81,7 @@ namespace DAL
             {
                 Parcel p = new Parcel()
                 {
-                    ID = 11111111 + staticId,
+                    ID =  staticId,
                     Requested = DateTime.Now,
                     DroneId = 0,
                     Scheduled = DateTime.MinValue,

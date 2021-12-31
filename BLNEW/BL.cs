@@ -38,6 +38,7 @@ namespace BL
         //---------------------------------------------------------------------------------
         public void AddStation(int id, string name, Location location, int ChargeSlots)
         {
+
             IDAL.DO.Station tempStation = new IDAL.DO.Station()
             {
                 ID = id,
@@ -52,16 +53,13 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new AlreadyExistException(ex.Message,ex);
+                throw new AlreadyExistException($"{ex.Message}");
             }
         }
         public void AddDrone(int id, string name, BO.WEIGHT weight,int IDStarting)
         {
             try
             {
-
-
-
                 Random random = new Random();
                 IDAL.DO.Drone tempDrone = new IDAL.DO.Drone()
                 {
@@ -79,24 +77,25 @@ namespace BL
                     dal.AddDrone(tempDrone);
                     dal.AddDroneCharge(tempDroneCharge);
             }
-            catch
+            catch(Exception ex)
             {
-
+                throw new AlreadyExistException(ex.Message, ex);
             }
 
         }
         public void AddCustomer(int id, string name, string PhoneNumber, Location location)
         {
-            IDAL.DO.Customer tempCustomer = new IDAL.DO.Customer()
-            {
-                ID = id,
-                CustomerName = name,
-                Longitude = location.Longitude,
-                Lattitude = location.Lattitude,
-                Phone = PhoneNumber,
-            };
             try
             {
+                IDAL.DO.Customer tempCustomer = new IDAL.DO.Customer()
+                {
+                    ID = id,
+                    CustomerName = name,
+                    Longitude = location.Longitude,
+                    Lattitude = location.Lattitude,
+                    Phone = PhoneNumber,
+                };
+
                 dal.AddCustomer(tempCustomer);
             }
             catch (Exception ex)
@@ -106,21 +105,22 @@ namespace BL
         }
         public void AddParcel(int SenderId, int TargetId, BO.WEIGHT weight, BO.PRIORITY Priority)
         {
-            IDAL.DO.Parcel tempParcel = new IDAL.DO.Parcel()
-            {
-                SenderId = SenderId,
-                TargetId = TargetId,
-                Weight = (IDAL.DO.WEIGHT)weight,
-                Priority = (IDAL.DO.PRIORITY)Priority,
-                Requested = DateTime.Now,
-                Scheduled =DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Deliverd = DateTime.MinValue,
-                DroneId = null,
-
-            };
             try
             {
+                IDAL.DO.Parcel tempParcel = new IDAL.DO.Parcel()
+                {
+                    SenderId = SenderId,
+                    TargetId = TargetId,
+                    Weight = (IDAL.DO.WEIGHT)weight,
+                    Priority = (IDAL.DO.PRIORITY)Priority,
+                    Requested = DateTime.Now,
+                    Scheduled =DateTime.MinValue,
+                    PickedUp = DateTime.MinValue,
+                    Deliverd = DateTime.MinValue,
+                    DroneId = null,
+
+                };
+            
                 dal.AddParcel(tempParcel);
             }
             catch (Exception ex)
