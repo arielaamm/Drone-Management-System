@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IDAL
 {
-    public interface IDal
+    public interface IDal //מועלה
     {
         double[] power();
         void AddStation(DO.Station s);

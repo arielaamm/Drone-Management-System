@@ -56,7 +56,7 @@ namespace ConsoleUI_BL
                     string nameDrone = Console.ReadLine();
                     BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
                     if (((int)weightDrone != 1) || ((int)weightDrone != 2) || ((int)weightDrone != 3))
-                        throw new PutTheRightNumber($"this phone number {weightDrone} is not in the right form");
+                        throw new PutTheRightNumber($"this weight {weightDrone} is not in the right form");
 
                     int IDStartingStation = int.Parse(Console.ReadLine());
                     p.AddDrone(idDrone, nameDrone, weightDrone, IDStartingStation);
@@ -85,10 +85,10 @@ namespace ConsoleUI_BL
                     int TargetIdParcel = int.Parse(Console.ReadLine());
                     BL.BO.WEIGHT weightParcel = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
                     if(((int)weightParcel !=1) || ((int)weightParcel != 2) || ((int)weightParcel != 3))
-                        throw new PutTheRightNumber($"this phone number {weightParcel} is not in the right form");
+                        throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
                     BL.BO.PRIORITY priorityParcel = (BL.BO.PRIORITY)int.Parse(Console.ReadLine());
                     if (((int)priorityParcel != 1) || ((int)priorityParcel != 2) || ((int)priorityParcel != 3))
-                        throw new PutTheRightNumber($"this phone number {priorityParcel} is not in the right form");
+                        throw new PutTheRightNumber($"this priority {priorityParcel} is not in the right form");
                     p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
                     break;
             }
@@ -284,11 +284,11 @@ namespace ConsoleUI_BL
                     break;
             }
         }
-        private static void FunListview(BL.BL p)
+        public static void FunListview(BL.BL p)
         {
         }
 
-        private static void FunDisplay(BL.BL p)
+        public static void FunDisplay(BL.BL p)
         {
         }
         static void Main(string[] args)
