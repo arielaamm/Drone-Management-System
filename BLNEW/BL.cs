@@ -147,19 +147,20 @@ namespace BL
             DataSource.drones.Add(d);
         }
 #nullable enable
-        public void UpdateStation(int id,string ? name ,int ? freechargeslots)
+        public void UpdateStation(int id,string ? name ,int ? TotalChargeslots)
         {
-            IEnumerable<IDAL.DO.Station> s = dal.Stationlist();
-            foreach (var item in s)
+            IDAL.DO.Station s = dal.FindStation(id);
+            s.StationName = name;
+            s.ChargeSlots = (int)TotalChargeslots;
+            foreach (var item in DataSource.stations)
             {
                 if (item.ID == id)
                 {
-                   
+                    DataSource.stations.Remove(item);
                 }
             }
-
+            DataSource.stations.Add(s);
         }
-
         public void UpdateCustomer(int id, string ?NewName,int ? NewPhoneNumber)
         {
 
