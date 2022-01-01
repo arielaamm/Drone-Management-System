@@ -12,10 +12,9 @@ namespace BL.BO
         public string CustomerName { set; get; }
         public string Phone { set; get; }
         public Location location { set; get; }
-        public ParcelInCustomer fromCustomer { set; get; }
-        public ParcelInCustomer toCustomer { set; get; }
+        public List<ParcelInCustomer> fromCustomer { set; get; }
+        public List<ParcelInCustomer> toCustomer { set; get; }
+
         //done
-        //רשימת משלוחיםחבילות אצל לקוח - מהלקוח??????????????????????????
-    //רשימת משלוחיםחבילות אצל לקוח - אל הלקוח??????????????????????????
     }
 }

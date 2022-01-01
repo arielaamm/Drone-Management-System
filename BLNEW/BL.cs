@@ -9,6 +9,8 @@ using IDAL;
 //using IDAL.DO;
 using BL.BO;
 using BLExceptions;
+using DateTime = System.DateTime;
+
 
 namespace BL
 {
@@ -148,7 +150,15 @@ namespace BL
 #nullable disable
         public void DroneToCharge(int id)
         {
+            IDAL.DO.Drone d = dal.FindDrone(id);
+            if(d.Status != 0||d.Buttery < 20)
+            {//Buttery???????????????????????????/
+                //trow exception
+            }
+            else
+            {
 
+            }
         }
         public void DroneOutCharge(int id,TimeSpan time)
         {
@@ -294,7 +304,7 @@ namespace BL
             };
             return newParcel;
         }
-        public Customer findcustomer(int id)//לא סיימתי
+        public Customer findcustomer(int id)//fliping done
         {
             IDAL.DO.Customer c = dal.FindCustomers(id);
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
@@ -311,7 +321,51 @@ namespace BL
                 location = temp,
 
             };
-            
+            ParcelInCustomer fromCustomer = new();
+            ParcelInCustomer ToCustomer = new();
+            foreach (var item in p)
+            {
+                if (item.SenderId == id)
+                {
+                    fromCustomer.ID = (int)item.ID;
+                    fromCustomer.weight = (WEIGHT)item.Weight;
+                    fromCustomer.priority = (PRIORITY)item.Priority;
+                    if(item.Requested< DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)0;
+                    }
+                    if (item.Scheduled < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)1;
+                    }
+                    if (item.PickedUp < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)2;
+                    }
+                    if (item.Deliverd < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)3;
+                    }
+                    fromCustomer.sender.ID = id;
+                    fromCustomer.sender.CustomerName = newCustomer.CustomerName;
+                    fromCustomer.target.ID = item.TargetId;
+                    fromCustomer.target.CustomerName = findcustomer(item.TargetId).CustomerName;//bl??dl??
+                    newCustomer.fromCustomer.Add(fromCustomer);
+                }
+
+                if ((item.TargetId == id)&& (item.Deliverd < DateTime.Now))
+                {
+                    ToCustomer.ID = (int)item.ID;
+                    ToCustomer.weight = (WEIGHT)item.Weight;
+                    ToCustomer.priority = (PRIORITY)item.Priority;
+                    ToCustomer.status = (STATUS)3;
+                    ToCustomer.sender.ID = item.TargetId;
+                    ToCustomer.sender.CustomerName = findcustomer(item.TargetId).CustomerName;//bl??dl??
+                    ToCustomer.target.ID = id;
+                    ToCustomer.target.CustomerName = newCustomer.CustomerName;
+                    newCustomer.toCustomer.Add(ToCustomer);
+                }
+            }
             return newCustomer;
         }
         //-----------------------------------------------------------------------------------
