@@ -133,13 +133,30 @@ namespace BL
         //---------------------------------------------------------------------------------
         //updating functions:
         //---------------------------------------------------------------------------------
-        public void UpdateDrone(int id, string name)//moudle???????
+        public void UpdateDrone(int id, string name)//done
         {
-
+            IDAL.DO.Drone d = dal.FindDrone(id);
+            d.Model = name;
+            foreach (var item in DataSource.drones)
+            {
+                if (item.ID == id)
+                {
+                    DataSource.drones.Remove(item);
+                }
+            }
+            DataSource.drones.Add(d);
         }
 #nullable enable
         public void UpdateStation(int id,string ? name ,int ? freechargeslots)
         {
+            IEnumerable<IDAL.DO.Station> s = dal.Stationlist();
+            foreach (var item in s)
+            {
+                if (item.ID == id)
+                {
+                   
+                }
+            }
 
         }
 
