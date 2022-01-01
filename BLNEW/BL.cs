@@ -161,9 +161,19 @@ namespace BL
             }
             DataSource.stations.Add(s);
         }
-        public void UpdateCustomer(int id, string ?NewName,int ? NewPhoneNumber)
+        public void UpdateCustomer(int id, string ?NewName, string? NewPhoneNumber)
         {
-
+            IDAL.DO.Customer c = dal.FindCustomers(id);
+            c.CustomerName = NewName;
+            c.Phone = NewPhoneNumber;
+            foreach (var item in DataSource.customers)
+            {
+                if (item.ID == id)
+                {
+                    DataSource.customers.Remove(item);
+                }
+            }
+            DataSource.customers.Add(c);
         }
 #nullable disable
         public void DroneToCharge(int id)
