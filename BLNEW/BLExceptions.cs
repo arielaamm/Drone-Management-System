@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLExceptions
 {
+    [Serializable]
     public class AlreadyExistException : Exception
     {
         public AlreadyExistException() : base() { }
@@ -16,6 +17,8 @@ namespace BLExceptions
         public AlreadyExistException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }
+
+    [Serializable]
     public class NotTheRightForm : Exception
     {
         public NotTheRightForm() :base() { }
@@ -24,6 +27,8 @@ namespace BLExceptions
         protected NotTheRightForm(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     }
+
+    [Serializable]
     public class DoesNotExistException : Exception
     {
         public DoesNotExistException() { }
@@ -31,6 +36,8 @@ namespace BLExceptions
         public DoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
         protected DoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+
+    [Serializable]
     public class PutTheRightNumber : Exception
     {
         public PutTheRightNumber() { }

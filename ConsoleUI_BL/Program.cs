@@ -149,7 +149,7 @@ namespace ConsoleUI_BL
                     }
                     Console.WriteLine("if you want to updata the station chargeslot enter 1\nelse press any key");
                     i = int.Parse(Console.ReadLine());
-                    int? chargeSlotsStationuUpData = null;
+                    int chargeSlotsStationuUpData = 0;
                     if (i == 1)
                     {
                         chargeSlotsStationuUpData = int.Parse(Console.ReadLine());
@@ -183,7 +183,7 @@ namespace ConsoleUI_BL
                     }
                     Console.WriteLine("if you want to updata the customer phone number enter 1\nelse press ayn key");
                     e = int.Parse(Console.ReadLine());
-                    int? PhoneNumberCustomerUpData = null;
+                    int PhoneNumberCustomerUpData = 0;
                     if (e == 1)
                     {
                         PhoneNumberCustomerUpData = int.Parse(Console.ReadLine());

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DALExceptionscs
 {
+    [Serializable]
     public class AlreadyExistException : Exception
     {
         public AlreadyExistException() : base() { }
@@ -16,6 +17,7 @@ namespace DALExceptionscs
         public AlreadyExistException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }
+    [Serializable]
     public class DoesNotExistException : Exception
     {
         public DoesNotExistException() { }

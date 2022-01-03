@@ -144,14 +144,14 @@ namespace BL
                     DataSource.drones.Remove(item);
                 }
             }
-            DataSource.drones.Add(d);
+            dal.AddDrone(d);
         }
 #nullable enable
-        public void UpdateStation(int id,string ? name ,int ? TotalChargeslots)
+        public void UpdateStation(int id,string ? name ,int  TotalChargeslots)
         {
             IDAL.DO.Station s = dal.FindStation(id);
             s.StationName = name;
-            s.ChargeSlots = (int)TotalChargeslots;
+            s.ChargeSlots = TotalChargeslots;
             foreach (var item in DataSource.stations)
             {
                 if (item.ID == id)
@@ -159,7 +159,7 @@ namespace BL
                     DataSource.stations.Remove(item);
                 }
             }
-            DataSource.stations.Add(s);
+            dal.AddStation(s);
         }
         public void UpdateCustomer(int id, string ?NewName, string? NewPhoneNumber)
         {
@@ -173,7 +173,7 @@ namespace BL
                     DataSource.customers.Remove(item);
                 }
             }
-            DataSource.customers.Add(c);
+            dal.AddCustomer(c);
         }
 #nullable disable
         public void DroneToCharge(int id)
@@ -377,7 +377,7 @@ namespace BL
                     fromCustomer.sender.ID = id;
                     fromCustomer.sender.CustomerName = newCustomer.CustomerName;
                     fromCustomer.target.ID = item.TargetId;
-                    fromCustomer.target.CustomerName = findcustomer(item.TargetId).CustomerName;//bl??dl??
+                    fromCustomer.target.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//bl??dl??
                     newCustomer.fromCustomer.Add(fromCustomer);
                 }
 
@@ -388,7 +388,7 @@ namespace BL
                     ToCustomer.priority = (PRIORITY)item.Priority;
                     ToCustomer.status = (STATUS)3;
                     ToCustomer.sender.ID = item.TargetId;
-                    ToCustomer.sender.CustomerName = findcustomer(item.TargetId).CustomerName;//bl??dl??
+                    ToCustomer.sender.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//bl??dl??
                     ToCustomer.target.ID = id;
                     ToCustomer.target.CustomerName = newCustomer.CustomerName;
                     newCustomer.toCustomer.Add(ToCustomer);
