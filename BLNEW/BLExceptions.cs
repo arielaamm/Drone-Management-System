@@ -45,4 +45,12 @@ namespace BLExceptions
         public PutTheRightNumber(string message, Exception innerException) : base(message, innerException) { }
         protected PutTheRightNumber(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class DroneAloreadyAttached : Exception
+    {
+        public DroneAloreadyAttached() { }
+        public DroneAloreadyAttached(string message) : base(message) { }
+        public DroneAloreadyAttached(string message, Exception innerException) : base(message, innerException) { }
+        public DroneAloreadyAttached(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

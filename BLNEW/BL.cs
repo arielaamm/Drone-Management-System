@@ -69,6 +69,7 @@ namespace BL
                     Model = name,
                     Weight = (IDAL.DO.WEIGHT)weight,
                     Buttery = random.Next(20, 40),
+                    haveParcel = true,
                 };
                 IDAL.DO.DroneCharge tempDroneCharge = new IDAL.DO.DroneCharge()
                 {
@@ -107,6 +108,14 @@ namespace BL
         }
         public void AddParcel(int SenderId, int TargetId, BO.WEIGHT weight, BO.PRIORITY Priority)
         {
+            int? dID = null;
+            foreach (var item in dal.Dronelist())
+            {
+                if (!(item.haveParcel))
+                {
+                    dID = item.ID;
+                }
+            }
             try
             {
                 IDAL.DO.Parcel tempParcel = new IDAL.DO.Parcel()
@@ -119,8 +128,7 @@ namespace BL
                     Scheduled =DateTime.MinValue,
                     PickedUp = DateTime.MinValue,
                     Deliverd = DateTime.MinValue,
-                    DroneId = null,
-
+                    DroneId = dID,
                 };
             
                 dal.AddParcel(tempParcel);
@@ -216,15 +224,18 @@ namespace BL
                 Lattitude=s.Lattitude,
                 Longitude=s.Longitude,
             };
-            int count = 0;
             List<DroneCharging> droneChargingTemp = new();
             foreach (var item in DataSource.droneCharges)
             {
                 if (item.StationId==id)
                 {
-                    droneChargingTemp[count].ID = (int)item.DroneId;
-                    droneChargingTemp[count].Buttery= (dal.FindDrone(id)).Buttery;
-                    count++;
+                    DroneCharging droneCharging = new()
+                    { 
+                        ID = (int)item.DroneId,
+                        Buttery= (dal.FindDrone(id)).Buttery,
+                    };
+
+                    droneChargingTemp.Add(droneCharging);
                 }
             }
             Station newStation = new Station()
@@ -284,6 +295,7 @@ namespace BL
             }
             Drone newStation = new Drone()
             {
+                haveParcel = d.haveParcel,
                 ID = (int)d.ID,
                 Model = d.Model,
                 Weight = (WEIGHT)d.Weight,
@@ -294,7 +306,7 @@ namespace BL
             };
             return newStation;
         }
-        public Parcel findparcel(int id)//סיימתי
+        public Parcel findParcel(int id)//סיימתי
         {
             IDAL.DO.Parcel p = dal.FindParcel(id);//לסייפ מימוש
             IDAL.DO.Customer s = dal.FindCustomers(p.SenderId);
@@ -332,7 +344,7 @@ namespace BL
             };
             return newParcel;
         }
-        public Customer findcustomer(int id)//fliping done
+        public Customer findCustomer(int id)//fliping done
         {
             IDAL.DO.Customer c = dal.FindCustomers(id);
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
@@ -399,7 +411,60 @@ namespace BL
         //-----------------------------------------------------------------------------------
         //listView func
         //-----------------------------------------------------------------------------------------
-
+        public IEnumerable<Station> stations()
+        {
+            List<Station> temp=new();
+            foreach (var item in dal.Stationlist())
+            {
+                temp.Add(findStation((int)item.ID));
+            }
+            return temp;
+        }
+        public IEnumerable<Drone> drones()
+        {
+            List<Drone> temp = new();
+            foreach (var item in dal.Dronelist())
+            {
+                temp.Add(findDrone((int)item.ID));
+            }
+            return temp;
+        }
+        public IEnumerable<Parcel> parcels()
+        {
+            List<Parcel> temp = new();
+            foreach (var item in dal.Parcellist())
+            {
+                temp.Add(findParcel((int)item.ID));
+            }
+            return temp;
+        }
+        public IEnumerable<Customer> customers()
+        {
+            List<Customer> temp = new();
+            foreach (var item in dal.Customerlist())
+            {
+                temp.Add(findCustomer((int)item.ID));
+            }
+            return temp;
+        }
+        public IEnumerable<Parcel> parcelsNotAssociated()
+        {
+            List<Parcel> temp = new();
+            foreach (var item in dal.ParcelNotAssociatedList())
+            {
+                temp.Add(findParcel((int)item.ID));
+            }
+            return temp;
+        }
+        public IEnumerable<Station> FreeChargeslots()
+        {
+            List<Station> temp = new();
+            foreach (var item in dal.Freechargeslotslist())
+            {
+                temp.Add(findStation((int)item.ID));
+            }
+            return temp;
+        }
 
     }
 

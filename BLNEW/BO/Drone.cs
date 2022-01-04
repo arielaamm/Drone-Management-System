@@ -8,6 +8,7 @@ namespace BL.BO
 {
     public class Drone
     {
+        public bool haveParcel { set; get; }
         public int ID { get; set; }
         public string Model { set; get; }
         public WEIGHT Weight { set; get; }

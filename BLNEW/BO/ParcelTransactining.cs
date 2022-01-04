@@ -9,7 +9,7 @@ namespace BL.BO
     public class ParcelTransactining
     {
         public int ID { set; get; }
-        public bool ParcelStatus { set; get; } // on the way - true, waitnig - false
+        public bool ParcelStatus { set; get; } // on the way - true, waitnig to drone arrival - false
         public PRIORITY priority { set; get; }
         public WEIGHT weight { set; get; }
         public CustomerInParcel sender { set; get; }

@@ -21,15 +21,16 @@ namespace ConsoleUI_BL
             }
             return 0;
         }
-        private static void FunAddition(BL.BL p)
+        public static void FunAddition(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
-            Console.WriteLine("add station(= 1) \nadd drone(= 2) \nadd customer(= 3) \nadd parcel(= 4)");
+            Console.WriteLine("add station => 1\nadd drone => 2\nadd customer => 3\nadd parcel => 4");
             string t;
             t = Console.ReadLine();
             switch (t)
             {
-                case "add station" or "1":
+                #region Add station
+                case "Add station" or "1":
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
                     if (chackID(idStation, "s")!=-1)
@@ -46,7 +47,9 @@ namespace ConsoleUI_BL
                     int numChargeSlotsStation = int.Parse(Console.ReadLine());
                     p.AddStation(idStation, nameStation, locationStation, numChargeSlotsStation);
                     break;
-                case "add drone" or "2":
+                #endregion
+                #region Add drone
+                case "Add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
                     if (chackID(idDrone, "d") != 1)
@@ -61,6 +64,8 @@ namespace ConsoleUI_BL
                     int IDStartingStation = int.Parse(Console.ReadLine());
                     p.AddDrone(idDrone, nameDrone, weightDrone, IDStartingStation);
                     break;
+                #endregion
+                #region Add customer
                 case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");
                     int idCustomer = int.Parse(Console.ReadLine());
@@ -79,6 +84,8 @@ namespace ConsoleUI_BL
                     };
                     p.AddCustomer(idCustomer, nameCustomer, phoneCustomer, locationCustomer);
                     break;
+                #endregion
+                #region Add parcel
                 case "add parcel" or "4":
                     Console.WriteLine("enter SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
                     int SenderIdParcel = int.Parse(Console.ReadLine());
@@ -86,23 +93,26 @@ namespace ConsoleUI_BL
                     BL.BO.WEIGHT weightParcel = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
                     if(((int)weightParcel !=1) || ((int)weightParcel != 2) || ((int)weightParcel != 3))
                         throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
-                    BL.BO.PRIORITY priorityParcel = (BL.BO.PRIORITY)int.Parse(Console.ReadLine());
-                    if (((int)priorityParcel != 1) || ((int)priorityParcel != 2) || ((int)priorityParcel != 3))
-                        throw new PutTheRightNumber($"this priority {priorityParcel} is not in the right form");
+                    int temp = int.Parse(Console.ReadLine());
+                    if ((temp != 1) || (temp != 2) || (temp != 3))
+                        throw new PutTheRightNumber($"this priority {temp} is not in the right form");
+                    BL.BO.PRIORITY priorityParcel = (BL.BO.PRIORITY)temp;
                     p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
                     break;
+                #endregion
             }
         }
         public static void FunUpdating(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
-            Console.WriteLine("Updata drone model(1)\nUpdata Station(2) \nUpdate Customer(3) \nsend for loadingor(4) \nrelease from charging(5)");
+            Console.WriteLine("Updata drone model => 1\nUpdata Station => 2 \nUpdate Customer => 3\nSend for loadingor => 4\nRelease from charging => 5");
+            Console.WriteLine("Assign a parcel to a drone => 6\nCollection of a parcel by drone = > 7\nDelivery of a parcel by drone => 8");
             string t;
             t = Console.ReadLine();
             string type;
             switch (t)
             {
-
+                #region Updata drone model
                 case "Updata drone model" or "1":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -115,13 +125,15 @@ namespace ConsoleUI_BL
                     int idUpDataDrone = Int32.Parse(Console.ReadLine());
                     if (chackID(idUpDataDrone,"d")==-1)
                     {
-                        throw new DoesNotExistException($"this id {idUpDataDrone} already exist");
+                        throw new DoesNotExistException($"this id {idUpDataDrone} dont exist");
 
                     }
                     Console.WriteLine("enter the new model");
                     string newModelUpDataDrone = Console.ReadLine();
                     p.UpdateDrone(idUpDataDrone, newModelUpDataDrone);
                     break;
+                #endregion
+                #region Updata Station
                 case "UpdataStation" or "2":
                     Console.WriteLine("enter Station's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -135,14 +147,14 @@ namespace ConsoleUI_BL
                     int idStationUpdata = Int32.Parse(Console.ReadLine());
                     if (chackID(idStationUpdata, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {idStationUpdata} already exist");
+                        throw new DoesNotExistException($"this id {idStationUpdata} dont exist");
 
                     }
                     Console.WriteLine("if you want to updata the station name enter 1\nelse press any key");
                     int i = int.Parse(Console.ReadLine());
-#nullable enable
+                    #nullable enable
                     string? nameStationUpData = null;
-#nullable disable
+                    #nullable disable
                     if (i == 1)
                     {
                         nameStationUpData = Console.ReadLine();
@@ -156,6 +168,8 @@ namespace ConsoleUI_BL
                     }
                     p.UpdateStation(idStationUpdata, nameStationUpData, chargeSlotsStationuUpData);
                     break;
+                #endregion
+                #region Update Customer
                 case "UpdateCustomer" or "3":
                     Console.WriteLine("enter Customer's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -169,7 +183,7 @@ namespace ConsoleUI_BL
                     int idCustomerUpdata = Int32.Parse(Console.ReadLine());
                     if (chackID(idCustomerUpdata, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {idCustomerUpdata} already exist");
+                        throw new DoesNotExistException($"this id {idCustomerUpdata} dont exist");
 
                     }
                     Console.WriteLine("if you want to updata the customer name enter 1\nelse press ayn key");
@@ -183,13 +197,15 @@ namespace ConsoleUI_BL
                     }
                     Console.WriteLine("if you want to updata the customer phone number enter 1\nelse press ayn key");
                     e = int.Parse(Console.ReadLine());
-                    int PhoneNumberCustomerUpData = 0;
+                    string PhoneNumberCustomerUpData = "null";
                     if (e == 1)
                     {
-                        PhoneNumberCustomerUpData = int.Parse(Console.ReadLine());
+                        PhoneNumberCustomerUpData = Console.ReadLine();
                     }
-                    p.UpdateStation(idCustomerUpdata, nameCustomerUpData, PhoneNumberCustomerUpData);
+                    p.UpdateCustomer(idCustomerUpdata, nameCustomerUpData, PhoneNumberCustomerUpData);
                     break;
+                #endregion
+                # region Send for loadingor
                 case "send for loadingor" or "4":
                     Console.WriteLine("enter droneID");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -203,11 +219,13 @@ namespace ConsoleUI_BL
                     int droneID = Int32.Parse(Console.ReadLine());
                     if (chackID(droneID, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {droneID} already exist");
+                        throw new DoesNotExistException($"this id {droneID} dont exist");
 
                     }
                     p.DroneToCharge(droneID);
                     break;
+                #endregion
+                #region Release from charging
                 case "release from charging" or "5":
                     Console.WriteLine("enter droneID");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -221,13 +239,15 @@ namespace ConsoleUI_BL
                     int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
                     if (chackID(idDroneReleaseFromCharge, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} already exist");
+                        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
 
                     }
                     Console.WriteLine("how many hour the drone has charged (in full hours)");
                     TimeSpan timeInCharge = TimeSpan.FromHours(int.Parse(Console.ReadLine()));
                     p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
                     break;
+                #endregion
+                # region Assign a parcel to a drone
                 case "Attache drone to parcel" or "6":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -240,12 +260,13 @@ namespace ConsoleUI_BL
                     }
                     int idDroneAttache = Int32.Parse(Console.ReadLine());
                     if (chackID(idDroneAttache, "d") == -1)
-                    {
-                        throw new DoesNotExistException($"this id {idDroneAttache} already exist");
-
-                    }
+                        throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
+                    if (p.findDrone(idDroneAttache).haveParcel)
+                        throw new DroneAloreadyAttached($"this drone is already attached");
                     p.AttacheDrone(idDroneAttache);
                     break;
+                #endregion
+                #region Collection of a parcel by drone
                 case "PickUp parcel" or "7":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -259,12 +280,14 @@ namespace ConsoleUI_BL
                     int idDronePickUp = Int32.Parse(Console.ReadLine());
                     if (chackID(idDronePickUp, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {idDronePickUp} already exist");
+                        throw new DoesNotExistException($"this id {idDronePickUp} dont exist");
 
                     }
                     p.PickUpParcel(idDronePickUp);
                     break;
-                case "delivery package" or "8":
+                #endregion
+                #region Delivery of a parcel by drone
+                case "delivery parcel" or "8":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -277,19 +300,348 @@ namespace ConsoleUI_BL
                     int idDroneDelivery = Int32.Parse(Console.ReadLine());
                     if (chackID(idDroneDelivery, "d") == -1)
                     {
-                        throw new DoesNotExistException($"this id {idDroneDelivery} already exist");
+                        throw new DoesNotExistException($"this id {idDroneDelivery} dont exist");
 
                     }
                     p.Parceldelivery(idDroneDelivery);
                     break;
+                    #endregion
             }
         }
-        public static void FunListview(BL.BL p)
-        {
-        }
-
         public static void FunDisplay(BL.BL p)
         {
+            Console.WriteLine("OK, what do you want to see ? choose");
+            Console.WriteLine("Station => 1\nDrone => 2\nCustomer => 3\nParcel => 4");
+            string t;
+            t = Console.ReadLine();
+            switch (t)
+            {
+                #region Station
+                case "Station" or "1":
+                    Console.WriteLine("enter id station");
+                    int idStation = int.Parse(Console.ReadLine());
+                    if (chackID(idStation, "s") == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idStation} dont exist");
+                    }
+                    Station s = p.findStation(idStation);
+                    Console.WriteLine(
+                        $"ID: {s.ID}.\n" +
+                        $"StationName: {s.StationName}.\n" +
+                        $"Location: {s.location.Lattitude},{s.location.Longitude}.\n" +
+                        $"FreeChargeSlots: {s.FreeChargeSlots}.\n" + 
+                        $"Drone Charging In Station:");
+                    if (s.DroneChargingInStation.Count!=0)
+                    {
+                        foreach (var item in s.DroneChargingInStation)
+                        {
+                            Console.WriteLine(
+                                $"\t-ID: {item.ID}.\n" +
+                                $"\t-Buttery: {item.Buttery}.");
+                        }
+                    }
+                    else
+                        Console.WriteLine("\t-None!");
+                    break;
+                #endregion
+                #region Drone
+                case "Drone" or "2":
+                    Console.WriteLine("enter id");
+                    int idDrone = int.Parse(Console.ReadLine());
+                    if (chackID(idDrone, "d") != 1)
+                    {
+                        throw new DoesNotExistException($"this id {idDrone} dont exist");
+                    }
+                    Drone d = p.findDrone(idDrone);
+                    Console.WriteLine(
+                        $"ID: {d.ID}.\n" +
+                        $"Model: {d.Model}.\n" +
+                        $"Weight: {d.Weight}.\n" + 
+                        $"Status: {d.Status}.\n" +
+                        $"Buttery: {d.Buttery}.\n" +
+                        $"Location: {d.current.Lattitude},{d.current.Longitude}.\n" +
+                        "Parcel In Transactining");
+                    Console.WriteLine(
+                        $"\tID: {d.parcel.ID}.\n" +
+                        $"\tParcel Status: {d.parcel.ParcelStatus}.\n" +
+                        $"\tpriority: {d.parcel.priority}.\n" +
+                        $"\tweight: {d.parcel.weight}.\n" +
+                        $"\tThe sender fo parcel:" +
+                        $"\t\tSender ID: {d.parcel.sender.ID}.\n" + 
+                        $"\t\tSender name: {d.parcel.sender.CustomerName}.\n" +
+                        $"\t\tSender Location: {d.parcel.Lsender.Lattitude}," +
+                        $"{d.parcel.Lsender.Longitude}\n" +
+                        $"\tThe receiver fo parcel:" +
+                        $"\t\tReceiver ID: {d.parcel.target.ID}.\n" +
+                        $"\t\tReceiver name: {d.parcel.target.CustomerName}.\n" +
+                        $"\t\tReceiver Location: {d.parcel.Ltarget.Lattitude}," +
+                        $"{d.parcel.Ltarget.Longitude}\n" +
+                        $"distance: {d.parcel.distance}.\n" 
+                        );
+                    break;
+                #endregion
+                #region Customer
+                case "Customer" or "3":
+                    Console.WriteLine("enter id");
+                    int idCustomer = int.Parse(Console.ReadLine());
+                    if (chackID(idCustomer, "c") != 1)
+                    {
+                        throw new DoesNotExistException($"this id {idCustomer} dont exist");
+                    }
+                    Customer c = p.findCustomer(idCustomer);
+                    Console.WriteLine(
+                        $"ID: {c.ID}.\n" +
+                        $"Customer Name: {c.CustomerName}.\n" +
+                        $"Phone: {c.Phone}.\n" +
+                        $"Location: {c.location.Lattitude},{c.location.Longitude}\n" +
+                        $"Parcel from {c.CustomerName}");
+                    foreach (var item in c.fromCustomer)
+                    {
+                        Console.WriteLine(
+                        $"\tID: {item.ID}.\n" +
+                        $"\tweight: {item.weight}.\n" +                    
+                        $"\tpriority: {item.priority}.\n" +
+                        $"\tStatus: {item.status}.\n" +
+                        $"\tThe sender fo parcel:" +
+                        $"\t\tSender ID: {item.sender.ID}.\n" +
+                        $"\t\tSender name: {item.sender.CustomerName}.\n" +
+                        $"\tThe receiver fo parcel:" +
+                        $"\t\tReceiver ID: {item.target.ID}.\n" +
+                        $"\t\tReceiver name: {item.target.CustomerName}.");
+                    }
+                    Console.WriteLine($"Parcel to {c.CustomerName}");
+                    foreach (var item in c.toCustomer)
+                    {
+                        Console.WriteLine(
+                            $"\tID: {item.ID}.\n" +
+                            $"\tweight: {item.weight}.\n" +
+                            $"\tpriority: {item.priority}.\n" +
+                            $"\tStatus: {item.status}.\n" +
+                            $"\tThe sender fo parcel:" +
+                            $"\t\tSender ID: {item.sender.ID}.\n" +
+                            $"\t\tSender name: {item.sender.CustomerName}.\n" +
+                            $"\tThe receiver fo parcel:" +
+                            $"\t\tReceiver ID: {item.target.ID}.\n" +
+                            $"\t\tReceiver name: {item.target.CustomerName}.");
+                    };
+                    break;
+                #endregion
+                #region Parcel
+                case "Parcel" or "4":
+                    Console.WriteLine("enter Id");
+                    int idParcel = int.Parse(Console.ReadLine());
+                    if (chackID(idParcel, "p") != 1)
+                    {
+                        throw new DoesNotExistException($"this id {idParcel} dont exist");
+                    }
+                    Parcel parcel = p.findParcel(idParcel);
+                    Console.WriteLine(
+                        $"ID: {parcel.ID}.\n" +
+                        "Sender:\n" +
+                        $"\tSender ID: {parcel.sender.ID}\n" +
+                        $"\tSende Name: {parcel.sender.CustomerName}.\n" +
+                        "Receiver:\n" +
+                        $"\tReceiver ID: {parcel.target.ID}.\n" +
+                        $"\tReceiver name: {parcel.target.CustomerName}." +
+                        $"weight: {parcel.Weight}.\n" +
+                        $"priority: {parcel.Priority}.\n" +
+                        "The Drone of the Parcel:\n" +
+                        $"\tID: {parcel.Drone.ID}.\n" +
+                        $"\tButtery: {parcel.Drone.Buttery}.\n" +
+                        $"\tLocation: {parcel.Drone.current.Lattitude}," +
+                        $"{parcel.Drone.current.Longitude}\n" +
+                        $"Requested: {parcel.Requested}.\n" +
+                        $"Scheduled: {parcel.Scheduled}.\n" +
+                        $"PickedUp: {parcel.PickedUp}.\n" +
+                        $"Deliverd: {parcel.Deliverd}.\n");
+                    break;
+                 #endregion
+            }
+        }
+
+        public static void FunListview(BL.BL p)
+        {
+            Console.WriteLine("OK, what do you want to see ? choose");
+            Console.WriteLine("Station list => 1\nDrone list => 2\nCustomer list => 3\nParcel list => 4\nParcel not associated => 5\nFree chargeslots => 6");
+            string t;
+            t = Console.ReadLine();
+            switch (t)
+            {
+                #region Stations
+                case "Stations" or "1":
+                    foreach (var item in p.stations())
+                    {
+                        Console.WriteLine(
+                        $"ID: {item.ID}.\n" +
+                        $"StationName: {item.StationName}.\n" +
+                        $"Location: {item.location.Lattitude},{item.location.Longitude}.\n" +
+                        $"FreeChargeSlots: {item.FreeChargeSlots}.\n" +
+                        $"Drone Charging In Station:");
+                        if (item.DroneChargingInStation.Count != 0)
+                        {
+                            foreach (var item1 in item.DroneChargingInStation)
+                            {
+                                Console.WriteLine(
+                                    $"\t-ID: {item1.ID}.\n" +
+                                    $"\t-Buttery: {item1.Buttery}.");
+                            }
+                        }
+                        else
+                            Console.WriteLine("\t-None!");
+                    }
+                    break;
+                #endregion
+                #region Drones
+                case "Drones" or "2":
+                    foreach (var item in p.drones())
+                    {
+                        Console.WriteLine(
+                            $"ID: {item.ID}.\n" +
+                            $"Model: {item.Model}.\n" +
+                            $"Weight: {item.Weight}.\n" +
+                            $"Status: {item.Status}.\n" +
+                            $"Buttery: {item.Buttery}.\n" +
+                            $"Location: {item.current.Lattitude},{item.current.Longitude}.\n" +
+                            "Parcel In Transactining");
+                        Console.WriteLine(
+                            $"\tID: {item.parcel.ID}.\n" +
+                            $"\tParcel Status: {item.parcel.ParcelStatus}.\n" +
+                            $"\tpriority: {item.parcel.priority}.\n" +
+                            $"\tweight: {item.parcel.weight}.\n" +
+                            $"\tThe sender fo parcel:" +
+                            $"\t\tSender ID: {item.parcel.sender.ID}.\n" +
+                            $"\t\tSender name: {item.parcel.sender.CustomerName}.\n" +
+                            $"\t\tSender Location: {item.parcel.Lsender.Lattitude}," +
+                            $"{item.parcel.Lsender.Longitude}\n" +
+                            $"\tThe receiver fo parcel:" +
+                            $"\t\tReceiver ID: {item.parcel.target.ID}.\n" +
+                            $"\t\tReceiver name: {item.parcel.target.CustomerName}.\n" +
+                            $"\t\tReceiver Location: {item.parcel.Ltarget.Lattitude}," +
+                            $"{item.parcel.Ltarget.Longitude}\n" +
+                            $"distance: {item.parcel.distance}.\n"
+                            );
+                    }
+                    break;
+                #endregion
+                #region Customers
+                case "Customers" or "3":
+                    foreach (var item in p.customers())
+                    {
+                        Console.WriteLine(
+                            $"ID: {item.ID}.\n" +
+                            $"Customer Name: {item.CustomerName}.\n" +
+                            $"Phone: {item.Phone}.\n" +
+                            $"Location: {item.location.Lattitude},{item.location.Longitude}\n" +
+                            $"Parcel from {item.CustomerName}");
+                        foreach (var item1 in item.fromCustomer)
+                        {
+                            Console.WriteLine(
+                            $"\tID: {item1.ID}.\n" +
+                            $"\tweight: {item1.weight}.\n" +
+                            $"\tpriority: {item1.priority}.\n" +
+                            $"\tStatus: {item1.status}.\n" +
+                            $"\tThe sender fo parcel:" +
+                            $"\t\tSender ID: {item1.sender.ID}.\n" +
+                            $"\t\tSender name: {item1.sender.CustomerName}.\n" +
+                            $"\tThe receiver fo parcel:" +
+                            $"\t\tReceiver ID: {item1.target.ID}.\n" +
+                            $"\t\tReceiver name: {item1.target.CustomerName}.");
+                        }
+                        Console.WriteLine($"Parcel to {item.CustomerName}");
+                        foreach (var item2 in item.toCustomer)
+                        {
+                            Console.WriteLine(
+                                $"\tID: {item2.ID}.\n" +
+                                $"\tweight: {item2.weight}.\n" +
+                                $"\tpriority: {item2.priority}.\n" +
+                                $"\tStatus: {item2.status}.\n" +
+                                $"\tThe sender fo parcel:" +
+                                $"\t\tSender ID: {item2.sender.ID}.\n" +
+                                $"\t\tSender name: {item2.sender.CustomerName}.\n" +
+                                $"\tThe receiver fo parcel:" +
+                                $"\t\tReceiver ID: {item2.target.ID}.\n" +
+                                $"\t\tReceiver name: {item2.target.CustomerName}.");
+                        };
+                    }     
+                    break;
+                #endregion
+                #region Parcels
+                case "Parcels" or "4":
+                    foreach (var item in  p.parcels())
+                    {
+                        Console.WriteLine(
+                            $"ID: {item.ID}.\n" +
+                            "Sender:\n" +
+                            $"\tSender ID: {item.sender.ID}\n" +
+                            $"\tSende Name: {item.sender.CustomerName}.\n" +
+                            "Receiver:\n" +
+                            $"\tReceiver ID: {item.target.ID}.\n" +
+                            $"\tReceiver name: {item.target.CustomerName}." +
+                            $"weight: {item.Weight}.\n" +
+                            $"priority: {item.Priority}.\n" +
+                            "The Drone of the Parcel:\n" +
+                            $"\tID: {item.Drone.ID}.\n" +
+                            $"\tButtery: {item.Drone.Buttery}.\n" +
+                            $"\tLocation: {item.Drone.current.Lattitude}," +
+                            $"{item.Drone.current.Longitude}\n" +
+                            $"Requested: {item.Requested}.\n" +
+                            $"Scheduled: {item.Scheduled}.\n" +
+                            $"PickedUp: {item.PickedUp}.\n" +
+                            $"Deliverd: {item.Deliverd}.\n");
+                    }
+                    break;
+                #endregion
+                #region Parcel not associated
+                case "not associated" or "5":
+                    foreach (var item in p.parcelsNotAssociated())
+                    {
+                        Console.WriteLine(
+                            $"ID: {item.ID}.\n" +
+                            "Sender:\n" +
+                            $"\tSender ID: {item.sender.ID}\n" +
+                            $"\tSende Name: {item.sender.CustomerName}.\n" +
+                            "Receiver:\n" +
+                            $"\tReceiver ID: {item.target.ID}.\n" +
+                            $"\tReceiver name: {item.target.CustomerName}." +
+                            $"weight: {item.Weight}.\n" +
+                            $"priority: {item.Priority}.\n" +
+                            "The Drone of the Parcel:\n" +
+                            $"\tID: {item.Drone.ID}.\n" +
+                            $"\tButtery: {item.Drone.Buttery}.\n" +
+                            $"\tLocation: {item.Drone.current.Lattitude}," +
+                            $"{item.Drone.current.Longitude}\n" +
+                            $"Requested: {item.Requested}.\n" +
+                            $"Scheduled: {item.Scheduled}.\n" +
+                            $"PickedUp: {item.PickedUp}.\n" +
+                            $"Deliverd: {item.Deliverd}.\n");
+                    }
+                    break;
+                #endregion
+                #region Free chargeslots
+                case "free chargeslots" or "6":
+                    foreach (var item in p.FreeChargeslots())
+                    {
+                        Console.WriteLine(
+                        $"ID: {item.ID}.\n" +
+                        $"StationName: {item.StationName}.\n" +
+                        $"Location: {item.location.Lattitude},{item.location.Longitude}.\n" +
+                        $"FreeChargeSlots{item.FreeChargeSlots}.\n" +
+                        $"Drone Charging In Station:");
+                        if (item.DroneChargingInStation.Count != 0)
+                        {
+                            foreach (var item1 in item.DroneChargingInStation)
+                            {
+                                Console.WriteLine(
+                                    $"\t-ID: {item1.ID}.\n" +
+                                    $"\t-Buttery: {item1.Buttery}.");
+                            }
+                        }
+                        else
+                            Console.WriteLine("\t-None!");
+                    }
+                    break;
+                #endregion
+            }
         }
         static void Main(string[] args)
         {

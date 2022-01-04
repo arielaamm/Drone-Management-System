@@ -37,32 +37,50 @@ namespace DAL
         public static void Initialize()
         {
             Random rnd = new Random();
+            for (int i = 0; i < 2; i++)
+            {
+                Station s = new Station()
+                {
+                    ID = staticId,
+                    StationName = "Station" +i,
+                    Longitude = GetRandomNumber(33.289273, 29.494665),
+                    Lattitude = GetRandomNumber(35.569495, 34.904675),
+                    ChargeSlots = 5,
+                };
+                staticId++;
+                stations.Add(s);
+            }
             for (int i = 0; i < 5; i++)
             {
 
                 Drone d = new Drone()
                 {
                     ID = staticId,
-                    Model = "" + (rnd.Next(0, 100)),
+                    Model = "MBL" + (rnd.Next(0, 100)),
                     Buttery = 100,
+                    haveParcel = false,
                 };
+                Station s = new Station();
+                foreach (var item in stations)
+                {
+                    if (item.ChargeSlots != 0)
+                    {
+                        s = item;
+                        break;
+                    }
+                }
+                DroneCharge temp = new()
+                { 
+                    DroneId = staticId,
+                    StationId = (int)s.ID,
+                };
+                s.ChargeSlots--;
+                droneCharges.Add(temp);
                 drones.Add(d);
                 staticId++;
             }
 
-            for (int i = 0; i < 2; i++)
-            {
-                Station s = new Station()
-                {
-                    ID = staticId,
-                    StationName = "Station" + i + 1,
-                    Longitude = GetRandomNumber(33.289273, 29.494665),
-                    Lattitude = GetRandomNumber(35.569495, 34.904675),
-                    ChargeSlots = 0,
-                };
-                staticId++;
-                stations.Add(s);
-            }
+            
             for (int i = 0; i < 10; i++)
             {
                 Customer c = new Customer()
@@ -79,9 +97,21 @@ namespace DAL
 
             for (int i = 0; i < 10; i++)
             {
+                Customer c = new Customer();
+                int sID = rnd.Next(0, 10);
+                int tID = rnd.Next(0, 10);
+                while (tID==sID)
+                {
+                    tID = rnd.Next(0, 10);
+                }
+
                 Parcel p = new Parcel()
                 {
-                    ID =  staticId,
+                    ID = staticId,
+                    SenderId = (int)customers[sID].ID,
+                    TargetId = (int)customers[tID].ID,
+                    Weight = (WEIGHT)rnd.Next(1, 3),
+                    Priority = (PRIORITY)rnd.Next(1, 3),
                     Requested = DateTime.Now,
                     DroneId = 0,
                     Scheduled = DateTime.MinValue,
@@ -91,7 +121,6 @@ namespace DAL
                 staticId++;
                 parcels.Add(p);
             }
-            Console.WriteLine("all good");
             sta++;
             Config.Idforparcel = sta;
         }
