@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
-using IBL;
 using IDAL;
-//using IDAL.DO;
-using BL.BO;
 using BLExceptions;
 using DateTime = System.DateTime;
-
+using IBL.BO;
 
 namespace BL
 {
@@ -36,6 +33,10 @@ namespace BL
                 }
             }
         }
+        public double Distans(Location a, Location b)
+        {
+             return Math.Sqrt((Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2)));
+        }
         //add functaions:
         //---------------------------------------------------------------------------------
         public void AddStation(int id, string name, Location location, int ChargeSlots)
@@ -58,7 +59,7 @@ namespace BL
                 throw new AlreadyExistException($"{ex.Message}");
             }
         }
-        public void AddDrone(int id, string name, BO.WEIGHT weight,int IDStarting)
+        public void AddDrone(int id, string name, IBL.BO.WEIGHT weight,int IDStarting)
         {
             try
             {
@@ -106,7 +107,7 @@ namespace BL
                 throw new AlreadyExistException(ex.Message, ex);
             }
         }
-        public void AddParcel(int SenderId, int TargetId, BO.WEIGHT weight, BO.PRIORITY Priority)
+        public void AddParcel(int SenderId, int TargetId, IBL.BO.WEIGHT weight, IBL.BO.PRIORITY Priority)
         {
             int? dID = null;
             foreach (var item in dal.Dronelist())
@@ -290,7 +291,7 @@ namespace BL
                 parcelTransactiningTemp.target = target;
                 parcelTransactiningTemp.Lsender = locationSend;
                 parcelTransactiningTemp.Ltarget = locationTarget;
-                parcelTransactiningTemp.distance = Math.Sqrt((Math.Pow(s.Lattitude - t.Lattitude, 2) + Math.Pow(s.Longitude - t.Longitude, 2)));
+                parcelTransactiningTemp.distance = Distans(locationSend, locationTarget);
             }
             Drone newStation = new Drone()
             {
@@ -464,10 +465,6 @@ namespace BL
             }
             return temp;
         }
-
-
         //-----------------------------------------------------------------------------------------
     }
-
-
 }

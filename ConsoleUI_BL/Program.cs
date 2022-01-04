@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using BL.BO;
 using DAL;
 using BLExceptions;
+using IBL.BO;
 
 namespace ConsoleUI_BL
 {
@@ -57,7 +57,7 @@ namespace ConsoleUI_BL
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
                     string nameDrone = Console.ReadLine();
-                    BL.BO.WEIGHT weightDrone = (BL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
+                    IBL.BO.WEIGHT weightDrone = (IBL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
                     if (((int)weightDrone != 1) || ((int)weightDrone != 2) || ((int)weightDrone != 3))
                         throw new PutTheRightNumber($"this weight {weightDrone} is not in the right form");
 
@@ -90,13 +90,13 @@ namespace ConsoleUI_BL
                     Console.WriteLine("enter SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
                     int SenderIdParcel = int.Parse(Console.ReadLine());
                     int TargetIdParcel = int.Parse(Console.ReadLine());
-                    BL.BO.WEIGHT weightParcel = (BL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
+                    IBL.BO.WEIGHT weightParcel = (IBL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
                     if(((int)weightParcel !=1) || ((int)weightParcel != 2) || ((int)weightParcel != 3))
                         throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
                     int temp = int.Parse(Console.ReadLine());
                     if ((temp != 1) || (temp != 2) || (temp != 3))
                         throw new PutTheRightNumber($"this priority {temp} is not in the right form");
-                    BL.BO.PRIORITY priorityParcel = (BL.BO.PRIORITY)temp;
+                    IBL.BO.PRIORITY priorityParcel = (IBL.BO.PRIORITY)temp;
                     p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
                     break;
                 #endregion
@@ -458,7 +458,6 @@ namespace ConsoleUI_BL
                  #endregion
             }
         }
-
         public static void FunListview(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to see ? choose");
