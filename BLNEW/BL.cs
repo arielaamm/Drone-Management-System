@@ -227,15 +227,14 @@ namespace BL
             List<DroneCharging> droneChargingTemp = new();
             foreach (var item in DataSource.droneCharges)
             {
-                if (item.StationId==id)
+                if (item.StationId == id)
                 {
-                    DroneCharging droneCharging = new()
-                    { 
+                    DroneCharging droneCharging1 = new()
+                    {
                         ID = (int)item.DroneId,
-                        Buttery= (dal.FindDrone(id)).Buttery,
+                        Buttery = (dal.FindDrone((int)item.DroneId)).Buttery,
                     };
-
-                    droneChargingTemp.Add(droneCharging);
+                    droneChargingTemp.Add(droneCharging1);
                 }
             }
             Station newStation = new Station()
@@ -306,7 +305,7 @@ namespace BL
             };
             return newStation;
         }
-        public Parcel findParcel(int id)//סיימתי
+        public Parcel findparcel(int id)//סיימתי
         {
             IDAL.DO.Parcel p = dal.FindParcel(id);//לסייפ מימוש
             IDAL.DO.Customer s = dal.FindCustomers(p.SenderId);
@@ -344,7 +343,7 @@ namespace BL
             };
             return newParcel;
         }
-        public Customer findCustomer(int id)//fliping done
+        public Customer findcustomer(int id)//fliping done
         {
             IDAL.DO.Customer c = dal.FindCustomers(id);
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
@@ -413,7 +412,7 @@ namespace BL
         //-----------------------------------------------------------------------------------------
         public IEnumerable<Station> stations()
         {
-            List<Station> temp=new();
+            List<Station> temp = new();
             foreach (var item in dal.Stationlist())
             {
                 temp.Add(findStation((int)item.ID));
@@ -434,7 +433,7 @@ namespace BL
             List<Parcel> temp = new();
             foreach (var item in dal.Parcellist())
             {
-                temp.Add(findParcel((int)item.ID));
+                temp.Add(findparcel((int)item.ID));
             }
             return temp;
         }
@@ -443,7 +442,7 @@ namespace BL
             List<Customer> temp = new();
             foreach (var item in dal.Customerlist())
             {
-                temp.Add(findCustomer((int)item.ID));
+                temp.Add(findcustomer((int)item.ID));
             }
             return temp;
         }
@@ -452,7 +451,7 @@ namespace BL
             List<Parcel> temp = new();
             foreach (var item in dal.ParcelNotAssociatedList())
             {
-                temp.Add(findParcel((int)item.ID));
+                temp.Add(findparcel((int)item.ID));
             }
             return temp;
         }

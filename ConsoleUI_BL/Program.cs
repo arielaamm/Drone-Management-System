@@ -388,7 +388,7 @@ namespace ConsoleUI_BL
                     {
                         throw new DoesNotExistException($"this id {idCustomer} dont exist");
                     }
-                    Customer c = p.findCustomer(idCustomer);
+                    Customer c = p.findcustomer(idCustomer);
                     Console.WriteLine(
                         $"ID: {c.ID}.\n" +
                         $"Customer Name: {c.CustomerName}.\n" +
@@ -434,7 +434,7 @@ namespace ConsoleUI_BL
                     {
                         throw new DoesNotExistException($"this id {idParcel} dont exist");
                     }
-                    Parcel parcel = p.findParcel(idParcel);
+                    Parcel parcel = p.findparcel(idParcel);
                     Console.WriteLine(
                         $"ID: {parcel.ID}.\n" +
                         "Sender:\n" +
