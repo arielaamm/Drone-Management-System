@@ -53,4 +53,30 @@ namespace BLExceptions
         public DroneAloreadyAttached(string message, Exception innerException) : base(message, innerException) { }
         public DroneAloreadyAttached(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class DontHaveEnoughPowerException : Exception
+    {
+        public DontHaveEnoughPowerException() { }
+
+        public DontHaveEnoughPowerException(string message) : base(message) { }
+
+        public DontHaveEnoughPowerException(string message, Exception innerException) : base(message, innerException) { }
+        public DontHaveEnoughPowerException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class DroneDontInCharging : Exception
+    {
+        public DroneDontInCharging() { }
+        public DroneDontInCharging(string message) : base(message) { }
+        public DroneDontInCharging(string message, Exception innerException) : base(message, innerException) { }
+        public DroneDontInCharging(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class ThereIsNoParcel : Exception
+    {
+        public ThereIsNoParcel() { }
+        public ThereIsNoParcel(string message) : base(message) { }
+        public ThereIsNoParcel(string message, Exception innerException) : base(message, innerException) { }
+        public ThereIsNoParcel(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

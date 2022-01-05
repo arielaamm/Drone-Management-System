@@ -16,7 +16,7 @@ namespace IBL
         void UpdateCustomer(int id, string? NewName, string? NewPhoneNumber);
         #nullable disable
         void DroneToCharge(int id);
-        void DroneOutCharge(int id, TimeSpan time);
+        void DroneOutCharge(int id, int time);
         void AttacheDrone(int id);
         void PickUpParcel(int id);
         void Parceldelivery(int id);

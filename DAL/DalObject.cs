@@ -15,7 +15,7 @@ namespace DAL
         {
             DataSource.Initialize();
         }
-        public double[] power()
+        public double[] Power()
         {
             double[] a = {
                 DataSource.Config.free,

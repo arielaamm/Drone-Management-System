@@ -243,7 +243,7 @@ namespace ConsoleUI_BL
 
                     }
                     Console.WriteLine("how many hour the drone has charged (in full hours)");
-                    TimeSpan timeInCharge = TimeSpan.FromHours(int.Parse(Console.ReadLine()));
+                    int timeInCharge = int.Parse(Console.ReadLine());
                     p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
                     break;
                 #endregion

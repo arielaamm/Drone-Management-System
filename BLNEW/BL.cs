@@ -8,7 +8,7 @@ using IDAL;
 using BLExceptions;
 using DateTime = System.DateTime;
 using IBL.BO;
-
+using System.Runtime.Serialization;
 namespace BL
 {
     public class BL : IBL.IBL
@@ -188,22 +188,116 @@ namespace BL
         public void DroneToCharge(int id)
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
-            if(d.Status != 0||d.Buttery < 20)
-            {//Buttery???????????????????????????/
-                //trow exception
+            if ((d.Status != 0) || (d.Buttery < 20))
+            {
+                throw new DontHaveEnoughPowerException($"the drone {id} dont have enough power");
             }
             else
             {
-
+                double distans = 0;
+                int sID = 0;
+                foreach (var item in stations())
+                {
+                    if (Distans(item.location,findDrone(id).current)>distans)
+                    {
+                        distans = Distans(item.location, findDrone(id).current);
+                        sID = item.ID;
+                    }
+                }
+                //מצב סוללה יעודכן בהתאם למרחק בין הרחפן לתחנה
+                findDrone(id).current.Lattitude = findStation(sID).location.Lattitude;
+                findDrone(id).current.Longitude = findStation(sID).location.Longitude;
+                findDrone(id).Status = (STATUS)4;
+                findStation(sID).FreeChargeSlots--; 
+                dal.AddDroneCharge(sID, id);
+                foreach (var item in DAL.DataSource.droneCharges)
+                {
+                    if (item.DroneId == id)
+                    {
+                        DroneCharging droneCharging1 = new()
+                        {
+                            ID = (int)item.DroneId,
+                            Buttery = (dal.FindDrone((int)item.DroneId)).Buttery,
+                        };
+                        findStation(sID).DroneChargingInStation.Add(droneCharging1);
+                        break;
+                    }
+                }
             }
         }
-        public void DroneOutCharge(int id,TimeSpan time)
+        public void DroneOutCharge(int id,int time)
         {
-
+            
+            if (findDrone(id).Status==(STATUS)4)
+            {
+                findDrone(id).Status = STATUS.FREE;
+                findDrone(id).Buttery = (dal.Power()[4]) * (time);
+                foreach (var item in DAL.DataSource.droneCharges)
+                {
+                    if (item.DroneId==id)
+                    {
+                        findStation(item.StationId).FreeChargeSlots++;
+                        DataSource.droneCharges.Remove(item); 
+                        foreach (var item1 in findStation(item.StationId).DroneChargingInStation)
+                        {
+                            if (item1.ID==id)
+                            {
+                                findStation(item.StationId).DroneChargingInStation.Remove(item1);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new DroneDontInCharging($"The Drone {id} Doesn't In Charging");
+            }
         }
         public void AttacheDrone(int id)
         {
-
+            if (!(findDrone(id).haveParcel))
+            {
+                List<Parcel> temp = parcelsNotAssociated().ToList();
+                List<Parcel> temp1 = temp.FindAll( delegate (Parcel p) {return p.Priority == PRIORITY.SOS;});
+                if (temp1.Count==0)
+                {
+                    temp1=temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
+                    if (temp1.Count==0)
+                    {
+                        temp1=temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
+                        if (temp1.Count==0)
+                        {
+                            throw new ThereIsNoParcel("there are no parcel");
+                        }
+                    }
+                }
+                temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.SOS; });
+                if (temp1.Count == 0)
+                {
+                    temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
+                    if (temp1.Count == 0)
+                    {
+                        temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
+                        if (temp1.Count == 0)
+                        {
+                            throw new ThereIsNoParcel("there are no parcel");
+                        }
+                    }
+                }
+                Location location = new()
+                { Lattitude=0,Longitude=0, };
+                int saveID = 0;//בטוח ידרס
+                foreach (var item in temp1)
+                {
+                    if (Distans(findDrone(id).current, findcustomer(item.sender.ID).location) > Distans(findDrone(id).current,location))
+                    {
+                        location.Lattitude = findcustomer(item.sender.ID).location.Lattitude;
+                        location.Longitude = findcustomer(item.sender.ID).location.Longitude;
+                        saveID = item.ID;
+                    }
+                }
+                Parcel p = findparcel(saveID);
+            }
         }
         public void PickUpParcel(int id)
         {
@@ -252,7 +346,7 @@ namespace BL
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
             ParcelTransactining parcelTransactiningTemp = new();
-            if (d.Status == IDAL.DO.STATUS.DELIVERING)
+            if (d.Status == IDAL.DO.STATUS.BELONG)
             {
                 IDAL.DO.Parcel p = new();
                 foreach (var item in DataSource.parcels)

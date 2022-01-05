@@ -8,7 +8,7 @@ namespace IDAL
 {
     public interface IDal //מועלה
     {
-        double[] power();
+        double[] Power();
         void AddStation(DO.Station s);
         void AddDrone(DO.Drone d);
         void AddCustomer(DO.Customer c);
