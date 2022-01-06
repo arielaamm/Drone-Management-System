@@ -19,17 +19,42 @@ namespace BL
             //ניתן להעזר ראה ParcelNotAssociatedList() בגל אובגקט
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
             List<IDAL.DO.Drone> d = DataSource.drones;
-            IDAL.DO.Drone t = new IDAL.DO.Drone();
+
             foreach (IDAL.DO.Parcel i in p)
             {
-                foreach (IDAL.DO.Drone item in d)
+                Drone tempDrone = new Drone();
+                if (i.Scheduled<DateTime.Now&&i.Deliverd==DateTime.MinValue)//Deliverd==0???
                 {
-                    if ((i.Deliverd == DateTime.MinValue) && (i.DroneId == item.ID))
-                    {
-                        t = item;
-                        t.Status = (IDAL.DO.STATUS)1;
-                        //לא עשיתי צריך לעשות
+                    tempDrone = findDrone (i.SenderId);//
+                    tempDrone.Status = (STATUS)2;
+                    if(i.PickedUp == DateTime.MinValue)
+                    {//shortest station
+                        double shortest=0;
+                        IEnumerable<IDAL.DO.Station> s = dal.Stationlist();
+                        foreach (IDAL.DO.Station item in s)
+                        {
+                            Location sta = new();
+                            sta.Lattitude = item.Lattitude;
+                            sta.Longitude = item.Longitude;
+                            if (shortest > Distans(tempDrone.current, sta))
+                            {
+                                tempDrone.current = sta;
+                            }
+                        }
                     }
+                    if (i.Deliverd == DateTime.MinValue)
+                    {
+                        tempDrone.current = findDrone(i.SenderId).current;
+                    }
+                    Random random = new Random();
+                    tempDrone.Buttery = random.Next(20, 100);
+                    foreach (IDAL.DO.Drone item in DataSource.drones) {
+                        if (tempDrone.ID == item.ID)
+                        {/////////
+                            DataSource.drones.Remove(item);
+                        }
+                    }
+                    DataSource.drones.Add(tempDrone);
                 }
             }
         }
