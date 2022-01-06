@@ -79,4 +79,12 @@ namespace BLExceptions
         public ThereIsNoParcel(string message, Exception innerException) : base(message, innerException) { }
         public ThereIsNoParcel(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class ParcelPastErroeException : Exception
+    {
+        public ParcelPastErroeException() { }
+        public ParcelPastErroeException(string message) : base(message) { }
+        public ParcelPastErroeException(string message, Exception innerException) : base(message, innerException) { }
+        public ParcelPastErroeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

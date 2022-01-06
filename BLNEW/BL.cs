@@ -346,26 +346,50 @@ namespace BL
                 switch (findDrone(id).Weight)
                 {
                     case WEIGHT.LIGHT:
-                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.LIGHT]));
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).current)) * (dal.Power()[(int)WEIGHT.LIGHT]));
                         break;
                     case WEIGHT.MEDIUM:
-                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).current)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
                         break;
                     case WEIGHT.HEAVY:
-                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.HEAVY]));
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).current)) * (dal.Power()[(int)WEIGHT.HEAVY]));
                         break;
                     case WEIGHT.FREE:
-                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.FREE]));
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).current)) * (dal.Power()[(int)WEIGHT.FREE]));
                         break;
                 }
                 findDrone(id).current = findDrone(id).parcel.Lsender;
                 findparcel(findDrone(id).parcel.ID).PickedUp = DateTime.Now;
             }
             else
-                throw new AlreadyPickedUp($"the {findDrone(id).parcel.ID} already have picked up");
+                throw new ParcelPastErroeException($"the {findDrone(id).parcel.ID} already have picked up");
         }
         public void Parceldelivery(int id)
         {
+            if (findDrone(id).Status == STATUS.PICKUP)
+            {
+                switch (findDrone(id).Weight)
+                {
+                    case WEIGHT.LIGHT:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.LIGHT]));
+                        break;
+                    case WEIGHT.MEDIUM:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
+                        break;
+                    case WEIGHT.HEAVY:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.HEAVY]));
+                        break;
+                    case WEIGHT.FREE:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.FREE]));
+                        break;
+                }
+                findDrone(id).current = findDrone(id).parcel.Ltarget;
+                findDrone(id).Status = STATUS.FREE;
+                findparcel(findDrone(id).parcel.ID).Deliverd = DateTime.Now;
+
+            }
+            else
+                throw new ParcelPastErroeException($"the {findDrone(id).parcel.ID} already have delivered");
 
         }
         //-----------------------------------------------------------------------------
@@ -541,19 +565,41 @@ namespace BL
                     {
                         fromCustomer.status = (STATUS)3;
                     }
+                    if (item.Deliverd > DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)5;
+                    }
                     fromCustomer.sender.ID = id;
                     fromCustomer.sender.CustomerName = newCustomer.CustomerName;
                     fromCustomer.target.ID = item.TargetId;
-                    fromCustomer.target.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//bl??dl??
+                    fromCustomer.target.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//dal
                     newCustomer.fromCustomer.Add(fromCustomer);
                 }
-
-                if ((item.TargetId == id) && (item.Deliverd < DateTime.Now))
+                if (item.TargetId == id)
                 {
                     ToCustomer.ID = (int)item.ID;
                     ToCustomer.weight = (WEIGHT)item.Weight;
                     ToCustomer.priority = (PRIORITY)item.Priority;
-                    ToCustomer.status = (STATUS)3;
+                    if (item.Requested < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)0;
+                    }
+                    if (item.Scheduled < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)1;
+                    }
+                    if (item.PickedUp < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)2;
+                    }
+                    if (item.Deliverd < DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)3;
+                    }
+                    if (item.Deliverd > DateTime.Now)
+                    {
+                        fromCustomer.status = (STATUS)5;
+                    }
                     ToCustomer.sender.ID = item.TargetId;
                     ToCustomer.sender.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//bl??dl??
                     ToCustomer.target.ID = id;
@@ -623,23 +669,4 @@ namespace BL
         //-----------------------------------------------------------------------------------------
     }
 
-    [Serializable]
-    internal class AlreadyPickedUp : Exception
-    {
-        public AlreadyPickedUp()
-        {
-        }
-
-        public AlreadyPickedUp(string message) : base(message)
-        {
-        }
-
-        public AlreadyPickedUp(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected AlreadyPickedUp(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-    }
 }
