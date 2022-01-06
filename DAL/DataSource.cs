@@ -97,7 +97,6 @@ namespace DAL
 
             for (int i = 0; i < 10; i++)
             {
-                Customer c = new Customer();
                 int sID = rnd.Next(0, 10);
                 int tID = rnd.Next(0, 10);
                 while (tID==sID)

@@ -1,18 +1,18 @@
-﻿using System;
+﻿using BLExceptions;
+using DAL;
+using IBL.BO;
+using IDAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using DAL;
-using IDAL;
-using BLExceptions;
 using DateTime = System.DateTime;
-using IBL.BO;
-using System.Runtime.Serialization;
 namespace BL
 {
     public class BL : IBL.IBL
-    {    
+    {
         IDal dal = new DalObject();
         public BL()
         {
@@ -23,10 +23,10 @@ namespace BL
             foreach (IDAL.DO.Parcel i in p)
             {
                 foreach (IDAL.DO.Drone item in d)
-                {                
-                    if ((i.Deliverd==DateTime.MinValue)&&(i.DroneId==item.ID))
+                {
+                    if ((i.Deliverd == DateTime.MinValue) && (i.DroneId == item.ID))
                     {
-                        t=item;
+                        t = item;
                         t.Status = (IDAL.DO.STATUS)1;
                         //לא עשיתי צריך לעשות
                     }
@@ -35,7 +35,7 @@ namespace BL
         }
         public double Distans(Location a, Location b)
         {
-             return Math.Sqrt((Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2)));
+            return Math.Sqrt((Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2)));
         }
         //add functaions:
         //---------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace BL
                 throw new AlreadyExistException($"{ex.Message}");
             }
         }
-        public void AddDrone(int id, string name, IBL.BO.WEIGHT weight,int IDStarting)
+        public void AddDrone(int id, string name, IBL.BO.WEIGHT weight, int IDStarting)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace BL
                 dal.AddDrone(tempDrone);
                 dal.AddDroneCharge(tempDroneCharge);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new AlreadyExistException(ex.Message, ex);
             }
@@ -126,12 +126,12 @@ namespace BL
                     Weight = (IDAL.DO.WEIGHT)weight,
                     Priority = (IDAL.DO.PRIORITY)Priority,
                     Requested = DateTime.Now,
-                    Scheduled =DateTime.MinValue,
+                    Scheduled = DateTime.MinValue,
                     PickedUp = DateTime.MinValue,
                     Deliverd = DateTime.MinValue,
                     DroneId = dID,
                 };
-            
+
                 dal.AddParcel(tempParcel);
             }
             catch (Exception ex)
@@ -156,7 +156,7 @@ namespace BL
             dal.AddDrone(d);
         }
 #nullable enable
-        public void UpdateStation(int id,string ? name ,int  TotalChargeslots)
+        public void UpdateStation(int id, string? name, int TotalChargeslots)
         {
             IDAL.DO.Station s = dal.FindStation(id);
             s.StationName = name;
@@ -170,7 +170,7 @@ namespace BL
             }
             dal.AddStation(s);
         }
-        public void UpdateCustomer(int id, string ?NewName, string? NewPhoneNumber)
+        public void UpdateCustomer(int id, string? NewName, string? NewPhoneNumber)
         {
             IDAL.DO.Customer c = dal.FindCustomers(id);
             c.CustomerName = NewName;
@@ -198,7 +198,7 @@ namespace BL
                 int sID = 0;
                 foreach (var item in stations())
                 {
-                    if (Distans(item.location,findDrone(id).current)>distans)
+                    if (Distans(item.location, findDrone(id).current) > distans)
                     {
                         distans = Distans(item.location, findDrone(id).current);
                         sID = item.ID;
@@ -208,7 +208,7 @@ namespace BL
                 findDrone(id).current.Lattitude = findStation(sID).location.Lattitude;
                 findDrone(id).current.Longitude = findStation(sID).location.Longitude;
                 findDrone(id).Status = (STATUS)4;
-                findStation(sID).FreeChargeSlots--; 
+                findStation(sID).FreeChargeSlots--;
                 dal.AddDroneCharge(sID, id);
                 foreach (var item in DAL.DataSource.droneCharges)
                 {
@@ -225,22 +225,22 @@ namespace BL
                 }
             }
         }
-        public void DroneOutCharge(int id,int time)
+        public void DroneOutCharge(int id, int time)
         {
-            
-            if (findDrone(id).Status==(STATUS)4)
+
+            if (findDrone(id).Status == (STATUS)4)
             {
                 findDrone(id).Status = STATUS.FREE;
                 findDrone(id).Buttery = (dal.Power()[4]) * (time);
                 foreach (var item in DAL.DataSource.droneCharges)
                 {
-                    if (item.DroneId==id)
+                    if (item.DroneId == id)
                     {
                         findStation(item.StationId).FreeChargeSlots++;
-                        DataSource.droneCharges.Remove(item); 
+                        DataSource.droneCharges.Remove(item);
                         foreach (var item1 in findStation(item.StationId).DroneChargingInStation)
                         {
-                            if (item1.ID==id)
+                            if (item1.ID == id)
                             {
                                 findStation(item.StationId).DroneChargingInStation.Remove(item1);
                             }
@@ -258,14 +258,14 @@ namespace BL
             if (!(findDrone(id).haveParcel))
             {
                 List<Parcel> temp = parcelsNotAssociated().ToList();
-                List<Parcel> temp1 = temp.FindAll( delegate (Parcel p) {return p.Priority == PRIORITY.SOS;});
-                if (temp1.Count==0)
+                List<Parcel> temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.SOS; });
+                if (temp1.Count == 0)
                 {
-                    temp1=temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
-                    if (temp1.Count==0)
+                    temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
+                    if (temp1.Count == 0)
                     {
-                        temp1=temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
-                        if (temp1.Count==0)
+                        temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
+                        if (temp1.Count == 0)
                         {
                             throw new ThereIsNoParcel("there are no parcel");
                         }
@@ -285,23 +285,48 @@ namespace BL
                     }
                 }
                 Location location = new()
-                { Lattitude=0,Longitude=0, };
+                { Lattitude = 0, Longitude = 0, };
                 int saveID = 0;//בטוח ידרס
                 foreach (var item in temp1)
                 {
-                    if (Distans(findDrone(id).current, findcustomer(item.sender.ID).location) > Distans(findDrone(id).current,location))
+                    if (Distans(findDrone(id).current, findcustomer(item.sender.ID).location) > Distans(findDrone(id).current, location))
                     {
                         location.Lattitude = findcustomer(item.sender.ID).location.Lattitude;
                         location.Longitude = findcustomer(item.sender.ID).location.Longitude;
                         saveID = item.ID;
                     }
                 }
-                Parcel p = findparcel(saveID);
+                findparcel(saveID).Drone.ID = id;
+                findparcel(saveID).Drone.Buttery = findDrone(id).Buttery;
+                findparcel(saveID).Drone.current = findDrone(id).current;
+                findparcel(saveID).Scheduled = DateTime.Now;
+                findDrone(id).Status = STATUS.BELONG;
             }
         }
         public void PickUpParcel(int id)
         {
-
+            if (findDrone(id).Status == STATUS.BELONG)
+            {
+                switch (findDrone(id).Weight)
+                {
+                    case WEIGHT.LIGHT:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.LIGHT]));
+                        break;
+                    case WEIGHT.MEDIUM:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
+                        break;
+                    case WEIGHT.HEAVY:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.HEAVY]));
+                        break;
+                    case WEIGHT.FREE:
+                        findDrone(id).Buttery = findDrone(id).Buttery - ((Distans(findDrone(id).parcel.Lsender, findDrone(id).parcel.Lsender)) * (dal.Power()[(int)WEIGHT.FREE]));
+                        break;
+                }
+                findDrone(id).current = findDrone(id).parcel.Lsender;
+                findparcel(findDrone(id).parcel.ID).PickedUp = DateTime.Now;
+            }
+            else
+                throw new AlreadyPickedUp($"the {findDrone(id).parcel.ID} already have picked up");
         }
         public void Parceldelivery(int id)
         {
@@ -312,12 +337,12 @@ namespace BL
         //------------------------------------------------------------------------------
         public Station findStation(int id)//סיימתי
         {
-            
+
             IDAL.DO.Station s = dal.FindStation(id);
-            Location temp = new Location() 
-            { 
-                Lattitude=s.Lattitude,
-                Longitude=s.Longitude,
+            Location temp = new Location()
+            {
+                Lattitude = s.Lattitude,
+                Longitude = s.Longitude,
             };
             List<DroneCharging> droneChargingTemp = new();
             foreach (var item in DataSource.droneCharges)
@@ -358,7 +383,7 @@ namespace BL
                 IDAL.DO.Customer t = dal.FindCustomers(p.TargetId);
                 CustomerInParcel send = new()
                 {
-                    ID=(int)s.ID,
+                    ID = (int)s.ID,
                     CustomerName = s.CustomerName,
                 };
                 CustomerInParcel target = new()
@@ -366,8 +391,8 @@ namespace BL
                     ID = (int)t.ID,
                     CustomerName = t.CustomerName,
                 };
-                Location locationSend = new() 
-                { 
+                Location locationSend = new()
+                {
                     Lattitude = s.Lattitude,
                     Longitude = s.Longitude,
                 };
@@ -376,7 +401,7 @@ namespace BL
                     Lattitude = t.Lattitude,
                     Longitude = t.Longitude,
                 };
-                
+
                 parcelTransactiningTemp.ID = (int)p.ID;
                 parcelTransactiningTemp.ParcelStatus = p.PickedUp == DateTime.MinValue;
                 parcelTransactiningTemp.priority = (PRIORITY)p.Priority;
@@ -396,7 +421,7 @@ namespace BL
                 Status = (STATUS)d.Status,
                 Buttery = d.Buttery,
                 ///לברר איך מוצאים מיקום של רחפן
-                parcel= parcelTransactiningTemp,
+                parcel = parcelTransactiningTemp,
             };
             return newStation;
         }
@@ -412,13 +437,13 @@ namespace BL
             };
             CustomerInParcel target = new()
             {
-                ID =(int)t.ID,
+                ID = (int)t.ID,
                 CustomerName = t.CustomerName,
-            }; 
+            };
             IDAL.DO.Drone d = dal.FindDrone((int)p.DroneId);
-            DroneInParcel droneInParcelTemp = new() 
-            { 
-                ID=(int)d.ID,
+            DroneInParcel droneInParcelTemp = new()
+            {
+                ID = (int)d.ID,
                 Buttery = d.Buttery,
                 ///לברר מיקום של רחפן
             };
@@ -449,9 +474,9 @@ namespace BL
             };
             Customer newCustomer = new Customer()
             {
-                ID=(int)c.ID,
+                ID = (int)c.ID,
                 CustomerName = c.CustomerName,
-                Phone= c.Phone,
+                Phone = c.Phone,
                 location = temp,
 
             };
@@ -464,7 +489,7 @@ namespace BL
                     fromCustomer.ID = (int)item.ID;
                     fromCustomer.weight = (WEIGHT)item.Weight;
                     fromCustomer.priority = (PRIORITY)item.Priority;
-                    if(item.Requested< DateTime.Now)
+                    if (item.Requested < DateTime.Now)
                     {
                         fromCustomer.status = (STATUS)0;
                     }
@@ -487,7 +512,7 @@ namespace BL
                     newCustomer.fromCustomer.Add(fromCustomer);
                 }
 
-                if ((item.TargetId == id)&& (item.Deliverd < DateTime.Now))
+                if ((item.TargetId == id) && (item.Deliverd < DateTime.Now))
                 {
                     ToCustomer.ID = (int)item.ID;
                     ToCustomer.weight = (WEIGHT)item.Weight;
@@ -560,5 +585,25 @@ namespace BL
             return temp;
         }
         //-----------------------------------------------------------------------------------------
+    }
+
+    [Serializable]
+    internal class AlreadyPickedUp : Exception
+    {
+        public AlreadyPickedUp()
+        {
+        }
+
+        public AlreadyPickedUp(string message) : base(message)
+        {
+        }
+
+        public AlreadyPickedUp(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected AlreadyPickedUp(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }
