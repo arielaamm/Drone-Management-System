@@ -23,38 +23,49 @@ namespace BL
             foreach (IDAL.DO.Parcel i in p)
             {
                 Drone tempDrone = new Drone();
-                if (i.Scheduled<DateTime.Now&&i.Deliverd==DateTime.MinValue)//Deliverd==0???
+                if ((i.Scheduled!=DateTime.MinValue)&&(i.Deliverd==DateTime.MinValue)&&(i.DroneId!=0))//Deliverd==0???
                 {
-                    tempDrone = findDrone (i.SenderId);//
-                    tempDrone.Status = (STATUS)2;
-                    if(i.PickedUp == DateTime.MinValue)
+                    tempDrone = findDrone(i.SenderId);
+                    findDrone(i.SenderId).Status = (STATUS)2;
+                    if ((i.PickedUp == DateTime.MinValue)&&(i.Scheduled!=DateTime.MinValue))
                     {//shortest station
-                        double shortest=0;
-                        IEnumerable<IDAL.DO.Station> s = dal.Stationlist();
-                        foreach (IDAL.DO.Station item in s)
+                        Location sta = new();
+                        foreach (IDAL.DO.Station item in dal.Stationlist())
                         {
-                            Location sta = new();
-                            sta.Lattitude = item.Lattitude;
-                            sta.Longitude = item.Longitude;
-                            if (shortest > Distans(tempDrone.current, sta))
+                            if (Distans(findDrone(i.SenderId).current, findDrone((int)i.ID).current) > Distans(findDrone((int)i.ID).current, sta))
                             {
-                                tempDrone.current = sta;
+                                sta = findDrone(i.SenderId).current;
                             }
                         }
                     }
-                    if (i.Deliverd == DateTime.MinValue)
+                    if ((i.Deliverd == DateTime.MinValue)&&(i.PickedUp != DateTime.MinValue))
                     {
-                        tempDrone.current = findDrone(i.SenderId).current;
+                        findDrone(i.SenderId).current = findDrone(i.SenderId).current;
                     }
                     Random random = new Random();
-                    tempDrone.Buttery = random.Next(20, 100);
-                    foreach (IDAL.DO.Drone item in DataSource.drones) {
-                        if (tempDrone.ID == item.ID)
-                        {/////////
-                            DataSource.drones.Remove(item);
+                    if (i.Scheduled == DateTime.MinValue)
+                    {
+                        if (random.Next(1, 2) == 1)
+                        {
+                            findDrone(i.SenderId).Status = STATUS.FREE;
+                            List<Parcel> pa = new();
+                            foreach (var item in parcels())
+                            {
+                                pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != DateTime.MinValue); });//לקוח שקיבל חבילה
+                            }
+                            findDrone(i.SenderId).current = findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
+                            findDrone(i.SenderId).Buttery = random.Next(20, 100);
+
                         }
+                        else
+                        {
+                            List<Station> s = new();
+                            findDrone(i.SenderId).current = FreeChargeslots().ToList()[random.Next(0, (FreeChargeslots().Count()) - 1)].location;
+                            findDrone(i.SenderId).Buttery = random.Next(0, 20);
+                            findDrone(i.SenderId).Status = STATUS.MAINTENANCE;
+                        }
+
                     }
-                    DataSource.drones.Add(tempDrone);
                 }
             }
         }
