@@ -80,6 +80,15 @@ namespace BLExceptions
         public ThereIsNoParcel(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
+    public class AlreadyPickedUp : Exception
+    {
+        public AlreadyPickedUp() { }
+        public AlreadyPickedUp(string message) : base(message) { }
+        public AlreadyPickedUp(string message, Exception innerException) : base(message, innerException) { }
+        public AlreadyPickedUp(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+    [Serializable]
     public class ParcelPastErroeException : Exception
     {
         public ParcelPastErroeException() { }

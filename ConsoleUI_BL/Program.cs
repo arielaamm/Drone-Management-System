@@ -27,6 +27,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("add station => 1\nadd drone => 2\nadd customer => 3\nadd parcel => 4");
             string t;
             t = Console.ReadLine();
+            string type;
             switch (t)
             {
                 #region Add station
@@ -52,16 +53,23 @@ namespace ConsoleUI_BL
                 case "Add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
-                    if (chackID(idDrone, "d") != 1)
+                    if (chackID(idDrone, "d") != -1)
                     {
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
                     string nameDrone = Console.ReadLine();
                     IBL.BO.WEIGHT weightDrone = (IBL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
-                    if (((int)weightDrone != 1) || ((int)weightDrone != 2) || ((int)weightDrone != 3))
+                    if (((int)weightDrone <1) || ((int)weightDrone > 3))
                         throw new PutTheRightNumber($"this weight {weightDrone} is not in the right form");
-
+                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    type = Console.ReadLine();
+                    if (type == "1")
+                    {
+                        Viewid("s");
+                        Console.WriteLine("enter Station's id new");
+                    }
                     int IDStartingStation = int.Parse(Console.ReadLine());
+                    
                     p.AddDrone(idDrone, nameDrone, weightDrone, IDStartingStation);
                     break;
                 #endregion
@@ -69,13 +77,13 @@ namespace ConsoleUI_BL
                 case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");
                     int idCustomer = int.Parse(Console.ReadLine());
-                    if (chackID(idCustomer, "c") != 1)
+                    if (chackID(idCustomer, "c") != -1)
                     {
                         throw new AlreadyExistException($"this id {idCustomer} already exist");
                     }
                     string nameCustomer = Console.ReadLine();
                     string phoneCustomer = Console.ReadLine();
-                    if ((phoneCustomer.Length==10)&&(phoneCustomer[0]=='0')&&(phoneCustomer[1]=='5')) 
+                    if (!((phoneCustomer.Length==10)&&(phoneCustomer[0]==48)&&(phoneCustomer[1]==53)))
                         throw new NotTheRightForm($"this phone number {phoneCustomer} is not in the right form");
                     Location locationCustomer = new()
                     {
@@ -88,13 +96,21 @@ namespace ConsoleUI_BL
                 #region Add parcel
                 case "add parcel" or "4":
                     Console.WriteLine("enter SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
+                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    type = Console.ReadLine();
+                    if (type == "1")
+                    {
+                        Viewid("c");
+                        Console.WriteLine("enter custemer's id new");
+                    }
                     int SenderIdParcel = int.Parse(Console.ReadLine());
                     int TargetIdParcel = int.Parse(Console.ReadLine());
                     IBL.BO.WEIGHT weightParcel = (IBL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
-                    if(((int)weightParcel !=1) || ((int)weightParcel != 2) || ((int)weightParcel != 3))
+                    
+                    if (((int)weightParcel < 1) || ((int)weightParcel > 3))
                         throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
                     int temp = int.Parse(Console.ReadLine());
-                    if ((temp != 1) || (temp != 2) || (temp != 3))
+                    if ((temp < 1) || (temp > 3))
                         throw new PutTheRightNumber($"this priority {temp} is not in the right form");
                     IBL.BO.PRIORITY priorityParcel = (IBL.BO.PRIORITY)temp;
                     p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
@@ -500,25 +516,32 @@ namespace ConsoleUI_BL
                             $"Weight: {item.Weight}.\n" +
                             $"Status: {item.Status}.\n" +
                             $"Buttery: {item.Buttery}.\n" +
-                            $"Location: {item.current.Lattitude},{item.current.Longitude}.\n" +
-                            "Parcel In Transactining");
-                        Console.WriteLine(
-                            $"\tID: {item.parcel.ID}.\n" +
-                            $"\tParcel Status: {item.parcel.ParcelStatus}.\n" +
-                            $"\tpriority: {item.parcel.priority}.\n" +
-                            $"\tweight: {item.parcel.weight}.\n" +
-                            $"\tThe sender fo parcel:" +
-                            $"\t\tSender ID: {item.parcel.sender.ID}.\n" +
-                            $"\t\tSender name: {item.parcel.sender.CustomerName}.\n" +
-                            $"\t\tSender Location: {item.parcel.Lsender.Lattitude}," +
-                            $"{item.parcel.Lsender.Longitude}\n" +
-                            $"\tThe receiver fo parcel:" +
-                            $"\t\tReceiver ID: {item.parcel.target.ID}.\n" +
-                            $"\t\tReceiver name: {item.parcel.target.CustomerName}.\n" +
-                            $"\t\tReceiver Location: {item.parcel.Ltarget.Lattitude}," +
-                            $"{item.parcel.Ltarget.Longitude}\n" +
-                            $"distance: {item.parcel.distance}.\n"
-                            );
+                            $"Location: {item.current.Lattitude},{item.current.Longitude}.\n");
+                        try
+                        {
+                            Console.WriteLine(
+                                "Parcel In Transactining" +
+                                $"\tID: {item.parcel.ID}.\n" +
+                                $"\tParcel Status: {item.parcel.ParcelStatus}.\n" +
+                                $"\tpriority: {item.parcel.priority}.\n" +
+                                $"\tweight: {item.parcel.weight}.\n" +
+                                $"\tThe sender fo parcel:" +
+                                $"\t\tSender ID: {item.parcel.sender.ID}.\n" +
+                                $"\t\tSender name: {item.parcel.sender.CustomerName}.\n" +
+                                $"\t\tSender Location: {item.parcel.Lsender.Lattitude}," +
+                                $"{item.parcel.Lsender.Longitude}\n" +
+                                $"\tThe receiver fo parcel:" +
+                                $"\t\tReceiver ID: {item.parcel.target.ID}.\n" +
+                                $"\t\tReceiver name: {item.parcel.target.CustomerName}.\n" +
+                                $"\t\tReceiver Location: {item.parcel.Ltarget.Lattitude}," +
+                                $"{item.parcel.Ltarget.Longitude}\n" +
+                                $"distance: {item.parcel.distance}.\n"
+                                );
+                        }
+                        catch(Exception)
+                        {
+                            continue;
+                        }
                     }
                     break;
                 #endregion
@@ -534,32 +557,46 @@ namespace ConsoleUI_BL
                             $"Parcel from {item.CustomerName}");
                         foreach (var item1 in item.fromCustomer)
                         {
-                            Console.WriteLine(
-                            $"\tID: {item1.ID}.\n" +
-                            $"\tweight: {item1.weight}.\n" +
-                            $"\tpriority: {item1.priority}.\n" +
-                            $"\tStatus: {item1.status}.\n" +
-                            $"\tThe sender fo parcel:" +
-                            $"\t\tSender ID: {item1.sender.ID}.\n" +
-                            $"\t\tSender name: {item1.sender.CustomerName}.\n" +
-                            $"\tThe receiver fo parcel:" +
-                            $"\t\tReceiver ID: {item1.target.ID}.\n" +
-                            $"\t\tReceiver name: {item1.target.CustomerName}.");
+                            try
+                            {
+                                Console.WriteLine(
+                                $"\tID: {item1.ID}.\n" +
+                                $"\tweight: {item1.weight}.\n" +
+                                $"\tpriority: {item1.priority}.\n" +
+                                $"\tStatus: {item1.status}.\n" +
+                                $"\tThe sender fo parcel:\n" +
+                                $"\t\tSender ID: {item1.sender.ID}.\n" +
+                                $"\t\tSender name: {item1.sender.CustomerName}.\n" +
+                                $"\tThe receiver fo parcel:\n" +
+                                $"\t\tReceiver ID: {item1.target.ID}.\n" +
+                                $"\t\tReceiver name: {item1.target.CustomerName}.");
+                            }
+                            catch(Exception)
+                            {
+                                continue;
+                            }
                         }
                         Console.WriteLine($"Parcel to {item.CustomerName}");
                         foreach (var item2 in item.toCustomer)
                         {
-                            Console.WriteLine(
-                                $"\tID: {item2.ID}.\n" +
-                                $"\tweight: {item2.weight}.\n" +
-                                $"\tpriority: {item2.priority}.\n" +
-                                $"\tStatus: {item2.status}.\n" +
-                                $"\tThe sender fo parcel:" +
-                                $"\t\tSender ID: {item2.sender.ID}.\n" +
-                                $"\t\tSender name: {item2.sender.CustomerName}.\n" +
-                                $"\tThe receiver fo parcel:" +
-                                $"\t\tReceiver ID: {item2.target.ID}.\n" +
-                                $"\t\tReceiver name: {item2.target.CustomerName}.");
+                            try
+                            {
+                                Console.WriteLine(
+                                    $"\tID: {item2.ID}.\n" +
+                                    $"\tweight: {item2.weight}.\n" +
+                                    $"\tpriority: {item2.priority}.\n" +
+                                    $"\tStatus: {item2.status}.\n" +
+                                    $"\tThe sender fo parcel:\n"+
+                                    $"\t\tSender ID: {item2.sender.ID}.\n" +
+                                    $"\t\tSender name: {item2.sender.CustomerName}.\n" +
+                                    $"\tThe receiver fo parcel:\n"+
+                                    $"\t\tReceiver ID: {item2.target.ID}.\n" +
+                                    $"\t\tReceiver name: {item2.target.CustomerName}.");
+                            }
+                            catch(Exception)
+                            {
+                                continue;
+                            }
                         };
                     }     
                     break;
@@ -575,13 +612,13 @@ namespace ConsoleUI_BL
                             $"\tSende Name: {item.sender.CustomerName}.\n" +
                             "Receiver:\n" +
                             $"\tReceiver ID: {item.target.ID}.\n" +
-                            $"\tReceiver name: {item.target.CustomerName}." +
+                            $"\tReceiver name: {item.target.CustomerName}.\n" +
                             $"weight: {item.Weight}.\n" +
                             $"priority: {item.Priority}.\n" +
                             "The Drone of the Parcel:\n" +
                             $"\tID: {item.Drone.ID}.\n" +
                             $"\tButtery: {item.Drone.Buttery}.\n" +
-                            $"\tLocation: {item.Drone.current.Lattitude}," +
+                            $"\tLocation: {item.Drone.current.Lattitude},\n" +
                             $"{item.Drone.current.Longitude}\n" +
                             $"Requested: {item.Requested}.\n" +
                             $"Scheduled: {item.Scheduled}.\n" +
@@ -654,7 +691,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine("Addition(= 1), Updating(= 2), Display(= 3), List view(= 4) or Exit(= 5)");
                 Option = Console.ReadLine();
                 try
-                {
+                    {
                     switch (Option)
                     {
                         case "Addition" or "1":

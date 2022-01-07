@@ -16,5 +16,8 @@ namespace IDAL.DO
         public WEIGHT Weight { set; get; }
         public STATUS Status { set; get; }
         public double Buttery { set; get; } 
+        public double Longitude { set; get; }
+        public double Lattitude { set; get; }
+
     } 
 }

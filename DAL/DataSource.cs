@@ -59,6 +59,8 @@ namespace DAL
                     Model = "MBL" + (rnd.Next(0, 100)),
                     Buttery = 100,
                     haveParcel = false,
+                    Lattitude = stations[rnd.Next(0,stations.Count-1)].Lattitude,
+                    Longitude = stations[rnd.Next(0, stations.Count - 1)].Longitude,
                 };
                 Station s = new Station();
                 foreach (var item in stations)
@@ -109,10 +111,10 @@ namespace DAL
                     ID = staticId,
                     SenderId = (int)customers[sID].ID,
                     TargetId = (int)customers[tID].ID,
-                    Weight = (WEIGHT)rnd.Next(1, 3),
+                    Weight = (WEIGHT)rnd.Next(0, 3),
                     Priority = (PRIORITY)rnd.Next(1, 3),
                     Requested = DateTime.Now,
-                    DroneId = 0,
+                    DroneId = drones[rnd.Next(0, drones.Count - 1)].ID,
                     Scheduled = DateTime.MinValue,
                     PickedUp = DateTime.MinValue,
                     Deliverd = DateTime.MinValue,

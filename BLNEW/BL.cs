@@ -23,11 +23,11 @@ namespace BL
             foreach (IDAL.DO.Parcel i in p)
             {
                 Drone tempDrone = new Drone();
-                if ((i.Scheduled!=DateTime.MinValue)&&(i.Deliverd==DateTime.MinValue)&&(i.DroneId!=0))//Deliverd==0???
+                if ((i.Scheduled != DateTime.MinValue) && (i.Deliverd == DateTime.MinValue) && (i.DroneId != 0))//Deliverd==0???
                 {
                     tempDrone = findDrone(i.SenderId);
                     findDrone(i.SenderId).Status = (STATUS)2;
-                    if ((i.PickedUp == DateTime.MinValue)&&(i.Scheduled!=DateTime.MinValue))
+                    if ((i.PickedUp == DateTime.MinValue) && (i.Scheduled != DateTime.MinValue))
                     {//shortest station
                         Location sta = new();
                         foreach (IDAL.DO.Station item in dal.Stationlist())
@@ -38,7 +38,7 @@ namespace BL
                             }
                         }
                     }
-                    if ((i.Deliverd == DateTime.MinValue)&&(i.PickedUp != DateTime.MinValue))
+                    if ((i.Deliverd == DateTime.MinValue) && (i.PickedUp != DateTime.MinValue))
                     {
                         findDrone(i.SenderId).current = findDrone(i.SenderId).current;
                     }
@@ -113,7 +113,7 @@ namespace BL
                     DroneId = id,
                     StationId = IDStarting,
                 };
-
+                findStation(IDStarting).FreeChargeSlots--;
                 dal.AddDrone(tempDrone);
                 dal.AddDroneCharge(tempDroneCharge);
             }
@@ -422,7 +422,7 @@ namespace BL
                 ID = (int)s.ID,
                 StationName = s.StationName,
                 location = temp,
-                FreeChargeSlots = s.ChargeSlots,
+                FreeChargeSlots = 5 - droneChargingTemp.Count,
                 DroneChargingInStation = droneChargingTemp,
             };
             return newStation;
@@ -431,6 +431,20 @@ namespace BL
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
             ParcelTransactining parcelTransactiningTemp = new();
+            Drone newStation = new Drone();
+            newStation.haveParcel = d.haveParcel;
+            newStation.ID = (int)d.ID;
+            newStation.Model = d.Model;
+            newStation.Weight = (WEIGHT)d.Weight;
+            newStation.Status = (STATUS)d.Status;
+            newStation.Buttery = d.Buttery;
+            Location locationDrone = new()
+            {
+                Lattitude = d.Lattitude,
+                Longitude = d.Longitude,
+            };
+            newStation.current = locationDrone;
+
             if (d.Status == IDAL.DO.STATUS.BELONG)
             {
                 IDAL.DO.Parcel p = new();
@@ -471,18 +485,10 @@ namespace BL
                 parcelTransactiningTemp.Lsender = locationSend;
                 parcelTransactiningTemp.Ltarget = locationTarget;
                 parcelTransactiningTemp.distance = Distans(locationSend, locationTarget);
+                newStation.parcel = parcelTransactiningTemp;
+
             }
-            Drone newStation = new Drone()
-            {
-                haveParcel = d.haveParcel,
-                ID = (int)d.ID,
-                Model = d.Model,
-                Weight = (WEIGHT)d.Weight,
-                Status = (STATUS)d.Status,
-                Buttery = d.Buttery,
-                ///לברר איך מוצאים מיקום של רחפן
-                parcel = parcelTransactiningTemp,
-            };
+
             return newStation;
         }
         public Parcel findparcel(int id)//סיימתי
@@ -501,11 +507,16 @@ namespace BL
                 CustomerName = t.CustomerName,
             };
             IDAL.DO.Drone d = dal.FindDrone((int)p.DroneId);
+            Location tempD = new Location()
+            {
+                Lattitude = d.Lattitude,
+                Longitude = d.Longitude,
+            };
             DroneInParcel droneInParcelTemp = new()
             {
                 ID = (int)d.ID,
                 Buttery = d.Buttery,
-                ///לברר מיקום של רחפן
+                current = tempD
             };
             Parcel newParcel = new Parcel()
             {
@@ -540,73 +551,98 @@ namespace BL
                 location = temp,
 
             };
-            ParcelInCustomer fromCustomer = new();
-            ParcelInCustomer ToCustomer = new();
-            foreach (var item in p)
+            List<ParcelInCustomer> TempFromCustomer = new();
+            ParcelInCustomer item = new();
+            foreach (var item1 in p)
             {
-                if (item.SenderId == id)
+                if (item1.SenderId == id)
                 {
-                    fromCustomer.ID = (int)item.ID;
-                    fromCustomer.weight = (WEIGHT)item.Weight;
-                    fromCustomer.priority = (PRIORITY)item.Priority;
-                    if (item.Requested < DateTime.Now)
+                    item.ID = (int)item1.ID;
+                    item.priority = (PRIORITY)item1.Priority;
+                    item.weight = (WEIGHT)item1.Weight;
+                    if (item1.Requested < DateTime.Now && item1.Requested != DateTime.MinValue)
                     {
-                        fromCustomer.status = (STATUS)0;
+                        item.status = (STATUS)0;
                     }
-                    if (item.Scheduled < DateTime.Now)
+                    if (item1.Scheduled < DateTime.Now && item1.Scheduled != DateTime.MinValue)
                     {
-                        fromCustomer.status = (STATUS)1;
+                        item.status = (STATUS)1;
                     }
-                    if (item.PickedUp < DateTime.Now)
+                    if (item1.PickedUp < DateTime.Now && item1.PickedUp != DateTime.MinValue)
                     {
-                        fromCustomer.status = (STATUS)2;
+                        item.status = (STATUS)2;
                     }
-                    if (item.Deliverd < DateTime.Now)
+                    if (item1.Deliverd < DateTime.Now && item1.Deliverd != DateTime.MinValue)
                     {
-                        fromCustomer.status = (STATUS)3;
+                        item.status = (STATUS)3;
                     }
-                    if (item.Deliverd > DateTime.Now)
+                    if (item1.Deliverd > DateTime.Now)
                     {
-                        fromCustomer.status = (STATUS)5;
+                        item.status = (STATUS)5;
                     }
-                    fromCustomer.sender.ID = id;
-                    fromCustomer.sender.CustomerName = newCustomer.CustomerName;
-                    fromCustomer.target.ID = item.TargetId;
-                    fromCustomer.target.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//dal
-                    newCustomer.fromCustomer.Add(fromCustomer);
-                }
-                if (item.TargetId == id)
-                {
-                    ToCustomer.ID = (int)item.ID;
-                    ToCustomer.weight = (WEIGHT)item.Weight;
-                    ToCustomer.priority = (PRIORITY)item.Priority;
-                    if (item.Requested < DateTime.Now)
+                    CustomerInParcel q = new()
                     {
-                        fromCustomer.status = (STATUS)0;
-                    }
-                    if (item.Scheduled < DateTime.Now)
+                        ID = id,
+                        CustomerName = c.CustomerName,
+                    };
+                    item.sender = q;
+                    CustomerInParcel o = new()
                     {
-                        fromCustomer.status = (STATUS)1;
-                    }
-                    if (item.PickedUp < DateTime.Now)
-                    {
-                        fromCustomer.status = (STATUS)2;
-                    }
-                    if (item.Deliverd < DateTime.Now)
-                    {
-                        fromCustomer.status = (STATUS)3;
-                    }
-                    if (item.Deliverd > DateTime.Now)
-                    {
-                        fromCustomer.status = (STATUS)5;
-                    }
-                    ToCustomer.sender.ID = item.TargetId;
-                    ToCustomer.sender.CustomerName = dal.FindCustomers(item.TargetId).CustomerName;//bl??dl??
-                    ToCustomer.target.ID = id;
-                    ToCustomer.target.CustomerName = newCustomer.CustomerName;
-                    newCustomer.toCustomer.Add(ToCustomer);
+                        ID = item1.TargetId,
+                        CustomerName = dal.FindCustomers(item1.TargetId).CustomerName,
+                    };
+                    item.target = o;
+                    TempFromCustomer.Add(item);
                 }
             }
+
+            List<ParcelInCustomer> TempToCustomer = new();
+            ParcelInCustomer item2 = new();
+            foreach (var item3 in p)
+            {
+                if (item3.TargetId == id)
+                {
+                    item2.ID = (int)item3.ID;
+                    item2.priority = (PRIORITY)item3.Priority;
+                    item2.weight = (WEIGHT)item3.Weight;
+                    if (item3.Requested < DateTime.Now && item3.Requested != DateTime.MinValue)
+                    {
+                        item2.status = (STATUS)0;
+                    }
+                    if (item3.Scheduled < DateTime.Now && item3.Scheduled != DateTime.MinValue)
+                    {
+                        item2.status = (STATUS)1;
+                    }
+                    if (item3.PickedUp < DateTime.Now && item3.PickedUp != DateTime.MinValue)
+                    {
+                        item2.status = (STATUS)2;
+                    }
+                    if (item3.Deliverd < DateTime.Now && item3.Deliverd != DateTime.MinValue)
+                    {
+                        item2.status = (STATUS)3;
+                    }
+                    if (item3.Deliverd > DateTime.Now)
+                    {
+                        item2.status = (STATUS)5;
+                    }
+                    CustomerInParcel q = new()
+                    {
+                        ID = id,
+                        CustomerName = c.CustomerName,
+                    };
+                    item2.target = q;
+                    CustomerInParcel o = new()
+                    {
+                        ID = item3.SenderId,
+                        CustomerName = dal.FindCustomers(item3.TargetId).CustomerName,
+                    };
+                    item.sender = o;
+                    TempToCustomer.Add(item2);
+                }
+            }
+
+            newCustomer.fromCustomer = TempFromCustomer;
+            newCustomer.toCustomer = TempToCustomer;
             return newCustomer;
         }
         //-----------------------------------------------------------------------------------
@@ -660,13 +696,15 @@ namespace BL
         public IEnumerable<Station> FreeChargeslots()
         {
             List<Station> temp = new();
-            foreach (var item in dal.Freechargeslotslist())
+            foreach (var item in dal.Stationlist())
             {
-                temp.Add(findStation((int)item.ID));
+                if (item.ChargeSlots > 0)
+                {
+                    temp.Add(findStation((int)item.ID));
+                }
             }
             return temp;
         }
         //-----------------------------------------------------------------------------------------
     }
-
 }
