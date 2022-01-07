@@ -447,7 +447,7 @@ namespace BL
 
             if (d.Status == IDAL.DO.STATUS.BELONG)
             {
-                IDAL.DO.Parcel p = new();
+                IDAL.DO.Parcel p = new(); 
                 foreach (var item in DataSource.parcels)
                 {
                     if (item.DroneId == id)
