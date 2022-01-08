@@ -20,15 +20,15 @@ namespace IBL
         void AttacheDrone(int id);
         void PickUpParcel(int id);
         void Parceldelivery(int id);
-        Station findStation(int id);
-        Drone findDrone(int id);
-        Parcel findparcel(int id);
-        Customer findcustomer(int id);
+        Station FindStation(int id);
+        Drone FindDrone(int id);
+        Parcel Findparcel(int id);
+        Customer Findcustomer(int id);
         IEnumerable<Station> stations();
         IEnumerable<Drone> drones();
         IEnumerable<Parcel> parcels();
         IEnumerable<Customer> customers();
         IEnumerable<Parcel> parcelsNotAssociated();
-        IEnumerable<Station> FreeChargeslots();
+        IEnumerable<Station> freeChargeslots();
     }
 }
