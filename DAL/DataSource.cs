@@ -115,9 +115,9 @@ namespace DAL
                     Priority = (PRIORITY)rnd.Next(1, 3),
                     Requested = DateTime.Now,
                     DroneId = drones[rnd.Next(0, drones.Count - 1)].ID,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Deliverd = DateTime.MinValue,
+                    Scheduled = null,
+                    PickedUp = null,
+                    Deliverd = null,
                 };
                 staticId++;
                 parcels.Add(p);

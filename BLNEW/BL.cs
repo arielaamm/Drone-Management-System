@@ -25,11 +25,11 @@ namespace BL
             foreach (IDAL.DO.Parcel i in p)
             {
                 Drone tempDrone = new Drone();
-                if ((i.Scheduled != DateTime.MinValue) && (i.Deliverd == DateTime.MinValue) && (i.DroneId != 0))//Deliverd==0???
+                if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))//Deliverd==0???
                 {
                     tempDrone = FindDrone(i.SenderId);
                     FindDrone(i.SenderId).Status = (STATUS)2;
-                    if ((i.PickedUp == DateTime.MinValue) && (i.Scheduled != DateTime.MinValue))
+                    if ((i.PickedUp == null) && (i.Scheduled != null))
                     {//shortest station
                         Location sta = new();
                         foreach (IDAL.DO.Station item in dal.Stationlist())
@@ -40,20 +40,20 @@ namespace BL
                             }
                         }
                     }
-                    if ((i.Deliverd == DateTime.MinValue) && (i.PickedUp != DateTime.MinValue))
+                    if ((i.Deliverd == null) && (i.PickedUp != null))
                     {
                         FindDrone(i.SenderId).current = FindDrone(i.SenderId).current;
                     }
                     Random random = new Random();
-                    if (i.Scheduled == DateTime.MinValue)
+                    if (i.Scheduled == null)
                     {
                         if (random.Next(1, 2) == 1)
                         {
-                            FindDrone(i.SenderId).Status = STATUS.FREE;
+                            FindDrone(i.SenderId).Status = STATUS.CREAT;
                             List<Parcel> pa = new();
                             foreach (var item in parcels())
                             {
-                                pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != DateTime.MinValue); });//לקוח שקיבל חבילה
+                                pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
                             }
                             FindDrone(i.SenderId).current = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
                             FindDrone(i.SenderId).Buttery = random.Next(20, 100);
@@ -186,9 +186,9 @@ namespace BL
                     Weight = (IDAL.DO.WEIGHT)weight,
                     Priority = (IDAL.DO.PRIORITY)Priority,
                     Requested = DateTime.Now,
-                    Scheduled = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Deliverd = DateTime.MinValue,
+                    Scheduled = null,
+                    PickedUp = null,
+                    Deliverd = null,
                     DroneId = dID,
                 };
 
@@ -311,7 +311,7 @@ namespace BL
 
             if (FindDrone(id).Status == (STATUS)4)
             {
-                FindDrone(id).Status = STATUS.FREE;
+                FindDrone(id).Status = STATUS.CREAT;
                 FindDrone(id).Buttery = (dal.Power()[4]) * (time);
                 foreach (var item in DAL.DataSource.droneCharges)
                 {
@@ -441,7 +441,7 @@ namespace BL
                         break;
                 }
                 FindDrone(id).current = FindDrone(id).parcel.Ltarget;
-                FindDrone(id).Status = STATUS.FREE;
+                FindDrone(id).Status = STATUS.CREAT;
                 Findparcel(FindDrone(id).parcel.ID).Deliverd = DateTime.Now;
 
             }
@@ -545,7 +545,7 @@ namespace BL
                 };
 
                 parcelTransactiningTemp.ID = (int)p.ID;
-                parcelTransactiningTemp.ParcelStatus = p.PickedUp == DateTime.MinValue;
+                parcelTransactiningTemp.ParcelStatus = p.PickedUp == null;
                 parcelTransactiningTemp.priority = (PRIORITY)p.Priority;
                 parcelTransactiningTemp.weight = (WEIGHT)p.Weight;
                 parcelTransactiningTemp.sender = send;
@@ -627,7 +627,6 @@ namespace BL
                 CustomerName = c.CustomerName,
                 Phone = c.Phone,
                 location = temp,
-
             };
             List<ParcelInCustomer> TempFromCustomer = new();
             ParcelInCustomer item = new();
@@ -638,25 +637,25 @@ namespace BL
                     item.ID = (int)item1.ID;
                     item.priority = (PRIORITY)item1.Priority;
                     item.weight = (WEIGHT)item1.Weight;
-                    if (item1.Requested < DateTime.Now && item1.Requested != DateTime.MinValue)
+                    if (item1.Requested < DateTime.Now && item1.Requested != null)
                     {
                         item.status = (STATUS)0;
                     }
-                    if (item1.Scheduled < DateTime.Now && item1.Scheduled != DateTime.MinValue)
+                    if (item1.Scheduled < DateTime.Now && item1.Scheduled != null)
                     {
                         item.status = (STATUS)1;
                     }
-                    if (item1.PickedUp < DateTime.Now && item1.PickedUp != DateTime.MinValue)
+                    if (item1.PickedUp < DateTime.Now && item1.PickedUp != null)
                     {
                         item.status = (STATUS)2;
                     }
-                    if (item1.Deliverd < DateTime.Now && item1.Deliverd != DateTime.MinValue)
+                    if (item1.Deliverd < DateTime.Now && item1.Deliverd != null)
                     {
                         item.status = (STATUS)3;
                     }
-                    if (item1.Deliverd > DateTime.Now)
+                    if (item1.Deliverd != null && item1.Scheduled == null)
                     {
-                        item.status = (STATUS)5;
+                        item.status = (STATUS)0;
                     }
                     CustomerInParcel q = new()
                     {
@@ -673,7 +672,6 @@ namespace BL
                     TempFromCustomer.Add(item);
                 }
             }
-
             List<ParcelInCustomer> TempToCustomer = new();
             ParcelInCustomer item2 = new();
             foreach (var item3 in p)
@@ -683,25 +681,25 @@ namespace BL
                     item2.ID = (int)item3.ID;
                     item2.priority = (PRIORITY)item3.Priority;
                     item2.weight = (WEIGHT)item3.Weight;
-                    if (item3.Requested < DateTime.Now && item3.Requested != DateTime.MinValue)
+                    if (item3.Requested < DateTime.Now && item3.Requested != null)
                     {
                         item2.status = (STATUS)0;
                     }
-                    if (item3.Scheduled < DateTime.Now && item3.Scheduled != DateTime.MinValue)
+                    if (item3.Scheduled < DateTime.Now && item3.Scheduled != null)
                     {
                         item2.status = (STATUS)1;
                     }
-                    if (item3.PickedUp < DateTime.Now && item3.PickedUp != DateTime.MinValue)
+                    if (item3.PickedUp < DateTime.Now && item3.PickedUp != null)
                     {
                         item2.status = (STATUS)2;
                     }
-                    if (item3.Deliverd < DateTime.Now && item3.Deliverd != DateTime.MinValue)
+                    if (item3.Deliverd < DateTime.Now && item3.Deliverd != null)
                     {
                         item2.status = (STATUS)3;
                     }
-                    if (item3.Deliverd > DateTime.Now)
+                    if (item3.Deliverd != null && item3.Scheduled == null)
                     {
-                        item2.status = (STATUS)5;
+                        item2.status = (STATUS)0;
                     }
                     CustomerInParcel q = new()
                     {
@@ -718,7 +716,6 @@ namespace BL
                     TempToCustomer.Add(item2);
                 }
             }
-
             newCustomer.fromCustomer = TempFromCustomer;
             newCustomer.toCustomer = TempToCustomer;
             return newCustomer;
