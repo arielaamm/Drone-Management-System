@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using IBL;
 namespace PL
 {
     /// <summary>
@@ -20,9 +20,15 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        IBL.IBL bl=new BL.BL();
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Btn_viewDrone_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
