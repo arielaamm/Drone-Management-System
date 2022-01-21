@@ -19,8 +19,11 @@ namespace PL
     /// </summary>
     public partial class DroneListView : Window
     {
-        public DroneListView()
+        IBL.IBL parameter;
+        public DroneListView(IBL.IBL bl)
         {
+            parameter = bl;
+            DroneListView.ItemsSource = bl.drones();
             InitializeComponent();
         }
     }

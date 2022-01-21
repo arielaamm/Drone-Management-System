@@ -28,7 +28,7 @@ namespace PL
 
         private void Btn_viewDrone_Click(object sender, RoutedEventArgs e)
         {
-
+            new DroneListView(bl).Show();
         }
     }
 }
