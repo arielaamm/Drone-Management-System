@@ -22,9 +22,9 @@ namespace PL
         IBL.IBL parameter;
         public DroneListView(IBL.IBL bl)
         {
-            parameter = bl;
-            DroneListView.ItemsSource = bl.drones();
-            InitializeComponent();
+            //parameter = bl;
+            //DroneListView.ItemsSource = bl.drones();
+            //InitializeComponent();
         }
     }
 }
