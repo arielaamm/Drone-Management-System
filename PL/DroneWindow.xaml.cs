@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for DroneView.xaml
+    /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class DroneView : Window
+    public partial class DroneWindow : Window
     {
-        public DroneView()
+        public DroneWindow()
         {
             InitializeComponent();
         }
