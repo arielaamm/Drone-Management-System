@@ -28,43 +28,43 @@ namespace BL
                 if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))//Deliverd==0???
                 {
                     tempDrone = FindDrone(i.SenderId);
-                    FindDrone(i.SenderId).Status = (STATUS)2;
+                    FindDrone(i.SenderId).Status = (Status)2;
                     if ((i.PickedUp == null) && (i.Scheduled != null))
                     {//shortest station
                         Location sta = new();
                         foreach (IDAL.DO.Station item in dal.Stationlist())
                         {
-                            if (Distans(FindDrone(i.SenderId).current, FindDrone((int)i.ID).current) > Distans(FindDrone((int)i.ID).current, sta))
+                            if (Distans(FindDrone(i.SenderId).Position, FindDrone((int)i.ID).Position) > Distans(FindDrone((int)i.ID).Position, sta))
                             {
-                                sta = FindDrone(i.SenderId).current;
+                                sta = FindDrone(i.SenderId).Position;
                             }
                         }
                     }
                     if ((i.Deliverd == null) && (i.PickedUp != null))
                     {
-                        FindDrone(i.SenderId).current = FindDrone(i.SenderId).current;
+                        FindDrone(i.SenderId).Position = FindDrone(i.SenderId).Position;
                     }
                     Random random = new Random();
                     if (i.Scheduled == null)
                     {
                         if (random.Next(1, 2) == 1)
                         {
-                            FindDrone(i.SenderId).Status = STATUS.CREAT;
+                            FindDrone(i.SenderId).Status = Status.CREAT;
                             List<Parcel> pa = new();
                             foreach (var item in parcels())
                             {
                                 pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
                             }
-                            FindDrone(i.SenderId).current = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
-                            FindDrone(i.SenderId).Buttery = random.Next(20, 100);
+                            FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
+                            FindDrone(i.SenderId).Battery = random.Next(20, 100);
 
                         }
                         else
                         {
                             List<Station> s = new();
-                            FindDrone(i.SenderId).current = freeChargeslots().ToList()[random.Next(0, (freeChargeslots().Count()) - 1)].location;
-                            FindDrone(i.SenderId).Buttery = random.Next(0, 20);
-                            FindDrone(i.SenderId).Status = STATUS.MAINTENANCE;
+                            FindDrone(i.SenderId).Position = freeChargeslots().ToList()[random.Next(0, (freeChargeslots().Count()) - 1)].location;
+                            FindDrone(i.SenderId).Battery = random.Next(0, 20);
+                            FindDrone(i.SenderId).Status = Status.MAINTENANCE;
                         }
 
                     }
@@ -111,7 +111,7 @@ namespace BL
         /// <summary>
         /// Add drone
         /// </summary>
-        public void AddDrone(int id, string name, IBL.BO.WEIGHT weight, int IDStarting)
+        public void AddDrone(int id, string name, IBL.BO.Weight weight, int IDStarting)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace BL
         /// <summary>
         /// Add parcel
         /// </summary>
-        public void AddParcel(int SenderId, int TargetId, IBL.BO.WEIGHT weight, IBL.BO.PRIORITY Priority)
+        public void AddParcel(int SenderId, int TargetId, IBL.BO.Weight weight, IBL.BO.Priority Priority)
         {
             int? dID = null;
             foreach (var item in dal.Dronelist())
@@ -275,16 +275,16 @@ namespace BL
                 int sID = 0;
                 foreach (var item in stations())
                 {
-                    if (Distans(item.location, FindDrone(id).current) > distans)
+                    if (Distans(item.location, FindDrone(id).Position) > distans)
                     {
-                        distans = Distans(item.location, FindDrone(id).current);
+                        distans = Distans(item.location, FindDrone(id).Position);
                         sID = item.ID;
                     }
                 }
                 //מצב סוללה יעודכן בהתאם למרחק בין הרחפן לתחנה
-                FindDrone(id).current.Lattitude = FindStation(sID).location.Lattitude;
-                FindDrone(id).current.Longitude = FindStation(sID).location.Longitude;
-                FindDrone(id).Status = (STATUS)4;
+                FindDrone(id).Position.Lattitude = FindStation(sID).location.Lattitude;
+                FindDrone(id).Position.Longitude = FindStation(sID).location.Longitude;
+                FindDrone(id).Status = (Status)4;
                 FindStation(sID).FreeChargeSlots--;
                 dal.AddDroneCharge(sID, id);
                 foreach (var item in DAL.DataSource.droneCharges)
@@ -309,10 +309,10 @@ namespace BL
         public void DroneOutCharge(int id, int time)
         {
 
-            if (FindDrone(id).Status == (STATUS)4)
+            if (FindDrone(id).Status == (Status)4)
             {
-                FindDrone(id).Status = STATUS.CREAT;
-                FindDrone(id).Buttery = (dal.Power()[4]) * (time);
+                FindDrone(id).Status = Status.CREAT;
+                FindDrone(id).Battery = (dal.Power()[4]) * (time);
                 foreach (var item in DAL.DataSource.droneCharges)
                 {
                     if (item.DroneId == id)
@@ -340,29 +340,29 @@ namespace BL
         /// </summary>
         public void AttacheDrone(int id)
         {
-            if (!(FindDrone(id).haveParcel))
+            if (!(FindDrone(id).HasParcel))
             {
                 List<Parcel> temp = parcelsNotAssociated().ToList();
-                List<Parcel> temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.SOS; });
+                List<Parcel> temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == Priority.SOS; });
                 if (temp1.Count == 0)
                 {
-                    temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
+                    temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == Priority.FAST; });
                     if (temp1.Count == 0)
                     {
-                        temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
+                        temp1 = temp.FindAll(delegate (Parcel p) { return p.Priority == Priority.REGULAR; });
                         if (temp1.Count == 0)
                         {
                             throw new ThereIsNoParcel("there are no parcel");
                         }
                     }
                 }
-                temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.SOS; });
+                temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == Priority.SOS; });
                 if (temp1.Count == 0)
                 {
-                    temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.FAST; });
+                    temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == Priority.FAST; });
                     if (temp1.Count == 0)
                     {
-                        temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == PRIORITY.REGULAR; });
+                        temp1 = temp1.FindAll(delegate (Parcel p) { return p.Priority == Priority.REGULAR; });
                         if (temp1.Count == 0)
                         {
                             throw new ThereIsNoParcel("there are no parcel");
@@ -374,7 +374,7 @@ namespace BL
                 int saveID = 0;//בטוח ידרס
                 foreach (var item in temp1)
                 {
-                    if (Distans(FindDrone(id).current, Findcustomer(item.sender.ID).location) > Distans(FindDrone(id).current, location))
+                    if (Distans(FindDrone(id).Position, Findcustomer(item.sender.ID).location) > Distans(FindDrone(id).Position, location))
                     {
                         location.Lattitude = Findcustomer(item.sender.ID).location.Lattitude;
                         location.Longitude = Findcustomer(item.sender.ID).location.Longitude;
@@ -382,10 +382,10 @@ namespace BL
                     }
                 }
                 Findparcel(saveID).Drone.ID = id;
-                Findparcel(saveID).Drone.Buttery = FindDrone(id).Buttery;
-                Findparcel(saveID).Drone.current = FindDrone(id).current;
+                Findparcel(saveID).Drone.Buttery = FindDrone(id).Battery;
+                Findparcel(saveID).Drone.current = FindDrone(id).Position;
                 Findparcel(saveID).Scheduled = DateTime.Now;
-                FindDrone(id).Status = STATUS.BELONG;
+                FindDrone(id).Status = Status.BELONG;
             }
         }
         
@@ -394,28 +394,28 @@ namespace BL
         /// </summary>
         public void PickUpParcel(int id)
         {
-            if (FindDrone(id).Status == STATUS.BELONG)
+            if (FindDrone(id).Status == Status.BELONG)
             {
                 switch (FindDrone(id).Weight)
                 {
-                    case WEIGHT.LIGHT:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).current)) * (dal.Power()[(int)WEIGHT.LIGHT]));
+                    case Weight.LIGHT:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.LIGHT]));
                         break;
-                    case WEIGHT.MEDIUM:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).current)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
+                    case Weight.MEDIUM:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.MEDIUM]));
                         break;
-                    case WEIGHT.HEAVY:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).current)) * (dal.Power()[(int)WEIGHT.HEAVY]));
+                    case Weight.HEAVY:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.HEAVY]));
                         break;
-                    case WEIGHT.FREE:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).current)) * (dal.Power()[(int)WEIGHT.FREE]));
+                    case Weight.FREE:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.FREE]));
                         break;
                 }
-                FindDrone(id).current = FindDrone(id).parcel.Lsender;
-                Findparcel(FindDrone(id).parcel.ID).PickedUp = DateTime.Now;
+                FindDrone(id).Position = FindDrone(id).Parcel.Lsender;
+                Findparcel(FindDrone(id).Parcel.ID).PickedUp = DateTime.Now;
             }
             else
-                throw new ParcelPastErroeException($"the {FindDrone(id).parcel.ID} already have picked up");
+                throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
         }
         
         /// <summary>
@@ -423,30 +423,30 @@ namespace BL
         /// </summary>
         public void Parceldelivery(int id)
         {
-            if (FindDrone(id).Status == STATUS.PICKUP)
+            if (FindDrone(id).Status == Status.PICKUP)
             {
                 switch (FindDrone(id).Weight)
                 {
-                    case WEIGHT.LIGHT:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.LIGHT]));
+                    case Weight.LIGHT:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.LIGHT]));
                         break;
-                    case WEIGHT.MEDIUM:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.MEDIUM]));
+                    case Weight.MEDIUM:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.MEDIUM]));
                         break;
-                    case WEIGHT.HEAVY:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.HEAVY]));
+                    case Weight.HEAVY:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.HEAVY]));
                         break;
-                    case WEIGHT.FREE:
-                        FindDrone(id).Buttery = FindDrone(id).Buttery - ((Distans(FindDrone(id).parcel.Lsender, FindDrone(id).parcel.Ltarget)) * (dal.Power()[(int)WEIGHT.FREE]));
+                    case Weight.FREE:
+                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.FREE]));
                         break;
                 }
-                FindDrone(id).current = FindDrone(id).parcel.Ltarget;
-                FindDrone(id).Status = STATUS.CREAT;
-                Findparcel(FindDrone(id).parcel.ID).Deliverd = DateTime.Now;
+                FindDrone(id).Position = FindDrone(id).Parcel.Ltarget;
+                FindDrone(id).Status = Status.CREAT;
+                Findparcel(FindDrone(id).Parcel.ID).Deliverd = DateTime.Now;
 
             }
             else
-                throw new ParcelPastErroeException($"the {FindDrone(id).parcel.ID} already have delivered");
+                throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have delivered");
 
         }
         
@@ -498,20 +498,20 @@ namespace BL
         public Drone FindDrone(int id)//סיימתי
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
-            ParcelTransactining parcelTransactiningTemp = new();
+            ParcelTransactioning parcelTransactiningTemp = new();
             Drone newStation = new Drone();
-            newStation.haveParcel = d.haveParcel;
+            newStation.HasParcel = d.haveParcel;
             newStation.ID = (int)d.ID;
             newStation.Model = d.Model;
-            newStation.Weight = (WEIGHT)d.Weight;
-            newStation.Status = (STATUS)d.Status;
-            newStation.Buttery = d.Buttery;
+            newStation.Weight = (Weight)d.Weight;
+            newStation.Status = (Status)d.Status;
+            newStation.Battery = d.Buttery;
             Location locationDrone = new()
             {
                 Lattitude = d.Lattitude,
                 Longitude = d.Longitude,
             };
-            newStation.current = locationDrone;
+            newStation.Position = locationDrone;
 
             if (d.Status == IDAL.DO.STATUS.BELONG)
             {
@@ -546,14 +546,14 @@ namespace BL
 
                 parcelTransactiningTemp.ID = (int)p.ID;
                 parcelTransactiningTemp.ParcelStatus = p.PickedUp == null;
-                parcelTransactiningTemp.priority = (PRIORITY)p.Priority;
-                parcelTransactiningTemp.weight = (WEIGHT)p.Weight;
+                parcelTransactiningTemp.priority = (Priority)p.Priority;
+                parcelTransactiningTemp.weight = (Weight)p.Weight;
                 parcelTransactiningTemp.sender = send;
                 parcelTransactiningTemp.target = target;
                 parcelTransactiningTemp.Lsender = locationSend;
                 parcelTransactiningTemp.Ltarget = locationTarget;
                 parcelTransactiningTemp.distance = Distans(locationSend, locationTarget);
-                newStation.parcel = parcelTransactiningTemp;
+                newStation.Parcel = parcelTransactiningTemp;
 
             }
 
@@ -596,8 +596,8 @@ namespace BL
                 ID = (int)p.ID,
                 sender = send,
                 target = target,
-                Weight = (WEIGHT)p.Weight,
-                Priority = (PRIORITY)p.Priority,
+                Weight = (Weight)p.Weight,
+                Priority = (Priority)p.Priority,
                 Drone = droneInParcelTemp,
                 Requested = p.Requested,
                 Scheduled = p.Scheduled,
@@ -635,27 +635,27 @@ namespace BL
                 if (item1.SenderId == id)
                 {
                     item.ID = (int)item1.ID;
-                    item.priority = (PRIORITY)item1.Priority;
-                    item.weight = (WEIGHT)item1.Weight;
+                    item.priority = (Priority)item1.Priority;
+                    item.weight = (Weight)item1.Weight;
                     if (item1.Requested < DateTime.Now && item1.Requested != null)
                     {
-                        item.status = (STATUS)0;
+                        item.status = (Status)0;
                     }
                     if (item1.Scheduled < DateTime.Now && item1.Scheduled != null)
                     {
-                        item.status = (STATUS)1;
+                        item.status = (Status)1;
                     }
                     if (item1.PickedUp < DateTime.Now && item1.PickedUp != null)
                     {
-                        item.status = (STATUS)2;
+                        item.status = (Status)2;
                     }
                     if (item1.Deliverd < DateTime.Now && item1.Deliverd != null)
                     {
-                        item.status = (STATUS)3;
+                        item.status = (Status)3;
                     }
                     if (item1.Deliverd != null && item1.Scheduled == null)
                     {
-                        item.status = (STATUS)0;
+                        item.status = (Status)0;
                     }
                     CustomerInParcel q = new()
                     {
@@ -679,27 +679,27 @@ namespace BL
                 if (item3.TargetId == id)
                 {
                     item2.ID = (int)item3.ID;
-                    item2.priority = (PRIORITY)item3.Priority;
-                    item2.weight = (WEIGHT)item3.Weight;
+                    item2.priority = (Priority)item3.Priority;
+                    item2.weight = (Weight)item3.Weight;
                     if (item3.Requested < DateTime.Now && item3.Requested != null)
                     {
-                        item2.status = (STATUS)0;
+                        item2.status = (Status)0;
                     }
                     if (item3.Scheduled < DateTime.Now && item3.Scheduled != null)
                     {
-                        item2.status = (STATUS)1;
+                        item2.status = (Status)1;
                     }
                     if (item3.PickedUp < DateTime.Now && item3.PickedUp != null)
                     {
-                        item2.status = (STATUS)2;
+                        item2.status = (Status)2;
                     }
                     if (item3.Deliverd < DateTime.Now && item3.Deliverd != null)
                     {
-                        item2.status = (STATUS)3;
+                        item2.status = (Status)3;
                     }
                     if (item3.Deliverd != null && item3.Scheduled == null)
                     {
-                        item2.status = (STATUS)0;
+                        item2.status = (Status)0;
                     }
                     CustomerInParcel q = new()
                     {
@@ -743,7 +743,7 @@ namespace BL
         /// reture all the drones
         /// </summary>
         /// <returns>the drones</returns>
-        public IEnumerable<Drone> drones()
+        public IEnumerable<Drone> Drones()
         {
             List<Drone> temp = new();
             foreach (var item in dal.Dronelist())

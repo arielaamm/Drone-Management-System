@@ -11,9 +11,9 @@ namespace IBL.BO
         public int ID { set; get; }
         public string SenderName { set; get; }
         public string TargetName { set; get; }
-        public WEIGHT Weight { set; get; }
-        public PRIORITY Priority { set; get; }
-        public STATUS status { set; get; }
+        public Weight Weight { set; get; }
+        public Priority Priority { set; get; }
+        public Status status { set; get; }
 
     }//done
 }

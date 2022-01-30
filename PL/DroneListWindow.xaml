@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="640" Width="800">
+        Title="DroneListWindow" Height="640" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource self}}">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -19,18 +20,18 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="StatusSeletor" Grid.Column="1" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}"/>
-            <ComboBox x:Name="WightsSeletor" Grid.Column="2" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WightsSeletor_SelectionChanged" ItemsSource="{Binding}"/>
+            <ComboBox x:Name="WightsSeletor" Grid.Column="2" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}"/>
             <Label Content="Label" HorizontalAlignment="Stretch" Margin="20,19,20,10" VerticalAlignment="Top"/>
         </Grid>
-        <DataGrid Name="DroneListView" ItemsSource="{Binding }" AutoGenerateColumns="False" Grid.Row="1">
+        <DataGrid ItemsSource="{Binding Drones}" AutoGenerateColumns="False" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
                 <DataGridTextColumn Header="Buttery" Binding="{Binding Buttery}" />
-                <DataGridTextColumn Header="current Lattitude" Binding="{Binding current.Lattitude}" />
-                <DataGridTextColumn Header="current Longitude" Binding="{Binding current.Longitude}" />
+                <DataGridTextColumn Header="Lattitude" Binding="{Binding current.Lattitude}" />
+                <DataGridTextColumn Header="Longitude" Binding="{Binding current.Longitude}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

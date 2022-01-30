@@ -10,8 +10,8 @@ namespace IBL.BO
     {
         public int ID { get; set; }
         public string Model { set; get; }
-        public WEIGHT Weight { set; get; }
-        public STATUS Status { set; get; }
+        public Weight Weight { set; get; }
+        public Status Status { set; get; }
         public double Buttery { set; get; }
         public Location current { set; get; }
         public int IdParcel  { set; get; }

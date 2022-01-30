@@ -11,8 +11,8 @@ namespace IBL.BO
         public int ID { set; get; }
         public CustomerInParcel sender { set; get; }
         public CustomerInParcel target { set; get; }
-        public WEIGHT Weight { set; get; }
-        public PRIORITY Priority { set; get; }
+        public Weight Weight { set; get; }
+        public Priority Priority { set; get; }
         public DroneInParcel Drone { set; get; }
         public DateTime? Requested { set; get; }//יצירה
         public DateTime? Scheduled { set; get; }//שיוך

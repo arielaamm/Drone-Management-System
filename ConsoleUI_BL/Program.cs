@@ -68,7 +68,7 @@ namespace ConsoleUI_BL
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
                     string nameDrone = Console.ReadLine();
-                    IBL.BO.WEIGHT weightDrone = (IBL.BO.WEIGHT)int.Parse(Console.ReadLine()); 
+                    IBL.BO.Weight weightDrone = (IBL.BO.Weight)int.Parse(Console.ReadLine()); 
                     if (((int)weightDrone <1) || ((int)weightDrone > 3))
                         throw new PutTheRightNumber($"this weight {weightDrone} is not in the right form");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -115,14 +115,14 @@ namespace ConsoleUI_BL
                     }
                     int SenderIdParcel = int.Parse(Console.ReadLine());
                     int TargetIdParcel = int.Parse(Console.ReadLine());
-                    IBL.BO.WEIGHT weightParcel = (IBL.BO.WEIGHT)(int.Parse(Console.ReadLine()));
+                    IBL.BO.Weight weightParcel = (IBL.BO.Weight)(int.Parse(Console.ReadLine()));
                     
                     if (((int)weightParcel < 1) || ((int)weightParcel > 3))
                         throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
                     int temp = int.Parse(Console.ReadLine());
                     if ((temp < 1) || (temp > 3))
                         throw new PutTheRightNumber($"this priority {temp} is not in the right form");
-                    IBL.BO.PRIORITY priorityParcel = (IBL.BO.PRIORITY)temp;
+                    IBL.BO.Priority priorityParcel = (IBL.BO.Priority)temp;
                     p.AddParcel(SenderIdParcel, TargetIdParcel, weightParcel, priorityParcel);
                     break;
                 #endregion
@@ -291,7 +291,7 @@ namespace ConsoleUI_BL
                     int idDroneAttache = Int32.Parse(Console.ReadLine());
                     if (ChackID(idDroneAttache, "d") == -1)
                         throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
-                    if (p.FindDrone(idDroneAttache).haveParcel)
+                    if (p.FindDrone(idDroneAttache).HasParcel)
                         throw new DroneAloreadyAttached($"this drone is already attached");
                     p.AttacheDrone(idDroneAttache);
                     break;
@@ -392,25 +392,25 @@ namespace ConsoleUI_BL
                         $"Model: {d.Model}.\n" +
                         $"Weight: {d.Weight}.\n" + 
                         $"Status: {d.Status}.\n" +
-                        $"Buttery: {d.Buttery}.\n" +
-                        $"Location: {d.current.Lattitude},{d.current.Longitude}.\n" +
+                        $"Buttery: {d.Battery}.\n" +
+                        $"Location: {d.Position.Lattitude},{d.Position.Longitude}.\n" +
                         "Parcel In Transactining");
                     Console.WriteLine(
-                        $"\tID: {d.parcel.ID}.\n" +
-                        $"\tParcel Status: {d.parcel.ParcelStatus}.\n" +
-                        $"\tpriority: {d.parcel.priority}.\n" +
-                        $"\tweight: {d.parcel.weight}.\n" +
+                        $"\tID: {d.Parcel.ID}.\n" +
+                        $"\tParcel Status: {d.Parcel.ParcelStatus}.\n" +
+                        $"\tpriority: {d.Parcel.priority}.\n" +
+                        $"\tweight: {d.Parcel.weight}.\n" +
                         $"\tThe sender fo parcel:" +
-                        $"\t\tSender ID: {d.parcel.sender.ID}.\n" + 
-                        $"\t\tSender name: {d.parcel.sender.CustomerName}.\n" +
-                        $"\t\tSender Location: {d.parcel.Lsender.Lattitude}," +
-                        $"{d.parcel.Lsender.Longitude}\n" +
+                        $"\t\tSender ID: {d.Parcel.sender.ID}.\n" + 
+                        $"\t\tSender name: {d.Parcel.sender.CustomerName}.\n" +
+                        $"\t\tSender Location: {d.Parcel.Lsender.Lattitude}," +
+                        $"{d.Parcel.Lsender.Longitude}\n" +
                         $"\tThe receiver fo parcel:" +
-                        $"\t\tReceiver ID: {d.parcel.target.ID}.\n" +
-                        $"\t\tReceiver name: {d.parcel.target.CustomerName}.\n" +
-                        $"\t\tReceiver Location: {d.parcel.Ltarget.Lattitude}," +
-                        $"{d.parcel.Ltarget.Longitude}\n" +
-                        $"distance: {d.parcel.distance}.\n" 
+                        $"\t\tReceiver ID: {d.Parcel.target.ID}.\n" +
+                        $"\t\tReceiver name: {d.Parcel.target.CustomerName}.\n" +
+                        $"\t\tReceiver Location: {d.Parcel.Ltarget.Lattitude}," +
+                        $"{d.Parcel.Ltarget.Longitude}\n" +
+                        $"distance: {d.Parcel.distance}.\n" 
                         );
                     break;
                 #endregion
@@ -530,34 +530,34 @@ namespace ConsoleUI_BL
                 #endregion
                 #region Drones
                 case "Drones" or "2":
-                    foreach (var item in p.drones())
+                    foreach (var item in p.Drones())
                     {
                         Console.WriteLine(
                             $"ID: {item.ID}.\n" +
                             $"Model: {item.Model}.\n" +
                             $"Weight: {item.Weight}.\n" +
                             $"Status: {item.Status}.\n" +
-                            $"Buttery: {item.Buttery}.\n" +
-                            $"Location: {item.current.Lattitude},{item.current.Longitude}.\n");
+                            $"Buttery: {item.Battery}.\n" +
+                            $"Location: {item.Position.Lattitude},{item.Position.Longitude}.\n");
                         try
                         {
                             Console.WriteLine(
                                 "Parcel In Transactining" +
-                                $"\tID: {item.parcel.ID}.\n" +
-                                $"\tParcel Status: {item.parcel.ParcelStatus}.\n" +
-                                $"\tpriority: {item.parcel.priority}.\n" +
-                                $"\tweight: {item.parcel.weight}.\n" +
+                                $"\tID: {item.Parcel.ID}.\n" +
+                                $"\tParcel Status: {item.Parcel.ParcelStatus}.\n" +
+                                $"\tpriority: {item.Parcel.priority}.\n" +
+                                $"\tweight: {item.Parcel.weight}.\n" +
                                 $"\tThe sender fo parcel:" +
-                                $"\t\tSender ID: {item.parcel.sender.ID}.\n" +
-                                $"\t\tSender name: {item.parcel.sender.CustomerName}.\n" +
-                                $"\t\tSender Location: {item.parcel.Lsender.Lattitude}," +
-                                $"{item.parcel.Lsender.Longitude}\n" +
+                                $"\t\tSender ID: {item.Parcel.sender.ID}.\n" +
+                                $"\t\tSender name: {item.Parcel.sender.CustomerName}.\n" +
+                                $"\t\tSender Location: {item.Parcel.Lsender.Lattitude}," +
+                                $"{item.Parcel.Lsender.Longitude}\n" +
                                 $"\tThe receiver fo parcel:" +
-                                $"\t\tReceiver ID: {item.parcel.target.ID}.\n" +
-                                $"\t\tReceiver name: {item.parcel.target.CustomerName}.\n" +
-                                $"\t\tReceiver Location: {item.parcel.Ltarget.Lattitude}," +
-                                $"{item.parcel.Ltarget.Longitude}\n" +
-                                $"distance: {item.parcel.distance}.\n"
+                                $"\t\tReceiver ID: {item.Parcel.target.ID}.\n" +
+                                $"\t\tReceiver name: {item.Parcel.target.CustomerName}.\n" +
+                                $"\t\tReceiver Location: {item.Parcel.Ltarget.Lattitude}," +
+                                $"{item.Parcel.Ltarget.Longitude}\n" +
+                                $"distance: {item.Parcel.distance}.\n"
                                 );
                         }
                         catch(Exception)
