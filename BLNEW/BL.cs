@@ -87,16 +87,15 @@ namespace BL
         /// <summary>
         /// Add station
         /// </summary>
-        public void AddStation(int id, string name, Location location, int ChargeSlots)
+        public void AddStation(Station station)
         {
-
             IDAL.DO.Station tempStation = new IDAL.DO.Station()
             {
-                ID = id,
-                StationName = name,
-                Longitude = location.Longitude,
-                Lattitude = location.Lattitude,
-                ChargeSlots = ChargeSlots,
+                ID = station.ID,
+                StationName = station.StationName,
+                Longitude = station.location.Longitude,
+                Lattitude = station.location.Lattitude,
+                ChargeSlots = station.FreeChargeSlots,
             };
             try
             {
@@ -111,23 +110,23 @@ namespace BL
         /// <summary>
         /// Add drone
         /// </summary>
-        public void AddDrone(int id, string name, IBL.BO.Weight weight, int IDStarting)
+        public void AddDrone(Drone drone, int IDStarting)
         {
             try
             {
                 Random random = new Random();
                 IDAL.DO.Drone tempDrone = new IDAL.DO.Drone()
                 {
-                    ID = id,
-                    Model = name,
-                    Weight = (IDAL.DO.WEIGHT)weight,
-                    Buttery = random.Next(20, 40),
-                    haveParcel = true,
+                    ID = drone.ID,
+                    Model = drone.Model,
+                    Weight = (IDAL.DO.WEIGHT)drone.Weight,
+                    Buttery = drone.Battery,
+                    haveParcel = drone.HasParcel,
                 };
                 IDAL.DO.DroneCharge tempDroneCharge = new IDAL.DO.DroneCharge()
                 {
-                    DroneId = id,
-                    StationId = IDStarting,
+                    DroneId = drone.ID,
+                    StationId =  IDStarting,
                 };
                 FindStation(IDStarting).FreeChargeSlots--;
                 dal.AddDrone(tempDrone);
@@ -143,17 +142,17 @@ namespace BL
         /// <summary>
         /// Add customer
         /// </summary>
-        public void AddCustomer(int id, string name, string PhoneNumber, Location location)
+        public void AddCustomer(Customer customer)
         {
             try
             {
                 IDAL.DO.Customer tempCustomer = new IDAL.DO.Customer()
                 {
-                    ID = id,
-                    CustomerName = name,
-                    Longitude = location.Longitude,
-                    Lattitude = location.Lattitude,
-                    Phone = PhoneNumber,
+                    ID = customer.ID,
+                    CustomerName = customer.CustomerName,
+                    Longitude = customer.location.Longitude,
+                    Lattitude = customer.location.Lattitude,
+                    Phone = customer.Phone,
                 };
 
                 dal.AddCustomer(tempCustomer);
@@ -167,7 +166,7 @@ namespace BL
         /// <summary>
         /// Add parcel
         /// </summary>
-        public void AddParcel(int SenderId, int TargetId, IBL.BO.Weight weight, IBL.BO.Priority Priority)
+        public void AddParcel(Parcel parcel)
         {
             int? dID = null;
             foreach (var item in dal.Dronelist())
@@ -181,14 +180,14 @@ namespace BL
             {
                 IDAL.DO.Parcel tempParcel = new IDAL.DO.Parcel()
                 {
-                    SenderId = SenderId,
-                    TargetId = TargetId,
-                    Weight = (IDAL.DO.WEIGHT)weight,
-                    Priority = (IDAL.DO.PRIORITY)Priority,
-                    Requested = DateTime.Now,
-                    Scheduled = null,
-                    PickedUp = null,
-                    Deliverd = null,
+                    SenderId = parcel.sender.ID,
+                    TargetId = parcel.target.ID,
+                    Weight = (IDAL.DO.WEIGHT)parcel.Weight,
+                    Priority = (IDAL.DO.PRIORITY)parcel.Priority,
+                    Requested = parcel.Requested,
+                    Scheduled = parcel.Scheduled,
+                    PickedUp = parcel.PickedUp,
+                    Deliverd = parcel.Deliverd,
                     DroneId = dID,
                 };
 
@@ -207,13 +206,13 @@ namespace BL
         /// <summary>
         /// Update Drone model
         /// </summary>
-        public void UpdateDrone(int id, string name)
+        public void UpdateDrone(Drone drone)
         {
-            IDAL.DO.Drone d = dal.FindDrone(id);
-            d.Model = name;
+            IDAL.DO.Drone d = dal.FindDrone(drone.ID);
+            d.Model = drone.Model;
             foreach (var item in DataSource.drones)
             {
-                if (item.ID == id)
+                if (item.ID == drone.ID)
                 {
                     DataSource.drones.Remove(item);
                 }
@@ -225,14 +224,14 @@ namespace BL
         /// Update Station details
         /// </summary>
 #nullable enable
-        public void UpdateStation(int id, string? name, int TotalChargeslots)
+        public void UpdateStation(Station station)
         {
-            IDAL.DO.Station s = dal.FindStation(id);
-            s.StationName = name;
-            s.ChargeSlots = TotalChargeslots;
+            IDAL.DO.Station s = dal.FindStation(station.ID);
+            s.StationName = station.StationName;
+            s.ChargeSlots = station.FreeChargeSlots;
             foreach (var item in DataSource.stations)
             {
-                if (item.ID == id)
+                if (item.ID == station.ID)
                 {
                     DataSource.stations.Remove(item);
                 }
@@ -243,14 +242,14 @@ namespace BL
         /// <summary>
         /// Update Custemer details
         /// </summary>
-        public void UpdateCustomer(int id, string? NewName, string? NewPhoneNumber)
+        public void UpdateCustomer(Customer customer)
         {
-            IDAL.DO.Customer c = dal.FindCustomers(id);
-            c.CustomerName = NewName;
-            c.Phone = NewPhoneNumber;
+            IDAL.DO.Customer c = dal.FindCustomers(customer.ID);
+            c.CustomerName = customer.CustomerName;
+            c.Phone = customer.Phone;
             foreach (var item in DataSource.customers)
             {
-                if (item.ID == id)
+                if (item.ID == customer.ID)
                 {
                     DataSource.customers.Remove(item);
                 }
@@ -383,7 +382,7 @@ namespace BL
                 }
                 Findparcel(saveID).Drone.ID = id;
                 Findparcel(saveID).Drone.Buttery = FindDrone(id).Battery;
-                Findparcel(saveID).Drone.current = FindDrone(id).Position;
+                Findparcel(saveID).Drone.Position = FindDrone(id).Position;
                 Findparcel(saveID).Scheduled = DateTime.Now;
                 FindDrone(id).Status = Status.BELONG;
             }
@@ -589,7 +588,7 @@ namespace BL
             {
                 ID = (int)d.ID,
                 Buttery = d.Buttery,
-                current = tempD
+                Position = tempD
             };
             Parcel newParcel = new Parcel()
             {
@@ -635,40 +634,40 @@ namespace BL
                 if (item1.SenderId == id)
                 {
                     item.ID = (int)item1.ID;
-                    item.priority = (Priority)item1.Priority;
-                    item.weight = (Weight)item1.Weight;
+                    item.Priority = (Priority)item1.Priority;
+                    item.Weight = (Weight)item1.Weight;
                     if (item1.Requested < DateTime.Now && item1.Requested != null)
                     {
-                        item.status = (Status)0;
+                        item.Status = (Status)0;
                     }
                     if (item1.Scheduled < DateTime.Now && item1.Scheduled != null)
                     {
-                        item.status = (Status)1;
+                        item.Status = (Status)1;
                     }
                     if (item1.PickedUp < DateTime.Now && item1.PickedUp != null)
                     {
-                        item.status = (Status)2;
+                        item.Status = (Status)2;
                     }
                     if (item1.Deliverd < DateTime.Now && item1.Deliverd != null)
                     {
-                        item.status = (Status)3;
+                        item.Status = (Status)3;
                     }
                     if (item1.Deliverd != null && item1.Scheduled == null)
                     {
-                        item.status = (Status)0;
+                        item.Status = (Status)0;
                     }
                     CustomerInParcel q = new()
                     {
                         ID = id,
                         CustomerName = c.CustomerName,
                     };
-                    item.sender = q;
+                    item.Sender = q;
                     CustomerInParcel o = new()
                     {
                         ID = item1.TargetId,
                         CustomerName = dal.FindCustomers(item1.TargetId).CustomerName,
                     };
-                    item.target = o;
+                    item.Target = o;
                     TempFromCustomer.Add(item);
                 }
             }
@@ -679,40 +678,40 @@ namespace BL
                 if (item3.TargetId == id)
                 {
                     item2.ID = (int)item3.ID;
-                    item2.priority = (Priority)item3.Priority;
-                    item2.weight = (Weight)item3.Weight;
+                    item2.Priority = (Priority)item3.Priority;
+                    item2.Weight = (Weight)item3.Weight;
                     if (item3.Requested < DateTime.Now && item3.Requested != null)
                     {
-                        item2.status = (Status)0;
+                        item2.Status = (Status)0;
                     }
                     if (item3.Scheduled < DateTime.Now && item3.Scheduled != null)
                     {
-                        item2.status = (Status)1;
+                        item2.Status = (Status)1;
                     }
                     if (item3.PickedUp < DateTime.Now && item3.PickedUp != null)
                     {
-                        item2.status = (Status)2;
+                        item2.Status = (Status)2;
                     }
                     if (item3.Deliverd < DateTime.Now && item3.Deliverd != null)
                     {
-                        item2.status = (Status)3;
+                        item2.Status = (Status)3;
                     }
                     if (item3.Deliverd != null && item3.Scheduled == null)
                     {
-                        item2.status = (Status)0;
+                        item2.Status = (Status)0;
                     }
                     CustomerInParcel q = new()
                     {
                         ID = id,
                         CustomerName = c.CustomerName,
                     };
-                    item2.target = q;
+                    item2.Target = q;
                     CustomerInParcel o = new()
                     {
                         ID = item3.SenderId,
                         CustomerName = dal.FindCustomers(item3.TargetId).CustomerName,
                     };
-                    item.sender = o;
+                    item.Sender = o;
                     TempToCustomer.Add(item2);
                 }
             }
@@ -729,12 +728,20 @@ namespace BL
         /// reture all the stations
         /// </summary>
         /// <returns>the stations</returns>
-        public IEnumerable<Station> stations()
+        public IEnumerable<StationToList> stations()
         {
-            List<Station> temp = new();
+            List<StationToList> temp = new();
+            List<Station> stations = new();
             foreach (var item in dal.Stationlist())
             {
-                temp.Add(FindStation((int)item.ID));
+                stations.Add(FindStation((int)item.ID));
+            }
+            for (int i = 0; i < stations.Count(); i++)
+            {
+                temp[i].ID = stations[i].ID;
+                temp[i].StationName = stations[i].StationName;
+                temp[i].FreeChargeSlots = stations[i].FreeChargeSlots;
+                temp[i].UsedChargeSlots = 5-stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
             }
             return temp;
         }
@@ -743,12 +750,24 @@ namespace BL
         /// reture all the drones
         /// </summary>
         /// <returns>the drones</returns>
-        public IEnumerable<Drone> Drones()
+        public IEnumerable<DroneToList> Drones()
         {
-            List<Drone> temp = new();
+            List<DroneToList> temp = new();
+            List<Drone> drones = new();
+
             foreach (var item in dal.Dronelist())
             {
-                temp.Add(FindDrone((int)item.ID));
+                drones.Add(FindDrone((int)item.ID));
+            }
+            for (int i = 0; i < drones.Count(); i++)
+            {
+                temp[i].ID = drones[i].ID;
+                temp[i].IdParcel = drones[i].Parcel.ID;
+                temp[i].Model = drones[i].Model;
+                temp[i].Status = drones[i].Status;
+                temp[i].Weight = drones[i].Weight;
+                temp[i].Buttery = drones[i].Battery;
+                temp[i].Position = drones[i].Position;
             }
             return temp;
         }
@@ -757,40 +776,127 @@ namespace BL
         /// reture all the parcels
         /// </summary>
         /// <returns>the parcels</returns>
-        public IEnumerable<Parcel> parcels()
+        public IEnumerable<ParcelToList> parcels()
         {
-            List<Parcel> temp = new();
+            List<Parcel> parcels = new();
+            List<ParcelToList> temp = new();
+
             foreach (var item in dal.Parcellist())
             {
-                temp.Add(Findparcel((int)item.ID));
+                parcels.Add(Findparcel((int)item.ID));
+            }
+            for (int i = 0; i < parcels.Count(); i++)
+            {
+                temp[i].ID = parcels[i].ID;
+                temp[i].Priority = parcels[i].Priority;
+                temp[i].SenderName = parcels[i].sender.CustomerName;
+                if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
+                {
+                    temp[i].status = (Status)0;
+                }
+                if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
+                {
+                    temp[i].status = (Status)1;
+                }
+                if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
+                {
+                    temp[i].status = (Status)2;
+                }
+                if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
+                {
+                    temp[i].status = (Status)3;
+                }
+                if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
+                {
+                    temp[i].status = (Status)0;
+                }
+                temp[i].TargetName = parcels[i].target.CustomerName;
+                temp[i].Weight = parcels[i].Weight;
             }
             return temp;
         }
-        
+
         /// <summary>
         /// reture all the customers
         /// </summary>
         /// <returns>the customers</returns>
-        public IEnumerable<Customer> customers()
+        public IEnumerable<CustomerToList> customers()
         {
-            List<Customer> temp = new();
-            foreach (var item in dal.Customerlist())
+            List<CustomerToList> temp = new();
+            List<Customer> customer = new();
+            int counter1 = 0, counter2 = 0;
+            foreach (var item in dal.Dronelist())
             {
-                temp.Add(Findcustomer((int)item.ID));
+                customer.Add(Findcustomer((int)item.ID));
+            }
+            for (int i = 0; i < customer.Count(); i++)
+            {
+                temp[i].ID = customer[i].ID;
+                temp[i].CustomerName = customer[i].CustomerName;
+                foreach (var item in customer[i].toCustomer)
+                {
+                    if (item.Status != Status.PROVID)
+                        counter1++;
+                    else
+                        counter2++;
+                }
+                temp[i].NumFoParcelOnWay = counter1;
+                counter1 = 0;
+                temp[i].NumFoParcelReceived = counter2;
+                counter2 = 0;
+                foreach (var item in customer[i].fromCustomer)
+                {
+                    if (item.Status != Status.PROVID)
+                        counter1++;
+                    else
+                        counter2++;
+                }
+                temp[i].NumFoParcelSent = counter1;
+                temp[i].NumFoParcelSentAndDelivered = counter2;
+                temp[i].Phone = customer[i].Phone;
             }
             return temp;
         }
-        
         /// <summary>
         /// reture all the parcels are not associated
         /// </summary>
         /// <returns>the parcels are not associated</returns>
-        public IEnumerable<Parcel> parcelsNotAssociated()
+        public IEnumerable<ParcelToList> parcelsNotAssociated()
         {
-            List<Parcel> temp = new();
+            List<Parcel> parcels = new();
+            List<ParcelToList> temp = new();
+
             foreach (var item in dal.ParcelNotAssociatedList())
             {
-                temp.Add(Findparcel((int)item.ID));
+                parcels.Add(Findparcel((int)item.ID));
+            }
+            for (int i = 0; i < parcels.Count(); i++)
+            {
+                temp[i].ID = parcels[i].ID;
+                temp[i].Priority = parcels[i].Priority;
+                temp[i].SenderName = parcels[i].sender.CustomerName;
+                if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
+                {
+                    temp[i].status = (Status)0;
+                }
+                if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
+                {
+                    temp[i].status = (Status)1;
+                }
+                if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
+                {
+                    temp[i].status = (Status)2;
+                }
+                if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
+                {
+                    temp[i].status = (Status)3;
+                }
+                if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
+                {
+                    temp[i].status = (Status)0;
+                }
+                temp[i].TargetName = parcels[i].target.CustomerName;
+                temp[i].Weight = parcels[i].Weight;
             }
             return temp;
         }
@@ -799,15 +905,21 @@ namespace BL
         /// reture all the free chargeslots
         /// </summary>
         /// <returns>the free chargeslots</returns>
-        public IEnumerable<Station> freeChargeslots()
+        public IEnumerable<StationToList> freeChargeslots()
         {
-            List<Station> temp = new();
+            List<StationToList> temp = new();
+            List<Station> stations = new();
             foreach (var item in dal.Stationlist())
             {
                 if (item.ChargeSlots > 0)
-                {
-                    temp.Add(FindStation((int)item.ID));
-                }
+                    stations.Add(FindStation((int)item.ID));
+            }
+            for (int i = 0; i < stations.Count(); i++)
+            {
+                temp[i].ID = stations[i].ID;
+                temp[i].StationName = stations[i].StationName;
+                temp[i].FreeChargeSlots = stations[i].FreeChargeSlots;
+                temp[i].UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
             }
             return temp;
         }

@@ -13,7 +13,7 @@ namespace IBL.BO
         public Weight Weight { set; get; }
         public Status Status { set; get; }
         public double Buttery { set; get; }
-        public Location current { set; get; }
+        public Location Position { set; get; }
         public int IdParcel  { set; get; }
         //done
     }

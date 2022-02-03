@@ -11,10 +11,10 @@ namespace IBL.BO
         public int ID { set; get; }
         public string CustomerName { set; get; }
         public string Phone { set; get; }
-        public int ParcelSentAndDelivered { set; get; }
-        public int ParcelSent { set; get; }
-        public int ParcelReceived { set; get; }
-        public int ParcelOnWay { set; get; }
+        public int NumFoParcelSentAndDelivered { set; get; }
+        public int NumFoParcelSent { set; get; }
+        public int NumFoParcelReceived { set; get; }
+        public int NumFoParcelOnWay { set; get; }
         
 //done
     }

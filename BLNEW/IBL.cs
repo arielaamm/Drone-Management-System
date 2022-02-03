@@ -7,14 +7,15 @@ namespace IBL
     public interface IBL
     {
         void AddStation(Station station);
-        void AddDrone(Drone drone);
+        void AddDrone(Drone drone, int IDStarting);
         void AddCustomer(Customer customer);
-        void AddParcel(int SenderId, int TargetId, Weight weight, Priority priority);
+        void AddParcel(Parcel parcel);
         void UpdateDrone(Drone drone);
         #nullable enable
-        void UpdateStation(int id, string? name, int TotalChargeslots);
-        void UpdateCustomer(int id, string? NewName, string? NewPhoneNumber);
+        void UpdateStation(Station station);
+        void UpdateCustomer(Customer customer);
         #nullable disable
+        //צריך לחשוב האם כדי להפוך את הבאים גם לצורה של השאר של קבלת ישויות 
         void DroneToCharge(int id);
         void DroneOutCharge(int id, int time);
         void AttacheDrone(int id);

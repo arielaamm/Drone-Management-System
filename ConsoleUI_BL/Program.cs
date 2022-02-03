@@ -433,30 +433,30 @@ namespace ConsoleUI_BL
                     {
                         Console.WriteLine(
                         $"\tID: {item.ID}.\n" +
-                        $"\tweight: {item.weight}.\n" +                    
-                        $"\tpriority: {item.priority}.\n" +
-                        $"\tStatus: {item.status}.\n" +
+                        $"\tweight: {item.Weight}.\n" +                    
+                        $"\tpriority: {item.Priority}.\n" +
+                        $"\tStatus: {item.Status}.\n" +
                         $"\tThe sender fo parcel:" +
-                        $"\t\tSender ID: {item.sender.ID}.\n" +
-                        $"\t\tSender name: {item.sender.CustomerName}.\n" +
+                        $"\t\tSender ID: {item.Sender.ID}.\n" +
+                        $"\t\tSender name: {item.Sender.CustomerName}.\n" +
                         $"\tThe receiver fo parcel:" +
-                        $"\t\tReceiver ID: {item.target.ID}.\n" +
-                        $"\t\tReceiver name: {item.target.CustomerName}.");
+                        $"\t\tReceiver ID: {item.Target.ID}.\n" +
+                        $"\t\tReceiver name: {item.Target.CustomerName}.");
                     }
                     Console.WriteLine($"Parcel to {c.CustomerName}");
                     foreach (var item in c.toCustomer)
                     {
                         Console.WriteLine(
                             $"\tID: {item.ID}.\n" +
-                            $"\tweight: {item.weight}.\n" +
-                            $"\tpriority: {item.priority}.\n" +
-                            $"\tStatus: {item.status}.\n" +
+                            $"\tweight: {item.Weight}.\n" +
+                            $"\tpriority: {item.Priority}.\n" +
+                            $"\tStatus: {item.Status}.\n" +
                             $"\tThe sender fo parcel:" +
-                            $"\t\tSender ID: {item.sender.ID}.\n" +
-                            $"\t\tSender name: {item.sender.CustomerName}.\n" +
+                            $"\t\tSender ID: {item.Sender.ID}.\n" +
+                            $"\t\tSender name: {item.Sender.CustomerName}.\n" +
                             $"\tThe receiver fo parcel:" +
-                            $"\t\tReceiver ID: {item.target.ID}.\n" +
-                            $"\t\tReceiver name: {item.target.CustomerName}.");
+                            $"\t\tReceiver ID: {item.Target.ID}.\n" +
+                            $"\t\tReceiver name: {item.Target.CustomerName}.");
                     };
                     break;
                 #endregion
@@ -482,8 +482,8 @@ namespace ConsoleUI_BL
                         "The Drone of the Parcel:\n" +
                         $"\tID: {parcel.Drone.ID}.\n" +
                         $"\tButtery: {parcel.Drone.Buttery}.\n" +
-                        $"\tLocation: {parcel.Drone.current.Lattitude}," +
-                        $"{parcel.Drone.current.Longitude}\n" +
+                        $"\tLocation: {parcel.Drone.Position.Lattitude}," +
+                        $"{parcel.Drone.Position.Longitude}\n" +
                         $"Requested: {parcel.Requested}.\n" +
                         $"Scheduled: {parcel.Scheduled}.\n" +
                         $"PickedUp: {parcel.PickedUp}.\n" +
@@ -666,8 +666,8 @@ namespace ConsoleUI_BL
                             "The Drone of the Parcel:\n" +
                             $"\tID: {item.Drone.ID}.\n" +
                             $"\tButtery: {item.Drone.Buttery}.\n" +
-                            $"\tLocation: {item.Drone.current.Lattitude}," +
-                            $"{item.Drone.current.Longitude}\n" +
+                            $"\tLocation: {item.Drone.Position.Lattitude}," +
+                            $"{item.Drone.Position.Longitude}\n" +
                             $"Requested: {item.Requested}.\n" +
                             $"Scheduled: {item.Scheduled}.\n" +
                             $"PickedUp: {item.PickedUp}.\n" +
