@@ -53,7 +53,16 @@ namespace PL
         }
         private void StatusSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                Drones = new(bl.Drones());
+            else
+            {
+                Drones = new();
+                foreach (var drone in bl.Drones())
+                    if (drone.Status == (IBL.BO.Status)cb.SelectedItem)
+                        Drones.Add(drone);
+            }
         }
     }
 }

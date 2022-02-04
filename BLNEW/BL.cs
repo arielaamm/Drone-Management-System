@@ -755,22 +755,35 @@ namespace BL
         /// <returns>the drones</returns>
         public IEnumerable<DroneToList> Drones()
         {
-            List<DroneToList> temp = new();
+            
             List<Drone> drones = new();
 
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
             }
+            List<DroneToList> temp = new List<DroneToList>(drones.Count());
             for (int i = 0; i < drones.Count(); i++)
             {
-                temp[i].ID = drones[i].ID;
-                temp[i].IdParcel = drones[i].Parcel.ID;
-                temp[i].Model = drones[i].Model;
-                temp[i].Status = drones[i].Status;
-                temp[i].Weight = drones[i].Weight;
-                temp[i].Buttery = drones[i].Battery;
-                temp[i].Position = drones[i].Position;
+                DroneToList droneToList = new() { };
+                droneToList.ID = drones[i].ID;
+                try
+                {
+                    droneToList.IdParcel = drones[i].Parcel.ID;
+                }
+                catch(Exception ex)
+                {
+                    if (ex.Message == "NullReferenceException")
+                        droneToList.IdParcel = null;
+                }
+                droneToList.Model = drones[i].Model;
+                droneToList.Status = drones[i].Status;
+                droneToList.Weight = drones[i].Weight;
+                droneToList.Buttery = drones[i].Battery;
+                droneToList.Position = drones[i].Position;
+                
+                Console.WriteLine(droneToList);
+                temp.Add(droneToList);
             }
             return temp;
         }

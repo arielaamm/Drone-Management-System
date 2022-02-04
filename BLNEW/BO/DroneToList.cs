@@ -14,7 +14,7 @@ namespace IBL.BO
         public Status Status { set; get; }
         public double Buttery { set; get; }
         public Location Position { set; get; }
-        public int IdParcel  { set; get; }
+        public int ?IdParcel  { set; get; }
         //done
     }
 }
