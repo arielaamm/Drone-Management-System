@@ -19,14 +19,19 @@ namespace BL
         /// </summary>
         public BL()
         {
+            int MinPower(Drone drone)/////////////need to be worked on
+            {
+                return 0;
+            }
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
             Drone tempDrone = new Drone();
+            Random random = new Random();
             foreach (IDAL.DO.Parcel i in p)
             {
                 if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))
                 {
                     FindDrone(i.SenderId).Status = (Status)2;
-                    if ((i.PickedUp == null) && (i.Scheduled != null))
+                    if ((i.PickedUp == null)&& (i.Scheduled != null))//שויכה אבל לא נאספה
                     {//shortest station
                         Location sta = new()
                         {
@@ -42,43 +47,44 @@ namespace BL
                         }
                     }
                     //מפה כל מה שאני אמרתי לך לטפל
-                    //if ((i.Deliverd == null) && (i.PickedUp != null))
-                    //{
-                    //    FindDrone(i.SenderId).Position = FindDrone(i.SenderId).Position;
-                    //}
-                    //Random random = new Random();
-                    //if (i.Scheduled == null)
-                    //{
-                    //    if (random.Next(1, 2) == 1)
-                    //    {
-                    //        FindDrone(i.SenderId).Status = Status.CREAT;
-                    //        List<Parcel> pa = new();
-                    //        foreach (var item in parcels())
-                    //        {
-                    //            pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
-                    //        }
-                    //        FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
-                    //        FindDrone(i.SenderId).Battery = random.Next(20, 100);
-
-                    //    }
-                    //    else
-                    //    {
-                    //        List<Station> s = new();
-                    //        FindDrone(i.SenderId).Position = freeChargeslots().ToList()[random.Next(0, (freeChargeslots().Count()) - 1)].location;
-                    //        FindDrone(i.SenderId).Battery = random.Next(0, 20);
-                    //        FindDrone(i.SenderId).Status = Status.MAINTENANCE;
-                    //    }
-                    //}
-                    // עד לפה !!!
+                    if ((i.Deliverd == null) && (i.PickedUp != null))
+                    {
+                        FindDrone(i.SenderId).Position = FindDrone(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
+                    }
+                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)),80);//need to check minpower
+                   
                 }
+                if (FindDrone(i.SenderId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
+                {
+                    FindDrone(i.SenderId).Status = (Status)random.Next(3, 5);
+                    if (random.Next(3, 5) == 3)
+                    {
+                        FindDrone(i.SenderId).Status = Status.CREAT;
+                    }
+                }
+                if (FindDrone(i.SenderId).Status == Status.MAINTENANCE)//
+                 {
+                    List<Station> s = new();
+                    FindDrone(i.SenderId).Position = freeChargeslots().ToList()[random.Next(0, (freeChargeslots().Count()) - 1)].location;
+                    FindDrone(i.SenderId).Battery = random.Next(0, 21);
+                }
+                if (FindDrone(i.SenderId).Status == Status.CREAT)
+                {
+                    List<Parcel> pa = new();
+                    foreach (var item in parcels())
+                    {
+                        pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
+                    }
+                    FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
+                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)), 100);
+                }
+                   
             }
 
-        }
-
-        /// <summary>
-        /// Distans
-        /// </summary>
-        /// <returns>Distans between a - b</returns>
+            /// <summary>
+            /// Distans
+            /// </summary>
+            /// <returns>Distans between a - b</returns>
         public double Distans(Location a, Location b)
         {
             return Math.Sqrt((Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2)));
