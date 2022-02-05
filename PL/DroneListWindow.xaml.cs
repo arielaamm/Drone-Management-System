@@ -19,7 +19,7 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        private IBL.IBL bl;
+        private readonly IBL.IBL bl;
         internal ObservableCollection<IBL.BO.DroneToList> Drones
         {
             get => (ObservableCollection<IBL.BO.DroneToList>)GetValue(dronesDependency);

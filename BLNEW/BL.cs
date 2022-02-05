@@ -13,25 +13,25 @@ namespace BL
 {
     public class BL : IBL.IBL
     {
-        IDal dal = new DalObject();
+        readonly IDal dal = new DalObject();
         /// <summary>
         /// constractor
         /// </summary>
         public BL()
         {
-            int MinPower(Drone drone)/////////////need to be worked on
+            static int MinPower(Drone drone)/////////////need to be worked on
             {
                 return 0;
             }
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
-            Drone tempDrone = new Drone();
-            Random random = new Random();
+            Drone tempDrone = new();
+            Random random = new();
             foreach (IDAL.DO.Parcel i in p)
             {
                 if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))
                 {
                     FindDrone(i.SenderId).Status = (Status)2;
-                    if ((i.PickedUp == null)&& (i.Scheduled != null))//שויכה אבל לא נאספה
+                    if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
                     {//shortest station
                         Location sta = new()
                         {
@@ -51,8 +51,8 @@ namespace BL
                     {
                         FindDrone(i.SenderId).Position = FindDrone(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
                     }
-                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)),80);//need to check minpower
-                   
+                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)), 80);//need to check minpower
+
                 }
                 if (FindDrone(i.SenderId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
                 {
@@ -63,31 +63,32 @@ namespace BL
                     }
                 }
                 if (FindDrone(i.SenderId).Status == Status.MAINTENANCE)//
-                 {
-                    List<Station> s = new();
-                    FindDrone(i.SenderId).Position = freeChargeslots().ToList()[random.Next(0, (freeChargeslots().Count()) - 1)].location;
+                {
+                    List<Station> s = new(); 
+                    FindDrone(i.SenderId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).location;
                     FindDrone(i.SenderId).Battery = random.Next(0, 21);
                 }
                 if (FindDrone(i.SenderId).Status == Status.CREAT)
                 {
                     List<Parcel> pa = new();
-                    foreach (var item in parcels())
+                    foreach (var item in Parcels())
                     {
                         pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
                     }
                     FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
                     FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)), 100);
                 }
-                   
+
             }
+        }
 
             /// <summary>
             /// Distans
             /// </summary>
             /// <returns>Distans between a - b</returns>
-        public double Distans(Location a, Location b)
+        static public double Distans(Location a, Location b)
         {
-            return Math.Sqrt((Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2)));
+            return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
         
         //add functaions:
@@ -98,7 +99,7 @@ namespace BL
         /// </summary>
         public void AddStation(Station station)
         {
-            IDAL.DO.Station tempStation = new IDAL.DO.Station()
+            IDAL.DO.Station tempStation = new()
             {
                 ID = station.ID,
                 StationName = station.StationName,
@@ -123,8 +124,8 @@ namespace BL
         {
             try
             {
-                Random random = new Random();
-                IDAL.DO.Drone tempDrone = new IDAL.DO.Drone()
+                Random random = new();
+                IDAL.DO.Drone tempDrone = new()
                 {
                     ID = drone.ID,
                     Model = drone.Model,
@@ -132,7 +133,7 @@ namespace BL
                     Buttery = drone.Battery,
                     haveParcel = drone.HasParcel,
                 };
-                IDAL.DO.DroneCharge tempDroneCharge = new IDAL.DO.DroneCharge()
+                IDAL.DO.DroneCharge tempDroneCharge = new()
                 {
                     DroneId = drone.ID,
                     StationId =  IDStarting,
@@ -155,7 +156,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Customer tempCustomer = new IDAL.DO.Customer()
+                IDAL.DO.Customer tempCustomer = new()
                 {
                     ID = customer.ID,
                     CustomerName = customer.CustomerName,
@@ -187,7 +188,7 @@ namespace BL
             }
             try
             {
-                IDAL.DO.Parcel tempParcel = new IDAL.DO.Parcel()
+                IDAL.DO.Parcel tempParcel = new()
                 {
                     SenderId = parcel.sender.ID,
                     TargetId = parcel.target.ID,
@@ -281,7 +282,7 @@ namespace BL
             {
                 double distans = 0;
                 int sID = 0;
-                foreach (var item in stations())
+                foreach (var item in Stations())
                 {
                     if (Distans(FindStation(item.ID).location, FindDrone(id).Position) > distans)
                     {
@@ -350,7 +351,7 @@ namespace BL
         {
             if (!(FindDrone(id).HasParcel))
             {
-                List<ParcelToList> temp = parcelsNotAssociated().ToList();
+                List<ParcelToList> temp = ParcelsNotAssociated().ToList();
                 List<ParcelToList> temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.SOS; });
                 if (temp1.Count == 0)
                 {
@@ -470,7 +471,7 @@ namespace BL
         {
 
             IDAL.DO.Station s = dal.FindStation(id);
-            Location temp = new Location()
+            Location temp = new()
             {
                 Lattitude = s.Lattitude,
                 Longitude = s.Longitude,
@@ -488,7 +489,7 @@ namespace BL
                     droneChargingTemp.Add(droneCharging1);
                 }
             }
-            Station newStation = new Station()
+            Station newStation = new()
             {
                 ID = (int)s.ID,
                 StationName = s.StationName,
@@ -507,7 +508,7 @@ namespace BL
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
             ParcelTransactioning parcelTransactiningTemp = new();
-            Drone newStation = new Drone();
+            Drone newStation = new();
             newStation.HasParcel = d.haveParcel;
             newStation.ID = (int)d.ID;
             newStation.Model = d.Model;
@@ -588,7 +589,7 @@ namespace BL
                 CustomerName = t.CustomerName,
             };
             IDAL.DO.Drone d = dal.FindDrone((int)p.DroneId);
-            Location tempD = new Location()
+            Location tempD = new()
             {
                 Lattitude = d.Lattitude,
                 Longitude = d.Longitude,
@@ -599,7 +600,7 @@ namespace BL
                 Buttery = d.Buttery,
                 Position = tempD
             };
-            Parcel newParcel = new Parcel()
+            Parcel newParcel = new()
             {
                 ID = (int)p.ID,
                 sender = send,
@@ -624,12 +625,12 @@ namespace BL
         {
             IDAL.DO.Customer c = dal.FindCustomers(id);
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
-            Location temp = new Location()
+            Location temp = new()
             {
                 Lattitude = c.Lattitude,
                 Longitude = c.Longitude,
             };
-            Customer newCustomer = new Customer()
+            Customer newCustomer = new()
             {
                 ID = (int)c.ID,
                 CustomerName = c.CustomerName,
@@ -737,7 +738,7 @@ namespace BL
         /// reture all the stations
         /// </summary>
         /// <returns>the stations</returns>
-        public IEnumerable<StationToList> stations()
+        public IEnumerable<StationToList> Stations()
         {
             List<StationToList> temp = new();
             List<Station> stations = new();
@@ -745,7 +746,7 @@ namespace BL
             {
                 stations.Add(FindStation((int)item.ID));
             }
-            for (int i = 0; i < stations.Count(); i++)
+            for (int i = 0; i < stations.Count; i++)
             {
                 temp[i].ID = stations[i].ID;
                 temp[i].StationName = stations[i].StationName;
@@ -768,8 +769,8 @@ namespace BL
             {
                 drones.Add(FindDrone((int)item.ID));
             }
-            List<DroneToList> temp = new List<DroneToList>(drones.Count());
-            for (int i = 0; i < drones.Count(); i++)
+            List<DroneToList> temp = new(drones.Count);
+            for (int i = 0; i < drones.Count; i++)
             {
                 DroneToList droneToList = new() { };
                 droneToList.ID = drones[i].ID;
@@ -798,7 +799,7 @@ namespace BL
         /// reture all the parcels
         /// </summary>
         /// <returns>the parcels</returns>
-        public IEnumerable<ParcelToList> parcels()
+        public IEnumerable<ParcelToList> Parcels()
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
@@ -807,7 +808,7 @@ namespace BL
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
-            for (int i = 0; i < parcels.Count(); i++)
+            for (int i = 0; i < parcels.Count; i++)
             {
                 temp[i].ID = parcels[i].ID;
                 temp[i].Priority = parcels[i].Priority;
@@ -842,7 +843,7 @@ namespace BL
         /// reture all the customers
         /// </summary>
         /// <returns>the customers</returns>
-        public IEnumerable<CustomerToList> customers()
+        public IEnumerable<CustomerToList> Customers()
         {
             List<CustomerToList> temp = new();
             List<Customer> customer = new();
@@ -851,7 +852,7 @@ namespace BL
             {
                 customer.Add(Findcustomer((int)item.ID));
             }
-            for (int i = 0; i < customer.Count(); i++)
+            for (int i = 0; i < customer.Count; i++)
             {
                 temp[i].ID = customer[i].ID;
                 temp[i].CustomerName = customer[i].CustomerName;
@@ -883,7 +884,7 @@ namespace BL
         /// reture all the parcels are not associated
         /// </summary>
         /// <returns>the parcels are not associated</returns>
-        public IEnumerable<ParcelToList> parcelsNotAssociated()
+        public IEnumerable<ParcelToList> ParcelsNotAssociated()
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
@@ -892,7 +893,7 @@ namespace BL
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
-            for (int i = 0; i < parcels.Count(); i++)
+            for (int i = 0; i < parcels.Count; i++)
             {
                 temp[i].ID = parcels[i].ID;
                 temp[i].Priority = parcels[i].Priority;
@@ -927,7 +928,7 @@ namespace BL
         /// reture all the free chargeslots
         /// </summary>
         /// <returns>the free chargeslots</returns>
-        public IEnumerable<StationToList> freeChargeslots()
+        public IEnumerable<StationToList> FreeChargeslots()
         {
             List<StationToList> temp = new();
             List<Station> stations = new();
@@ -936,7 +937,7 @@ namespace BL
                 if (item.ChargeSlots > 0)
                     stations.Add(FindStation((int)item.ID));
             }
-            for (int i = 0; i < stations.Count(); i++)
+            for (int i = 0; i < stations.Count; i++)
             {
                 temp[i].ID = stations[i].ID;
                 temp[i].StationName = stations[i].StationName;

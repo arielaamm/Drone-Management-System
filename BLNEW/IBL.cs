@@ -25,11 +25,11 @@ namespace IBL
         Drone FindDrone(int id);
         Parcel Findparcel(int id);
         Customer Findcustomer(int id);
-        IEnumerable<StationToList> stations();
+        IEnumerable<StationToList> Stations();
         IEnumerable<DroneToList> Drones();
-        IEnumerable<ParcelToList> parcels();
-        IEnumerable<CustomerToList> customers();
-        IEnumerable<ParcelToList> parcelsNotAssociated();
-        IEnumerable<StationToList> freeChargeslots();
+        IEnumerable<ParcelToList> Parcels();
+        IEnumerable<CustomerToList> Customers();
+        IEnumerable<ParcelToList> ParcelsNotAssociated();
+        IEnumerable<StationToList> FreeChargeslots();
     }
 }

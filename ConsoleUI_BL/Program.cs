@@ -506,7 +506,7 @@ namespace ConsoleUI_BL
             {
                 #region Stations
                 case "Stations" or "1":
-                    foreach (var item in p.stations())
+                    foreach (var item in p.Stations())
                     {
                         Console.WriteLine(
                         $"ID: {item.ID}.\n" +
@@ -569,7 +569,7 @@ namespace ConsoleUI_BL
                 #endregion
                 #region Customers
                 case "Customers" or "3":
-                    foreach (var item in p.customers())
+                    foreach (var item in p.Customers())
                     {
                         Console.WriteLine(
                             $"ID: {item.ID}.\n" +
@@ -625,7 +625,7 @@ namespace ConsoleUI_BL
                 #endregion
                 #region Parcels
                 case "Parcels" or "4":
-                    foreach (var item in  p.parcels())
+                    foreach (var item in  p.Parcels())
                     {
                         Console.WriteLine(
                             $"ID: {item.ID}.\n" +
@@ -651,7 +651,7 @@ namespace ConsoleUI_BL
                 #endregion
                 #region Parcel not associated
                 case "not associated" or "5":
-                    foreach (var item in p.parcelsNotAssociated())
+                    foreach (var item in p.ParcelsNotAssociated())
                     {
                         Console.WriteLine(
                             $"ID: {item.ID}.\n" +
@@ -677,7 +677,7 @@ namespace ConsoleUI_BL
                 #endregion
                 #region Free chargeslots
                 case "free chargeslots" or "6":
-                    foreach (var item in p.freeChargeslots())
+                    foreach (var item in p.FreeChargeslots())
                     {
                         Console.WriteLine(
                         $"ID: {item.ID}.\n" +
