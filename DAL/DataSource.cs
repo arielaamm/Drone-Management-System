@@ -12,7 +12,6 @@ namespace DAL
     {
         public static int sta = 123456;
         public static int staticId = 1;
-
         public static double GetRandomNumber(double minimum, double maximum)
         {
             Random random = new Random();

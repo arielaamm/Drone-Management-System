@@ -26,7 +26,6 @@ namespace DAL
             return a;
         }
         #region add (1)
-        static Random random = new Random();
         public void AddStation(Station s)
         {         
             DataSource.staticId++;

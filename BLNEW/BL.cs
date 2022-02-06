@@ -124,7 +124,6 @@ namespace BL
         {
             try
             {
-                Random random = new();
                 IDAL.DO.Drone tempDrone = new()
                 {
                     ID = drone.ID,
