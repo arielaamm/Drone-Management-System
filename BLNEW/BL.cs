@@ -57,7 +57,7 @@ namespace BL
                 if (FindDrone(i.SenderId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
                 {
                     FindDrone(i.SenderId).Status = (Status)random.Next(3, 5);
-                    if (random.Next(3, 5) == 3)
+                    if (FindDrone(i.SenderId).Status == Status.PROVID)
                     {
                         FindDrone(i.SenderId).Status = Status.CREAT;
                     }
