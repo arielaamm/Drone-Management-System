@@ -22,6 +22,7 @@
             <ComboBox x:Name="StatusSeletor" Grid.Column="1" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}"/>
             <ComboBox x:Name="WightsSeletor" Grid.Column="2" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}"/>
             <Label Content="Label" HorizontalAlignment="Stretch" Margin="20,19,20,10" VerticalAlignment="Top"/>
+            <Button x:Name="AddDrone" Content="Add Drone" Grid.Column="3" HorizontalAlignment="Left" Margin="67,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
         <DataGrid ItemsSource="{Binding Drones}" AutoGenerateColumns="False" Grid.Row="1">
             <DataGrid.Columns>

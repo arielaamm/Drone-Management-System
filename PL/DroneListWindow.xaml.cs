@@ -64,5 +64,10 @@ namespace PL
                         Drones.Add(drone);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
