@@ -791,33 +791,32 @@ namespace BL
         public IEnumerable<DroneToList> Drones()
         {
             List<Drone> drones = new();
+            List<DroneToList> temp = new();
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
             }            
-            DroneToList [] droneToList1 = new DroneToList[drones.Count];
-            DroneToList droneToList = new();
+            List<DroneToList> droneToList = new (drones.Count);
+            DroneToList droneToList1 = new();
             for (int i = 0; i < drones.Count; i++)
             {
-                droneToList.ID = (int)drones[i].ID;
-                Console.WriteLine((int)drones[i].ID + " 111 " + droneToList.ID);
+                droneToList1.ID = (int)drones[i].ID;
                 try
                 {
-                    droneToList.IdParcel = drones[i].Parcel.ID;
+                    droneToList1.IdParcel = drones[i].Parcel.ID;
                 }
                 catch(Exception ex)
                 {
-                    if (ex.Message == "NullReferenceException")
-                        droneToList.IdParcel = null;
+                    droneToList1.IdParcel = null;
                 }
-                droneToList.Model = drones[i].Model;
-                droneToList.Status = drones[i].Status;
-                droneToList.Weight = drones[i].Weight;
-                droneToList.Buttery = drones[i].Battery;
-                droneToList.Position = drones[i].Position;
-                droneToList1[i] = droneToList;
+                droneToList1.Model = drones[i].Model;
+                droneToList1.Status = drones[i].Status;
+                droneToList1.Weight = drones[i].Weight;
+                droneToList1.Buttery = drones[i].Battery;
+                droneToList1.Position = drones[i].Position;
+                droneToList.Add(droneToList1);
             }
-            return droneToList1.ToList();
+            return droneToList;
         }
         
         /// <summary>
