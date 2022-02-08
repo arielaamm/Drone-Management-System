@@ -13,8 +13,8 @@ namespace IDAL.DO
         public bool haveParcel { set; get; }
         public int? ID { get; set; }
         public string Model { set; get;}
-        public WEIGHT Weight { set; get; }
-        public STATUS Status { set; get; }
+        public Weight Weight { set; get; }
+        public Status Status { set; get; }
         public double Buttery { set; get; } 
         public double Longitude { set; get; }
         public double Lattitude { set; get; }

@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource self}}"
         Title="DroneWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="271*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Add Drone" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20" Margin="344,0,0,0" Height="38" VerticalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="100*"/>
+                <ColumnDefinition Width ="50*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid ItemsSource="{Binding DronesList}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
+                    <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                    <DataGridTextColumn Header="Buttery" Binding="{Binding Buttery}" />
+                    <DataGridTextColumn Header="Lattitude" Binding="{Binding Position.Lattitude}" />
+                    <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label Content="ID" Grid.Column="1" Margin="0,0,174,313" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+            <Label Content="Model" Grid.Column="1" Margin="0,0,174,274" HorizontalAlignment="Right" Width="75" Height="28" VerticalAlignment="Bottom"/>
+            <Label Content="MaxWiegh" Grid.Column="1" Margin="0,0,174,241" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+            <Label Content="Start point" Grid.Column="1" Margin="0,0,174,207" Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+
+            <TextBox Grid.Column="1" Margin="0,0,13,325" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120"/>
+            <ComboBox x:Name="ModelSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,280" VerticalAlignment="Bottom" Width="120"/>
+            <ComboBox x:Name="MaxWeightSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,245" VerticalAlignment="Bottom" Width="120"/>
+            <TextBox Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,207" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
+            <Button Content="Add the drone" Grid.Column="1" HorizontalAlignment="Center" Margin="0,204,0,0" VerticalAlignment="Top" Height="39" Width="127" FontWeight="Bold"/>
+        </Grid>
     </Grid>
 </Window>

@@ -55,7 +55,7 @@ namespace DAL
                 Drone d = new Drone()
                 {
                     ID = staticId,
-                    Model = "MBL" + (rnd.Next(0, 100)),
+                    Model = ""+(Model)rnd.Next(0, 3),
                     Buttery = 100,
                     haveParcel = false,
                     Lattitude = stations[rnd.Next(0,stations.Count-1)].Lattitude,
@@ -110,8 +110,8 @@ namespace DAL
                     ID = staticId,
                     SenderId = (int)customers[sID].ID,
                     TargetId = (int)customers[tID].ID,
-                    Weight = (WEIGHT)rnd.Next(0, 3),
-                    Priority = (PRIORITY)rnd.Next(1, 3),
+                    Weight = (Weight)rnd.Next(0, 3),
+                    Priority = (Priority)rnd.Next(1, 3),
                     Requested = DateTime.Now,
                     DroneId = drones[rnd.Next(0, drones.Count - 1)].ID,
                     Scheduled = null,

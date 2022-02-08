@@ -157,7 +157,7 @@ namespace BL
                 {
                     ID = drone.ID,
                     Model = drone.Model,
-                    Weight = (IDAL.DO.WEIGHT)drone.Weight,
+                    Weight = (IDAL.DO.Weight)drone.Weight,
                     Buttery = drone.Battery,
                     haveParcel = drone.HasParcel,
                 };
@@ -220,8 +220,8 @@ namespace BL
                 {
                     SenderId = parcel.sender.ID,
                     TargetId = parcel.target.ID,
-                    Weight = (IDAL.DO.WEIGHT)parcel.Weight,
-                    Priority = (IDAL.DO.PRIORITY)parcel.Priority,
+                    Weight = (IDAL.DO.Weight)parcel.Weight,
+                    Priority = (IDAL.DO.Priority)parcel.Priority,
                     Requested = parcel.Requested,
                     Scheduled = parcel.Scheduled,
                     PickedUp = parcel.PickedUp,
@@ -550,7 +550,7 @@ namespace BL
             };
             newStation.Position = locationDrone;
 
-            if (d.Status == IDAL.DO.STATUS.BELONG)
+            if (d.Status == IDAL.DO.Status.BELONG)
             {
                 IDAL.DO.Parcel p = new(); 
                 foreach (var item in DataSource.parcels)
@@ -768,7 +768,7 @@ namespace BL
         /// <returns>the stations</returns>
         public IEnumerable<StationToList> Stations()
         {
-            List<StationToList> temp = new();
+            List<StationToList> temp1 = new();
             List<Station> stations = new();
             foreach (var item in dal.Stationlist())
             {
@@ -776,12 +776,14 @@ namespace BL
             }
             for (int i = 0; i < stations.Count; i++)
             {
-                temp[i].ID = stations[i].ID;
-                temp[i].StationName = stations[i].StationName;
-                temp[i].FreeChargeSlots = stations[i].FreeChargeSlots;
-                temp[i].UsedChargeSlots = 5-stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                StationToList temp = new();
+                temp.ID = stations[i].ID;
+                temp.StationName = stations[i].StationName;
+                temp.FreeChargeSlots = stations[i].FreeChargeSlots;
+                temp.UsedChargeSlots = 5-stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                temp1.Add(temp);
             }
-            return temp;
+            return temp1;
         }
         
         /// <summary>
@@ -791,21 +793,21 @@ namespace BL
         public IEnumerable<DroneToList> Drones()
         {
             List<Drone> drones = new();
-            List<DroneToList> temp = new();
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
             }            
             List<DroneToList> droneToList = new (drones.Count);
-            DroneToList droneToList1 = new();
+
             for (int i = 0; i < drones.Count; i++)
-            {
+            {     
+                DroneToList droneToList1 = new();
                 droneToList1.ID = (int)drones[i].ID;
                 try
                 {
                     droneToList1.IdParcel = drones[i].Parcel.ID;
                 }
-                catch(Exception ex)
+                catch (Exception)
                 {
                     droneToList1.IdParcel = null;
                 }
@@ -827,13 +829,13 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
-            ParcelToList parceltolist = new();
             foreach (var item in dal.Parcellist())
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
             for (int i = 0; i < parcels.Count; i++)
-            {
+            {            
+                ParcelToList parceltolist = new();
                 parceltolist.ID = parcels[i].ID;
                 parceltolist.Priority = parcels[i].Priority;
                 parceltolist.SenderName = parcels[i].sender.CustomerName;
@@ -872,14 +874,14 @@ namespace BL
         {
             List<CustomerToList> temp = new();
             List<Customer> customer = new();
-            CustomerToList customerToList=new();
             int counter1 = 0, counter2 = 0;
             foreach (var item in dal.Customerlist())
             {
                 customer.Add(Findcustomer((int)item.ID));
             }
             for (int i = 0; i < customer.Count; i++)
-            {
+            {           
+                CustomerToList customerToList=new();
                 customerToList.ID = customer[i].ID;
                 customerToList.CustomerName = customer[i].CustomerName;
                 counter1 = 0;
@@ -917,13 +919,13 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
-            ParcelToList parcelToList = new();
             foreach (var item in dal.ParcelNotAssociatedList())
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
             for (int i = 0; i < parcels.Count; i++)
-            {
+            {            
+                ParcelToList parcelToList = new();
                 parcelToList.ID = parcels[i].ID;
                 parcelToList.Priority = parcels[i].Priority;
                 parcelToList.SenderName = parcels[i].sender.CustomerName;
@@ -959,7 +961,7 @@ namespace BL
         /// <returns>the free chargeslots</returns>
         public IEnumerable<StationToList> FreeChargeslots()
         {
-            List<StationToList> temp = new();
+            List<StationToList> temp1 = new();
             List<Station> stations = new();
             foreach (var item in dal.Stationlist())
             {
@@ -968,12 +970,14 @@ namespace BL
             }
             for (int i = 0; i < stations.Count; i++)
             {
-                temp[i].ID = stations[i].ID;
-                temp[i].StationName = stations[i].StationName;
-                temp[i].FreeChargeSlots = stations[i].FreeChargeSlots;
-                temp[i].UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                StationToList temp = new();
+                temp.ID = stations[i].ID;
+                temp.StationName = stations[i].StationName;
+                temp.FreeChargeSlots = stations[i].FreeChargeSlots;
+                temp.UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                temp1.Add(temp);
             }
-            return temp;
+            return temp1;
         }
     }
 }

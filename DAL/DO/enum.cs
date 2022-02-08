@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace IDAL.DO
 {
-    public enum WEIGHT { LIGHT = 0, MEDIUM = 1, HEAVY = 2 }
-    public enum PRIORITY { REGULAR = 0, FAST = 1, SOS = 2 }
-    public enum STATUS { CREAT = 0, BELONG = 1, PICKUP = 2, PROVID = 3, MAINTENANCE = 4, FREE = 5 }
+    public enum Weight { LIGHT = 0, MEDIUM = 1, HEAVY = 2 }
+    public enum Priority { REGULAR = 0, FAST = 1, SOS = 2 }
+    public enum Model { MDL65 = 0, MDL45 = 1, MDL78 = 2 }
+    public enum Status { CREAT = 0, BELONG = 1, PICKUP = 2, PROVID = 3, MAINTENANCE = 4, FREE = 5 }
 }

@@ -99,7 +99,7 @@ namespace DAL
                     p.DroneId = i.ID;
                     p.Scheduled = DateTime.Now;
                     d = i;
-                    d.Status = (STATUS)0;
+                    d.Status = (Status)0;
                     break;
                 }
             }
@@ -128,7 +128,7 @@ namespace DAL
                 }
             }
             Drone d = FindDrone(keeper);
-            d.Status = (STATUS)2;
+            d.Status = (Status)2;
 
         }
 
@@ -154,7 +154,7 @@ namespace DAL
                 }
             }
             Drone d = FindDrone(keeper);
-            d.Status = (STATUS)0;
+            d.Status = (Status)0;
 
         }
 
@@ -172,7 +172,7 @@ namespace DAL
                 index++;
 
             }
-            d.Status = (STATUS)1;
+            d.Status = (Status)1;
             Station s = new();
             foreach (var i in DataSource.stations)
             {
@@ -201,7 +201,7 @@ namespace DAL
                 }
                 index++;
             }
-            d.Status = (STATUS)0;
+            d.Status = (Status)0;
             DataSource.drones.RemoveAt(index);
             DataSource.drones.Insert(index , d);
             index = 0;
