@@ -19,9 +19,34 @@ namespace BL
         /// </summary>
         public BL()
         {
-            static int MinPower(Drone drone)/////////////need to be worked on
+            int MinPower(Drone drone)
             {
-                return 0;
+                double a=0;
+                int c = 0;
+                int? StationID;
+                foreach (var item in dal.Stationlist())
+                {
+                    Location location = new Location()
+                    {
+                        Lattitude = item.Lattitude,
+                        Longitude = item.Longitude,
+                    };
+
+                    if ((a < Distans(location, drone.Position))&&c!=0)
+                    {
+                        a = Distans(location, drone.Position);
+                        StationID = item.ID;
+                    } 
+                    if (c == 0) 
+                    {
+                        a = Distans(location, drone.Position);
+                        c++;
+                    }
+                }
+                double i = dal.Power()[((int)drone.Weight + 1) % 3];
+                i *= a;
+                i=Math.Ceiling(i);
+                return (int)i;
             }
             IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
             Drone tempDrone = new();
@@ -75,8 +100,12 @@ namespace BL
                     {
                         pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
                     }
-                    FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;//מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
-                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone(i.SenderId)), 100);
+                    if (pa.Count == 0)
+                        FindDrone(i.SenderId).Position = Findcustomer(Customers().ToList()[random.Next(0, Customers().Count()-1)].ID).location;
+                    else
+                        FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).location;
+                    //מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
+                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
                 }
 
             }
@@ -761,17 +790,17 @@ namespace BL
         /// <returns>the drones</returns>
         public IEnumerable<DroneToList> Drones()
         {
-            
             List<Drone> drones = new();
-            List<DroneToList> temp = new();
-            DroneToList droneToList = new();
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
-            }
+            }            
+            DroneToList [] droneToList1 = new DroneToList[drones.Count];
+            DroneToList droneToList = new();
             for (int i = 0; i < drones.Count; i++)
             {
                 droneToList.ID = (int)drones[i].ID;
+                Console.WriteLine((int)drones[i].ID + " 111 " + droneToList.ID);
                 try
                 {
                     droneToList.IdParcel = drones[i].Parcel.ID;
@@ -786,11 +815,9 @@ namespace BL
                 droneToList.Weight = drones[i].Weight;
                 droneToList.Buttery = drones[i].Battery;
                 droneToList.Position = drones[i].Position;
-                
-                Console.WriteLine(droneToList);
-                temp.Add(droneToList);
+                droneToList1[i] = droneToList;
             }
-            return temp;
+            return droneToList1.ToList();
         }
         
         /// <summary>
@@ -848,7 +875,7 @@ namespace BL
             List<Customer> customer = new();
             CustomerToList customerToList=new();
             int counter1 = 0, counter2 = 0;
-            foreach (var item in dal.Dronelist())
+            foreach (var item in dal.Customerlist())
             {
                 customer.Add(Findcustomer((int)item.ID));
             }
@@ -856,6 +883,8 @@ namespace BL
             {
                 customerToList.ID = customer[i].ID;
                 customerToList.CustomerName = customer[i].CustomerName;
+                counter1 = 0;
+                counter2 = 0;
                 foreach (var item in customer[i].toCustomer)
                 {
                     if (item.Status != Status.PROVID)

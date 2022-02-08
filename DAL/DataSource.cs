@@ -26,10 +26,10 @@ namespace DAL
         internal class Config
         {
             public static int Idforparcel = 0;
-            internal static double free { get { return 10; } }
-            internal static double light { get { return 20; } }
-            internal static double medium { get { return 30; } }
-            internal static double heavy { get { return 40; } }
+            internal static double free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
+            internal static double light { get { return 7; } }
+            internal static double medium { get { return 10; } }
+            internal static double heavy { get { return 12; } }
             internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
         }
 
