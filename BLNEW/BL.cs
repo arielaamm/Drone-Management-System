@@ -82,7 +82,7 @@ namespace BL
             }
         }
 
-            /// <summary>
+        /// <summary>
             /// Distans
             /// </summary>
             /// <returns>Distans between a - b</returns>
@@ -217,7 +217,7 @@ namespace BL
         /// </summary>
         public void UpdateDrone(Drone drone)
         {
-            IDAL.DO.Drone d = dal.FindDrone(drone.ID);
+            IDAL.DO.Drone d = dal.FindDrone((int)drone.ID);
             d.Model = drone.Model;
             foreach (var item in DataSource.drones)
             {
@@ -509,7 +509,7 @@ namespace BL
             ParcelTransactioning parcelTransactiningTemp = new();
             Drone newStation = new();
             newStation.HasParcel = d.haveParcel;
-            newStation.ID = (int)d.ID;
+            newStation.ID = d.ID;
             newStation.Model = d.Model;
             newStation.Weight = (Weight)d.Weight;
             newStation.Status = (Status)d.Status;
@@ -763,16 +763,15 @@ namespace BL
         {
             
             List<Drone> drones = new();
-
+            List<DroneToList> temp = new();
+            DroneToList droneToList = new();
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
             }
-            List<DroneToList> temp = new(drones.Count);
             for (int i = 0; i < drones.Count; i++)
             {
-                DroneToList droneToList = new() { };
-                droneToList.ID = drones[i].ID;
+                droneToList.ID = (int)drones[i].ID;
                 try
                 {
                     droneToList.IdParcel = drones[i].Parcel.ID;
@@ -802,38 +801,39 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
-
+            ParcelToList parceltolist = new();
             foreach (var item in dal.Parcellist())
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
             for (int i = 0; i < parcels.Count; i++)
             {
-                temp[i].ID = parcels[i].ID;
-                temp[i].Priority = parcels[i].Priority;
-                temp[i].SenderName = parcels[i].sender.CustomerName;
+                parceltolist.ID = parcels[i].ID;
+                parceltolist.Priority = parcels[i].Priority;
+                parceltolist.SenderName = parcels[i].sender.CustomerName;
                 if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
                 {
-                    temp[i].status = (Status)0;
+                    parceltolist.status = (Status)0;
                 }
                 if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
                 {
-                    temp[i].status = (Status)1;
+                    parceltolist.status = (Status)1;
                 }
                 if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
                 {
-                    temp[i].status = (Status)2;
+                    parceltolist.status = (Status)2;
                 }
                 if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
                 {
-                    temp[i].status = (Status)3;
+                    parceltolist.status = (Status)3;
                 }
                 if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
                 {
-                    temp[i].status = (Status)0;
+                    parceltolist.status = (Status)0;
                 }
-                temp[i].TargetName = parcels[i].target.CustomerName;
-                temp[i].Weight = parcels[i].Weight;
+                parceltolist.TargetName = parcels[i].target.CustomerName;
+                parceltolist.Weight = parcels[i].Weight;
+                temp.Add(parceltolist);
             }
             return temp;
         }
@@ -846,6 +846,7 @@ namespace BL
         {
             List<CustomerToList> temp = new();
             List<Customer> customer = new();
+            CustomerToList customerToList=new();
             int counter1 = 0, counter2 = 0;
             foreach (var item in dal.Dronelist())
             {
@@ -853,8 +854,8 @@ namespace BL
             }
             for (int i = 0; i < customer.Count; i++)
             {
-                temp[i].ID = customer[i].ID;
-                temp[i].CustomerName = customer[i].CustomerName;
+                customerToList.ID = customer[i].ID;
+                customerToList.CustomerName = customer[i].CustomerName;
                 foreach (var item in customer[i].toCustomer)
                 {
                     if (item.Status != Status.PROVID)
@@ -862,9 +863,9 @@ namespace BL
                     else
                         counter2++;
                 }
-                temp[i].NumFoParcelOnWay = counter1;
+                customerToList.NumFoParcelOnWay = counter1;
                 counter1 = 0;
-                temp[i].NumFoParcelReceived = counter2;
+                customerToList.NumFoParcelReceived = counter2;
                 counter2 = 0;
                 foreach (var item in customer[i].fromCustomer)
                 {
@@ -873,9 +874,10 @@ namespace BL
                     else
                         counter2++;
                 }
-                temp[i].NumFoParcelSent = counter1;
-                temp[i].NumFoParcelSentAndDelivered = counter2;
-                temp[i].Phone = customer[i].Phone;
+                customerToList.NumFoParcelSent = counter1;
+                customerToList.NumFoParcelSentAndDelivered = counter2;
+                customerToList.Phone = customer[i].Phone;
+                temp.Add(customerToList);
             }
             return temp;
         }
@@ -887,38 +889,38 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
-
+            ParcelToList parcelToList = new();
             foreach (var item in dal.ParcelNotAssociatedList())
             {
                 parcels.Add(Findparcel((int)item.ID));
             }
             for (int i = 0; i < parcels.Count; i++)
             {
-                temp[i].ID = parcels[i].ID;
-                temp[i].Priority = parcels[i].Priority;
-                temp[i].SenderName = parcels[i].sender.CustomerName;
+                parcelToList.ID = parcels[i].ID;
+                parcelToList.Priority = parcels[i].Priority;
+                parcelToList.SenderName = parcels[i].sender.CustomerName;
                 if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
                 {
-                    temp[i].status = (Status)0;
+                    parcelToList.status = (Status)0;
                 }
                 if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
                 {
-                    temp[i].status = (Status)1;
+                    parcelToList.status = (Status)1;
                 }
                 if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
                 {
-                    temp[i].status = (Status)2;
+                    parcelToList.status = (Status)2;
                 }
                 if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
                 {
-                    temp[i].status = (Status)3;
+                    parcelToList.status = (Status)3;
                 }
                 if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
                 {
-                    temp[i].status = (Status)0;
+                    parcelToList.status = (Status)0;
                 }
-                temp[i].TargetName = parcels[i].target.CustomerName;
-                temp[i].Weight = parcels[i].Weight;
+                parcelToList.TargetName = parcels[i].target.CustomerName;
+                parcelToList.Weight = parcels[i].Weight;
             }
             return temp;
         }
