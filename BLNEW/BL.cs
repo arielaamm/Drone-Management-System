@@ -119,25 +119,44 @@ namespace BL
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
-        
+
+        public static int ChackID(int ? id, string type)
+        {
+            switch (type)
+            {
+                case "s":
+                    return DataSource.stations.FindIndex(i => i.ID == id);
+                case "d":
+                    return DataSource.drones.FindIndex(i => i.ID == id);
+                case "c":
+                    return DataSource.customers.FindIndex(i => i.ID == id);
+                case "p":
+                    return DataSource.parcels.FindIndex(i => i.ID == id);
+            }
+            return 0;
+        }
         //add functaions:
         //---------------------------------------------------------------------------------
-        
+
         /// <summary>
         /// Add station
         /// </summary>
         public void AddStation(Station station)
         {
-            IDAL.DO.Station tempStation = new()
-            {
-                ID = station.ID,
-                StationName = station.StationName,
-                Longitude = station.location.Longitude,
-                Lattitude = station.location.Lattitude,
-                ChargeSlots = station.FreeChargeSlots,
-            };
             try
             {
+                if (ChackID(station.ID, "s") != -1)
+                {
+                    throw new AlreadyExistException($"this id {station.ID} already exist");
+                }
+                IDAL.DO.Station tempStation = new()
+                {
+                    ID = station.ID,
+                    StationName = station.StationName,
+                    Longitude = station.location.Longitude,
+                    Lattitude = station.location.Lattitude,
+                    ChargeSlots = station.FreeChargeSlots,
+                };
                 dal.AddStation(tempStation);
             }
             catch (Exception ex)
@@ -153,6 +172,10 @@ namespace BL
         {
             try
             {
+                if (ChackID(drone.ID, "d") != -1)
+                {
+                    throw new AlreadyExistException($"this id {drone.ID} already exist");
+                }
                 IDAL.DO.Drone tempDrone = new()
                 {
                     ID = drone.ID,
@@ -166,6 +189,9 @@ namespace BL
                     DroneId = drone.ID,
                     StationId =  IDStarting,
                 };
+                Location l = FindStation(IDStarting).location;
+                tempDrone.Lattitude = l.Lattitude;
+                tempDrone.Longitude = l.Longitude;
                 FindStation(IDStarting).FreeChargeSlots--;
                 dal.AddDrone(tempDrone);
                 dal.AddDroneCharge(tempDroneCharge);
@@ -184,6 +210,10 @@ namespace BL
         {
             try
             {
+                if (ChackID(customer.ID, "c") != -1)
+                {
+                    throw new AlreadyExistException($"this id {customer.ID} already exist");
+                }
                 IDAL.DO.Customer tempCustomer = new()
                 {
                     ID = customer.ID,
@@ -216,6 +246,10 @@ namespace BL
             }
             try
             {
+                if (ChackID(parcel.ID, "p") != -1)
+                {
+                    throw new AlreadyExistException($"this id {parcel.ID} already exist");
+                }
                 IDAL.DO.Parcel tempParcel = new()
                 {
                     SenderId = parcel.sender.ID,
@@ -449,7 +483,7 @@ namespace BL
                         break;
                 }
                 FindDrone(id).Position = FindDrone(id).Parcel.Lsender;
-                Findparcel(FindDrone(id).Parcel.ID).PickedUp = DateTime.Now;
+                Findparcel((int)FindDrone(id).Parcel.ID).PickedUp = DateTime.Now;
             }
             else
                 throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
@@ -479,7 +513,7 @@ namespace BL
                 }
                 FindDrone(id).Position = FindDrone(id).Parcel.Ltarget;
                 FindDrone(id).Status = Status.CREAT;
-                Findparcel(FindDrone(id).Parcel.ID).Deliverd = DateTime.Now;
+                Findparcel((int)FindDrone(id).Parcel.ID).Deliverd = DateTime.Now;
 
             }
             else
@@ -536,6 +570,7 @@ namespace BL
         {
             IDAL.DO.Drone d = dal.FindDrone(id);
             ParcelTransactioning parcelTransactiningTemp = new();
+            parcelTransactiningTemp.ID = null;
             Drone newStation = new();
             newStation.HasParcel = d.haveParcel;
             newStation.ID = d.ID;
@@ -550,7 +585,7 @@ namespace BL
             };
             newStation.Position = locationDrone;
 
-            if (d.Status == IDAL.DO.Status.BELONG)
+            if (d.Status == IDAL.DO.Status.PICKUP && d.Status == IDAL.DO.Status.BELONG)
             {
                 IDAL.DO.Parcel p = new(); 
                 foreach (var item in DataSource.parcels)
@@ -792,15 +827,12 @@ namespace BL
         /// <returns>the drones</returns>
         public IEnumerable<DroneToList> Drones()
         {
-            List<Drone> drones = new();
+            List<Drone> drones = new(); 
+            List<DroneToList> droneToList = new ();
+            int i = 0;
             foreach (var item in dal.Dronelist())
             {
                 drones.Add(FindDrone((int)item.ID));
-            }            
-            List<DroneToList> droneToList = new (drones.Count);
-
-            for (int i = 0; i < drones.Count; i++)
-            {     
                 DroneToList droneToList1 = new();
                 droneToList1.ID = (int)drones[i].ID;
                 try
@@ -817,6 +849,7 @@ namespace BL
                 droneToList1.Buttery = drones[i].Battery;
                 droneToList1.Position = drones[i].Position;
                 droneToList.Add(droneToList1);
+                i++;
             }
             return droneToList;
         }
@@ -829,12 +862,10 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
+            int i = 0;
             foreach (var item in dal.Parcellist())
             {
                 parcels.Add(Findparcel((int)item.ID));
-            }
-            for (int i = 0; i < parcels.Count; i++)
-            {            
                 ParcelToList parceltolist = new();
                 parceltolist.ID = parcels[i].ID;
                 parceltolist.Priority = parcels[i].Priority;
@@ -862,6 +893,7 @@ namespace BL
                 parceltolist.TargetName = parcels[i].target.CustomerName;
                 parceltolist.Weight = parcels[i].Weight;
                 temp.Add(parceltolist);
+                i++;
             }
             return temp;
         }
@@ -874,21 +906,18 @@ namespace BL
         {
             List<CustomerToList> temp = new();
             List<Customer> customer = new();
-            int counter1 = 0, counter2 = 0;
+            int counter1 = 0, counter2 = 0, i = 0;
             foreach (var item in dal.Customerlist())
             {
-                customer.Add(Findcustomer((int)item.ID));
-            }
-            for (int i = 0; i < customer.Count; i++)
-            {           
+                customer.Add(Findcustomer((int)item.ID));          
                 CustomerToList customerToList=new();
                 customerToList.ID = customer[i].ID;
                 customerToList.CustomerName = customer[i].CustomerName;
                 counter1 = 0;
                 counter2 = 0;
-                foreach (var item in customer[i].toCustomer)
+                foreach (var item1 in customer[i].toCustomer)
                 {
-                    if (item.Status != Status.PROVID)
+                    if (item1.Status != Status.PROVID)
                         counter1++;
                     else
                         counter2++;
@@ -897,9 +926,9 @@ namespace BL
                 counter1 = 0;
                 customerToList.NumFoParcelReceived = counter2;
                 counter2 = 0;
-                foreach (var item in customer[i].fromCustomer)
+                foreach (var item2 in customer[i].fromCustomer)
                 {
-                    if (item.Status != Status.PROVID)
+                    if (item2.Status != Status.PROVID)
                         counter1++;
                     else
                         counter2++;
@@ -908,6 +937,7 @@ namespace BL
                 customerToList.NumFoParcelSentAndDelivered = counter2;
                 customerToList.Phone = customer[i].Phone;
                 temp.Add(customerToList);
+                i++;
             }
             return temp;
         }
@@ -919,12 +949,10 @@ namespace BL
         {
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
+            int i = 0;
             foreach (var item in dal.ParcelNotAssociatedList())
             {
-                parcels.Add(Findparcel((int)item.ID));
-            }
-            for (int i = 0; i < parcels.Count; i++)
-            {            
+                parcels.Add(Findparcel((int)item.ID));           
                 ParcelToList parcelToList = new();
                 parcelToList.ID = parcels[i].ID;
                 parcelToList.Priority = parcels[i].Priority;
@@ -951,6 +979,8 @@ namespace BL
                 }
                 parcelToList.TargetName = parcels[i].target.CustomerName;
                 parcelToList.Weight = parcels[i].Weight;
+                temp.Add(parcelToList);
+                i++;
             }
             return temp;
         }
@@ -963,19 +993,20 @@ namespace BL
         {
             List<StationToList> temp1 = new();
             List<Station> stations = new();
+            int i = 0;
             foreach (var item in dal.Stationlist())
             {
-                if (item.ChargeSlots > 0)
+                if (item.ChargeSlots >= 1)
+                {
                     stations.Add(FindStation((int)item.ID));
-            }
-            for (int i = 0; i < stations.Count; i++)
-            {
-                StationToList temp = new();
-                temp.ID = stations[i].ID;
-                temp.StationName = stations[i].StationName;
-                temp.FreeChargeSlots = stations[i].FreeChargeSlots;
-                temp.UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
-                temp1.Add(temp);
+                    StationToList temp = new();
+                    temp.ID = stations[i].ID;
+                    temp.StationName = stations[i].StationName;
+                    temp.FreeChargeSlots = stations[i].FreeChargeSlots;
+                    temp.UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                    temp1.Add(temp);
+                    i++;
+                }
             }
             return temp1;
         }

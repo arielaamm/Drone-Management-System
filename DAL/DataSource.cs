@@ -50,20 +50,12 @@ namespace DAL
                 stations.Add(s);
             }
             for (int i = 0; i < 5; i++)
-            {
-
-                Drone d = new Drone()
-                {
-                    ID = staticId,
-                    Model = ""+(Model)rnd.Next(0, 3),
-                    Buttery = 100,
-                    haveParcel = false,
-                    Lattitude = stations[rnd.Next(0,stations.Count-1)].Lattitude,
-                    Longitude = stations[rnd.Next(0, stations.Count - 1)].Longitude,
-                };
+            {       
                 Station s = new Station();
+                int counter= rnd.Next(0, 2);
                 foreach (var item in stations)
                 {
+                    
                     if (item.ChargeSlots != 0)
                     {
                         s = item;
@@ -73,9 +65,17 @@ namespace DAL
                 DroneCharge temp = new()
                 { 
                     DroneId = staticId,
-                    StationId = (int)s.ID,
+                    StationId = (int)stations[counter].ID,
                 };
-                s.ChargeSlots--;
+                Drone d = new Drone()
+                {
+                    ID = staticId,
+                    Model = ""+(Model)rnd.Next(0, 3),
+                    Buttery = 100,
+                    haveParcel = false,
+                    Lattitude = stations[counter].Lattitude,
+                    Longitude = stations[counter].Longitude,
+                };
                 droneCharges.Add(temp);
                 drones.Add(d);
                 staticId++;
@@ -123,21 +123,14 @@ namespace DAL
             }
             sta++;
             Config.Idforparcel = sta;
-        }
+            for (int i = 0; i < droneCharges.Count; i++)
+            {
+                Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });
+                s.ChargeSlots--;
+                stations.Remove(stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; }));
+                stations.Add(s);
 
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using DAL;
+using IDAL;
 namespace ConsoleUI
 {
     class Program   ///תיעוד ,מוסכמות קוד ,שמות משמעותיים,
@@ -45,7 +46,7 @@ namespace ConsoleUI
                     break;
             }//
         }
-        public static void FunAddition(DalObject pro)
+        public static void FunAddition(IDal pro)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
             Console.WriteLine("add station(= 1) \nadd drone(= 2) \nadd customer(= 3) \nadd parcel(= 4)");
@@ -84,7 +85,7 @@ namespace ConsoleUI
             }
         }
 
-        public static void FunUpdating(DalObject pro)
+        public static void FunUpdating(IDal pro)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
             Console.WriteLine("Attache drone to parcel(1)\nPick parcel(2) \ndelivery package(3) \nsend for loadingor(4) \nrelease from charging(5)");
@@ -166,7 +167,7 @@ namespace ConsoleUI
             }
         }
 
-        public static void FunDisplay(DalObject pro)
+        public static void FunDisplay(IDal pro)
         {
             Console.WriteLine("OK, what do you want to display ? choose");
             Console.WriteLine("Station(1), Drone(2), Customer(3), Parcel(4)");
@@ -232,7 +233,7 @@ namespace ConsoleUI
 
         }
 
-        public static void FunListview(DalObject pro)
+        public static void FunListview(IDal pro)
         {
             Console.WriteLine("OK, which list you what to see ? choose");
             Console.WriteLine("List Station(1), List Drone(2), List Customer(3), List Parcel(4), List not associated(5), List free chargeslots(6)");
@@ -284,7 +285,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            DalObject p = new DalObject();
+            IDAL.IDal p = new DalObject();
             string Option = "0";
             Console.WriteLine("Hey you got to ariel&babauv drone's");
             Console.WriteLine("Choose what you want to do");

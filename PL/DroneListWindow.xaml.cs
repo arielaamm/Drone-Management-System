@@ -68,6 +68,15 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new DroneWindow(bl).Show();
+            this.Close();
+        }
+
+
+        private void mousedoubleclick(object sender, MouseButtonEventArgs e)
+        {
+            var cb = sender as DataGrid;
+            IBL.BO.DroneToList a= (IBL.BO.DroneToList)cb.SelectedValue;
+            new DroneWindow(bl, a.ID).Show();
         }
     }
 }

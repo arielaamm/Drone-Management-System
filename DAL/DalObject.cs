@@ -27,13 +27,13 @@ namespace DAL
         }
         #region add (1)
         public void AddStation(Station s)
-        {         
+        {
             DataSource.staticId++;
             DataSource.stations.Add(s);
         }
 
         public void AddDrone(Drone d)
-        {        
+        {
             DataSource.staticId++;
             DataSource.drones.Add(d);
             Station s = new Station();
@@ -50,11 +50,14 @@ namespace DAL
                 DroneId = d.ID,
                 StationId = (int)s.ID,
             };
+            DataSource.stations.Remove(FindStation((int)s.ID));
+            s.ChargeSlots--;
+            AddStation(s);
             AddDroneCharge(temp);
         }
 
         public void AddCustomer(Customer c)
-        { 
+        {
             DataSource.staticId++;
             DataSource.customers.Add(c);
         }
@@ -82,7 +85,7 @@ namespace DAL
         #region update (2)
         public void AttacheDrone(int parcelID)
         {
-            Parcel p = new(); 
+            Parcel p = new();
             Drone d = new();
             foreach (var i in DataSource.parcels)
             {
@@ -94,7 +97,7 @@ namespace DAL
             }
             foreach (var i in DataSource.drones)
             {
-                if ((i.Status == 0)&&(i.Weight>p.Weight))
+                if ((i.Status == 0) && (i.Weight > p.Weight))
                 {
                     p.DroneId = i.ID;
                     p.Scheduled = DateTime.Now;
@@ -203,7 +206,7 @@ namespace DAL
             }
             d.Status = (Status)0;
             DataSource.drones.RemoveAt(index);
-            DataSource.drones.Insert(index , d);
+            DataSource.drones.Insert(index, d);
             index = 0;
             ;
             foreach (var i in DataSource.droneCharges)
@@ -251,9 +254,9 @@ namespace DAL
             {
                 if (i.ID == id)
                 {
-                     return i;
+                    return i;
                 }
-                
+
             }
             return d;
         }
@@ -299,7 +302,7 @@ namespace DAL
             List<Parcel> notassociated = new();
             foreach (var i in DataSource.parcels)
             {
-                if (i.DroneId == 0) 
+                if (i.DroneId == 0)
                 {
                     notassociated.Add(i);
                 }

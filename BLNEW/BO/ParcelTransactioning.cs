@@ -8,7 +8,7 @@ namespace IBL.BO
 {
     public class ParcelTransactioning
     {
-        public int ID { set; get; }
+        public int ?ID { set; get; }
         public bool ParcelStatus { set; get; } // on the way - true, waitnig to drone arrival - false
         public Priority priority { set; get; }
         public Weight weight { set; get; }

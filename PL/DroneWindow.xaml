@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource self}}"
-        Title="DroneWindow" Height="450" Width="800">
+        Title="DroneWindow" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -18,7 +18,7 @@
                 <ColumnDefinition Width ="100*"/>
                 <ColumnDefinition Width ="50*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid ItemsSource="{Binding DronesList}" AutoGenerateColumns="False">
+            <DataGrid x:Name="DataGird" ItemsSource="{Binding DronesList}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                     <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
@@ -29,27 +29,21 @@
                     <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Label Content="ID" Grid.Column="1" Margin="18,0,174,321" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
-            <Label Content="Model" Grid.Column="1" Margin="18,0,174,288" Height="28" VerticalAlignment="Bottom"/>
-            <Label Content="MaxWiegh" Grid.Column="1" Margin="18,0,174,255" Height="28" VerticalAlignment="Bottom" />
-            <Label Content="Starting station" Grid.Column="1" Margin="0,0,149,215" Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="100"/>
-            <!--<Label Content="Stutus" Grid.Column="1" Margin="18,0,0,181" Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100"/>
-            <Label Content="Battery" Grid.Column="1" Margin="18,0,0,150" Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100"/>
-            <Label Content="Lattitude" Grid.Column="1" Margin="18,0,0,112" Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100"/>
-            <Label Content="Longitude" Grid.Column="1" Margin="18,0,0,79" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100"/>-->
+
+            <Label x:Name="IDLabel"  Content="ID" Grid.Column="1" Margin="18,15,174,321"/>
+            <Label x:Name="ModelLabel" Content="Model" Grid.Column="1" Margin="18,50,174,288"/>
+            <Label x:Name="MaxWieghLabel" Content="MaxWiegh" Grid.Column="1" Margin="18,83,174,255" />
+            <Label x:Name="Starting_StationLabel" Content="Starting station" Grid.Column="1" Margin="18,122,149,215"/>
+
+            <TextBox x:Name="TextBoxID" MaxLength="5" Grid.Column="1" Margin="0,16,13,0" Text="" TextWrapping="Wrap" HorizontalAlignment="Right" Width="120" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="ModelSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,53,13,0" Width="120" SelectionChanged="ModelSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="MaxWeightSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,86,13,0" Width="120" SelectionChanged="MaxWeightSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="StartingstationSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,123,13,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
 
 
-            <TextBox x:Name="TextBoxID" MaxLength="5" Grid.Column="1" Margin="0,0,13,325" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120"/>
-            <ComboBox x:Name="ModelSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,288" VerticalAlignment="Bottom" Width="120" SelectionChanged="ModelSeletor_SelectionChanged"/>
-            <ComboBox x:Name="MaxWeightSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,255" VerticalAlignment="Bottom" Width="120" SelectionChanged="MaxWeightSeletor_SelectionChanged"/>
-            <ComboBox x:Name="StartingstationSeletor" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,218" VerticalAlignment="Bottom" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged"/>
-            <!--<TextBox x:Name="ShowStatus" HorizontalAlignment="Left" Grid.Column="1" Margin="134,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <TextBox x:Name="ShowBattery"  Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,150" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
-            <TextBox x:Name="ShowLattitude" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,79" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
-            <TextBox x:Name="ShowLongitude" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,13,112" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>-->
-
-
-            <Button Content="Add the drone" Grid.Column="1" HorizontalAlignment="Left" Margin="68,304,0,23" Width="127" FontWeight="Bold" Click="Button_Click"/>
+            <Button x:Name="BntAdd" Content="Add the drone" Grid.Column="1" HorizontalAlignment="Left" Margin="81,0,0,205" Width="113" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Bottom"/>
+            <Button Content="Close" Grid.Column="1" HorizontalAlignment="Left" Margin="56,0,0,112" Width="163" FontWeight="Bold" Click="Button_Click_Close" Height="32" VerticalAlignment="Bottom"/>
+            <Frame x:Name="Visability" />
 
         </Grid>
     </Grid>
