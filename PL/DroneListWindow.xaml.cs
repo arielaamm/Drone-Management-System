@@ -74,7 +74,8 @@ namespace PL
         //}
         //#endregion
 
-        private readonly IBL.IBL bl;
+        private readonly IBL.IBL bl = BL.BL.GetInstance();
+
         internal ObservableCollection<IBL.BO.DroneToList> Drones
         {
             get => (ObservableCollection<IBL.BO.DroneToList>)GetValue(dronesDependency);
@@ -85,13 +86,21 @@ namespace PL
             typeof(ObservableCollection<IBL.BO.DroneToList>),
             typeof(Window));
 
-        public DroneListWindow(IBL.IBL bl)
+        private DroneListWindow(IBL.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
             WightsSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Weight));
             StatusSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Status));
             Drones = new(this.bl.Drones());
+        }
+        protected static DroneListWindow instance = null;
+        public static DroneListWindow GetInstance()
+        {
+            IBL.IBL bl = BL.BL.GetInstance();
+            if (instance == null)
+                instance = new DroneListWindow(bl);
+            return instance;
         }
 
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,7 +133,8 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(bl).Show();
+            DroneWindow obj = PL.DroneWindow.GetInstance();
+            obj.Show();
         }
 
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
@@ -132,8 +142,8 @@ namespace PL
             var cb = sender as DataGrid;
             IBL.BO.DroneToList a = (IBL.BO.DroneToList)cb.SelectedValue;
             this.Close();
-            new DroneWindow(bl, a.ID).Show();
-            
+            DroneWindow obj = PL.DroneWindow.GetInstance(a.ID);
+            obj.Show();
         }
     }
 }

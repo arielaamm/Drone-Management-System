@@ -285,7 +285,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            IDAL.IDal p = new DalObject();
+            IDAL.IDal p = DalObject.GetInstance();
             string Option = "0";
             Console.WriteLine("Hey you got to ariel&babauv drone's");
             Console.WriteLine("Choose what you want to do");

@@ -13,11 +13,12 @@ namespace BL
 {
     public class BL : IBL.IBL
     {
-        readonly IDal dal = new DalObject();
+        readonly IDal dal = DalObject.GetInstance();
+
         /// <summary>
         /// constractor
         /// </summary>
-        public BL()
+        private BL()
         {
             int MinPower(Drone drone)
             {
@@ -110,11 +111,17 @@ namespace BL
 
             }
         }
-
+        protected static BL instance = null;
+        public static BL GetInstance()
+        {
+            if (instance == null)
+                instance = new BL();
+            return instance;
+        }
         /// <summary>
-            /// Distans
-            /// </summary>
-            /// <returns>Distans between a - b</returns>
+        /// Distans
+        /// </summary>
+        /// <returns>Distans between a - b</returns>
         static public double Distans(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));

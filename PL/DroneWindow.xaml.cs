@@ -76,7 +76,8 @@ namespace PL
         //}
         //#endregion
 
-        private readonly IBL.IBL bl;
+        private readonly IBL.IBL bl = BL.BL.GetInstance();
+
         internal ObservableCollection<IBL.BO.DroneToList> DronesList
         {
             get => (ObservableCollection<IBL.BO.DroneToList>)GetValue(dronesDependency);
@@ -87,7 +88,7 @@ namespace PL
             typeof(ObservableCollection<IBL.BO.DroneToList>),
             typeof(Window));
 
-        public DroneWindow(IBL.IBL bl)
+        private DroneWindow(IBL.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
@@ -95,8 +96,15 @@ namespace PL
             DronesList = new(this.bl.Drones());
             Main.Content = new AddPage(bl);
         }
-
-        public DroneWindow(IBL.IBL bl,int ID)
+        protected static DroneWindow instance1 = null;
+        public static DroneWindow GetInstance()
+        {
+            IBL.IBL bl = BL.BL.GetInstance();
+            if (instance1 == null)
+                instance1 = new DroneWindow(bl);
+            return instance1;
+        }
+        private DroneWindow(IBL.IBL bl,int ID)
         {
             InitializeComponent();
             this.bl = bl;
@@ -105,6 +113,14 @@ namespace PL
             a.Add(w);
             DronesList = new(a);
             Main.Content = new ActionsPage(bl, ID);
+        }
+        protected static DroneWindow instance2 = null;
+        public static DroneWindow GetInstance(int ID)
+        {
+            IBL.IBL bl = BL.BL.GetInstance();
+            if (instance2 == null)
+                instance2 = new DroneWindow(bl,ID);
+            return instance2;
         }
     }
 }

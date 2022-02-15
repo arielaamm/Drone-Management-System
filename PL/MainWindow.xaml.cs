@@ -75,7 +75,7 @@ namespace PL
         //}
         //#endregion
 
-        IBL.IBL bl = new BL.BL();
+        IBL.IBL bl = BL.BL.GetInstance();
         public MainWindow()
         {
             InitializeComponent();
@@ -83,7 +83,8 @@ namespace PL
 
         private void DroneListButton_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(bl).Show();
+            DroneListWindow obj = PL.DroneListWindow.GetInstance();
+            obj.Show();
         }
     }
 }

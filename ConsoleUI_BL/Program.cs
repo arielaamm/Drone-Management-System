@@ -703,7 +703,7 @@ namespace ConsoleUI_BL
 //        }
         static void Main(string[] args)
         {
-            BL.BL p = new BL.BL();
+            BL.BL p = BL.BL.GetInstance();
             string Option = "0";
             Console.WriteLine("Hey you got to ariel&babauv drone's");
             Console.WriteLine("Choose what you want to do");

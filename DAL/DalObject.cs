@@ -11,9 +11,16 @@ namespace DAL
     //static
     public class DalObject : IDAL.IDal
     {
-        public DalObject()
+        private DalObject()
         {
             DataSource.Initialize();
+        }
+        protected static DalObject instance = null;
+        public static DalObject GetInstance() 
+        { 
+            if (instance == null) 
+                instance = new DalObject();
+            return instance;
         }
         public double[] Power()
         {
