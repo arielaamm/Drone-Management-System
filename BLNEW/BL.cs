@@ -377,13 +377,13 @@ namespace BL
         /// <summary>
         /// Removing a drone from a charger
         /// </summary>
-        public void DroneOutCharge(int id, int time)
+        public void DroneOutCharge(int id, double time)
         {
 
             if (FindDrone(id).Status == (Status)4)
             {
                 FindDrone(id).Status = Status.CREAT;
-                FindDrone(id).Battery = (dal.Power()[4]) * (time);
+                FindDrone(id).Battery = (dal.Power()[4] * ((time)/60));
                 foreach (var item in DAL.DataSource.droneCharges)
                 {
                     if (item.DroneId == id)
@@ -423,7 +423,7 @@ namespace BL
                         temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
                         if (temp1.Count == 0)
                         {
-                            throw new ThereIsNoParcel("there are no parcel");
+                            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
                         }
                     }
                 }
@@ -436,7 +436,7 @@ namespace BL
                         temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
                         if (temp1.Count == 0)
                         {
-                            throw new ThereIsNoParcel("there are no parcel");
+                            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
                         }
                     }
                 }
@@ -470,16 +470,16 @@ namespace BL
                 switch (FindDrone(id).Weight)
                 {
                     case Weight.LIGHT:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.LIGHT]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.LIGHT]);
                         break;
                     case Weight.MEDIUM:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.MEDIUM]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.MEDIUM]);
                         break;
                     case Weight.HEAVY:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.HEAVY]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.HEAVY]);
                         break;
                     case Weight.FREE:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position)) * (dal.Power()[(int)Weight.FREE]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.FREE]);
                         break;
                 }
                 FindDrone(id).Position = FindDrone(id).Parcel.Lsender;
@@ -499,16 +499,16 @@ namespace BL
                 switch (FindDrone(id).Weight)
                 {
                     case Weight.LIGHT:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.LIGHT]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.LIGHT]);
                         break;
                     case Weight.MEDIUM:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.MEDIUM]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.MEDIUM]);
                         break;
                     case Weight.HEAVY:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.HEAVY]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.HEAVY]);
                         break;
                     case Weight.FREE:
-                        FindDrone(id).Battery = FindDrone(id).Battery - ((Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget)) * (dal.Power()[(int)Weight.FREE]));
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.FREE]);
                         break;
                 }
                 FindDrone(id).Position = FindDrone(id).Parcel.Ltarget;

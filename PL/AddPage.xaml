@@ -1,0 +1,26 @@
+﻿<Page x:Class="PL.AddPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PL" 
+      DataContext="{Binding RelativeSource={RelativeSource self}}"
+      mc:Ignorable="d" 
+      d:DesignHeight="480" d:DesignWidth="320"     
+      Title="AddPage">
+
+    <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Bottom">
+        <Label Content="Add Drone" FontWeight="Bold" FontSize="20" Margin="120,32,72,0" Height="38" VerticalAlignment="Top"/>
+        <Label x:Name="IDLabel" Content="ID" Margin="46,111,146,225" />
+        <Label x:Name="ModelLabel" Content="Model" Margin="46,145,146,193"/>
+        <Label x:Name="MaxWieghLabel" Content="MaxWiegh" Margin="46,178,146,160" />
+        <Label x:Name="Starting_StationLabel" Content="Starting station" Margin="46,217,146,120" />
+
+        <TextBox x:Name="TextBoxID" MaxLength="5" Margin="180,111,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ModelSeletor" Margin="180,148,20,0" SelectionChanged="ModelSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="MaxWeightSeletor" Margin="180,181,20,0" Width="120" SelectionChanged="MaxWeightSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="StartingstationSeletor" Margin="180,218,20,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+
+        <Button x:Name="BntAdd" Content="Add the drone" HorizontalAlignment="Center" Margin="0,325,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Top"/>
+    </Grid>
+</Page>

@@ -74,12 +74,12 @@ namespace BLExceptions
         public DroneDontInCharging(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
-    public class ThereIsNoParcel : Exception
+    public class ThereIsNoParcelToAttach : Exception
     {
-        public ThereIsNoParcel() { }
-        public ThereIsNoParcel(string message) : base(message) { }
-        public ThereIsNoParcel(string message, Exception innerException) : base(message, innerException) { }
-        public ThereIsNoParcel(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ThereIsNoParcelToAttach() { }
+        public ThereIsNoParcelToAttach(string message) : base(message) { }
+        public ThereIsNoParcelToAttach(string message, Exception innerException) : base(message, innerException) { }
+        public ThereIsNoParcelToAttach(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
     public class AlreadyPickedUp : Exception

@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace PL
 {
@@ -21,6 +23,59 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
+        //#region disable Close Button
+        //protected override void OnSourceInitialized(EventArgs e)
+        //{
+        //    base.OnSourceInitialized(e);
+
+        //    HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+
+        //    if (hwndSource != null)
+        //    {
+        //        hwndSource.AddHook(HwndSourceHook);
+        //    }
+
+        //}
+
+        //private bool allowClosing = false;
+
+        //[DllImport("user32.dll")]
+        //private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        //[DllImport("user32.dll")]
+        //private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        //private const uint MF_BYCOMMAND = 0x00000000;
+        //private const uint MF_GRAYED = 0x00000001;
+
+        //private const uint SC_CLOSE = 0xF060;
+
+        //private const int WM_SHOWWINDOW = 0x00000018;
+        //private const int WM_CLOSE = 0x10;
+
+        //private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        //{
+        //    switch (msg)
+        //    {
+        //        case WM_SHOWWINDOW:
+        //            {
+        //                IntPtr hMenu = GetSystemMenu(hwnd, false);
+        //                if (hMenu != IntPtr.Zero)
+        //                {
+        //                    EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+        //                }
+        //            }
+        //            break;
+        //        case WM_CLOSE:
+        //            if (!allowClosing)
+        //            {
+        //                handled = true;
+        //            }
+        //            break;
+        //    }
+        //    return IntPtr.Zero;
+        //}
+        //#endregion
+
         private readonly IBL.IBL bl;
         internal ObservableCollection<IBL.BO.DroneToList> DronesList
         {
@@ -36,98 +91,20 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            ModelSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Model));
-            MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Weight));
             List<int> stationToLists = new();
-            foreach (var item in bl.FreeChargeslots())
-            {
-                stationToLists.Add(item.ID);
-            }
-            if (stationToLists.Count==0)
-            {
-                MessageBox.Show("There is no more room for a new drone");
-                this.Close();
-            }
-            StartingstationSeletor.ItemsSource = stationToLists;
             DronesList = new(this.bl.Drones());
+            Main.Content = new AddPage(bl);
         }
+
         public DroneWindow(IBL.IBL bl,int ID)
         {
             InitializeComponent();
             this.bl = bl;
-            IDLabel.IsEnabled = false;
-            ModelLabel.IsEnabled = false;
-            MaxWieghLabel.IsEnabled = false;
-            Starting_StationLabel.IsEnabled = false;
-            TextBoxID.IsEnabled = false;
-            ModelSeletor.IsEnabled = false;
-            MaxWeightSeletor.IsEnabled = false;
-            StartingstationSeletor.IsEnabled = false;
-            BntAdd.IsEnabled = false;
-            DataGird.IsEnabled = false;
-
-            DronesList = new(this.bl.Drones());
-        }
-        IBL.BO.Drone drone=new();
-        private void Button_Click_Add_Drone(object sender, RoutedEventArgs e)
-        {
-            int i=0;
-            int c = DronesList.Count;
-            try
-            { 
-                i = (int)drone.ID; //מעביר ככה את האיידיי של התחנה בלי בלגן ואז דורס אותו  לא למחוק !!!
-                drone.ID = int.Parse(TextBoxID.Text); 
-                drone.Battery = 100;
-                drone.HasParcel = false;
-                bl.AddDrone(drone, i);
-            }
-            catch(Exception ex)
-            {
-                if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
-                    MessageBox.Show(ex.Message);
-                else
-                    MessageBox.Show("Enter the data in the necessary places");
-            }
-            this.Close();
-            new DroneWindow(bl).Show();
-            if (c< DronesList.Count)
-            {
-                MessageBox.Show("The drone successfully added");
-            }
-        }
-
-        private void MaxWeightSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var cb = sender as ComboBox;
-            drone.Weight = (IBL.BO.Weight)cb.SelectedItem;
-        }
-
-        private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var cb = sender as ComboBox;
-            drone.Model = ""+(IBL.BO.Model)cb.SelectedItem;
-        }
-
-        private void StartingstationSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var cb = sender as ComboBox;
-            drone.ID = (int)cb.SelectedItem;
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-        private void Button_Click_Close(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-           
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
+            var w = this.bl.Drones().ToList().Find(delegate (IBL.BO.DroneToList D) { return (D.ID == ID); });
+            List<IBL.BO.DroneToList> a = new();
+            a.Add(w);
+            DronesList = new(a);
+            Main.Content = new ActionsPage(bl, ID);
         }
     }
 }
