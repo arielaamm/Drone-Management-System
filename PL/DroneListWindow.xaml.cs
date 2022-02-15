@@ -133,8 +133,7 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DroneWindow obj = PL.DroneWindow.GetInstance();
-            obj.Show();
+           PL.DroneWindow.GetInstance().Show();
         }
 
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
@@ -142,8 +141,7 @@ namespace PL
             var cb = sender as DataGrid;
             IBL.BO.DroneToList a = (IBL.BO.DroneToList)cb.SelectedValue;
             this.Close();
-            DroneWindow obj = PL.DroneWindow.GetInstance(a.ID);
-            obj.Show();
+            PL.DroneWindow.GetInstance(a.ID).Show();
         }
     }
 }

@@ -83,8 +83,7 @@ namespace PL
 
         private void DroneListButton_Click(object sender, RoutedEventArgs e)
         {
-            DroneListWindow obj = PL.DroneListWindow.GetInstance();
-            obj.Show();
+            PL.DroneListWindow.GetInstance().Show();
         }
     }
 }
