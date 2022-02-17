@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using DateTime = System.DateTime;
 namespace BL
 {
-    public class BL : IBL.IBL
+    public sealed class BL : IBL.IBL
     {
         readonly IDal dal = DalObject.GetInstance();
 
@@ -111,7 +111,8 @@ namespace BL
 
             }
         }
-        protected static BL instance = null;
+        
+        static BL instance = null;
         public static BL GetInstance()
         {
             if (instance == null)
@@ -493,7 +494,12 @@ namespace BL
                 Findparcel((int)FindDrone(id).Parcel.ID).PickedUp = DateTime.Now;
             }
             else
-                throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
+            {
+                if (FindDrone(id).HasParcel)
+                    throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
+                else
+                    throw new ParcelPastErroeException($"there are no parcel to pickup");
+            }
         }
         
         /// <summary>
@@ -524,8 +530,10 @@ namespace BL
 
             }
             else
-                throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have delivered");
-
+            {
+                if (FindDrone(id).Parcel == null)
+                    throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have delivered");
+            }
         }
         
         //-----------------------------------------------------------------------------

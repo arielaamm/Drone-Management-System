@@ -32,19 +32,35 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            new DroneWindow(bl, null);
+            //לא מצליח לסגור 
         }
 
         private void ReleRelease_from_charging(object sender, RoutedEventArgs e)
         {
             double t = (time - DateTime.Now).Minutes;
-            bl.DroneOutCharge(ID, t);
+
+            try
+            {
+                bl.DroneOutCharge(ID, t);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Inserting_for_charging(object sender, RoutedEventArgs e)
         {
-            bl.DroneToCharge(ID);
-            time = DateTime.Now;
+            try
+            {
+                bl.DroneToCharge(ID);
+                time = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void AttacheDrone_Click(object sender, RoutedEventArgs e)
@@ -55,8 +71,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                if (ex.GetType().ToString() == "BLExceptions.ThereIsNoParcel")
-                    MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             //לשים סגירה
         }
@@ -69,8 +84,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                if (ex.GetType().ToString() == "BLExceptions.ParcelPastErroeException")
-                    MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             //לשים סגירה
         }
@@ -83,8 +97,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                if (ex.GetType().ToString() == "BLExceptions.ParcelPastErroeException")
-                    MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             //לשים סגירה
         }

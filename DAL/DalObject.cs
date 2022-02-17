@@ -9,13 +9,13 @@ using DALExceptionscs;
 namespace DAL
 {
     //static
-    public class DalObject : IDAL.IDal
+    public sealed class DalObject : IDAL.IDal
     {
         private DalObject()
         {
             DataSource.Initialize();
         }
-        protected static DalObject instance = null;
+        static DalObject instance = null;
         public static DalObject GetInstance() 
         { 
             if (instance == null) 

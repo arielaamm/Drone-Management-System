@@ -90,8 +90,8 @@ namespace PL
             if (c < bl.Drones().Count())
             {
                 MessageBox.Show("The drone successfully added");
-                PL.DroneListWindow.GetInstance().Show();
-                PL.DroneWindow.GetInstance((int)drone.ID).Show();
+                new DroneListWindow(bl).Show();
+                new DroneWindow(bl,(int)drone.ID).Show();
             }
         }
     }
