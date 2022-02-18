@@ -20,10 +20,10 @@ namespace PL
     /// </summary>
     public partial class ActionsPage : Page
     {
-        IBL.IBL bl;
+        BlApi.IBL bl;
         int ID;
         DateTime time;
-        public ActionsPage(IBL.IBL bl,int id)
+        public ActionsPage(BlApi.IBL bl,int id)
         {
             InitializeComponent();
             this.bl = bl;

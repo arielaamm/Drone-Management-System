@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using DAL;
 using BLExceptions;
-using IBL.BO;
+using BO;
 
 namespace ConsoleUI_BL
 {

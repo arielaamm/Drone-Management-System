@@ -75,7 +75,7 @@ namespace PL
         //}
         //#endregion
 
-        IBL.IBL bl = BL.BL.GetInstance();
+        BlApi.IBL bl = BL.BL.GetInstance();
         public MainWindow()
         {
             InitializeComponent();

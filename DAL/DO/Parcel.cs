@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DateTime = System.DateTime;
-namespace IDAL.DO
+namespace DO
 {
     public struct Parcel
     {

@@ -1,8 +1,8 @@
-﻿using IDAL.DO;
+﻿using DO;
 using System;
 using System.Collections.Generic;
 using DAL;
-using IDAL;
+using DalApi;
 namespace ConsoleUI
 {
     class Program   ///תיעוד ,מוסכמות קוד ,שמות משמעותיים,
@@ -167,7 +167,7 @@ namespace ConsoleUI
             }
         }
 
-        public static void FunDisplay(IDal pro)
+        public static void FunDisplay(DalApi.IDal pro)
         {
             Console.WriteLine("OK, what do you want to display ? choose");
             Console.WriteLine("Station(1), Drone(2), Customer(3), Parcel(4)");
@@ -285,7 +285,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            IDAL.IDal p = DalObject.GetInstance();
+            DalApi.IDal p = DalObject.GetInstance();
             string Option = "0";
             Console.WriteLine("Hey you got to ariel&babauv drone's");
             Console.WriteLine("Choose what you want to do");

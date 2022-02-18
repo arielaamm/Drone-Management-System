@@ -1,7 +1,7 @@
 ﻿using BLExceptions;
 using DAL;
-using IBL.BO;
-using IDAL;
+using BO;
+using DalApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using DateTime = System.DateTime;
 namespace BL
 {
-    public sealed class BL : IBL.IBL
+    public sealed class BL : BlApi.IBL
     {
         readonly IDal dal = DalObject.GetInstance();
 
@@ -49,10 +49,10 @@ namespace BL
                 i=Math.Ceiling(i);
                 return (int)i;
             }
-            IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
+            IEnumerable<DO.Parcel> p = dal.Parcellist();
             Drone tempDrone = new();
             Random random = new();
-            foreach (IDAL.DO.Parcel i in p)
+            foreach (DO.Parcel i in p)
             {
                 if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))
                 {
@@ -64,7 +64,7 @@ namespace BL
                             Lattitude = 0,
                             Longitude = 0
                         };
-                        foreach (IDAL.DO.Station item in dal.Stationlist())
+                        foreach (DO.Station item in dal.Stationlist())
                         {
                             if (Distans(FindDrone(i.SenderId).Position, FindDrone((int)i.ID).Position) > Distans(FindDrone((int)i.ID).Position, sta))
                             {
@@ -157,7 +157,7 @@ namespace BL
                 {
                     throw new AlreadyExistException($"this id {station.ID} already exist");
                 }
-                IDAL.DO.Station tempStation = new()
+                DO.Station tempStation = new()
                 {
                     ID = station.ID,
                     StationName = station.StationName,
@@ -184,15 +184,15 @@ namespace BL
                 {
                     throw new AlreadyExistException($"this id {drone.ID} already exist");
                 }
-                IDAL.DO.Drone tempDrone = new()
+                DO.Drone tempDrone = new()
                 {
                     ID = drone.ID,
                     Model = drone.Model,
-                    Weight = (IDAL.DO.Weight)drone.Weight,
+                    Weight = (DO.Weight)drone.Weight,
                     Buttery = drone.Battery,
                     haveParcel = drone.HasParcel,
                 };
-                IDAL.DO.DroneCharge tempDroneCharge = new()
+                DO.DroneCharge tempDroneCharge = new()
                 {
                     DroneId = drone.ID,
                     StationId =  IDStarting,
@@ -222,7 +222,7 @@ namespace BL
                 {
                     throw new AlreadyExistException($"this id {customer.ID} already exist");
                 }
-                IDAL.DO.Customer tempCustomer = new()
+                DO.Customer tempCustomer = new()
                 {
                     ID = customer.ID,
                     CustomerName = customer.CustomerName,
@@ -258,12 +258,12 @@ namespace BL
                 {
                     throw new AlreadyExistException($"this id {parcel.ID} already exist");
                 }
-                IDAL.DO.Parcel tempParcel = new()
+                DO.Parcel tempParcel = new()
                 {
                     SenderId = parcel.sender.ID,
                     TargetId = parcel.target.ID,
-                    Weight = (IDAL.DO.Weight)parcel.Weight,
-                    Priority = (IDAL.DO.Priority)parcel.Priority,
+                    Weight = (DO.Weight)parcel.Weight,
+                    Priority = (DO.Priority)parcel.Priority,
                     Requested = parcel.Requested,
                     Scheduled = parcel.Scheduled,
                     PickedUp = parcel.PickedUp,
@@ -288,7 +288,7 @@ namespace BL
         /// </summary>
         public void UpdateDrone(Drone drone)
         {
-            IDAL.DO.Drone d = dal.FindDrone((int)drone.ID);
+            DO.Drone d = dal.FindDrone((int)drone.ID);
             d.Model = drone.Model;
             foreach (var item in DataSource.drones)
             {
@@ -306,7 +306,7 @@ namespace BL
 #nullable enable
         public void UpdateStation(Station station)
         {
-            IDAL.DO.Station s = dal.FindStation(station.ID);
+            DO.Station s = dal.FindStation(station.ID);
             s.StationName = station.StationName;
             s.ChargeSlots = station.FreeChargeSlots;
             foreach (var item in DataSource.stations)
@@ -324,7 +324,7 @@ namespace BL
         /// </summary>
         public void UpdateCustomer(Customer customer)
         {
-            IDAL.DO.Customer c = dal.FindCustomers(customer.ID);
+            DO.Customer c = dal.FindCustomers(customer.ID);
             c.CustomerName = customer.CustomerName;
             c.Phone = customer.Phone;
             foreach (var item in DataSource.customers)
@@ -343,7 +343,7 @@ namespace BL
         /// </summary>
         public void DroneToCharge(int id)
         {
-            IDAL.DO.Drone d = dal.FindDrone(id);
+            DO.Drone d = dal.FindDrone(id);
             if ((d.Status != 0) || (d.Buttery < 20))
             {
                 throw new DontHaveEnoughPowerException($"the drone {id} dont have enough power");
@@ -547,7 +547,7 @@ namespace BL
         public Station FindStation(int id)//סיימתי
         {
 
-            IDAL.DO.Station s = dal.FindStation(id);
+            DO.Station s = dal.FindStation(id);
             Location temp = new()
             {
                 Lattitude = s.Lattitude,
@@ -583,7 +583,7 @@ namespace BL
         /// <returns>found drone</returns>
         public Drone FindDrone(int id)//סיימתי
         {
-            IDAL.DO.Drone d = dal.FindDrone(id);
+            DO.Drone d = dal.FindDrone(id);
             ParcelTransactioning parcelTransactiningTemp = new();
             parcelTransactiningTemp.ID = null;
             Drone newStation = new();
@@ -600,16 +600,16 @@ namespace BL
             };
             newStation.Position = locationDrone;
 
-            if (d.Status == IDAL.DO.Status.PICKUP && d.Status == IDAL.DO.Status.BELONG)
+            if (d.Status == DO.Status.PICKUP && d.Status == DO.Status.BELONG)
             {
-                IDAL.DO.Parcel p = new(); 
+                DO.Parcel p = new(); 
                 foreach (var item in DataSource.parcels)
                 {
                     if (item.DroneId == id)
                         p = item;
                 }
-                IDAL.DO.Customer s = dal.FindCustomers(p.SenderId);
-                IDAL.DO.Customer t = dal.FindCustomers(p.TargetId);
+                DO.Customer s = dal.FindCustomers(p.SenderId);
+                DO.Customer t = dal.FindCustomers(p.TargetId);
                 CustomerInParcel send = new()
                 {
                     ID = (int)s.ID,
@@ -653,9 +653,9 @@ namespace BL
         /// <returns>found parcel</returns>
         public Parcel Findparcel(int id)//סיימתי
         {
-            IDAL.DO.Parcel p = dal.FindParcel(id);//לסייפ מימוש
-            IDAL.DO.Customer s = dal.FindCustomers(p.SenderId);
-            IDAL.DO.Customer t = dal.FindCustomers(p.TargetId);
+            DO.Parcel p = dal.FindParcel(id);//לסייפ מימוש
+            DO.Customer s = dal.FindCustomers(p.SenderId);
+            DO.Customer t = dal.FindCustomers(p.TargetId);
             CustomerInParcel send = new()
             {
                 ID = (int)s.ID,
@@ -666,7 +666,7 @@ namespace BL
                 ID = (int)t.ID,
                 CustomerName = t.CustomerName,
             };
-            IDAL.DO.Drone d = dal.FindDrone((int)p.DroneId);
+            DO.Drone d = dal.FindDrone((int)p.DroneId);
             Location tempD = new()
             {
                 Lattitude = d.Lattitude,
@@ -701,8 +701,8 @@ namespace BL
         /// <returns>found customer</returns>
         public Customer Findcustomer(int id)//fliping done
         {
-            IDAL.DO.Customer c = dal.FindCustomers(id);
-            IEnumerable<IDAL.DO.Parcel> p = dal.Parcellist();
+            DO.Customer c = dal.FindCustomers(id);
+            IEnumerable<DO.Parcel> p = dal.Parcellist();
             Location temp = new()
             {
                 Lattitude = c.Lattitude,

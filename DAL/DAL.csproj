@@ -5,4 +5,10 @@
     <RootNamespace />
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="DalFactory.cs">
+      <CustomToolNamespace></CustomToolNamespace>
+    </Compile>
+  </ItemGroup>
+
 </Project>

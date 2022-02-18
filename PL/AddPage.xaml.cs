@@ -22,13 +22,13 @@ namespace PL
     /// </summary>
     public partial class AddPage : Page
     {   
-        private readonly IBL.IBL bl;
-        public AddPage(IBL.IBL bl)
+        private readonly BlApi.IBL bl;
+        public AddPage(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            ModelSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Model));
-            MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Weight));
+            ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
+            MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
             foreach (var item in bl.FreeChargeslots())
             {
@@ -40,18 +40,18 @@ namespace PL
             }
             StartingstationSeletor.ItemsSource = stationToLists;
         }
-        IBL.BO.Drone drone = new();
+        BO.Drone drone = new();
 
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
-            drone.Model = "" + (IBL.BO.Model)cb.SelectedItem;
+            drone.Model = "" + (BO.Model)cb.SelectedItem;
         }
 
         private void MaxWeightSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
-            drone.Weight = (IBL.BO.Weight)cb.SelectedItem;
+            drone.Weight = (BO.Weight)cb.SelectedItem;
         }
 
         private void StartingstationSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)

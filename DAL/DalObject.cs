@@ -1,4 +1,4 @@
-﻿using IDAL.DO;
+﻿using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using DALExceptionscs;
 namespace DAL
 {
     //static
-    public sealed class DalObject : IDAL.IDal
+    public sealed class DalObject : DalApi.IDal
     {
         private DalObject()
         {

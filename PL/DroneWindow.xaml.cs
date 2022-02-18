@@ -76,19 +76,19 @@ namespace PL
         //}
         //#endregion
 
-        private readonly IBL.IBL bl = BL.BL.GetInstance();
+        private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<IBL.BO.DroneToList> DronesList
+        internal ObservableCollection<BO.DroneToList> DronesList
         {
-            get => (ObservableCollection<IBL.BO.DroneToList>)GetValue(dronesDependency);
+            get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
             set => SetValue(dronesDependency, value);
         }
         static readonly DependencyProperty dronesDependency = DependencyProperty.Register(
             nameof(DronesList),
-            typeof(ObservableCollection<IBL.BO.DroneToList>),
+            typeof(ObservableCollection<BO.DroneToList>),
             typeof(Window));
 
-        public DroneWindow(IBL.IBL bl)
+        public DroneWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
@@ -96,7 +96,7 @@ namespace PL
             DronesList = new(this.bl.Drones());
             Main.Content = new AddPage(bl);
         }
-        public DroneWindow(IBL.IBL bl,int ? ID)
+        public DroneWindow(BlApi.IBL bl,int ? ID)
         {
             if (ID == null)
             {
@@ -107,8 +107,8 @@ namespace PL
             {
                 InitializeComponent();
                 this.bl = bl;
-                var w = this.bl.Drones().ToList().Find(delegate (IBL.BO.DroneToList D) { return (D.ID == ID); });
-                List<IBL.BO.DroneToList> a = new();
+                var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
+                List<BO.DroneToList> a = new();
                 a.Add(w);
                 DronesList = new(a);
                 Main.Content = new ActionsPage(bl, (int)ID);

@@ -74,24 +74,24 @@ namespace PL
         //}
         //#endregion
 
-        private readonly IBL.IBL bl = BL.BL.GetInstance();
+        private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<IBL.BO.DroneToList> Drones
+        internal ObservableCollection<BO.DroneToList> Drones
         {
-            get => (ObservableCollection<IBL.BO.DroneToList>)GetValue(dronesDependency);
+            get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
             set => SetValue(dronesDependency, value);
         }
         static readonly DependencyProperty dronesDependency = DependencyProperty.Register(
             nameof(Drones),
-            typeof(ObservableCollection<IBL.BO.DroneToList>),
+            typeof(ObservableCollection<BO.DroneToList>),
             typeof(Window));
 
-        public DroneListWindow(IBL.IBL bl)
+        public DroneListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            WightsSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Weight));
-            StatusSeletor.ItemsSource = Enum.GetValues(typeof(IBL.BO.Status));
+            WightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
+            StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
             Drones = new(this.bl.Drones());
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,7 +103,7 @@ namespace PL
             {
                 Drones = new();
                 foreach (var drone in bl.Drones())
-                    if (drone.Weight == (IBL.BO.Weight)cb.SelectedItem)
+                    if (drone.Weight == (BO.Weight)cb.SelectedItem)
                         Drones.Add(drone);
             }
         }
@@ -117,7 +117,7 @@ namespace PL
             {
                 Drones = new();
                 foreach (var drone in bl.Drones())
-                    if (drone.Status == (IBL.BO.Status)cb.SelectedItem)
+                    if (drone.Status == (BO.Status)cb.SelectedItem)
                         Drones.Add(drone);
             }
         }
@@ -130,7 +130,7 @@ namespace PL
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
         {
             var cb = sender as DataGrid;
-            IBL.BO.DroneToList a = (IBL.BO.DroneToList)cb.SelectedValue;
+            BO.DroneToList a = (BO.DroneToList)cb.SelectedValue;
             this.Close();
             try
             {

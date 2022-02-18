@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public enum Weight { LIGHT = 0, MEDIUM = 1, HEAVY = 2, FREE = 3 }
     public enum Priority { REGULAR = 0, FAST = 1, SOS = 2 }
