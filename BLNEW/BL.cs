@@ -13,7 +13,7 @@ namespace BL
 {
     public sealed class BL : BlApi.IBL
     {
-        readonly IDal dal = DalObject.GetInstance();
+        readonly IDal dal = DalFactory.GetDal("DalObject");
 
         /// <summary>
         /// constractor

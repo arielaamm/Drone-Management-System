@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -75,7 +76,7 @@ namespace PL
         //}
         //#endregion
 
-        BlApi.IBL bl = BL.BL.GetInstance();
+        BlApi.IBL bl = BLFactory.GetBL("BL");
         public MainWindow()
         {
             InitializeComponent();

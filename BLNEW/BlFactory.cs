@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using BL;
 namespace BlApi
 {
-    public static class BlFactory
+    public static class BLFactory
     {
-        public static IBL GetBl(string type) => type switch
+        public static IBL GetBL(string type) => type switch
         {
             "BL" => BL.BL.GetInstance()
         };
