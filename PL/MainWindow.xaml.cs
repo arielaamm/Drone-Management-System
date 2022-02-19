@@ -86,5 +86,5 @@ namespace PL
         {
             new DroneListWindow(bl).Show();
         }
-    }
+    }//
 }
