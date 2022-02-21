@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Station To List
+    /// Display objrct for the next layer
+    /// </summary>
     public class StationToList
     {
         public int ID { set; get; }

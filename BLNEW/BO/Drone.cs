@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace BO
 {
+    /// <summary>
+    /// Drone in BL
+    /// </summary>
     public class Drone
     {
         public bool HasParcel { set; get; }

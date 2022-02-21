@@ -71,7 +71,7 @@ namespace DAL
                 {
                     ID = staticId,
                     Model = ""+(Model)rnd.Next(0, 3),
-                    Buttery = 100,
+                    Battery = 100,
                     haveParcel = false,
                     Lattitude = stations[counter].Lattitude,
                     Longitude = stations[counter].Longitude,

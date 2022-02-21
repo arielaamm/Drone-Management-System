@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 namespace DO
 {
+    /// <summary>
+    /// Station in DAL
+    /// </summary>
     public struct Station
     {
         public int ? ID { set; get; }

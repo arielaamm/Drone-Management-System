@@ -16,9 +16,9 @@ namespace DAL
             DataSource.Initialize();
         }
         static DalObject instance = null;
-        public static DalObject GetInstance() 
-        { 
-            if (instance == null) 
+        public static DalObject GetInstance()
+        {
+            if (instance == null)
                 instance = new DalObject();
             return instance;
         }
@@ -330,6 +330,7 @@ namespace DAL
             return Freechargeslots;
         }
         #endregion
+
     }
 }
 

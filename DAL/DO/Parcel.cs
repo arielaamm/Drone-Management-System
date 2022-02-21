@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using DateTime = System.DateTime;
 namespace DO
 {
+    /// <summary>
+    /// Parcel in DAL
+    /// </summary>
     public struct Parcel
     {
         public int ? ID { set; get; }

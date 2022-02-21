@@ -17,38 +17,10 @@ namespace BL
 
         /// <summary>
         /// constractor
-        /// </summary>
+        /// </summary> 
+
         private BL()
         {
-            int MinPower(Drone drone)
-            {
-                double a=0;
-                int c = 0;
-                int? StationID;
-                foreach (var item in dal.Stationlist())
-                {
-                    Location location = new Location()
-                    {
-                        Lattitude = item.Lattitude,
-                        Longitude = item.Longitude,
-                    };
-
-                    if ((a < Distans(location, drone.Position))&&c!=0)
-                    {
-                        a = Distans(location, drone.Position);
-                        StationID = item.ID;
-                    } 
-                    if (c == 0) 
-                    {
-                        a = Distans(location, drone.Position);
-                        c++;
-                    }
-                }
-                double i = dal.Power()[((int)drone.Weight + 1) % 3];
-                i *= a;
-                i=Math.Ceiling(i);
-                return (int)i;
-            }
             IEnumerable<DO.Parcel> p = dal.Parcellist();
             Drone tempDrone = new();
             Random random = new();
@@ -91,7 +63,7 @@ namespace BL
                 if (FindDrone(i.SenderId).Status == Status.MAINTENANCE)//
                 {
                     List<Station> s = new(); 
-                    FindDrone(i.SenderId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).location;
+                    FindDrone(i.SenderId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Position;
                     FindDrone(i.SenderId).Battery = random.Next(0, 21);
                 }
                 if (FindDrone(i.SenderId).Status == Status.CREAT)
@@ -118,17 +90,46 @@ namespace BL
             if (instance == null)
                 instance = new BL();
             return instance;
-        }
+        }    
+        int MinPower(Drone drone)
+            {
+                double a=0;
+                int c = 0;
+                int? StationID;
+                foreach (var item in dal.Stationlist())
+                {
+                    Location location = new Location()
+                    {
+                        Lattitude = item.Lattitude,
+                        Longitude = item.Longitude,
+                    };
+
+                    if ((a < Distans(location, drone.Position))&&c!=0)
+                    {
+                        a = Distans(location, drone.Position);
+                        StationID = item.ID;
+                    } 
+                    if (c == 0) 
+                    {
+                        a = Distans(location, drone.Position);
+                        c++;
+                    }
+                }
+                double i = dal.Power()[((int)drone.Weight + 1) % 3];
+                i *= a;
+                i=Math.Ceiling(i);
+                return (int)i;
+            }
         /// <summary>
         /// Distans
         /// </summary>
         /// <returns>Distans between a - b</returns>
-        static public double Distans(Location a, Location b)
+        static private double Distans(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
 
-        public static int ChackID(int ? id, string type)
+        private static int ChackID(int ? id, string type)
         {
             switch (type)
             {
@@ -161,8 +162,8 @@ namespace BL
                 {
                     ID = station.ID,
                     StationName = station.StationName,
-                    Longitude = station.location.Longitude,
-                    Lattitude = station.location.Lattitude,
+                    Longitude = station.Position.Longitude,
+                    Lattitude = station.Position.Lattitude,
                     ChargeSlots = station.FreeChargeSlots,
                 };
                 dal.AddStation(tempStation);
@@ -189,7 +190,7 @@ namespace BL
                     ID = drone.ID,
                     Model = drone.Model,
                     Weight = (DO.Weight)drone.Weight,
-                    Buttery = drone.Battery,
+                    Battery = drone.Battery,
                     haveParcel = drone.HasParcel,
                 };
                 DO.DroneCharge tempDroneCharge = new()
@@ -197,7 +198,7 @@ namespace BL
                     DroneId = drone.ID,
                     StationId =  IDStarting,
                 };
-                Location l = FindStation(IDStarting).location;
+                Location l = FindStation(IDStarting).Position;
                 tempDrone.Lattitude = l.Lattitude;
                 tempDrone.Longitude = l.Longitude;
                 FindStation(IDStarting).FreeChargeSlots--;
@@ -344,7 +345,7 @@ namespace BL
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if ((d.Status != 0) || (d.Buttery < 20))
+            if ((d.Status != 0) || (d.Battery < 20))
             {
                 throw new DontHaveEnoughPowerException($"the drone {id} dont have enough power");
             }
@@ -354,15 +355,15 @@ namespace BL
                 int sID = 0;
                 foreach (var item in Stations())
                 {
-                    if (Distans(FindStation(item.ID).location, FindDrone(id).Position) > distans)
+                    if (Distans(FindStation(item.ID).Position, FindDrone(id).Position) > distans)
                     {
-                        distans = Distans(FindStation(item.ID).location, FindDrone(id).Position);
+                        distans = Distans(FindStation(item.ID).Position, FindDrone(id).Position);
                         sID = item.ID;
                     }
                 }
                 //מצב סוללה יעודכן בהתאם למרחק בין הרחפן לתחנה
-                FindDrone(id).Position.Lattitude = FindStation(sID).location.Lattitude;
-                FindDrone(id).Position.Longitude = FindStation(sID).location.Longitude;
+                FindDrone(id).Position.Lattitude = FindStation(sID).Position.Lattitude;
+                FindDrone(id).Position.Longitude = FindStation(sID).Position.Longitude;
                 FindDrone(id).Status = (Status)4;
                 FindStation(sID).FreeChargeSlots--;
                 dal.AddDroneCharge(sID, id);
@@ -373,7 +374,7 @@ namespace BL
                         DroneCharging droneCharging1 = new()
                         {
                             ID = (int)item.DroneId,
-                            Buttery = (dal.FindDrone((int)item.DroneId)).Buttery,
+                            Battery = (dal.FindDrone((int)item.DroneId)).Battery,
                         };
                         FindStation(sID).DroneChargingInStation.Add(droneCharging1);
                         break;
@@ -461,7 +462,7 @@ namespace BL
                     }
                 }
                 Findparcel(saveID).Drone.ID = id;
-                Findparcel(saveID).Drone.Buttery = FindDrone(id).Battery;
+                Findparcel(saveID).Drone.Battery = FindDrone(id).Battery;
                 Findparcel(saveID).Drone.Position = FindDrone(id).Position;
                 Findparcel(saveID).Scheduled = DateTime.Now;
                 FindDrone(id).Status = Status.BELONG;
@@ -478,19 +479,19 @@ namespace BL
                 switch (FindDrone(id).Weight)
                 {
                     case Weight.LIGHT:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.LIGHT]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Position) * dal.Power()[(int)Weight.LIGHT]);
                         break;
                     case Weight.MEDIUM:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.MEDIUM]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Position) * dal.Power()[(int)Weight.MEDIUM]);
                         break;
                     case Weight.HEAVY:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.HEAVY]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Position) * dal.Power()[(int)Weight.HEAVY]);
                         break;
                     case Weight.FREE:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Position) * dal.Power()[(int)Weight.FREE]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Position) * dal.Power()[(int)Weight.FREE]);
                         break;
                 }
-                FindDrone(id).Position = FindDrone(id).Parcel.Lsender;
+                FindDrone(id).Position = FindDrone(id).Parcel.LocationOfSender;
                 Findparcel((int)FindDrone(id).Parcel.ID).PickedUp = DateTime.Now;
             }
             else
@@ -512,19 +513,19 @@ namespace BL
                 switch (FindDrone(id).Weight)
                 {
                     case Weight.LIGHT:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.LIGHT]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Parcel.LocationOftarget) * dal.Power()[(int)Weight.LIGHT]);
                         break;
                     case Weight.MEDIUM:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.MEDIUM]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Parcel.LocationOftarget) * dal.Power()[(int)Weight.MEDIUM]);
                         break;
                     case Weight.HEAVY:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.HEAVY]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Parcel.LocationOftarget) * dal.Power()[(int)Weight.HEAVY]);
                         break;
                     case Weight.FREE:
-                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.Lsender, FindDrone(id).Parcel.Ltarget) * dal.Power()[(int)Weight.FREE]);
+                        FindDrone(id).Battery = FindDrone(id).Battery - (Distans(FindDrone(id).Parcel.LocationOfSender, FindDrone(id).Parcel.LocationOftarget) * dal.Power()[(int)Weight.FREE]);
                         break;
                 }
-                FindDrone(id).Position = FindDrone(id).Parcel.Ltarget;
+                FindDrone(id).Position = FindDrone(id).Parcel.LocationOftarget;
                 FindDrone(id).Status = Status.CREAT;
                 Findparcel((int)FindDrone(id).Parcel.ID).Deliverd = DateTime.Now;
 
@@ -561,7 +562,7 @@ namespace BL
                     DroneCharging droneCharging1 = new()
                     {
                         ID = (int)item.DroneId,
-                        Buttery = (dal.FindDrone((int)item.DroneId)).Buttery,
+                        Battery = (dal.FindDrone((int)item.DroneId)).Battery,
                     };
                     droneChargingTemp.Add(droneCharging1);
                 }
@@ -570,7 +571,7 @@ namespace BL
             {
                 ID = (int)s.ID,
                 StationName = s.StationName,
-                location = temp,
+                Position = temp,
                 FreeChargeSlots = 5 - droneChargingTemp.Count,
                 DroneChargingInStation = droneChargingTemp,
             };
@@ -592,7 +593,7 @@ namespace BL
             newStation.Model = d.Model;
             newStation.Weight = (Weight)d.Weight;
             newStation.Status = (Status)d.Status;
-            newStation.Battery = d.Buttery;
+            newStation.Battery = d.Battery;
             Location locationDrone = new()
             {
                 Lattitude = d.Lattitude,
@@ -637,8 +638,8 @@ namespace BL
                 parcelTransactiningTemp.weight = (Weight)p.Weight;
                 parcelTransactiningTemp.sender = send;
                 parcelTransactiningTemp.target = target;
-                parcelTransactiningTemp.Lsender = locationSend;
-                parcelTransactiningTemp.Ltarget = locationTarget;
+                parcelTransactiningTemp.LocationOfSender = locationSend;
+                parcelTransactiningTemp.LocationOftarget = locationTarget;
                 parcelTransactiningTemp.distance = Distans(locationSend, locationTarget);
                 newStation.Parcel = parcelTransactiningTemp;
 
@@ -675,7 +676,7 @@ namespace BL
             DroneInParcel droneInParcelTemp = new()
             {
                 ID = (int)d.ID,
-                Buttery = d.Buttery,
+                Battery = d.Battery,
                 Position = tempD
             };
             Parcel newParcel = new()
@@ -861,7 +862,7 @@ namespace BL
                 droneToList1.Model = drones[i].Model;
                 droneToList1.Status = drones[i].Status;
                 droneToList1.Weight = drones[i].Weight;
-                droneToList1.Buttery = drones[i].Battery;
+                droneToList1.Battery = drones[i].Battery;
                 droneToList1.Position = drones[i].Position;
                 droneToList.Add(droneToList1);
                 i++;

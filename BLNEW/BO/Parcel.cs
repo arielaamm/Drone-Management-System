@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public  class Parcel
+    /// <summary>
+    /// Parcel in BL
+    /// </summary>
+    public class Parcel
     {
         public int ID { set; get; }
         public CustomerInParcel sender { set; get; }

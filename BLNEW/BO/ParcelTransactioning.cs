@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Parcel In Transaction
+    /// sub object 
+    /// </summary>
     public class ParcelTransactioning
     {
         public int ?ID { set; get; }
@@ -14,8 +18,8 @@ namespace BO
         public Weight weight { set; get; }
         public CustomerInParcel sender { set; get; }
         public CustomerInParcel target { set; get; }
-        public Location Lsender { set; get; }
-        public Location Ltarget { set; get; }
+        public Location LocationOfSender { set; get; }
+        public Location LocationOftarget { set; get; }
         public double distance { set; get; }
         //done
 

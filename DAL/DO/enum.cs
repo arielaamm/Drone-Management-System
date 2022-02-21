@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DO
 {
+    /// <summary>
+    /// Enum file
+    /// </summary>
     public enum Weight { LIGHT = 0, MEDIUM = 1, HEAVY = 2 }
     public enum Priority { REGULAR = 0, FAST = 1, SOS = 2 }
     public enum Model { MDL65 = 0, MDL45 = 1, MDL78 = 2 }

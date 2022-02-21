@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Location
+    /// help's object
+    /// </summary>
     public class Location
     {
         public double Longitude { set; get; }

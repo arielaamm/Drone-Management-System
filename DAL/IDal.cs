@@ -30,6 +30,5 @@ namespace DalApi
         IEnumerable<DO.Drone> Dronelist();
         IEnumerable<DO.Parcel> ParcelNotAssociatedList();
         IEnumerable<DO.Station> Freechargeslotslist();
-
     }
 }

@@ -15,7 +15,6 @@ namespace BlApi
         void UpdateStation(Station station);
         void UpdateCustomer(Customer customer);
         #nullable disable
-        //צריך לחשוב האם כדי להפוך את הבאים גם לצורה של השאר של קבלת ישויות 
         void DroneToCharge(int id);
         void DroneOutCharge(int id, double time);
         void AttacheDrone(int id);

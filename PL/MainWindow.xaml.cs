@@ -86,5 +86,15 @@ namespace PL
         {
             new DroneListWindow(bl).Show();
         }
+
+        private void ButtonFechar_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }//
 }

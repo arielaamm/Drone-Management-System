@@ -96,6 +96,6 @@ namespace BLExceptions
         public ParcelPastErroeException() { }
         public ParcelPastErroeException(string message) : base(message) { }
         public ParcelPastErroeException(string message, Exception innerException) : base(message, innerException) { }
-        public ParcelPastErroeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ParcelPastErroeException(SerializationInfo info, StreamingContext context) : base(info, context) { }    
     }
 }

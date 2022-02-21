@@ -30,7 +30,7 @@
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
-                <DataGridTextColumn Header="Buttery" Binding="{Binding Buttery}" />
+                <DataGridTextColumn Header="Battery" Binding="{Binding Battery}" />
                 <DataGridTextColumn Header="Lattitude" Binding="{Binding Position.Lattitude}" />
                 <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
             </DataGrid.Columns>

@@ -200,7 +200,7 @@ namespace ConsoleUI
                     Console.WriteLine("enter id new");
                     id = Int32.Parse(Console.ReadLine());
                     Drone d = pro.FindDrone(id);
-                    Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Buttery}");
+                    Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Battery}");
                     break;
                 case "Customer" or "3":
                     Console.WriteLine("enter ID");
@@ -251,7 +251,7 @@ namespace ConsoleUI
                 case "List Drone" or "2":
                     foreach (var d in pro.Dronelist())
                     {
-                        Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Buttery}\n");
+                        Console.WriteLine($"ID: {d.ID}\nModel: {d.Model}\nWeight: {d.Weight}\nStatus: {d.Status}\nButtery: {d.Battery}\n");
                     }
                     break;
                 case "List Customer" or "3":

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DO
 {
+    /// <summary>
+    /// Customer in DAL
+    /// </summary>
     public struct Customer
     {
         public int? ID { set; get; }
