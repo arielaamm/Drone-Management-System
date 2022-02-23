@@ -24,6 +24,6 @@
 
         <Label Content="Inserting for charging" Margin="172,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="122"/>
         <Label Content="Release from charging" Margin="26,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="126"/>
-        <Button Content="Button" Margin="87,370,87,78" Click="Button_Click"/>
+        <Button Content="close" Margin="87,370,87,78" Click="Button_Click"/>
     </Grid>
 </Page>

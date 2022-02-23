@@ -14,7 +14,7 @@ namespace BO
         public int ID { set; get; }
         public string CustomerName { set; get; }
         public string Phone { set; get; }
-        public Location location { set; get; }
+        public Location Position { set; get; }
         public List<ParcelInCustomer> fromCustomer { set; get; }
         public List<ParcelInCustomer> toCustomer { set; get; }
 

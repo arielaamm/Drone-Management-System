@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using System.Windows.Navigation;
 
 namespace PL
 {
@@ -92,7 +93,6 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            List<int> stationToLists = new();
             DronesList = new(this.bl.Drones());
             Main.Content = new AddPage(bl);
         }
@@ -106,14 +106,17 @@ namespace PL
             else
             {
                 InitializeComponent();
+                //this.bl = bl;
+                //var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
+                //List<BO.DroneToList> a = new();
+                //a.Add(w);
+                //DronesList = new(a);
+                //Main.Content = new ActionsPage(bl, (int)ID);
                 this.bl = bl;
-                var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
-                List<BO.DroneToList> a = new();
-                a.Add(w);
-                DronesList = new(a);
+                var t= this.bl.Drones().Where(a => ID == a.ID);
+                DronesList = new(t);
                 Main.Content = new ActionsPage(bl, (int)ID);
             }
         }
-        
     }
 }

@@ -51,17 +51,7 @@ namespace DAL
             }
             for (int i = 0; i < 5; i++)
             {       
-                Station s = new Station();
                 int counter= rnd.Next(0, 2);
-                foreach (var item in stations)
-                {
-                    
-                    if (item.ChargeSlots != 0)
-                    {
-                        s = item;
-                        break;
-                    }
-                }
                 DroneCharge temp = new()
                 { 
                     DroneId = staticId,
@@ -114,7 +104,7 @@ namespace DAL
                     Priority = (Priority)rnd.Next(1, 3),
                     Requested = DateTime.Now,
                     DroneId = drones[rnd.Next(0, drones.Count - 1)].ID,
-                    Scheduled = null,
+                    Scheduled = DateTime.Now,
                     PickedUp = null,
                     Deliverd = null,
                 };

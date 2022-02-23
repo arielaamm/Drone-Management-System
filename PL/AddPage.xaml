@@ -22,5 +22,7 @@
         <ComboBox x:Name="StartingstationSeletor" Margin="180,218,20,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
 
         <Button x:Name="BntAdd" Content="Add the drone" HorizontalAlignment="Center" Margin="0,325,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Top"/>
+        <Button Content="close" Margin="87,391,87,57" Click="Button_Click"/>
+
     </Grid>
 </Page>

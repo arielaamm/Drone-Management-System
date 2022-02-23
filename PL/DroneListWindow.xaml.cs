@@ -21,58 +21,6 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        //#region disable Close Button
-        //protected override void OnSourceInitialized(EventArgs e)
-        //{
-        //    base.OnSourceInitialized(e);
-
-        //    HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
-
-        //    if (hwndSource != null)
-        //    {
-        //        hwndSource.AddHook(HwndSourceHook);
-        //    }
-
-        //}
-
-        //private bool allowClosing = false;
-
-        //[DllImport("user32.dll")]
-        //private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-        //[DllImport("user32.dll")]
-        //private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
-
-        //private const uint MF_BYCOMMAND = 0x00000000;
-        //private const uint MF_GRAYED = 0x00000001;
-
-        //private const uint SC_CLOSE = 0xF060;
-
-        //private const int WM_SHOWWINDOW = 0x00000018;
-        //private const int WM_CLOSE = 0x10;
-
-        //private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        //{
-        //    switch (msg)
-        //    {
-        //        case WM_SHOWWINDOW:
-        //            {
-        //                IntPtr hMenu = GetSystemMenu(hwnd, false);
-        //                if (hMenu != IntPtr.Zero)
-        //                {
-        //                    EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
-        //                }
-        //            }
-        //            break;
-        //        case WM_CLOSE:
-        //            if (!allowClosing)
-        //            {
-        //                handled = true;
-        //            }
-        //            break;
-        //    }
-        //    return IntPtr.Zero;
-        //}
-        //#endregion
 
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
@@ -102,9 +50,10 @@ namespace PL
             else
             {
                 Drones = new();
-                foreach (var drone in bl.Drones())
-                    if (drone.Weight == (BO.Weight)cb.SelectedItem)
-                        Drones.Add(drone);
+                var a = from drone in bl.Drones()
+                        where (drone.Weight == (BO.Weight)cb.SelectedItem)
+                        select drone;
+                Drones = new ObservableCollection<BO.DroneToList>(a);
             }
         }
 
@@ -116,9 +65,10 @@ namespace PL
             else
             {
                 Drones = new();
-                foreach (var drone in bl.Drones())
-                    if (drone.Status == (BO.Status)cb.SelectedItem)
-                        Drones.Add(drone);
+                var a = from drone in bl.Drones()
+                        where (drone.Status == (BO.Status)cb.SelectedItem)
+                        select drone;
+                Drones = new ObservableCollection<BO.DroneToList>(a);
             }
         }
 
@@ -131,7 +81,6 @@ namespace PL
         {
             var cb = sender as DataGrid;
             BO.DroneToList a = (BO.DroneToList)cb.SelectedValue;
-            this.Close();
             try
             {
                 new DroneWindow(bl, a.ID).Show();

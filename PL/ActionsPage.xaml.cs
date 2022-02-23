@@ -32,8 +32,7 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(bl, null);
-            //לא מצליח לסגור 
+            Application.Current.Windows[4].Close();
         }
 
         private void ReleRelease_from_charging(object sender, RoutedEventArgs e)

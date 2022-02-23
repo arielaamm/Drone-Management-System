@@ -30,9 +30,12 @@ namespace PL
             ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
             MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
-            foreach (var item in bl.FreeChargeslots())
+            List <BO.StationToList> stations= (List<BO.StationToList>)bl.FreeChargeslots();
+            int i = 0;
+            while (i!=bl.FreeChargeslots().Count())
             {
-                stationToLists.Add(item.ID);
+                stationToLists.Add(stations[i].ID);
+                i++;
             }
             if (stationToLists.Count == 0)
             {
@@ -42,6 +45,10 @@ namespace PL
         }
         BO.Drone drone = new();
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Windows[4].Close();
+        }
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
