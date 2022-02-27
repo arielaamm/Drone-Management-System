@@ -83,10 +83,9 @@ namespace BL
                     //מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
                     FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
                 }
-
             }
         }
-        
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         static BL instance = null;
         public static BL GetInstance()
         {
@@ -95,34 +94,34 @@ namespace BL
             return instance;
         }    
         int MinPower(Drone drone)
+        {
+            double a=0;
+            int c = 0;
+            int? StationID;
+            foreach (var item in dal.Stationlist())
             {
-                double a=0;
-                int c = 0;
-                int? StationID;
-                foreach (var item in dal.Stationlist())
+                Location location = new Location()
                 {
-                    Location location = new Location()
-                    {
-                        Lattitude = item.Lattitude,
-                        Longitude = item.Longitude,
-                    };
+                    Lattitude = item.Lattitude,
+                    Longitude = item.Longitude,
+                };
 
-                    if ((a < Distans(location, drone.Position))&&c!=0)
-                    {
-                        a = Distans(location, drone.Position);
-                        StationID = item.ID;
-                    } 
-                    if (c == 0) 
-                    {
-                        a = Distans(location, drone.Position);
-                        c++;
-                    }
+                if ((a < Distans(location, drone.Position))&&c!=0)
+                {
+                    a = Distans(location, drone.Position);
+                    StationID = item.ID;
+                } 
+                if (c == 0) 
+                {
+                    a = Distans(location, drone.Position);
+                    c++;
                 }
-                double i = dal.Power()[((int)drone.Weight + 1) % 4];
-                i *= a;
-                i=Math.Ceiling(i);
-                return (int)i;
             }
+            double i = dal.Power()[((int)drone.Weight + 1) % 4];
+            i *= a;
+            i=Math.Ceiling(i);
+            return (int)i;
+        }
         /// <summary>
         /// Distans
         /// </summary>
@@ -130,22 +129,6 @@ namespace BL
         static private double Distans(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
-        }
-
-        private static int ChackID(int ? id, string type)
-        {
-            switch (type)
-            {
-                case "s":
-                    return DataSource.stations.FindIndex(i => i.ID == id);
-                case "d":
-                    return DataSource.drones.FindIndex(i => i.ID == id);
-                case "c":
-                    return DataSource.customers.FindIndex(i => i.ID == id);
-                case "p":
-                    return DataSource.parcels.FindIndex(i => i.ID == id);
-            }
-            return 0;
         }
         //add functaions:
         //---------------------------------------------------------------------------------
@@ -157,17 +140,13 @@ namespace BL
         {
             try
             {
-                if (ChackID(station.ID, "s") != -1)
-                {
-                    throw new AlreadyExistException($"this id {station.ID} already exist");
-                }
                 DO.Station tempStation = new()
                 {
                     ID = station.ID,
                     StationName = station.StationName,
                     Longitude = station.Position.Longitude,
                     Lattitude = station.Position.Lattitude,
-                    ChargeSlots = station.FreeChargeSlots,
+                    ChargeSlots = station.ChargeSlots,
                 };
                 dal.AddStation(tempStation);
             }
@@ -176,25 +155,22 @@ namespace BL
                 throw new AlreadyExistException($"{ex.Message}");
             }
         }
-        
+
         /// <summary>
         /// Add drone
         /// </summary>
+        readonly Random ran = new Random();
         public void AddDrone(Drone drone, int IDStarting)
         {
             try
             {
-                if (ChackID(drone.ID, "d") != -1)
-                {
-                    throw new AlreadyExistException($"this id {drone.ID} already exist");
-                }
                 DO.Drone tempDrone = new()
                 {
                     ID = drone.ID,
                     Model = drone.Model,
                     Weight = (DO.Weight)drone.Weight,
-                    Battery = drone.Battery,
-                    haveParcel = drone.HasParcel,
+                    Battery = ran.Next(20,40),
+                    haveParcel = false,
                 };
                 DO.DroneCharge tempDroneCharge = new()
                 {
@@ -204,7 +180,7 @@ namespace BL
                 Location l = FindStation(IDStarting).Position;
                 tempDrone.Lattitude = l.Lattitude;
                 tempDrone.Longitude = l.Longitude;
-                FindStation(IDStarting).FreeChargeSlots--;
+                FindStation(IDStarting).ChargeSlots--;
                 dal.AddDrone(tempDrone);
                 dal.AddDroneCharge(tempDroneCharge);
             }
@@ -222,10 +198,6 @@ namespace BL
         {
             try
             {
-                if (ChackID(customer.ID, "c") != -1)
-                {
-                    throw new AlreadyExistException($"this id {customer.ID} already exist");
-                }
                 DO.Customer tempCustomer = new()
                 {
                     ID = customer.ID,
@@ -248,31 +220,19 @@ namespace BL
         /// </summary>
         public void AddParcel(Parcel parcel)
         {
-            int? dID = null;
-            foreach (var item in dal.Dronelist())
-            {
-                if (!(item.haveParcel))
-                {
-                    dID = item.ID;
-                }
-            }
             try
             {
-                if (ChackID(parcel.ID, "p") != -1)
-                {
-                    throw new AlreadyExistException($"this id {parcel.ID} already exist");
-                }
                 DO.Parcel tempParcel = new()
                 {
                     SenderId = parcel.sender.ID,
                     TargetId = parcel.target.ID,
                     Weight = (DO.Weight)parcel.Weight,
                     Priority = (DO.Priority)parcel.Priority,
-                    Requested = parcel.Requested,
-                    Scheduled = parcel.Scheduled,
-                    PickedUp = parcel.PickedUp,
-                    Deliverd = parcel.Deliverd,
-                    DroneId = dID,
+                    Requested = DateTime.Now,
+                    Scheduled = null,
+                    PickedUp = null,
+                    Deliverd = null,
+                    DroneId = null,
                 };
 
                 dal.AddParcel(tempParcel);
@@ -282,80 +242,70 @@ namespace BL
                 throw new AlreadyExistException(ex.Message, ex);
             }
         }
-        
+
         //---------------------------------------------------------------------------------
         //updating functions:
         //---------------------------------------------------------------------------------
-        
+
         /// <summary>
         /// Update Drone model
         /// </summary>
-        public void UpdateDrone(Drone drone)
+        public void UpdateDrone(Drone drone) => dal.UpdateDrone(new DO.Drone
         {
-            DO.Drone d = dal.FindDrone((int)drone.ID);
-            d.Model = drone.Model;
-            foreach (var item in DataSource.drones)
-            {
-                if (item.ID == drone.ID)
-                {
-                    DataSource.drones.Remove(item);
-                }
-            }
-            dal.AddDrone(d);
-        }
-        
+            ID = drone.ID,
+            Battery = drone.Battery,
+            haveParcel = drone.HasParcel,
+            Lattitude = drone.Position.Lattitude,
+            Longitude = drone.Position.Longitude,
+            Model = drone.Model,
+            Status = (DO.Status)drone.Status,
+            Weight = (DO.Weight)drone.Weight,
+        });
+
         /// <summary>
         /// Update Station details
         /// </summary>
 #nullable enable
-        public void UpdateStation(Station station)
+        public void UpdateStation(Station station) => dal.UpdateStation(new DO.Station 
         {
-            DO.Station s = dal.FindStation(station.ID);
-            s.StationName = station.StationName;
-            s.ChargeSlots = station.FreeChargeSlots;
-            foreach (var item in DataSource.stations)
-            {
-                if (item.ID == station.ID)
-                {
-                    DataSource.stations.Remove(item);
-                }
-            }
-            dal.AddStation(s);
-        }
-        
+            ID = station.ID,
+            StationName = station.StationName,
+            ChargeSlots = station.ChargeSlots,
+            Lattitude = station.Position.Lattitude,
+            Longitude = station.Position.Longitude,
+        });
+
         /// <summary>
         /// Update Custemer details
         /// </summary>
-        public void UpdateCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer) => dal.UpdateCustemer(new DO.Customer
         {
-            DO.Customer c = dal.FindCustomers(customer.ID);
-            c.CustomerName = customer.CustomerName;
-            c.Phone = customer.Phone;
-            foreach (var item in DataSource.customers)
-            {
-                if (item.ID == customer.ID)
-                {
-                    DataSource.customers.Remove(item);
-                }
-            }
-            dal.AddCustomer(c);
-        }
+            ID = customer.ID,
+            CustomerName = customer.CustomerName,
+            Lattitude = customer.Position.Lattitude,
+            Longitude = customer.Position.Longitude,
+            Phone = customer.Phone,
+        });
 #nullable disable
-        
+
         /// <summary>
         /// Inserting a drone from a charger
         /// </summary>
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if ((d.Status != 0) || (d.Battery < 20))
+            if ((d.Status == DO.Status.CREAT) || (d.Battery < 20)|| (d.Status == (DO.Status.PICKUP) || (d.Status == (DO.Status.MAINTENANCE))
             {
-                throw new DontHaveEnoughPowerException($"the drone {id} dont have enough power");
+                throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
             }
             else
             {
-                double distans = 0;
+                double  distans = 0;
                 int sID = 0;
+                var StationID = from s in Stations()
+                                let a = 0
+                                where Distans(FindStation(s.ID).Position, FindDrone(id).Position) > a
+                                select s;
                 foreach (var item in Stations())
                 {
                     if (Distans(FindStation(item.ID).Position, FindDrone(id).Position) > distans)
@@ -364,22 +314,30 @@ namespace BL
                         sID = item.ID;
                     }
                 }
+
                 //מצב סוללה יעודכן בהתאם למרחק בין הרחפן לתחנה
-                FindDrone(id).Position.Lattitude = FindStation(sID).Position.Lattitude;
-                FindDrone(id).Position.Longitude = FindStation(sID).Position.Longitude;
-                FindDrone(id).Status = (Status)4;
-                FindStation(sID).FreeChargeSlots--;
-                dal.AddDroneCharge(sID, id);
-                DO.DroneCharge droneCharge = DataSource.droneCharges.Find(delegate (DO.DroneCharge drone) { return (int)drone.DroneId == id; });
-                DroneCharging droneCharging1 = new()
-                {
-                    ID = (int)droneCharge.DroneId,
-                    Battery = (dal.FindDrone((int)droneCharge.DroneId)).Battery,
-                };
-                FindStation(sID).DroneChargingInStation.Add(droneCharging1);
+                dal.DroneToCharge(id, sID);
+                //DataSource.drones.ForEach(delegate (DO.Drone drone)
+                //{
+                //    if (drone.ID == id)
+                //    {
+                //        drone.Lattitude = 2/*FindStation(sID).Position.Lattitude*/;
+                //        drone.Longitude = 2/* FindStation(sID).Position.Longitude*/;
+                //        drone.Status = DO.Status.MAINTENANCE;
+                //    }
+                //});
+                //FindStation(sID).FreeChargeSlots--;
+                //dal.AddDroneCharge(sID, id);
+                //DO.DroneCharge droneCharge = DataSource.droneCharges.Find(delegate (DO.DroneCharge drone) { return (int)drone.DroneId == id; });
+                //DroneCharging droneCharging1 = new()
+                //{
+                //    ID = (int)droneCharge.DroneId,
+                //    Battery = (dal.FindDrone((int)droneCharge.DroneId)).Battery,
+                //};
+                //FindStation(sID).DroneChargingInStation.Add(droneCharging1);
             }
         }
-        
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Removing a drone from a charger
         /// </summary>
@@ -394,7 +352,7 @@ namespace BL
                 {
                     if (item.DroneId == id)
                     {
-                        FindStation(item.StationId).FreeChargeSlots++;
+                        FindStation(item.StationId).ChargeSlots++;
                         DataSource.droneCharges.Remove(item);
                         foreach (var item1 in FindStation(item.StationId).DroneChargingInStation)
                         {
@@ -533,7 +491,6 @@ namespace BL
                 FindDrone(id).Position = FindDrone(id).Parcel.LocationOftarget;
                 FindDrone(id).Status = Status.CREAT;
                 Findparcel((int)FindDrone(id).Parcel.ID).Deliverd = DateTime.Now;
-
             }
             else
             {
@@ -577,7 +534,7 @@ namespace BL
                 ID = (int)s.ID,
                 StationName = s.StationName,
                 Position = temp,
-                FreeChargeSlots = 5 - droneChargingTemp.Count,
+                ChargeSlots = 5 - droneChargingTemp.Count,
                 DroneChargingInStation = droneChargingTemp,
             };
             return newStation;
@@ -835,8 +792,8 @@ namespace BL
                 StationToList temp = new();
                 temp.ID = stations[i].ID;
                 temp.StationName = stations[i].StationName;
-                temp.FreeChargeSlots = stations[i].FreeChargeSlots;
-                temp.UsedChargeSlots = 5-stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                temp.FreeChargeSlots = stations[i].ChargeSlots;
+                temp.UsedChargeSlots = 5-stations[i].ChargeSlots;//בעיההה
                 temp1.Add(temp);
             }
             return temp1;
@@ -1023,8 +980,8 @@ namespace BL
                     StationToList temp = new();
                     temp.ID = stations[i].ID;
                     temp.StationName = stations[i].StationName;
-                    temp.FreeChargeSlots = stations[i].FreeChargeSlots;
-                    temp.UsedChargeSlots = 5 - stations[i].FreeChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
+                    temp.FreeChargeSlots = stations[i].ChargeSlots;
+                    temp.UsedChargeSlots = 5 - stations[i].ChargeSlots;//חייבים לבדוק כל הזמן שזה לא שלילי אם זה שלילי חייבים לברר מה ההבעיה
                     temp1.Add(temp);
                     i++;
                 }

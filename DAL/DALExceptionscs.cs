@@ -12,10 +12,8 @@ namespace DALExceptionscs
     {
         public AlreadyExistException() : base() { }
         public AlreadyExistException(string message) : base(message) { }
-        public AlreadyExistException(string message, Exception innerException)
-            : base(message, innerException) { }
-        public AlreadyExistException(SerializationInfo info, StreamingContext context)
-            : base(info, context) { }
+        public AlreadyExistException(string message, Exception innerException) : base(message, innerException) { }
+        public AlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
     public class DoesNotExistException : Exception
@@ -23,6 +21,48 @@ namespace DALExceptionscs
         public DoesNotExistException() { }
         public DoesNotExistException(string message) : base(message) { }
         public DoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
-        protected DoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public DoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class DroneInMiddleActionException : Exception
+    {
+        public DroneInMiddleActionException() { }
+        public DroneInMiddleActionException(string message) : base(message) { }
+        public DroneInMiddleActionException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneInMiddleActionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class DroneNotChargingException : Exception
+    {
+        public DroneNotChargingException() { }
+        public DroneNotChargingException(string message) : base(message) { }
+        public DroneNotChargingException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneNotChargingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+    [Serializable]
+    public class ThereAreNoRoomException : Exception
+    {
+        public ThereAreNoRoomException() { }
+        public ThereAreNoRoomException(string message) : base(message) { }
+        public ThereAreNoRoomException(string message, Exception innerException) : base(message, innerException) { }
+        public ThereAreNoRoomException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class PhoneIsUsedException : Exception
+    {
+        public PhoneIsUsedException() { }
+        public PhoneIsUsedException(string message) : base(message) { }
+        public PhoneIsUsedException(string message, Exception innerException) : base(message, innerException) { }
+        public PhoneIsUsedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+    [Serializable]
+    public class NameIsUsedException : Exception
+    {
+        public NameIsUsedException() { }
+        public NameIsUsedException(string message) : base(message) { }
+        public NameIsUsedException(string message, Exception innerException) : base(message, innerException) { }
+        public NameIsUsedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

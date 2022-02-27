@@ -17,7 +17,7 @@ namespace DO
         public string Model { set; get;}
         public Weight Weight { set; get; }
         public Status Status { set; get; }
-        public double Battery { set; get; } 
+        public double Battery { set; get; }
         public double Longitude { set; get; }
         public double Lattitude { set; get; }
 

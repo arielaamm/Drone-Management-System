@@ -7,32 +7,30 @@ using DO;
 using DAL;
 namespace DAL
 {
-
-    public class DataSource
+    internal class Config
     {
+        public static int Idforparcel = 0;
+        internal static double free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
+        internal static double light { get { return 7; } }
+        internal static double medium { get { return 10; } }
+        internal static double heavy { get { return 12; } }
+        internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
         public static int sta = 123456;
         public static int staticId = 1;
+    }
+    public class DataSource
+    {
+
         public static double GetRandomNumber(double minimum, double maximum)
         {
             Random random = new Random();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
-        public static List<Drone> drones = new();
-        public static List<DroneCharge> droneCharges = new();
-        public static List<Station> stations = new();
-        public static List<Customer> customers = new();
-        public static List<Parcel> parcels = new();
-
-        internal class Config
-        {
-            public static int Idforparcel = 0;
-            internal static double free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
-            internal static double light { get { return 7; } }
-            internal static double medium { get { return 10; } }
-            internal static double heavy { get { return 12; } }
-            internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
-        }
-
+        internal static List<Drone> drones = new();
+        internal static List<DroneCharge> droneCharges = new();
+        internal static List<Station> stations = new();
+        internal static List<Customer> customers = new();
+        internal static List<Parcel> parcels = new();
         public static void Initialize()
         {
             Random rnd = new Random();
@@ -40,13 +38,13 @@ namespace DAL
             {
                 Station s = new Station()
                 {
-                    ID = staticId,
+                    ID = Config.staticId,
                     StationName = "Station" +i,
                     Longitude = GetRandomNumber(33.289273, 29.494665),
                     Lattitude = GetRandomNumber(35.569495, 34.904675),
                     ChargeSlots = 5,
                 };
-                staticId++;
+                Config.staticId++;
                 stations.Add(s);
             }
             for (int i = 0; i < 5; i++)
@@ -54,12 +52,12 @@ namespace DAL
                 int counter= rnd.Next(0, 2);
                 DroneCharge temp = new()
                 { 
-                    DroneId = staticId,
+                    DroneId = Config.staticId,
                     StationId = (int)stations[counter].ID,
                 };
                 Drone d = new Drone()
                 {
-                    ID = staticId,
+                    ID = Config.staticId,
                     Model = ""+(Model)rnd.Next(0, 3),
                     Battery = 100,
                     haveParcel = false,
@@ -68,7 +66,7 @@ namespace DAL
                 };
                 droneCharges.Add(temp);
                 drones.Add(d);
-                staticId++;
+                Config.staticId++;
             }
 
             
@@ -76,13 +74,13 @@ namespace DAL
             {
                 Customer c = new Customer()
                 {
-                    ID = staticId,
+                    ID = Config.staticId,
                     CustomerName = "Customer" + i,
                     Phone = "05" + rnd.Next(10000000, 99999999),
                     Longitude = GetRandomNumber(33.289273, 29.494665),
                     Lattitude = GetRandomNumber(35.569495, 34.904675),
                 };
-                staticId++;
+                Config.staticId++;
                 customers.Add(c);
             }
 
@@ -97,7 +95,7 @@ namespace DAL
 
                 Parcel p = new Parcel()
                 {
-                    ID = staticId,
+                    ID = Config.staticId,
                     SenderId = (int)customers[sID].ID,
                     TargetId = (int)customers[tID].ID,
                     Weight = (Weight)rnd.Next(0, 3),
@@ -108,11 +106,11 @@ namespace DAL
                     PickedUp = null,
                     Deliverd = null,
                 };
-                staticId++;
+                Config.staticId++;
                 parcels.Add(p);
             }
-            sta++;
-            Config.Idforparcel = sta;
+            Config.sta++;
+            Config.Idforparcel = Config.sta;
             for (int i = 0; i < droneCharges.Count; i++)
             {
                 Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });

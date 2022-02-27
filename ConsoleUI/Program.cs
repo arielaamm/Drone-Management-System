@@ -9,42 +9,42 @@ namespace ConsoleUI
     {
         public static void Viewid(string type)
         {
-            int count = 0;
-            switch (type)
-            {
-                case "p":
-                    foreach (var i in DataSource.parcels)
-                    {
-                        count++;
-                        Console.WriteLine($"id:{count} = {i.ID}");
-                    }
-                    count = 0;
-                    break;
-                case "d":
-                    foreach (var i in DataSource.drones)
-                    {
-                        count++;
-                        Console.WriteLine($"id:{count} = {i.ID}");
-                    }
-                    count = 0;
-                    break;
-                case "c":
-                    foreach (var i in DataSource.customers)
-                    {
-                        count++;
-                        Console.WriteLine($"id:{count} = {i.ID}");
-                    }
-                    count = 0;
-                    break;
-                case "s":
-                    foreach (var i in DataSource.stations)
-                    {
-                        count++;
-                        Console.WriteLine($"id:{count} = {i.ID}");
-                    }
-                    count = 0;
-                    break;
-            }//
+            //int count = 0;
+            //switch (type)
+            //{
+            //    case "p":
+            //        foreach (var i in DataSource.parcels)
+            //        {
+            //            count++;
+            //            Console.WriteLine($"id:{count} = {i.ID}");
+            //        }
+            //        count = 0;
+            //        break;
+            //    case "d":
+            //        foreach (var i in DataSource.drones)
+            //        {
+            //            count++;
+            //            Console.WriteLine($"id:{count} = {i.ID}");
+            //        }
+            //        count = 0;
+            //        break;
+            //    case "c":
+            //        foreach (var i in DataSource.customers)
+            //        {
+            //            count++;
+            //            Console.WriteLine($"id:{count} = {i.ID}");
+            //        }
+            //        count = 0;
+            //        break;
+            //    case "s":
+            //        foreach (var i in DataSource.stations)
+            //        {
+            //            count++;
+            //            Console.WriteLine($"id:{count} = {i.ID}");
+            //        }
+            //        count = 0;
+            //        break;
+            //}
         }
         public static void FunAddition(IDal pro)
         {

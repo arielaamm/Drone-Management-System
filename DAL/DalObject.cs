@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
 using DALExceptionscs;
+using System.Runtime.Serialization;
+
 namespace DAL
 {
     //static
     public sealed class DalObject : DalApi.IDal
     {
-        private DalObject()
-        {
-            DataSource.Initialize();
-        }
+        private DalObject() { DataSource.Initialize(); }
+
         static DalObject instance = null;
         public static DalObject GetInstance()
         {
@@ -25,54 +25,59 @@ namespace DAL
         public double[] Power()
         {
             double[] a = {
-                DataSource.Config.free,
-                DataSource.Config.light,
-                DataSource.Config.medium,
-                DataSource.Config.heavy,
-                DataSource.Config.ChargePerHour };
+                DAL.Config.free,
+                DAL.Config.light,
+                DAL.Config.medium,    
+                DAL.Config.heavy,
+                DAL.Config.ChargePerHour };
             return a;
         }
         #region add (1)
         public void AddStation(Station s)
         {
-            DataSource.staticId++;
+            int index = DataSource.stations.FindIndex(i => i.ID == s.ID);
+            if (index != -1)
+                throw new AlreadyExistException("Already exist in the system");
+            Config.staticId++;
             DataSource.stations.Add(s);
         }
 
         public void AddDrone(Drone d)
         {
-            DataSource.staticId++;
+            int index = DataSource.drones.FindIndex(i => i.ID == d.ID);
+            if (index != -1)
+                throw new AlreadyExistException ("Already exist in the system");    
+            Config.staticId++;
             DataSource.drones.Add(d);
-            Station s = new Station();
-            foreach (var item in DataSource.stations)
-            {
-                if (item.ChargeSlots != 0)
-                {
-                    s = item;
-                    break;
-                }
-            }
+            DataSource.stations.FindIndex(i => i.ChargeSlots > 0);
+            Station s = new();
+            s = DataSource.stations[index];
+            s.ChargeSlots--;
+            DataSource.stations[index]=s;
             DroneCharge temp = new DroneCharge()
             {
                 DroneId = d.ID,
                 StationId = (int)s.ID,
             };
-            DataSource.stations.Remove(FindStation((int)s.ID));
-            s.ChargeSlots--;
-            AddStation(s);
             AddDroneCharge(temp);
         }
 
-        public void AddCustomer(Customer c)
+        public void AddCustomer(Customer c) 
         {
-            DataSource.staticId++;
+            int index = DataSource.customers.FindIndex(i => i.ID == c.ID);
+            if (index != -1)
+                throw new AlreadyExistException("Already exist in the system");
+            Config.staticId++;
             DataSource.customers.Add(c);
         }
 
         public void AddParcel(Parcel p)
         {
-            p.ID = DataSource.staticId;
-            DataSource.staticId++;
+            p.ID = Config.staticId;
+            Config.staticId++;
+            int index = DataSource.parcels.FindIndex(i => i.ID == p.ID);
+            if (index != -1)
+                throw new AlreadyExistException("Already exist in the system");
             DataSource.parcels.Add(p);
         }
 
@@ -80,162 +85,171 @@ namespace DAL
         {
             DroneCharge d = new DroneCharge();
             d.DroneId = DroneId;
+            int index = DataSource.droneCharges.FindIndex(i => i.DroneId == DroneId);
+            if (index != -1)
+                throw new AlreadyExistException("Already exist in the system");
             d.StationId = StationId;
             DataSource.droneCharges.Add(d);
         }
 
         public void AddDroneCharge(DroneCharge d)
         {
+            int index = DataSource.droneCharges.FindIndex(i => i.DroneId == d.DroneId);
+            if (index != -1)
+                throw new AlreadyExistException("Already exist in the system");
             DataSource.droneCharges.Add(d);
         }
         #endregion
         #region update (2)
+        public void UpdateDrone(Drone drone) 
+        {
+            int index = DataSource.drones.FindIndex(i => i.ID==drone.ID);
+            DataSource.drones[index] = drone;
+        }
+
+        public void UpdateStation(Station station)
+        {
+            if (DataSource.stations.TrueForAll(i=>i.StationName!=station.StationName))
+                throw new NameIsUsedException($"This name {station.StationName} is used");
+            int index = DataSource.stations.FindIndex(i => i.ID == station.ID);
+            DataSource.stations[index] = station;
+        }
+        public void UpdateParcel(Parcel parcel)
+        {
+            int index = DataSource.parcels.FindIndex(i => i.ID == parcel.ID);
+            DataSource.parcels[index] = parcel;
+        }
+        public void UpdateCustemer(Customer customer)
+        {
+            if (DataSource.customers.TrueForAll(i => i.CustomerName != customer.CustomerName))
+                throw new NameIsUsedException($"This name {customer.CustomerName} is used");
+            if (DataSource.customers.TrueForAll(i => i.Phone != customer.Phone))
+                throw new PhoneIsUsedException($"This phone {customer.Phone} is used");
+            int index = DataSource.customers.FindIndex(i => i.ID == customer.ID);
+            DataSource.customers[index] = customer;
+        }
         public void AttacheDrone(int parcelID)
         {
-            Parcel p = new();
+            int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.CREAT || i.Status == Status.CREAT);
             Drone d = new();
-            foreach (var i in DataSource.parcels)
-            {
-                if (i.ID == parcelID)
-                {
-                    p = i;
-                    break;
-                }
-            }
-            foreach (var i in DataSource.drones)
-            {
-                if ((i.Status == 0) && (i.Weight > p.Weight))
-                {
-                    p.DroneId = i.ID;
-                    p.Scheduled = DateTime.Now;
-                    d = i;
-                    d.Status = (Status)0;
-                    break;
-                }
-            }
+            d = DataSource.drones[indexDrone];
+            d.Status = Status.BELONG;
+            d.haveParcel = true;
+            DataSource.drones[indexDrone] = d;
+
+            int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
+            Parcel p = new();
+            p = DataSource.parcels[indexParcel];
+            p.DroneId = d.ID;
+            p.Scheduled = DateTime.Now;
+            DataSource.parcels[indexParcel] = p;
         }
 
         public void PickParcel(int parcelID)
         {
+            int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
-            foreach (var i in DataSource.parcels)
-            {
-                if (i.ID == parcelID)
-                {
-                    p = i;
-                    break;
-                }
-            }
-            int keeper = 0;
-            foreach (var i in DataSource.drones)
-            {
+            p = DataSource.parcels[indexParcel];
+            p.PickedUp = DateTime.Now;
+            DataSource.parcels[indexParcel] = p;
 
-                if (i.ID == p.DroneId)
-                {
-                    p.PickedUp = DateTime.Now;
-                    keeper = (int)i.ID;
-                    break;
-                }
-            }
-            Drone d = FindDrone(keeper);
-            d.Status = (Status)2;
+            int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
+            Drone d = new();
+            d = DataSource.drones[indexDrone];
+            d.Status = Status.PICKUP;
+            DataSource.drones[indexDrone] = d;
+            //Parcel p = new();
+            //foreach (var i in DataSource.parcels)
+            //{
+            //    if (i.ID == parcelID)
+            //    {
+            //        p = i;
+            //        break;
+            //    }
+            //}
+            //int keeper = 0;
+            //foreach (var i in DataSource.drones)
+            //{
+
+            //    if (i.ID == p.DroneId)
+            //    {
+            //        p.PickedUp = DateTime.Now;
+            //        keeper = (int)i.ID;
+            //        break;
+            //    }
+            //}
+            //Drone d = FindDrone(keeper);
+            //d.Status = (Status)2;
 
         }
 
         public void ParcelToCustomer(int parcelID)
         {
+            int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
-            foreach (var i in DataSource.parcels)
-            {
-                if (i.ID == parcelID)
-                {
-                    p = i;
-                    break;
-                }
-            }
-            int keeper = 0;
-            foreach (var i in DataSource.customers)
-            {
-                if (i.ID == p.TargetId)
-                {
-                    p.Deliverd = DateTime.Now;
-                    keeper = (int)p.DroneId;
-                    break;
-                }
-            }
-            Drone d = FindDrone(keeper);
-            d.Status = (Status)0;
-
+            p = DataSource.parcels[indexParcel];
+            p.Deliverd = DateTime.Now;
+            DataSource.parcels[indexParcel] = p;
+            //Parcel p = new();
+            //foreach (var i in DataSource.parcels)
+            //{
+            //    if (i.ID == parcelID)
+            //    {
+            //        p = i;
+            //        break;
+            //    }
+            //}
+            //int keeper = 0;
+            //foreach (var i in DataSource.customers)
+            //{
+            //    if (i.ID == p.TargetId)
+            //    {
+            //        p.Deliverd = DateTime.Now;
+            //        keeper = (int)p.DroneId;
+            //        break;
+            //    }
+            //}
+            //Drone d = FindDrone(keeper);
+            //d.Status = (Status)0;
         }
 
         public void DroneToCharge(int droneID, int stationID)
         {
             Drone d = new();
-            int index = -1;
-            foreach (var i in DataSource.drones)
-            {
-                if (i.ID == droneID)
-                {
-                    d = i;
-                    break;
-                }
-                index++;
-
-            }
-            d.Status = (Status)1;
             Station s = new();
-            foreach (var i in DataSource.stations)
-            {
-                if (i.ID == stationID)
-                {
-                    s = i;
-                    break;
-                }
-            }
-            s.ChargeSlots++;
-            DataSource.drones.RemoveAt(index);
-            DataSource.drones.Insert(index, d);
+            int index = DataSource.drones.FindIndex(i => i.ID == droneID);
+            if (DataSource.drones[index].Status!=0)
+                throw new DroneInMiddleActionException("The drone is in the middle of the action");
+            d = DataSource.drones[index];
+            d.Status = Status.MAINTENANCE;
+            DataSource.drones[index] = d;
+            index = DataSource.stations.FindIndex(i => i.ID == stationID);
+            if (DataSource.stations[index].ChargeSlots > 0)
+                throw new ThereAreNoRoomException("There is no more room to load another Drone");
+            s = DataSource.stations[index];
+            s.ChargeSlots--;
+            DataSource.stations[index] = s;
             AddDroneCharge(droneID, stationID);
         }
 
         public void DroneOutCharge(int droneID)
         {
             Drone d = new();
-            int index = -1;
-            foreach (var i in DataSource.drones)
-            {
-                if (i.ID == droneID)
-                {
-                    d = i;
-                    break;
-                }
-                index++;
-            }
-            d.Status = (Status)0;
-            DataSource.drones.RemoveAt(index);
-            DataSource.drones.Insert(index, d);
-            index = 0;
-            ;
-            foreach (var i in DataSource.droneCharges)
-            {
-                if (d.ID == droneID)
-                {
-                    Station s = new();
-                    foreach (var o in DataSource.stations)
-                    {
-                        if (o.ID == i.StationId)
-                        {
-                            s = o;
-                            break;
-                        }
-                    }
-                    s.ChargeSlots--;
-                    DataSource.droneCharges.RemoveAt(index);
-                    break;
-                }
-                index++;
-            }
+            Station s = new();
+            int index = DataSource.drones.FindIndex(i => i.ID == droneID);
+            if (DataSource.drones[index].Status != 0)
+                throw new DroneNotChargingException("The drone is not charging");
+            d = DataSource.drones[index];
+            d.Status = Status.CREAT;
+            DataSource.drones[index] = d;
 
+            index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+            int indexStation = DataSource.droneCharges[index].StationId;
+            DataSource.droneCharges.RemoveAt(index);
+
+            s = DataSource.stations[index];
+            s.ChargeSlots++;
+            DataSource.stations[index] = s;
         }
 
         #endregion
@@ -243,55 +257,22 @@ namespace DAL
 
         public Station FindStation(int id)
         {
-            Station s = new Station();
-            foreach (var i in DataSource.stations)
-            {
-                if (i.ID == id)
-                {
-                    return i;
-                }
-            }
-            return s;
+            return DataSource.stations[DataSource.stations.FindIndex(i => i.ID == id)];
         }
 
         public Drone FindDrone(int id)
         {
-            Drone d = new Drone();
-            foreach (var i in DataSource.drones)
-            {
-                if (i.ID == id)
-                {
-                    return i;
-                }
-
-            }
-            return d;
+            return DataSource.drones[DataSource.drones.FindIndex(i => i.ID == id)];
         }
 
         public Customer FindCustomers(int id)
         {
-            Customer c = new Customer();
-            foreach (var i in DataSource.customers)
-            {
-                if (i.ID == id)
-                {
-                    return i;
-                }
-            }
-            return c;
+            return DataSource.customers[DataSource.customers.FindIndex(i => i.ID == id)];
         }
 
         public Parcel FindParcel(int id)
         {
-            Parcel p = new Parcel();
-            foreach (var i in DataSource.parcels)
-            {
-                if (i.ID == id)
-                {
-                    return i;
-                }
-            }
-            return p;
+            return DataSource.parcels[DataSource.parcels.FindIndex(i => i.ID == id)];
         }
 
         #endregion
@@ -306,28 +287,16 @@ namespace DAL
 
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
-            List<Parcel> notassociated = new();
-            foreach (var i in DataSource.parcels)
-            {
-                if (i.DroneId == 0)
-                {
-                    notassociated.Add(i);
-                }
-            }
-            return notassociated;
+            return from Parcel in DataSource.parcels
+                   where Parcel.DroneId == 0
+                   select Parcel;
         }
 
         public IEnumerable<Station> Freechargeslotslist()
         {
-            List<Station> Freechargeslots = new();
-            foreach (var i in DataSource.stations)
-            {
-                if (i.ChargeSlots > 0)
-                {
-                    Freechargeslots.Add(i);
-                }
-            }
-            return Freechargeslots;
+            return from Station in DataSource.stations
+                   where Station.ChargeSlots > 0
+                   select Station;
         }
         #endregion
 

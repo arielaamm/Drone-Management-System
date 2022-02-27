@@ -14,7 +14,7 @@ namespace BO
         public int ID { set; get; }
         public string StationName { set; get; }
         public Location Position { set; get; }
-        public int FreeChargeSlots { set; get; }
+        public int ChargeSlots { set; get; }
         public List<DroneCharging> DroneChargingInStation { set; get; }
     }
 }
