@@ -98,4 +98,12 @@ namespace BLExceptions
         public ParcelPastErroeException(string message, Exception innerException) : base(message, innerException) { }
         public ParcelPastErroeException(SerializationInfo info, StreamingContext context) : base(info, context) { }    
     }
+    [Serializable]
+    public class DroneIsBusy : Exception
+    {
+        public DroneIsBusy() { }
+        public DroneIsBusy(string message) : base(message) { }
+        public DroneIsBusy(string message, Exception innerException) : base(message, innerException) { }
+        public DroneIsBusy(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

@@ -15,5 +15,6 @@ namespace DO
         public double Longitude { set; get; }
         public double Lattitude { set; get; }
         public int ChargeSlots { set; get; }
+        public int BusyChargeSlots { set; get; }
     }
 }

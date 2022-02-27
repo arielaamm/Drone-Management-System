@@ -49,10 +49,10 @@ namespace DAL
                 throw new AlreadyExistException ("Already exist in the system");    
             Config.staticId++;
             DataSource.drones.Add(d);
-            DataSource.stations.FindIndex(i => i.ChargeSlots > 0);
+            index = DataSource.stations.FindIndex(i => i.ChargeSlots-i.BusyChargeSlots > 0);
             Station s = new();
             s = DataSource.stations[index];
-            s.ChargeSlots--;
+            s.BusyChargeSlots--;
             DataSource.stations[index]=s;
             DroneCharge temp = new DroneCharge()
             {
@@ -135,7 +135,6 @@ namespace DAL
             d = DataSource.drones[indexDrone];
             d.Status = Status.BELONG;
             d.haveParcel = true;
-            DataSource.drones[indexDrone] = d;
 
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
@@ -143,6 +142,8 @@ namespace DAL
             p.DroneId = d.ID;
             p.Scheduled = DateTime.Now;
             DataSource.parcels[indexParcel] = p;
+            DataSource.drones[indexDrone] = d;
+
         }
 
         public void PickParcel(int parcelID)
@@ -156,6 +157,11 @@ namespace DAL
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
+            double distans = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+                Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
+            d.Battery = d.Battery - distans * Power()[(int)d.Status];
+            d.Longitude = FindCustomers(p.SenderId).Longitude;
+            d.Lattitude = FindCustomers(p.SenderId).Lattitude;   
             d.Status = Status.PICKUP;
             DataSource.drones[indexDrone] = d;
             //Parcel p = new();
@@ -190,6 +196,16 @@ namespace DAL
             p = DataSource.parcels[indexParcel];
             p.Deliverd = DateTime.Now;
             DataSource.parcels[indexParcel] = p;
+            int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
+            Drone d = new();
+            d = DataSource.drones[indexDrone];
+            double distans = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+                Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
+            d.Battery = d.Battery - distans * Power()[(int)d.Status];
+            d.Longitude = FindCustomers(p.TargetId).Longitude;
+            d.Lattitude = FindCustomers(p.TargetId).Lattitude;
+            d.Status = Status.CREAT;
+            DataSource.drones[indexDrone] = d;
             //Parcel p = new();
             //foreach (var i in DataSource.parcels)
             //{
@@ -227,7 +243,7 @@ namespace DAL
             if (DataSource.stations[index].ChargeSlots > 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
             s = DataSource.stations[index];
-            s.ChargeSlots--;
+            s.BusyChargeSlots++;
             DataSource.stations[index] = s;
             AddDroneCharge(droneID, stationID);
         }
@@ -248,7 +264,7 @@ namespace DAL
             DataSource.droneCharges.RemoveAt(index);
 
             s = DataSource.stations[index];
-            s.ChargeSlots++;
+            s.BusyChargeSlots--;
             DataSource.stations[index] = s;
         }
 
@@ -285,6 +301,8 @@ namespace DAL
 
         public IEnumerable<Drone> Dronelist() => DataSource.drones;
 
+        public IEnumerable<DroneCharge> DroneChargelist() => DataSource.droneCharges;
+
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in DataSource.parcels
@@ -295,7 +313,7 @@ namespace DAL
         public IEnumerable<Station> Freechargeslotslist()
         {
             return from Station in DataSource.stations
-                   where Station.ChargeSlots > 0
+                   where Station.BusyChargeSlots > 0
                    select Station;
         }
         #endregion

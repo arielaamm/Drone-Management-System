@@ -53,23 +53,23 @@ namespace BL
                         FindDrone((int)i.DroneId).Position = FindStation(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
                     }
                     FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check minpower
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
                 }
-                if (FindDrone(i.SenderId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
+                if (FindDrone((int)i.DroneId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
                 {
-                    FindDrone(i.SenderId).Status = (Status)random.Next(3, 5);
-                    if (FindDrone(i.SenderId).Status == Status.PROVID)
+                    FindDrone((int)i.DroneId).Status = (Status)random.Next(3, 5);
+                    if (FindDrone((int)i.DroneId).Status == Status.PROVID)
                     {
-                        FindDrone(i.SenderId).Status = Status.CREAT;
+                        FindDrone((int)i.DroneId).Status = Status.CREAT;
                     }
                 }
-                if (FindDrone(i.SenderId).Status == Status.MAINTENANCE)//
+                if (FindDrone((int)i.DroneId).Status == Status.MAINTENANCE)//
                 {
                     List<Station> s = new(); 
-                    FindDrone(i.SenderId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Position;
-                    FindDrone(i.SenderId).Battery = random.Next(0, 21);
+                    FindDrone((int)i.DroneId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Position;
+                    FindDrone((int)i.DroneId).Battery = random.Next(0, 21);
                 }
-                if (FindDrone(i.SenderId).Status == Status.CREAT)
+                if (FindDrone((int)i.DroneId).Status == Status.CREAT)
                 {
                     List<Parcel> pa = new();
                     foreach (var item in Parcels())
@@ -77,15 +77,16 @@ namespace BL
                         pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
                     }
                     if (pa.Count == 0)
-                        FindDrone(i.SenderId).Position = Findcustomer(Customers().ToList()[random.Next(0, Customers().Count()-1)].ID).Position;
+                        FindDrone((int)i.DroneId).Position = Findcustomer(Customers().ToList()[random.Next(0, Customers().Count()-1)].ID).Position;
                     else
-                        FindDrone(i.SenderId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).Position;
+                        FindDrone((int)i.DroneId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).Position;
                     //מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
-                    FindDrone(i.SenderId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
+                    FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
                 }
             }
         }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
         static BL instance = null;
         public static BL GetInstance()
         {
@@ -180,7 +181,10 @@ namespace BL
                 Location l = FindStation(IDStarting).Position;
                 tempDrone.Lattitude = l.Lattitude;
                 tempDrone.Longitude = l.Longitude;
-                FindStation(IDStarting).ChargeSlots--;
+                Station s = FindStation(IDStarting);
+                DroneCharging temp = new() { ID = (int)drone.ID, Battery = drone.Battery };
+                s.DroneChargingInStation.Add(temp);
+                UpdateStation(s);
                 dal.AddDrone(tempDrone);
                 dal.AddDroneCharge(tempDroneCharge);
             }
@@ -266,13 +270,14 @@ namespace BL
         /// Update Station details
         /// </summary>
 #nullable enable
-        public void UpdateStation(Station station) => dal.UpdateStation(new DO.Station 
+        public void UpdateStation(Station station) => dal.UpdateStation(new DO.Station
         {
             ID = station.ID,
             StationName = station.StationName,
             ChargeSlots = station.ChargeSlots,
             Lattitude = station.Position.Lattitude,
             Longitude = station.Position.Longitude,
+            BusyChargeSlots = station.DroneChargingInStation.Count(),
         });
 
         /// <summary>
@@ -294,7 +299,7 @@ namespace BL
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if ((d.Status == DO.Status.CREAT) || (d.Battery < 20)|| (d.Status == (DO.Status.PICKUP) || (d.Status == (DO.Status.MAINTENANCE))
+            if (d.Status == DO.Status.CREAT || d.Battery < 20 || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE)
             {
                 throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
             }
@@ -337,32 +342,23 @@ namespace BL
                 //FindStation(sID).DroneChargingInStation.Add(droneCharging1);
             }
         }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Removing a drone from a charger
         /// </summary>
         public void DroneOutCharge(int id, double time)
         {
 
-            if (FindDrone(id).Status == (Status)4)
+            if (FindDrone(id).Status == Status.MAINTENANCE)
             {
-                FindDrone(id).Status = Status.CREAT;
-                FindDrone(id).Battery = (dal.Power()[4] * ((time)/60));
-                foreach (var item in DAL.DataSource.droneCharges)
-                {
-                    if (item.DroneId == id)
-                    {
-                        FindStation(item.StationId).ChargeSlots++;
-                        DataSource.droneCharges.Remove(item);
-                        foreach (var item1 in FindStation(item.StationId).DroneChargingInStation)
-                        {
-                            if (item1.ID == id)
-                            {
-                                FindStation(item.StationId).DroneChargingInStation.Remove(item1);
-                            }
-                        }
-                    }
-                }
+                Drone drone = FindDrone(id);
+                drone.Status = Status.CREAT;
+                drone.Battery = dal.Power()[4] * (time/60);
+                var temp = dal.DroneChargelist().Where(i => i.DroneId == id).ToList();
+                Station station = FindStation(temp[0].StationId);
+                int index  = station.DroneChargingInStation.FindIndex(i => i.ID == id);
+                station.DroneChargingInStation.RemoveAt(index);
+                UpdateDrone(drone);
+                dal.DroneOutCharge(id);
             }
             else
             {
@@ -377,61 +373,69 @@ namespace BL
         {
             if (!(FindDrone(id).HasParcel))
             {
-                List<ParcelToList> temp = ParcelsNotAssociated().ToList();
-                List<ParcelToList> temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.SOS; });
-                if (temp1.Count == 0)
-                {
-                    temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.FAST; });
-                    if (temp1.Count == 0)
-                    {
-                        temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
-                        if (temp1.Count == 0)
-                        {
-                            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
-                        }
-                    }
-                }
-                temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.SOS; });
-                if (temp1.Count == 0)
-                {
-                    temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.FAST; });
-                    if (temp1.Count == 0)
-                    {
-                        temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
-                        if (temp1.Count == 0)
-                        {
-                            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
-                        }
-                    }
-                }
-                Location location = new()
-                { Lattitude = 0, Longitude = 0, };
-                int saveID = 0;//בטוח ידרס
-                temp1.ForEach(delegate (ParcelToList p) {
-                    if (Distans(FindDrone(id).Position, Findcustomer(Findparcel(p.ID).sender.ID).Position) > Distans(FindDrone(id).Position, location))
-                    {
-                        location.Lattitude = Findcustomer(Findparcel(p.ID).sender.ID).Position.Lattitude;
-                        location.Longitude = Findcustomer(Findparcel(p.ID).sender.ID).Position.Longitude;
-                        saveID = p.ID;
-                    }
-                });
-                //foreach (var item in temp1)
+                var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).First();
+                dal.AttacheDrone(parcel.ID);
+
+                //List<ParcelToList> temp = ParcelsNotAssociated().ToList();
+                //List<ParcelToList> temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.SOS; });
+                //if (temp1.Count == 0)
                 //{
-                //    if (Distans(FindDrone(id).Position, Findcustomer(Findparcel(item.ID).sender.ID).location) > Distans(FindDrone(id).Position, location))
+                //    temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.FAST; });
+                //    if (temp1.Count == 0)
                 //    {
-                //        location.Lattitude = Findcustomer(Findparcel(item.ID).sender.ID).location.Lattitude;
-                //        location.Longitude = Findcustomer(Findparcel(item.ID).sender.ID).location.Longitude;
-                //        saveID = item.ID;
+                //        temp1 = temp.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
+                //        if (temp1.Count == 0)
+                //        {
+                //            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
+                //        }
                 //    }
                 //}
-                Findparcel(saveID).Drone.ID = id;
-                Findparcel(saveID).Drone.Battery = FindDrone(id).Battery;
-                Findparcel(saveID).Drone.Position = FindDrone(id).Position;
-                Findparcel(saveID).Scheduled = DateTime.Now;
-                FindDrone(id).Status = Status.BELONG;
+                //temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.SOS; });
+                //if (temp1.Count == 0)
+                //{
+                //    temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.FAST; });
+                //    if (temp1.Count == 0)
+                //    {
+                //        temp1 = temp1.FindAll(delegate (ParcelToList p) { return p.Priority == Priority.REGULAR; });
+                //        if (temp1.Count == 0)
+                //        {
+                //            throw new ThereIsNoParcelToAttach("there are no parcel to attach");
+                //        }
+                //    }
+                //}
+                //Location location = new()
+                //{ Lattitude = 0, Longitude = 0, };
+                //int saveID = 0;//בטוח ידרס
+                //temp1.ForEach(delegate (ParcelToList p)
+                //{
+                //    if (Distans(FindDrone(id).Position, Findcustomer(Findparcel(p.ID).sender.ID).Position) > Distans(FindDrone(id).Position, location))
+                //    {
+                //        location.Lattitude = Findcustomer(Findparcel(p.ID).sender.ID).Position.Lattitude;
+                //        location.Longitude = Findcustomer(Findparcel(p.ID).sender.ID).Position.Longitude;
+                //        saveID = p.ID;
+                //    }
+                //});
+                ////foreach (var item in temp1)
+                ////{
+                ////    if (Distans(FindDrone(id).Position, Findcustomer(Findparcel(item.ID).sender.ID).location) > Distans(FindDrone(id).Position, location))
+                ////    {
+                ////        location.Lattitude = Findcustomer(Findparcel(item.ID).sender.ID).location.Lattitude;
+                ////        location.Longitude = Findcustomer(Findparcel(item.ID).sender.ID).location.Longitude;
+                ////        saveID = item.ID;
+                ////    }
+                ////}
+                //Findparcel(saveID).Drone.ID = id;
+                //Findparcel(saveID).Drone.Battery = FindDrone(id).Battery;
+                //Findparcel(saveID).Drone.Position = FindDrone(id).Position;
+                //Findparcel(saveID).Scheduled = DateTime.Now;
+                //FindDrone(id).Status = Status.BELONG;
             }
+            else
+                throw new DroneIsBusy($"the drone {id} in busy right new");
         }
-        
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
         /// <summary>
         /// Collection of a parcel by drone
         /// </summary>
@@ -498,37 +502,40 @@ namespace BL
                     throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have delivered");
             }
         }
-        
+
         //-----------------------------------------------------------------------------
         //display func
         //------------------------------------------------------------------------------
-        
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
+
         /// <summary>
         /// station search
         /// </summary>
         /// <returns>found station</returns>
         public Station FindStation(int id)//סיימתי
         {
-
             DO.Station s = dal.FindStation(id);
+            List<DroneCharging> droneChargingTemp = new();
+            var droneChargingfiltered = dal.DroneChargelist().Where(i => i.StationId == id).ToList();
+            droneChargingfiltered.ForEach(i => droneChargingTemp.Add(new() { ID = (int)i.DroneId, Battery = FindDrone((int)i.DroneId).Battery }));
+            //foreach (var item in DataSource.droneCharges)
+            //{
+            //    if (item.StationId == id)
+            //    {
+            //        DroneCharging droneCharging1 = new()
+            //        {
+            //            ID = (int)item.DroneId,
+            //            Battery = (dal.FindDrone((int)item.DroneId)).Battery,
+            //        };
+            //        droneChargingTemp.Add(droneCharging1);
+            //    }
+            //}
             Location temp = new()
             {
                 Lattitude = s.Lattitude,
                 Longitude = s.Longitude,
             };
-            List<DroneCharging> droneChargingTemp = new();
-            foreach (var item in DataSource.droneCharges)
-            {
-                if (item.StationId == id)
-                {
-                    DroneCharging droneCharging1 = new()
-                    {
-                        ID = (int)item.DroneId,
-                        Battery = (dal.FindDrone((int)item.DroneId)).Battery,
-                    };
-                    droneChargingTemp.Add(droneCharging1);
-                }
-            }
             Station newStation = new()
             {
                 ID = (int)s.ID,
@@ -565,15 +572,10 @@ namespace BL
 
             if (d.Status == DO.Status.PICKUP || d.Status == DO.Status.BELONG)
             {
-                DO.Parcel p = new(); 
-                foreach (var item in DataSource.parcels)
-                {
-                    if (item.DroneId == id)
-                        p = item;
-                }
+                var p = dal.Parcellist().Where(i => i.DroneId == id).First();
                 DO.Customer s = dal.FindCustomers(p.SenderId);
                 DO.Customer t = dal.FindCustomers(p.TargetId);
-                CustomerInParcel send = new()
+                CustomerInParcel Sender = new()
                 {
                     ID = (int)s.ID,
                     CustomerName = s.CustomerName,
@@ -598,18 +600,20 @@ namespace BL
                 parcelTransactiningTemp.ParcelStatus = p.PickedUp == null;
                 parcelTransactiningTemp.priority = (Priority)p.Priority;
                 parcelTransactiningTemp.weight = (Weight)p.Weight;
-                parcelTransactiningTemp.sender = send;
+                parcelTransactiningTemp.sender = Sender;
                 parcelTransactiningTemp.target = target;
                 parcelTransactiningTemp.LocationOfSender = locationSend;
                 parcelTransactiningTemp.LocationOftarget = locationTarget;
                 parcelTransactiningTemp.distance = Distans(locationSend, locationTarget);
-                newStation.Parcel = parcelTransactiningTemp;
+
 
             }
-
+            newStation.Parcel = parcelTransactiningTemp;
             return newStation;
         }
-        
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
+
         /// <summary>
         /// parcel search
         /// </summary>
@@ -974,7 +978,7 @@ namespace BL
             int i = 0;
             foreach (var item in dal.Stationlist())
             {
-                if (item.ChargeSlots >= 1)
+                if (item.ChargeSlots - item.BusyChargeSlots >= 1)
                 {
                     stations.Add(FindStation((int)item.ID));
                     StationToList temp = new();

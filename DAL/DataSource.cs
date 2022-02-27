@@ -55,6 +55,10 @@ namespace DAL
                     DroneId = Config.staticId,
                     StationId = (int)stations[counter].ID,
                 };
+                int index = stations.FindIndex(i => i.ID == temp.StationId);
+                Station station = stations[index];
+                station.BusyChargeSlots++;
+                stations[index] = station;
                 Drone d = new Drone()
                 {
                     ID = Config.staticId,
@@ -111,14 +115,13 @@ namespace DAL
             }
             Config.sta++;
             Config.Idforparcel = Config.sta;
-            for (int i = 0; i < droneCharges.Count; i++)
-            {
-                Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });
-                s.ChargeSlots--;
-                stations.Remove(stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; }));
-                stations.Add(s);
-
-            }
+            //for (int i = 0; i < droneCharges.Count; i++)
+            //{
+            //    Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });
+            //    s.ChargeSlots--;
+            //    stations.Remove(stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; }));
+            //    stations.Add(s);
+            //}
         }
     }
 }
