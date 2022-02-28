@@ -10,7 +10,7 @@ namespace BO
     /// </summary>
     public class Drone
     {
-        public bool HasParcel { set; get; }
+        public bool HaveParcel { set; get; }
         public int ?ID { get; set; }
         public string Model { set; get; }
         public Weight Weight { set; get; }

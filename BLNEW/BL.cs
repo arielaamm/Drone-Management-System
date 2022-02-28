@@ -258,7 +258,7 @@ namespace BL
         {
             ID = drone.ID,
             Battery = drone.Battery,
-            haveParcel = drone.HasParcel,
+            haveParcel = drone.HaveParcel,
             Lattitude = drone.Position.Lattitude,
             Longitude = drone.Position.Longitude,
             Model = drone.Model,
@@ -299,7 +299,7 @@ namespace BL
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if (d.Status == DO.Status.CREAT || d.Battery < 20 || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE)
+            if ((d.Status == DO.Status.CREAT || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE) && d.Battery < 20 )
             {
                 throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
             }
@@ -307,10 +307,7 @@ namespace BL
             {
                 double  distans = 0;
                 int sID = 0;
-                var StationID = from s in Stations()
-                                let a = 0
-                                where Distans(FindStation(s.ID).Position, FindDrone(id).Position) > a
-                                select s;
+                var StationID = Stations().OrderBy(i => Distans(FindStation(i.ID).Position, FindDrone(id).Position)).First();
                 foreach (var item in Stations())
                 {
                     if (Distans(FindStation(item.ID).Position, FindDrone(id).Position) > distans)
@@ -371,9 +368,9 @@ namespace BL
         /// </summary>
         public void AttacheDrone(int id)
         {
-            if (!(FindDrone(id).HasParcel))
+            if (!(FindDrone(id).HaveParcel))
             {
-                var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).First();
+                var parcel = ParcelsNotAssociated().OrderBy(i => i.Priority).First();
                 dal.AttacheDrone(parcel.ID);
 
                 //List<ParcelToList> temp = ParcelsNotAssociated().ToList();
@@ -463,7 +460,7 @@ namespace BL
             }
             else
             {
-                if (FindDrone(id).HasParcel)
+                if (FindDrone(id).HaveParcel)
                     throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
                 else
                     throw new ParcelPastErroeException($"there are no parcel to pickup");
@@ -557,7 +554,7 @@ namespace BL
             ParcelTransactioning parcelTransactiningTemp = new();
             parcelTransactiningTemp.ID = null;
             Drone newStation = new();
-            newStation.HasParcel = d.haveParcel;
+            newStation.HaveParcel = d.haveParcel;
             newStation.ID = d.ID;
             newStation.Model = d.Model;
             newStation.Weight = (Weight)d.Weight;

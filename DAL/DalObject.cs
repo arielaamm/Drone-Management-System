@@ -27,7 +27,7 @@ namespace DAL
             double[] a = {
                 DAL.Config.free,
                 DAL.Config.light,
-                DAL.Config.medium,    
+                DAL.Config.medium,
                 DAL.Config.heavy,
                 DAL.Config.ChargePerHour };
             return a;
@@ -52,7 +52,7 @@ namespace DAL
             index = DataSource.stations.FindIndex(i => i.ChargeSlots-i.BusyChargeSlots > 0);
             Station s = new();
             s = DataSource.stations[index];
-            s.BusyChargeSlots--;
+            s.BusyChargeSlots++;
             DataSource.stations[index]=s;
             DroneCharge temp = new DroneCharge()
             {
@@ -74,10 +74,10 @@ namespace DAL
         public void AddParcel(Parcel p)
         {
             p.ID = Config.staticId;
-            Config.staticId++;
             int index = DataSource.parcels.FindIndex(i => i.ID == p.ID);
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
+            Config.staticId++;
             DataSource.parcels.Add(p);
         }
 
@@ -161,7 +161,7 @@ namespace DAL
                 Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
             d.Battery = d.Battery - distans * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
-            d.Lattitude = FindCustomers(p.SenderId).Lattitude;   
+            d.Lattitude = FindCustomers(p.SenderId).Lattitude;
             d.Status = Status.PICKUP;
             DataSource.drones[indexDrone] = d;
             //Parcel p = new();
@@ -306,14 +306,14 @@ namespace DAL
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in DataSource.parcels
-                   where Parcel.DroneId == 0
+                   where Parcel.DroneId == 0 || Parcel.DroneId == null
                    select Parcel;
         }
 
         public IEnumerable<Station> Freechargeslotslist()
         {
             return from Station in DataSource.stations
-                   where Station.BusyChargeSlots > 0
+                   where Station.ChargeSlots - Station.BusyChargeSlots > 0
                    select Station;
         }
         #endregion

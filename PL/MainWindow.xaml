@@ -42,22 +42,28 @@
                 </Grid>
 
                 <StackPanel Grid.Row="1">
-                    <Button Margin="20" Background="#FF2196F3">
+                    <Button Margin="20" Background="#FF673AB7" >
                         <Grid Width="150">
                             <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
-                            <TextBlock HorizontalAlignment="Center" Text="DashBoard"/>
+                            <TextBlock HorizontalAlignment="Center" Text="Custemer"/>
                         </Grid>
                     </Button>
-                    <Button Margin="20" Click="DroneListButton_Click" Background="#FF2196F3">
+                    <Button Margin="20" Click="DroneListButton_Click" Background="#FF673AB7">
                         <Grid Width="150">
                             <matrialDesign:PackIcon Kind="Airplane" VerticalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" Text="Drones"/>
                         </Grid>
                     </Button>
-                    <Button Margin="20" Background="#FF2196F3">
+                    <Button Margin="20" Background="#FF673AB7">
                         <Grid Width="150">
                             <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" Text="Station"/>
+                        </Grid>
+                    </Button>
+                    <Button Margin="20" Background="#FF673AB7">
+                        <Grid Width="150">
+                            <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="Parcel"/>
                         </Grid>
                     </Button>
                 </StackPanel>

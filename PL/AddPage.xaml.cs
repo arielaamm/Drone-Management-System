@@ -81,7 +81,7 @@ namespace PL
                 i = (int)drone.ID; //מעביר ככה את האיידיי של התחנה בלי בלגן ואז דורס אותו  לא למחוק !!!
                 drone.ID = int.Parse(TextBoxID.Text);
                 drone.Battery = 100;
-                drone.HasParcel = false;
+                drone.HaveParcel = false;
                 bl.AddDrone(drone, i);
             }
             catch (Exception ex)
