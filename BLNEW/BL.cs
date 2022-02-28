@@ -173,11 +173,6 @@ namespace BL
                     Battery = ran.Next(20,40),
                     haveParcel = false,
                 };
-                DO.DroneCharge tempDroneCharge = new()
-                {
-                    DroneId = drone.ID,
-                    StationId =  IDStarting,
-                };
                 Location l = FindStation(IDStarting).Position;
                 tempDrone.Lattitude = l.Lattitude;
                 tempDrone.Longitude = l.Longitude;
@@ -186,7 +181,6 @@ namespace BL
                 s.DroneChargingInStation.Add(temp);
                 UpdateStation(s);
                 dal.AddDrone(tempDrone);
-                dal.AddDroneCharge(tempDroneCharge);
             }
             catch (Exception ex)
             {
@@ -359,7 +353,7 @@ namespace BL
             }
             else
             {
-                throw new DroneDontInCharging($"The Drone {id} Doesn't In Charging");
+                throw new DroneDontInChargingException($"The Drone {id} Doesn't In Charging");
             }
         }
         
@@ -370,6 +364,8 @@ namespace BL
         {
             if (!(FindDrone(id).HaveParcel))
             {
+                if (ParcelsNotAssociated().Count() == 0)
+                    throw new ThereIsNoParcelToAttachdException("There is no parcel to attachd");
                 var parcel = ParcelsNotAssociated().OrderBy(i => i.Priority).First();
                 dal.AttacheDrone(parcel.ID);
 
@@ -428,7 +424,7 @@ namespace BL
                 //FindDrone(id).Status = Status.BELONG;
             }
             else
-                throw new DroneIsBusy($"the drone {id} in busy right new");
+                throw new DroneIsBusyException($"the drone {id} in busy right new");
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
 
@@ -929,37 +925,40 @@ namespace BL
             List<Parcel> parcels = new();
             List<ParcelToList> temp = new();
             int i = 0;
-            foreach (var item in dal.ParcelNotAssociatedList())
+            if (dal.ParcelNotAssociatedList().Count() > 0)
             {
-                parcels.Add(Findparcel((int)item.ID));           
-                ParcelToList parcelToList = new();
-                parcelToList.ID = parcels[i].ID;
-                parcelToList.Priority = parcels[i].Priority;
-                parcelToList.SenderName = parcels[i].sender.CustomerName;
-                if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
+                foreach (var item in dal.ParcelNotAssociatedList())
                 {
-                    parcelToList.status = (Status)0;
+                    parcels.Add(Findparcel((int)item.ID));
+                    ParcelToList parcelToList = new();
+                    parcelToList.ID = parcels[i].ID;
+                    parcelToList.Priority = parcels[i].Priority;
+                    parcelToList.SenderName = parcels[i].sender.CustomerName;
+                    if (parcels[i].Requested < DateTime.Now && parcels[i].Requested != null)
+                    {
+                        parcelToList.status = (Status)0;
+                    }
+                    if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
+                    {
+                        parcelToList.status = (Status)1;
+                    }
+                    if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
+                    {
+                        parcelToList.status = (Status)2;
+                    }
+                    if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
+                    {
+                        parcelToList.status = (Status)3;
+                    }
+                    if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
+                    {
+                        parcelToList.status = (Status)0;
+                    }
+                    parcelToList.TargetName = parcels[i].target.CustomerName;
+                    parcelToList.Weight = parcels[i].Weight;
+                    temp.Add(parcelToList);
+                    i++;
                 }
-                if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
-                {
-                    parcelToList.status = (Status)1;
-                }
-                if (parcels[i].PickedUp < DateTime.Now && parcels[i].PickedUp != null)
-                {
-                    parcelToList.status = (Status)2;
-                }
-                if (parcels[i].Deliverd < DateTime.Now && parcels[i].Deliverd != null)
-                {
-                    parcelToList.status = (Status)3;
-                }
-                if (parcels[i].Deliverd != null && parcels[i].Scheduled == null)
-                {
-                    parcelToList.status = (Status)0;
-                }
-                parcelToList.TargetName = parcels[i].target.CustomerName;
-                parcelToList.Weight = parcels[i].Weight;
-                temp.Add(parcelToList);
-                i++;
             }
             return temp;
         }

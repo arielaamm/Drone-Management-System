@@ -21,12 +21,12 @@ namespace BLExceptions
     }
 
     [Serializable]
-    public class NotTheRightForm : Exception
+    public class NotTheRightFormException : Exception
     {
-        public NotTheRightForm() :base() { }
-        public NotTheRightForm(string message) : base(message) { }
-        public NotTheRightForm(string message, Exception innerException) : base(message, innerException) { }
-        public NotTheRightForm(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public NotTheRightFormException() :base() { }
+        public NotTheRightFormException(string message) : base(message) { }
+        public NotTheRightFormException(string message, Exception innerException) : base(message, innerException) { }
+        public NotTheRightFormException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     }
 
@@ -40,20 +40,20 @@ namespace BLExceptions
     }
 
     [Serializable]
-    public class PutTheRightNumber : Exception
+    public class PutTheRightNumberException : Exception
     {
-        public PutTheRightNumber() { }
-        public PutTheRightNumber(string message) : base(message) { }
-        public PutTheRightNumber(string message, Exception innerException) : base(message, innerException) { }
-        protected PutTheRightNumber(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public PutTheRightNumberException() { }
+        public PutTheRightNumberException(string message) : base(message) { }
+        public PutTheRightNumberException(string message, Exception innerException) : base(message, innerException) { }
+        protected PutTheRightNumberException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
-    public class DroneAloreadyAttached : Exception
+    public class DroneAloreadyAttachedException : Exception
     {
-        public DroneAloreadyAttached() { }
-        public DroneAloreadyAttached(string message) : base(message) { }
-        public DroneAloreadyAttached(string message, Exception innerException) : base(message, innerException) { }
-        public DroneAloreadyAttached(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public DroneAloreadyAttachedException() { }
+        public DroneAloreadyAttachedException(string message) : base(message) { }
+        public DroneAloreadyAttachedException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneAloreadyAttachedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
     public class DontHaveEnoughPowerException : Exception
@@ -66,28 +66,28 @@ namespace BLExceptions
         public DontHaveEnoughPowerException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
-    public class DroneDontInCharging : Exception
+    public class DroneDontInChargingException : Exception
     {
-        public DroneDontInCharging() { }
-        public DroneDontInCharging(string message) : base(message) { }
-        public DroneDontInCharging(string message, Exception innerException) : base(message, innerException) { }
-        public DroneDontInCharging(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public DroneDontInChargingException() { }
+        public DroneDontInChargingException(string message) : base(message) { }
+        public DroneDontInChargingException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneDontInChargingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
-    public class ThereIsNoParcelToAttach : Exception
+    public class ThereIsNoParcelToAttachException : Exception
     {
-        public ThereIsNoParcelToAttach() { }
-        public ThereIsNoParcelToAttach(string message) : base(message) { }
-        public ThereIsNoParcelToAttach(string message, Exception innerException) : base(message, innerException) { }
-        public ThereIsNoParcelToAttach(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ThereIsNoParcelToAttachException() { }
+        public ThereIsNoParcelToAttachException(string message) : base(message) { }
+        public ThereIsNoParcelToAttachException(string message, Exception innerException) : base(message, innerException) { }
+        public ThereIsNoParcelToAttachException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     [Serializable]
-    public class AlreadyPickedUp : Exception
+    public class AlreadyPickedUpException : Exception
     {
-        public AlreadyPickedUp() { }
-        public AlreadyPickedUp(string message) : base(message) { }
-        public AlreadyPickedUp(string message, Exception innerException) : base(message, innerException) { }
-        public AlreadyPickedUp(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public AlreadyPickedUpException() { }
+        public AlreadyPickedUpException(string message) : base(message) { }
+        public AlreadyPickedUpException(string message, Exception innerException) : base(message, innerException) { }
+        public AlreadyPickedUpException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     [Serializable]
@@ -99,11 +99,19 @@ namespace BLExceptions
         public ParcelPastErroeException(SerializationInfo info, StreamingContext context) : base(info, context) { }    
     }
     [Serializable]
-    public class DroneIsBusy : Exception
+    public class DroneIsBusyException : Exception
     {
-        public DroneIsBusy() { }
-        public DroneIsBusy(string message) : base(message) { }
-        public DroneIsBusy(string message, Exception innerException) : base(message, innerException) { }
-        public DroneIsBusy(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public DroneIsBusyException() { }
+        public DroneIsBusyException(string message) : base(message) { }
+        public DroneIsBusyException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneIsBusyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    [Serializable]
+    public class ThereIsNoParcelToAttachdException : Exception
+    {
+        public ThereIsNoParcelToAttachdException() { }
+        public ThereIsNoParcelToAttachdException(string message) : base(message) { }
+        public ThereIsNoParcelToAttachdException(string message, Exception innerException) : base(message, innerException) { }
+        public ThereIsNoParcelToAttachdException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

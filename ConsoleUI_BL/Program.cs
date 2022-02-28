@@ -70,7 +70,7 @@ namespace ConsoleUI_BL
                     string nameDrone = Console.ReadLine();
                     Weight weightDrone = (Weight)int.Parse(Console.ReadLine());
                     if (((int)weightDrone < 1) || ((int)weightDrone > 3))
-                        throw new PutTheRightNumber($"this weight {weightDrone} is not in the right form");
+                        throw new PutTheRightNumberException($"this weight {weightDrone} is not in the right form");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
@@ -94,7 +94,7 @@ namespace ConsoleUI_BL
                     string nameCustomer = Console.ReadLine();
                     string phoneCustomer = Console.ReadLine();
                     if (!((phoneCustomer.Length == 10) && (phoneCustomer[0] == 48) && (phoneCustomer[1] == 53)))
-                        throw new NotTheRightForm($"this phone number {phoneCustomer} is not in the right form");
+                        throw new NotTheRightFormException($"this phone number {phoneCustomer} is not in the right form");
                     Location locationCustomer = new()
                     {
                         Longitude = double.Parse(Console.ReadLine()),
@@ -121,10 +121,10 @@ namespace ConsoleUI_BL
                     Weight weightParcel = (Weight)(int.Parse(Console.ReadLine()));
 
                     if (((int)weightParcel < 1) || ((int)weightParcel > 3))
-                        throw new PutTheRightNumber($"this weight {weightParcel} is not in the right form");
+                        throw new PutTheRightNumberException($"this weight {weightParcel} is not in the right form");
                     int temp = int.Parse(Console.ReadLine());
                     if ((temp < 1) || (temp > 3))
-                        throw new PutTheRightNumber($"this priority {temp} is not in the right form");
+                        throw new PutTheRightNumberException($"this priority {temp} is not in the right form");
                     Priority priorityParcel = (Priority)temp;
                     Parcel parcel = new Parcel { sender = SenderIdParcel, target = TargetIdParcel, Weight = weightParcel, Priority = priorityParcel };
                     p.AddParcel(parcel);

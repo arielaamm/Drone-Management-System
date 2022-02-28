@@ -47,7 +47,6 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows[4].Close();
         }
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

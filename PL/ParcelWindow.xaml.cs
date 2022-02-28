@@ -36,7 +36,6 @@ namespace PL
             InitializeComponent();
             this.bl = bl;
             ParcelsList = new(this.bl.Parcels());
-            Main.Content = new AddPage(bl);
         }
     }
 }
