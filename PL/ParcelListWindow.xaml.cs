@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,22 @@ namespace PL
     /// </summary>
     public partial class ParcelListWindow : Window
     {
-        public ParcelListWindow()
+        private readonly BlApi.IBL bl = BL.BL.GetInstance();
+
+        internal ObservableCollection<BO.ParcelToList> ParcelToList
+        {
+            get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
+            set => SetValue(parcelsDependency, value);
+        }
+        static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
+            nameof(ParcelToList),
+            typeof(ObservableCollection<BO.ParcelToList>),
+            typeof(Window));
+        public ParcelListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
+            this.bl = bl;
+            ParcelToList = new(this.bl.Parcels());
         }
     }
 }

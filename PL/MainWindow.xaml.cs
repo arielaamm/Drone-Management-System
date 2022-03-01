@@ -96,5 +96,10 @@ namespace PL
         {
             DragMove();
         }
+
+        private void ParcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelListWindow(bl).Show();
+        }
     }//
 }
