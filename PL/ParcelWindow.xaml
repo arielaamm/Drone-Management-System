@@ -16,11 +16,13 @@
             <Frame Grid.Column="1" x:Name="Main" NavigationUIVisibility="Hidden" />
             <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding parcelsList}" AutoGenerateColumns="False" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
-
-                    <DataGridTextColumn Header="Lattitude" Binding="{Binding Position.Lattitude}" />
-                    <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
-                </DataGrid.Columns>
+                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                <DataGridTextColumn Header="SenderName" Binding="{Binding SenderName}" />
+                <DataGridTextColumn Header="TargetName" Binding="{Binding TargetName}" />
+                <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
+                <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" />
+                <DataGridTextColumn Header="status" Binding="{Binding status}" />
+            </DataGrid.Columns>
             </DataGrid>
     </Grid>
 </Window>
