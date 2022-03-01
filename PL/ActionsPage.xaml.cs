@@ -21,19 +21,18 @@ namespace PL
     public partial class ActionsPage : Page
     {
         BlApi.IBL bl;
-        int ID;
+        int id;
         DateTime time;
-        public ActionsPage(BlApi.IBL bl,int id)
+        Window parent;
+        public ActionsPage(BlApi.IBL bl,int id, Window parent)
         {
-            InitializeComponent();
+            this.parent = parent;
             this.bl = bl;
-            ID = id;
+            this.id = id;
+            InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Windows[4].Close();
-        }
+        private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();
 
         private void ReleRelease_from_charging(object sender, RoutedEventArgs e)
         {
@@ -41,7 +40,7 @@ namespace PL
 
             try
             {
-                bl.DroneOutCharge(ID, t);
+                bl.DroneOutCharge(id, t);
             }
             catch (Exception ex)
             {
@@ -53,7 +52,7 @@ namespace PL
         {
             try
             {
-                bl.DroneToCharge(ID);
+                bl.DroneToCharge(id);
                 time = DateTime.Now;
             }
             catch (Exception ex)
@@ -66,7 +65,7 @@ namespace PL
         {
             try
             {
-                bl.AttacheDrone(ID);
+                bl.AttacheDrone(id);
             }
             catch (Exception ex)
             {
@@ -79,7 +78,7 @@ namespace PL
         {
             try
             {
-                bl.PickUpParcel(ID);
+                bl.PickUpParcel(id);
             }
             catch (Exception ex)
             {
@@ -92,7 +91,7 @@ namespace PL
         {
             try
             {
-                bl.Parceldelivery(ID);
+                bl.Parceldelivery(id);
             }
             catch (Exception ex)
             {

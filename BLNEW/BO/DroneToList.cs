@@ -12,7 +12,7 @@ namespace BO
     /// </summary>
     public class DroneToList
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Model { set; get; }
         public Weight Weight { set; get; }
         public Status Status { set; get; }

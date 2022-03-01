@@ -23,10 +23,12 @@ namespace PL
     public partial class AddPage : Page
     {   
         private readonly BlApi.IBL bl;
-        public AddPage(BlApi.IBL bl)
+        Window parent;
+        public AddPage(BlApi.IBL bl, Window parent)
         {
-            InitializeComponent();
             this.bl = bl;
+            this.parent = parent;
+            InitializeComponent();
             ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
             MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
@@ -45,9 +47,7 @@ namespace PL
         }
         BO.Drone drone = new();
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-        }
+        private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;

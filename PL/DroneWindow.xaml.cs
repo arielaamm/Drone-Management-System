@@ -94,14 +94,14 @@ namespace PL
             InitializeComponent();
             this.bl = bl;
             DronesList = new(this.bl.Drones());
-            Main.Content = new AddPage(bl);
+            Main.Content = new AddPage(bl,this);
         }
-        public DroneWindow(BlApi.IBL bl,int ? ID)
+        public DroneWindow(BlApi.IBL bl, int? id)
         {
-            if (ID == null)
+            if (id == null)
             {
-                this.Close();
                 new DroneListWindow(bl).Show();
+                this.Close();
             }
             else
             {
@@ -113,10 +113,18 @@ namespace PL
                 //DronesList = new(a);
                 //Main.Content = new ActionsPage(bl, (int)ID);
                 this.bl = bl;
-                var t= this.bl.Drones().Where(a => ID == a.ID);
+                var t = this.bl.Drones().Where(a => id == a.Id);
                 DronesList = new(t);
-                Main.Content = new ActionsPage(bl, (int)ID);
+                Main.Content = new ActionsPage(bl, (int)id, this);
             }
+        }
+
+        bool closing = false;
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = closing;
+        internal new void Close()
+        {
+            closing = true;
+            base.Close();
         }
     }
 }

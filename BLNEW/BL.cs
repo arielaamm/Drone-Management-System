@@ -809,7 +809,7 @@ namespace BL
             {
                 drones.Add(FindDrone((int)item.ID));
                 DroneToList droneToList1 = new();
-                droneToList1.ID = (int)drones[i].ID;
+                droneToList1.Id = (int)drones[i].ID;
                 try
                 {
                     droneToList1.IdParcel = drones[i].Parcel.ID;
