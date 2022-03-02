@@ -25,7 +25,7 @@
             <Label Content="Click to show" HorizontalAlignment="Stretch" Margin="20,19,20,10" VerticalAlignment="Top" FontWeight="Bold" FontSize="20"/>
             <Button x:Name="AddParcel" Content="Add Parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="67,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
-        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding Drones}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
+        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding Parcels}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding SenderName}" />
