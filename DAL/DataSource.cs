@@ -92,6 +92,10 @@ namespace DAL
             {
                 int sID = rnd.Next(0, 10);
                 int tID = rnd.Next(0, 10);
+                while (sID == tID)
+                {
+                    tID = rnd.Next(0, 10);
+                }
                 while (tID==sID)
                 {
                     tID = rnd.Next(0, 10);
@@ -103,13 +107,29 @@ namespace DAL
                     SenderId = (int)customers[sID].ID,
                     TargetId = (int)customers[tID].ID,
                     Weight = (Weight)rnd.Next(0, 3),
-                    Priority = (Priority)rnd.Next(1, 3),
+                    Priority = (Priority)rnd.Next(0, 3),
                     Requested = DateTime.Now,
-                    DroneId = drones[rnd.Next(0, drones.Count - 1)].ID,
                     Scheduled = DateTime.Now,
                     PickedUp = null,
                     Deliverd = null,
                 };
+                int temp = rnd.Next(0, 3);
+                if (temp == 0)
+                {
+                    temp = rnd.Next(0, drones.Count);
+                    if (parcels.TrueForAll(i => i.DroneId != temp))
+                    {
+                        p.DroneId = (int)drones[temp].ID;
+                        int index = drones.FindIndex(i => i.ID == p.DroneId);
+                        Drone drone = drones[index];
+                        drone.Status = Status.BELONG;
+                        drones[index] = drone;
+                    }
+                    else
+                        p.DroneId = 0;
+
+                }
+
                 Config.staticId++;
                 parcels.Add(p);
             }

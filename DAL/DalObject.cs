@@ -204,7 +204,7 @@ namespace DAL
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
-            p.DroneId = d.ID;
+            p.DroneId = (int)d.ID;
             p.Scheduled = DateTime.Now;
             DataSource.parcels[indexParcel] = p;
             DataSource.drones[indexDrone] = d;

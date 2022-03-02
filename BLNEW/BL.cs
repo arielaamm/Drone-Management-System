@@ -26,62 +26,65 @@ namespace BL
             Random random = new();
             foreach (DO.Parcel i in p)
             {
-                if ((i.Scheduled != null) && (i.Deliverd == null) && (i.DroneId != 0))
+                if (i.DroneId != 0)
                 {
-                    FindDrone((int)i.DroneId).Status = (Status)2;
-                    if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
-                    {//shortest station
-                        Location sta = new()
-                        {
-                            Lattitude = 0,
-                            Longitude = 0,
-                        };
-                        double d = 0;
-                        foreach (DO.Station item in dal.Freechargeslotslist())
-                        {
-                            if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
+                    if ((i.Scheduled != null) && (i.Deliverd == null))
+                    {
+                        FindDrone((int)i.DroneId).Status = (Status)2;
+                        if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
+                        {//shortest station
+                            Location sta = new()
                             {
-                                d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
-                                sta = FindDrone((int)i.DroneId).Position;
+                                Lattitude = 0,
+                                Longitude = 0,
+                            };
+                            double d = 0;
+                            foreach (DO.Station item in dal.Freechargeslotslist())
+                            {
+                                if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
+                                {
+                                    d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
+                                    sta = FindDrone((int)i.DroneId).Position;
+                                }
                             }
+                            FindDrone((int)i.DroneId).Position = sta;
                         }
-                        FindDrone((int)i.DroneId).Position = sta;
+                        //מפה כל מה שאני אמרתי לך לטפל
+                        if ((i.Deliverd == null) && (i.PickedUp != null))
+                        {
+                            FindDrone((int)i.DroneId).Position = FindStation(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
+                        }
+                        FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check minpower
+                                                                                                                  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
                     }
-                    //מפה כל מה שאני אמרתי לך לטפל
-                    if ((i.Deliverd == null) && (i.PickedUp != null))
+                    if (FindDrone((int)i.DroneId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
                     {
-                        FindDrone((int)i.DroneId).Position = FindStation(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
+                        FindDrone((int)i.DroneId).Status = (Status)random.Next(3, 5);
+                        if (FindDrone((int)i.DroneId).Status == Status.PROVID)
+                        {
+                            FindDrone((int)i.DroneId).Status = Status.CREAT;
+                        }
                     }
-                    FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check minpower
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// לא סגור
-                }
-                if (FindDrone((int)i.DroneId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
-                {
-                    FindDrone((int)i.DroneId).Status = (Status)random.Next(3, 5);
-                    if (FindDrone((int)i.DroneId).Status == Status.PROVID)
+                    if (FindDrone((int)i.DroneId).Status == Status.MAINTENANCE)//
                     {
-                        FindDrone((int)i.DroneId).Status = Status.CREAT;
+                        List<Station> s = new();
+                        FindDrone((int)i.DroneId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Position;
+                        FindDrone((int)i.DroneId).Battery = random.Next(0, 21);
                     }
-                }
-                if (FindDrone((int)i.DroneId).Status == Status.MAINTENANCE)//
-                {
-                    List<Station> s = new(); 
-                    FindDrone((int)i.DroneId).Position = FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Position;
-                    FindDrone((int)i.DroneId).Battery = random.Next(0, 21);
-                }
-                if (FindDrone((int)i.DroneId).Status == Status.CREAT)
-                {
-                    List<Parcel> pa = new();
-                    foreach (var item in Parcels())
+                    if (FindDrone((int)i.DroneId).Status == Status.CREAT)
                     {
-                        pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
+                        List<Parcel> pa = new();
+                        foreach (var item in Parcels())
+                        {
+                            pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//לקוח שקיבל חבילה
+                        }
+                        if (pa.Count == 0)
+                            FindDrone((int)i.DroneId).Position = Findcustomer(Customers().ToList()[random.Next(0, Customers().Count() - 1)].ID).Position;
+                        else
+                            FindDrone((int)i.DroneId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).Position;
+                        //מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
+                        FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
                     }
-                    if (pa.Count == 0)
-                        FindDrone((int)i.DroneId).Position = Findcustomer(Customers().ToList()[random.Next(0, Customers().Count()-1)].ID).Position;
-                    else
-                        FindDrone((int)i.DroneId).Position = Findcustomer(pa[random.Next(0, pa.Count - 1)].target.ID).Position;
-                    //מספר רנדומלי מתוך כל הלקוחות שקיבלו חבילה בו אני מחפש את האיידיי של המקבל שם בחיפוש לקוח ולוקח ממנו את המיקום
-                    FindDrone((int)i.DroneId).Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
                 }
             }
         }
@@ -230,7 +233,7 @@ namespace BL
                     Scheduled = null,
                     PickedUp = null,
                     Deliverd = null,
-                    DroneId = null,
+                    DroneId = 0,
                 };
 
                 dal.AddParcel(tempParcel);
@@ -626,18 +629,6 @@ namespace BL
                 ID = (int)t.ID,
                 CustomerName = t.CustomerName,
             };
-            DO.Drone d = dal.FindDrone((int)p.DroneId);
-            Location tempD = new()
-            {
-                Lattitude = d.Lattitude,
-                Longitude = d.Longitude,
-            };
-            DroneInParcel droneInParcelTemp = new()
-            {
-                ID = (int)d.ID,
-                Battery = d.Battery,
-                Position = tempD
-            };
             Parcel newParcel = new()
             {
                 ID = (int)p.ID,
@@ -645,13 +636,30 @@ namespace BL
                 target = target,
                 Weight = (Weight)p.Weight,
                 Priority = (Priority)p.Priority,
-                Drone = droneInParcelTemp,
                 Requested = p.Requested,
                 Scheduled = p.Scheduled,
                 PickedUp = p.PickedUp,
                 Deliverd = p.Deliverd,
 
             };
+            DroneInParcel droneInParcelTemp = new()
+            {
+                ID = 0,
+            };
+            if (p.DroneId!=0)
+            {
+                DO.Drone d = dal.FindDrone(p.DroneId);
+                Location temp = new()
+                {
+                    Lattitude = d.Lattitude,
+                    Longitude = d.Longitude,
+                };
+                droneInParcelTemp.ID = (int)d.ID;
+                droneInParcelTemp.Battery = d.Battery;
+                droneInParcelTemp.Position = temp;
+                newParcel.Drone = droneInParcelTemp;
+
+            }
             return newParcel;
         }
         
@@ -938,7 +946,7 @@ namespace BL
                     {
                         parcelToList.status = (Status)0;
                     }
-                    if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null)
+                    if (parcels[i].Scheduled < DateTime.Now && parcels[i].Scheduled != null && parcels[i].Drone.ID==0)
                     {
                         parcelToList.status = (Status)1;
                     }
