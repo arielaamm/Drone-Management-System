@@ -22,20 +22,82 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.ParcelToList> ParcelToList
+        internal ObservableCollection<BO.ParcelToList> Parcels
         {
             get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
             set => SetValue(parcelsDependency, value);
         }
         static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
-            nameof(ParcelToList),
+            nameof(Parcels),
             typeof(ObservableCollection<BO.ParcelToList>),
             typeof(Window));
         public ParcelListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            ParcelToList = new(this.bl.Parcels());
+            WightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
+            PrioritySeletor.ItemsSource = Enum.GetValues(typeof(BO.Priority));
+            StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
+            Parcels = new(this.bl.Parcels());
+        }
+        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                Parcels = new(bl.Parcels());
+            else
+            {
+                Parcels = new();
+                var a = from parcel in bl.Parcels()
+                        where (parcel.Weight == (BO.Weight)cb.SelectedItem)
+                        select parcel;
+                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+            }
+        }
+        private void PrioritySeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                Parcels = new(bl.Parcels());
+            else
+            {
+                Parcels = new();
+                var a = from parcel in bl.Parcels()
+                        where (parcel.Priority == (BO.Priority)cb.SelectedItem)
+                        select parcel;
+                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+            }
+        }
+        private void StatusSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                Parcels = new(bl.Parcels());
+            else
+            {
+                Parcels = new();
+                var a = from parcel in bl.Parcels()
+                        where (parcel.status == (BO.Status)cb.SelectedItem)
+                        select parcel;
+                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+            }
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelWindow(bl).Show();
+        }
+        private void mousedoubleclick(object sender, MouseButtonEventArgs e)
+        {
+            var cb = sender as DataGrid;
+            BO.ParcelToList a = (BO.ParcelToList)cb.SelectedValue;
+            try
+            {
+                new ParcelWindow(bl, a.ID).Show();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Click on properties only please");
+            }
         }
     }
 }
