@@ -8,13 +8,12 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            int[] amounts = { 5000, 2500, 9000, 8000,
-                    6500, 4000, 1500, 5500 };
+            List<int> amounts = new List<int>{ 5000, 1500, 9000, 8000,
+                    6500, 4000, 1500, 1500 };
 
-            IEnumerable<int> query = amounts.SkipWhile((amount, index) => amount > index * 1000);
-
-
-                Console.WriteLine(amounts.ToList());
+            
+            Console.WriteLine(amounts.ToList());
+            Console.WriteLine(amounts.Count(i=>i==1500));
             
 
             /*

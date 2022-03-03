@@ -117,7 +117,7 @@ namespace ConsoleUI
                     }
                     Console.WriteLine("enter parcel's id new");
                     int num2 = Int32.Parse(Console.ReadLine());
-                    pro.PickParcel(num2);
+                    pro.PickupParcel(num2);
                     break;
                 case "delivery package" or "3":
                     Console.WriteLine("enter parcel's id");
@@ -129,7 +129,7 @@ namespace ConsoleUI
                     }
                     Console.WriteLine("enter parcel's id new");
                     int num3 = Int32.Parse(Console.ReadLine());
-                    pro.ParcelToCustomer(num3);
+                    pro.DeliverdParcel(num3);
                     break;
                 case "send for loadingor" or "4":
                     Console.WriteLine("enter droneID");
@@ -263,7 +263,7 @@ namespace ConsoleUI
                 case "List Parcel" or "4":
                     foreach (var p in pro.Parcellist())
                     {
-                        Console.WriteLine($"ID: {p.ID}\nSenderId: {p.SenderId}\nTargetId: {p.TargetId}\nWeight: {p.Weight}\nPriority: {p.Priority}\n");
+                        Console.WriteLine($"ID: {p.ID}\nSenderId: {p.SenderId}\nTargetId: {p.TargetId}\nWeight: {p.Weight}\nPriority: {p.Priority}");
                         Console.WriteLine($"DroneId: {p.DroneId}\nRequested: {p.Requested}\nScheduled: {p.Scheduled}\nPickedUp: {p.PickedUp}\nDeliverd: {p.Deliverd}");
                     }
                     break;

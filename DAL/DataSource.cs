@@ -109,9 +109,10 @@ namespace DAL
                     Weight = (Weight)rnd.Next(0, 3),
                     Priority = (Priority)rnd.Next(0, 3),
                     Requested = DateTime.Now,
-                    Scheduled = DateTime.Now,
+                    Scheduled = null,
                     PickedUp = null,
                     Deliverd = null,
+                    Status = StatusParcel.CREAT,
                 };
                 int temp = rnd.Next(0, 3);
                 if (temp == 0)

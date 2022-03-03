@@ -20,8 +20,8 @@ namespace DalApi
         public void UpdateParcel(DO.Parcel parcel);
         public void UpdateCustemer(DO.Customer customer);
         void AttacheDrone(int parcelID);
-        void PickParcel(int parcelID);
-        void ParcelToCustomer(int parcelID);
+        void PickupParcel(int parcelID);
+        void DeliverdParcel(int parcelID);
         void DroneToCharge(int droneID, int stationID);
         void DroneOutCharge(int droneID);
         DO.Station FindStation(int id);

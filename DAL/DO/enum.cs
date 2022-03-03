@@ -13,4 +13,5 @@ namespace DO
     public enum Priority { REGULAR = 0, FAST = 1, SOS = 2 }
     public enum Model { MDL65 = 0, MDL45 = 1, MDL78 = 2 }
     public enum Status { CREAT = 0, BELONG = 1, PICKUP = 2, MAINTENANCE = 3 }
+    public enum StatusParcel { CREAT = 0, BELONG = 1, PICKUP = 2, DELIVERD = 3, }
 }

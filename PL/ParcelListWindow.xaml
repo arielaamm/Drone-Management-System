@@ -18,12 +18,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="StatusSeletor" Grid.Column="1" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}"/>
-            <ComboBox x:Name="WightsSeletor" Grid.Column="2" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}"/>
+            <ComboBox x:Name="WeightsSeletor" Grid.Column="2" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}"/>
             <ComboBox x:Name="PrioritySeletor" Grid.Column="3" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="PrioritySeletor_SelectionChanged" ItemsSource="{Binding}"/>
-            <Label Content="Click to show" HorizontalAlignment="Stretch" Margin="20,19,20,10" VerticalAlignment="Top" FontWeight="Bold" FontSize="20"/>
-            <Button x:Name="AddParcel" Content="Add Parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="67,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
+            <Label Content="Click to show" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Column="0"/>
+            <Button x:Name="AddParcel" Content="Add Parcel" Grid.Column="4" HorizontalAlignment="Center" Margin="0,6,0,0" VerticalAlignment="Top" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
         <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding Parcels}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
@@ -31,7 +33,7 @@
                 <DataGridTextColumn Header="Model" Binding="{Binding SenderName}" />
                 <DataGridTextColumn Header="Battery" Binding="{Binding TargetName}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding status}" />
                 <DataGridTextColumn Header="Lattitude" Binding="{Binding Priority}" />
             </DataGrid.Columns>
         </DataGrid>

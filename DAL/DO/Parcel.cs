@@ -18,9 +18,10 @@ namespace DO
         public Priority Priority { set; get; }
         public int DroneId { set; get; }
         //added later
-        public DateTime? Requested { set; get; } // זמן יצירת חבילה למשלוח
+        public DateTime? Requested { set; get; }// זמן יצירת חבילה למשלוח
         public DateTime? Scheduled { set; get; }// זמן שיוך החבילה לרחפן 
         public DateTime? PickedUp { set; get; }//זמן אסיפת החבילה מהשולח
         public DateTime? Deliverd { set; get; }//זמן נתינת המשלוח ללקוח
+        public StatusParcel Status { set; get; }
     }
 }
