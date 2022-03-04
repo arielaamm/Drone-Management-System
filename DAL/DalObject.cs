@@ -107,11 +107,9 @@ namespace DAL
         /// <param name="p">The p<see cref="Parcel"/>.</param>
         public void AddParcel(Parcel p)
         {
-            p.ID = Config.staticId;
             int index = DataSource.parcels.FindIndex(i => i.ID == p.ID);
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
-            Config.staticId++;
             DataSource.parcels.Add(p);
         }
 
@@ -206,7 +204,6 @@ namespace DAL
             p = DataSource.parcels[indexParcel];
             p.DroneId = (int)d.ID;
             p.Scheduled = DateTime.Now;
-            p.Status = StatusParcel.BELONG;
             DataSource.parcels[indexParcel] = p;
             DataSource.drones[indexDrone] = d;
         }
@@ -215,13 +212,12 @@ namespace DAL
         /// The PickParcel.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
-        public void PickupParcel(int parcelID)
+        public void PickParcel(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
             p.PickedUp = DateTime.Now;
-            p.Status = StatusParcel.PICKUP;
             DataSource.parcels[indexParcel] = p;
 
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
@@ -240,15 +236,13 @@ namespace DAL
         /// The ParcelToCustomer.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
-        public void DeliverdParcel(int parcelID)
+        public void ParcelToCustomer(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
             p.Deliverd = DateTime.Now;
-            p.Status = StatusParcel.DELIVERD;
             DataSource.parcels[indexParcel] = p;
-
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
@@ -276,9 +270,8 @@ namespace DAL
             d = DataSource.drones[index];
             d.Status = Status.MAINTENANCE;
             DataSource.drones[index] = d;
-
             index = DataSource.stations.FindIndex(i => i.ID == stationID);
-            if (DataSource.stations[index].ChargeSlots - DataSource.stations[index].BusyChargeSlots <= 0)
+            if (DataSource.stations[index].ChargeSlots > 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
             s = DataSource.stations[index];
             s.BusyChargeSlots++;
@@ -387,7 +380,7 @@ namespace DAL
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in DataSource.parcels
-                   where Parcel.DroneId == 0 || Parcel.DroneId == 0
+                   where Parcel.DroneId == 0 || Parcel.DroneId == null
                    select Parcel;
         }
 

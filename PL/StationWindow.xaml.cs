@@ -49,8 +49,8 @@ namespace PL
             {
                 InitializeComponent();
                 this.bl = bl;
-                var t = this.bl.Drones().Where(a => id == a.ID);
-                ParcelsList = new(t);
+             //   var t = this.bl.Drones().Where(a => id == a.ID);
+             //   ParcelsList = new(t);
             }
         }
 
