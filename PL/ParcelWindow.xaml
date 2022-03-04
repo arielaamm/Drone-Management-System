@@ -9,12 +9,10 @@
         Title="ParcelListWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width ="199*"/>
-            <ColumnDefinition Width="41*"/>
-            <ColumnDefinition Width ="160*"/>
+            <ColumnDefinition Width="127*"/>
+            <ColumnDefinition Width="73*"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="DataGird" IsReadOnly="True" ItemsSource="{Binding ParcelToList}" AutoGenerateColumns="False" >
-            <Frame Grid.Column="2" x:Name="Main" NavigationUIVisibility="Hidden" />
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="SenderName" Binding="{Binding SenderName}" />
@@ -24,5 +22,6 @@
                 <DataGridTextColumn Header="status" Binding="{Binding status}" />
             </DataGrid.Columns>
         </DataGrid>
+        <Frame x:Name="parcelPage" Grid.Column="1"/>
     </Grid>
 </Window>
