@@ -35,7 +35,7 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            WightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
+            WeightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             PrioritySeletor.ItemsSource = Enum.GetValues(typeof(BO.Priority));
             StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
             Parcels = new(this.bl.Parcels());

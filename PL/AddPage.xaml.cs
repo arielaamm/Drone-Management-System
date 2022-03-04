@@ -32,7 +32,7 @@ namespace PL
             ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
             MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
-            List <BO.StationToList> stations= (List<BO.StationToList>)bl.FreeChargeslots();
+            List <BO.StationToList> stations=bl.FreeChargeslots().ToList();
             int i = 0;
             while (i!=bl.FreeChargeslots().Count())
             {
@@ -79,8 +79,6 @@ namespace PL
             {
                 i = (int)drone.ID; //מעביר ככה את האיידיי של התחנה בלי בלגן ואז דורס אותו  לא למחוק !!!
                 drone.ID = int.Parse(TextBoxID.Text);
-                drone.Battery = 100;
-                drone.HaveParcel = false;
                 bl.AddDrone(drone, i);
             }
             catch (Exception ex)

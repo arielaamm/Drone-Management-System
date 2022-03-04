@@ -9,15 +9,14 @@
         Title="DroneWindow" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width ="199*"/>
-            <ColumnDefinition Width="41*"/>
-            <ColumnDefinition Width ="160*"/>
+            <ColumnDefinition Width ="3*"/>
+            <ColumnDefinition Width ="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Frame Grid.Column="2" x:Name="Main" NavigationUIVisibility="Hidden" />
-        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding DronesList}" AutoGenerateColumns="False" Grid.ColumnSpan="2" >
+        <Frame Grid.Column="1" x:Name="Main" NavigationUIVisibility="Hidden" />
+        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding DronesList}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />

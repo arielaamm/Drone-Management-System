@@ -18,6 +18,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="StatusSeletor" Grid.Column="1" Margin="0,19,80,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}"/>
             <ComboBox x:Name="WightsSeletor" Grid.Column="1" Margin="156,19,124,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}" Grid.ColumnSpan="2"/>
