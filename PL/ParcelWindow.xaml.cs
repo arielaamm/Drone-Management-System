@@ -36,6 +36,8 @@ namespace PL
             InitializeComponent();
             this.bl = bl;
             ParcelsList = new(this.bl.Parcels());
+            Main.Content = new AddPage(bl, this);
+
         }
         public ParcelWindow(BlApi.IBL bl, int? id)
         {
