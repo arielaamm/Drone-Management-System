@@ -212,7 +212,7 @@ namespace DAL
         /// The PickParcel.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
-        public void PickParcel(int parcelID)
+        public void PickupParcel(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
@@ -236,7 +236,7 @@ namespace DAL
         /// The ParcelToCustomer.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
-        public void ParcelToCustomer(int parcelID)
+        public void DeliverdParcel(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
