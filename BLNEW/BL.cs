@@ -225,6 +225,8 @@ namespace BL
             {
                 DO.Parcel tempParcel = new()
                 {
+                    ID = parcel.ID,
+                    Status = DO.StatusParcel.CREAT,
                     SenderId = parcel.sender.ID,
                     TargetId = parcel.target.ID,
                     Weight = (DO.Weight)parcel.Weight,
