@@ -16,33 +16,33 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for ParcelListWindow.xaml
+    /// Interaction logic for StationWindow.xaml
     /// </summary>
-    public partial class ParcelWindow : Window
+    public partial class StationWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.ParcelToList> ParcelsList
+        internal ObservableCollection<BO.StationToList> StationsList
         {
-            get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
-            set => SetValue(parcelsDependency, value);
+            get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
+            set => SetValue(stationsDependency, value);
         }
-        static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
-            nameof(ParcelsList),
-            typeof(ObservableCollection<BO.ParcelToList>),
+        static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
+            nameof(StationsList),
+            typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
-        public ParcelWindow(BlApi.IBL bl)
+        public StationWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            ParcelsList = new(this.bl.Parcels());
-            parcelPage.Content = new AddParcel(bl,this);
+            StationsList = new(this.bl.Stations());
+            //StationsPage.Content = new AddParcel(bl, this);
         }
-        public ParcelWindow(BlApi.IBL bl, int? id)
+        public StationWindow(BlApi.IBL bl, int? id)
         {
             if (id == null)
             {
-                new ParcelListWindow(bl).Show();
+                //new StationListWindow(bl).Show();
                 this.Close();
             }
             else
@@ -56,17 +56,8 @@ namespace PL
                 //Main.Content = new ActionsPage(bl, (int)ID);
                 this.bl = bl;
                 var t = this.bl.Parcels().Where(a => id == a.ID);
-                ParcelsList = new(t);
+                ParcelToList = new(t);
             }
-        }
-
-        bool closing = false;
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = closing;
-        internal new void Close()
-        {
-            closing = true;
-            base.Close();
         }
     }
 }
-
