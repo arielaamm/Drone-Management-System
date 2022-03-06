@@ -54,7 +54,7 @@
                             <TextBlock HorizontalAlignment="Center" Text="Drones"/>
                         </Grid>
                     </Button>
-                    <Button Margin="20" Background="#FF673AB7">
+                    <Button Margin="20" Background="#FF673AB7" Click="Button_Click">
                         <Grid Width="150">
                             <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" Text="Station"/>

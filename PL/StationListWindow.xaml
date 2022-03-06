@@ -1,0 +1,36 @@
+﻿<Window x:Class="PL.StationListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="StationListWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource self}}">
+    <Grid  x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Right" Height="auto" Grid.Row="0" Width="800">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions >
+            <Label Content="Click to show" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Column="0"/>
+            <Button x:Name="AddStation" Content="Add Station" Grid.Column="4" HorizontalAlignment="Center" Margin="0,6,0,0" VerticalAlignment="Top" Height="26" Click="Button_Click" FontWeight="Bold"/>
+        </Grid>
+        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding Station}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                <DataGridTextColumn Header="StationName" Binding="{Binding StationName}" />
+                <DataGridTextColumn Header="FreeChargeSlots" Binding="{Binding FreeChargeSlots}" />
+                <DataGridTextColumn Header="UsedChargeSlots" Binding="{Binding UsedChargeSlots}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
