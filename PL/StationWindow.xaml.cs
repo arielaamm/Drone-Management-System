@@ -18,7 +18,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for StationWindow.xaml
     /// </summary>
-    public partial class StationWindow : Window
+    public partial class StationWindow : Window//NOT SHOWING INFO =) WEIRD
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 

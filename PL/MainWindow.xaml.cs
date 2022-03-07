@@ -106,5 +106,11 @@ namespace PL
         {
             new StationListWindow(bl).Show();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            new CustumerListWindow(bl).Show();
+
+        }
     }//
 }
