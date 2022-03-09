@@ -52,7 +52,7 @@ namespace PL
                 this.bl = bl;
                 var t = this.bl.Parcels().Where(a => id == a.ID);
                 Parcel = new(t);
-                parcelPage.Content = new ActionsParcel(bl, (int)id, this);
+                //parcelPage.Content = new ActionsParcel(bl, (int)id, this); //הורד כיוון שאין ל parcel פעולות
 
             }
         }
