@@ -177,7 +177,7 @@ namespace DAL
         /// The UpdateCustemer.
         /// </summary>
         /// <param name="customer">The customer<see cref="Customer"/>.</param>
-        public void UpdateCustemer(Customer customer)
+        public void UpdateCustomer(Customer customer)
         {
             if (DataSource.customers.TrueForAll(i => i.CustomerName != customer.CustomerName))
                 throw new NameIsUsedException($"This name {customer.CustomerName} is used");

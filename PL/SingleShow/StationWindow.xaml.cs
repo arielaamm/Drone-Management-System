@@ -16,43 +16,51 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for StationListWindow.xaml
+    /// Interaction logic for StationWindow.xaml
     /// </summary>
-    public partial class StationListWindow : Window
+    public partial class StationWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.StationToList> StationsList
+        internal ObservableCollection<BO.StationToList> Station
         {
             get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
             set => SetValue(stationsDependency, value);
         }
         static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
-            nameof(StationsList),
+            nameof(Station),
             typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
-        public StationListWindow(BlApi.IBL bl)
+        public StationWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            StationsList = new(this.bl.Stations());
+            Station = new(this.bl.Stations());
+            StationsPage.Content = new AddStation(bl, this);
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public StationWindow(BlApi.IBL bl, int? id)
         {
-            new StationWindow(bl).Show();
+            if (id == null)
+            {
+                new StationListWindow(bl).Show();
+                this.Close();
+            }
+            else
+            {
+                InitializeComponent();
+                this.bl = bl;
+                var t = this.bl.Stations().Where(a => id == a.ID);
+                Station = new(t);
+                StationsPage.Content = new ActionsStation(bl, (int)id, this);
+
+            }
         }
-        private void mousedoubleclick(object sender, MouseButtonEventArgs e)
+        bool closing = false;
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = closing;
+        internal new void Close()
         {
-            var cb = sender as DataGrid;
-            BO.StationToList a = (BO.StationToList)cb.SelectedValue;
-            try
-            {
-                new StationWindow(bl, a.ID).Show();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Click on properties only please");
-            }
+            closing = true;
+            base.Close();
         }
     }
 }

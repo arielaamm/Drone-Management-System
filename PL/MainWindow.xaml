@@ -44,26 +44,30 @@
                 <StackPanel Grid.Row="1">
                     <Button Margin="20" Background="#FF673AB7" Click="Button_Click_1" >
                         <Grid Width="150">
-                            <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
-                            <TextBlock HorizontalAlignment="Center" Text="Custemer"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="0*"/>
+                            </Grid.ColumnDefinitions>
+                            <matrialDesign:PackIcon Kind="AccountGroup" VerticalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="Customers"/>
                         </Grid>
                     </Button>
                     <Button Margin="20" Click="DroneListButton_Click" Background="#FF673AB7">
                         <Grid Width="150">
-                            <matrialDesign:PackIcon Kind="Airplane" VerticalAlignment="Center"/>
+                            <matrialDesign:PackIcon Kind="Drone" VerticalAlignment="Center"/>
                             <TextBlock HorizontalAlignment="Center" Text="Drones"/>
                         </Grid>
                     </Button>
                     <Button Margin="20" Background="#FF673AB7" Click="Button_Click">
                         <Grid Width="150">
-                            <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
-                            <TextBlock HorizontalAlignment="Center" Text="Station"/>
+                            <matrialDesign:PackIcon Kind="EvStation" VerticalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="Stations"/>
                         </Grid>
                     </Button>
                     <Button Margin="20" Background="#FF673AB7" Click="ParcelButton_Click">
                         <Grid Width="150">
-                            <matrialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center"/>
-                            <TextBlock HorizontalAlignment="Center" Text="Parcel"/>
+                            <matrialDesign:PackIcon Kind="PackageVariantClosed" VerticalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Text="Parcels"/>
                         </Grid>
                     </Button>
                 </StackPanel>

@@ -18,18 +18,18 @@ namespace PL
     /// <summary>
     /// Interaction logic for ActionsPage.xaml
     /// </summary>
-    public partial class ActionsPage : Page
+    public partial class ActionsDrone : Page
     {
         BlApi.IBL bl;
         int id;
         DateTime time;
         Window parent;
-        public ActionsPage(BlApi.IBL bl,int id, Window parent)
-        {
+        public ActionsDrone(BlApi.IBL bl,int id, Window parent)
+        {            
+            InitializeComponent();
             this.parent = parent;
             this.bl = bl;
             this.id = id;
-            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();

@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for StationWindow.xaml
+    /// Interaction logic for StationListWindow.xaml
     /// </summary>
-    public partial class StationWindow : Window//NOT SHOWING INFO =) WEIRD
+    public partial class StationListWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
@@ -31,33 +31,33 @@ namespace PL
             nameof(StationsList),
             typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
-        public StationWindow(BlApi.IBL bl)
+        public StationListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
             StationsList = new(this.bl.Stations());
-            //StationsPage.Content = new AddParcel(bl, this);
         }
-        public StationWindow(BlApi.IBL bl, int? id)//not working
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (id == null)
+            Reload();
+            new StationWindow(bl).Show();
+        }
+        private void mousedoubleclick(object sender, MouseButtonEventArgs e)
+        {
+            var cb = sender as DataGrid;
+            BO.StationToList a = (BO.StationToList)cb.SelectedValue;
+            try
             {
-                //new StationListWindow(bl).Show();
-                this.Close();
+                new StationWindow(bl, a.ID).Show();
             }
-            else
+            catch (Exception)
             {
-                InitializeComponent();
-                //this.bl = bl;
-                //var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
-                //List<BO.DroneToList> a = new();
-                //a.Add(w);
-                //DronesList = new(a);
-                //Main.Content = new ActionsPage(bl, (int)ID);
-                this.bl = bl;
-                var t = this.bl.Parcels().Where(a => id == a.ID);
-             //   ParcelToList = new(t);
+                MessageBox.Show("Click on properties only please");
             }
+        }
+        private void Reload()
+        {
+            StationsList = new(bl.Stations());
         }
     }
 }

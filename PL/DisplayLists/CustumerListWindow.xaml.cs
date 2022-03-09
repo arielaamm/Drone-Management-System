@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for CustumerListWindow.xaml
+    /// Interaction logic for CustomerListWindow.xaml
     /// </summary>
-    public partial class CustumerListWindow : Window
+    public partial class CustomerListWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
@@ -31,7 +31,7 @@ namespace PL
             nameof(CustomersList),
             typeof(ObservableCollection<BO.CustomerToList>),
             typeof(Window));
-        public CustumerListWindow(BlApi.IBL bl)
+        public CustomerListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
@@ -39,7 +39,8 @@ namespace PL
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new CustumerWindow(bl).Show();
+            Reload();
+            new CustomerWindow(bl).Show();
         }
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
         {
@@ -47,12 +48,16 @@ namespace PL
             BO.CustomerToList a = (BO.CustomerToList)cb.SelectedValue;
             try
             {
-                new CustumerWindow(bl, a.ID).Show();
+                new CustomerWindow(bl, a.ID).Show();
             }
             catch (Exception)
             {
                 MessageBox.Show("Click on properties only please");
             }
+        }
+        private void Reload()
+        {
+            CustomersList = new(bl.Customers());
         }
     }
 }

@@ -123,7 +123,7 @@ namespace BL
             }
             double i = dal.Power()[((int)drone.Weight + 1) % 4];
             i *= a;
-            i=Math.Ceiling(i);
+            i = Math.Ceiling(i);
             return (int)i;
         }
         /// <summary>
@@ -280,9 +280,9 @@ namespace BL
         });
 
         /// <summary>
-        /// Update Custemer details
+        /// Update Customer details
         /// </summary>
-        public void UpdateCustomer(Customer customer) => dal.UpdateCustemer(new DO.Customer
+        public void UpdateCustomer(Customer customer) => dal.UpdateCustomer(new DO.Customer
         {
             ID = customer.ID,
             CustomerName = customer.CustomerName,

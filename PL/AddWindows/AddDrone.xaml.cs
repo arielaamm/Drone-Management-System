@@ -20,15 +20,15 @@ namespace PL
     /// <summary>
     /// Interaction logic for AddPage.xaml
     /// </summary>
-    public partial class AddPage : Page
+    public partial class AddDrone : Page
     {   
         private readonly BlApi.IBL bl;
         Window parent;
-        public AddPage(BlApi.IBL bl, Window parent)
-        {
+        public AddDrone(BlApi.IBL bl, Window parent)
+        {            
+            InitializeComponent();
             this.bl = bl;
             this.parent = parent;
-            InitializeComponent();
             ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
             MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
@@ -73,11 +73,10 @@ namespace PL
 
         private void Button_Click_Add_Drone(object sender, RoutedEventArgs e)
         {
-            int i = 0;
             int c = bl.Drones().Count();
             try
             {
-                i = (int)drone.ID; //מעביר ככה את האיידיי של התחנה בלי בלגן ואז דורס אותו  לא למחוק !!!
+                int i = (int)drone.ID;
                 drone.ID = int.Parse(TextBoxID.Text);
                 bl.AddDrone(drone, i);
             }
@@ -94,7 +93,7 @@ namespace PL
             if (c < bl.Drones().Count())
             {
                 MessageBox.Show("The drone successfully added");
-                new DroneListWindow(bl).Show();
+                parent.Close();
                 new DroneWindow(bl,(int)drone.ID).Show();
             }
         }

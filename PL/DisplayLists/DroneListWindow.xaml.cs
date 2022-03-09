@@ -24,13 +24,13 @@ namespace PL
 
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.DroneToList> Drones
+        internal ObservableCollection<BO.DroneToList> DroneList
         {
             get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
             set => SetValue(dronesDependency, value);
         }
         static readonly DependencyProperty dronesDependency = DependencyProperty.Register(
-            nameof(Drones),
+            nameof(DroneList),
             typeof(ObservableCollection<BO.DroneToList>),
             typeof(Window));
 
@@ -40,20 +40,20 @@ namespace PL
             this.bl = bl;
             WightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
-            Drones = new(this.bl.Drones());
+            DroneList = new(this.bl.Drones());
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
             if (cb.SelectedItem == null)
-                Drones = new(bl.Drones());
+                DroneList = new(bl.Drones());
             else
             {
-                Drones = new();
+                DroneList = new();
                 var a = from drone in bl.Drones()
                         where (drone.Weight == (BO.Weight)cb.SelectedItem)
                         select drone;
-                Drones = new ObservableCollection<BO.DroneToList>(a);
+                DroneList = new ObservableCollection<BO.DroneToList>(a);
             }
         }
 
@@ -61,19 +61,20 @@ namespace PL
         {
             var cb = sender as ComboBox;
             if (cb.SelectedItem == null)
-                Drones = new(bl.Drones());
+                DroneList = new(bl.Drones());
             else
             {
-                Drones = new();
+                DroneList = new();
                 var a = from drone in bl.Drones()
                         where (drone.Status == (BO.Status)cb.SelectedItem)
                         select drone;
-                Drones = new ObservableCollection<BO.DroneToList>(a);
+                DroneList = new ObservableCollection<BO.DroneToList>(a);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Reload();
             new DroneWindow(bl).Show();
         }
 
@@ -85,10 +86,14 @@ namespace PL
             {
                 new DroneWindow(bl, a.Id).Show();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Click on properties only please");
             }
+        }
+        private void Reload()
+        {
+            DroneList = new(bl.Drones());
         }
     }
 }

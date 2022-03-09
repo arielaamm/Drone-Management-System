@@ -22,20 +22,20 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.ParcelToList> ParcelsList
+        internal ObservableCollection<BO.ParcelToList> Parcel
         {
             get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
             set => SetValue(parcelsDependency, value);
         }
         static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
-            nameof(ParcelsList),
+            nameof(Parcel),
             typeof(ObservableCollection<BO.ParcelToList>),
             typeof(Window));
         public ParcelWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            ParcelsList = new(this.bl.Parcels());
+            Parcel = new(this.bl.Parcels());
             parcelPage.Content = new AddParcel(bl,this);
         }
         public ParcelWindow(BlApi.IBL bl, int? id)
@@ -48,15 +48,12 @@ namespace PL
             else
             {
                 InitializeComponent();
-                //this.bl = bl;
-                //var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
-                //List<BO.DroneToList> a = new();
-                //a.Add(w);
-                //DronesList = new(a);
-                //Main.Content = new ActionsPage(bl, (int)ID);
+
                 this.bl = bl;
                 var t = this.bl.Parcels().Where(a => id == a.ID);
-                ParcelsList = new(t);
+                Parcel = new(t);
+                parcelPage.Content = new ActionsParcel(bl, (int)id, this);
+
             }
         }
 

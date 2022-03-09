@@ -112,7 +112,7 @@ namespace ConsoleUI_BL
                     if (type == "1")
                     {
                         Viewid("c");
-                        Console.WriteLine("enter custemer's id new");
+                        Console.WriteLine("enter customer's id new");
                     }
                     CustomerInParcel SenderIdParcel=new();
                     CustomerInParcel TargetIdParcel = new();

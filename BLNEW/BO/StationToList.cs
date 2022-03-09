@@ -16,6 +16,5 @@ namespace BO
         public string StationName { set; get; }
         public int FreeChargeSlots { set; get; }
         public int UsedChargeSlots { set; get; }
-
     }
 }

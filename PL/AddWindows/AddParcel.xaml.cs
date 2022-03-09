@@ -30,12 +30,12 @@ namespace PL
             this.bl = bl;
             this.parent = parent;
             InitializeComponent();
-            PrioritySeletor.ItemsSource = Enum.GetValues(typeof(BO.Priority));
-            WeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
+            PrioritySelector.ItemsSource = Enum.GetValues(typeof(BO.Priority));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             var name = from n in bl.Customers()
                        select n.CustomerName;
-            TargetSeletor.ItemsSource = name;
-            SenderSeletor.ItemsSource = name;
+            TargetSelector.ItemsSource = name;
+            SenderSelector.ItemsSource = name;
         }
         BO.Parcel parcel = new();
 
@@ -48,17 +48,17 @@ namespace PL
 
         private void Button_Click_Add_Parcel(object sender, RoutedEventArgs e)
         {
-            int t = bl.Customers().Count();
+            int t = bl.Parcels().Count();
             try
             {
                 parcel.ID = int.Parse(TextBoxID.Text);
-                parcel.Weight = (BO.Weight)WeightSeletor.SelectedItem;
-                parcel.Priority = (BO.Priority)PrioritySeletor.SelectedItem;
+                parcel.Weight = (BO.Weight)WeightSelector.SelectedItem;
+                parcel.Priority = (BO.Priority)PrioritySelector.SelectedItem;
                 BO.CustomerInParcel customerInParcelSender = new BO.CustomerInParcel();
                 BO.CustomerInParcel customerInParcelTarget = new BO.CustomerInParcel();
-                customerInParcelSender.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)SenderSeletor.SelectedItem).ID;
+                customerInParcelSender.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)SenderSelector.SelectedItem).ID;
                 parcel.sender = customerInParcelSender;
-                customerInParcelTarget.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)TargetSeletor.SelectedItem).ID;
+                customerInParcelTarget.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)TargetSelector.SelectedItem).ID;
                 parcel.target = customerInParcelTarget;
                 if (parcel.sender.ID == parcel.target.ID)
                     MessageBox.Show("you can't send a parcel to your self, try agine");
@@ -75,9 +75,12 @@ namespace PL
                 else
                     MessageBox.Show("Enter the data in the necessary places");
             }
-            if (t < bl.Customers().Count())
+            if (t < bl.Parcels().Count())
             {
                 MessageBox.Show("The Parcel successfully added");
+                parent.Close();
+                new ParcelWindow(bl, int.Parse(TextBoxID.Text)).Show();
+
             }
         }
     }

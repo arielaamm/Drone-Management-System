@@ -13,8 +13,7 @@
             <ColumnDefinition Width ="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Frame Grid.Column="1" x:Name="Main" NavigationUIVisibility="Hidden" />
-        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding DronesList}" AutoGenerateColumns="False" >
+        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Drone}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
@@ -24,6 +23,7 @@
                 <DataGridTextColumn Header="Lattitude" Binding="{Binding Position.Lattitude}" />
                 <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
             </DataGrid.Columns>
-        </DataGrid>
+        </DataGrid>  
+        <Frame Grid.Column="1" x:Name="dronepage" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

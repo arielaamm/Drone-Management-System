@@ -16,49 +16,43 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for CustumerWindow.xaml
+    /// Interaction logic for CustomerWindow.xaml
     /// </summary>
-    public partial class CustumerWindow : Window
+    public partial class CustomerWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.CustomerToList> CustomersList
+        internal ObservableCollection<BO.CustomerToList> Customer
         {
             get => (ObservableCollection<BO.CustomerToList>)GetValue(customersDependency);
             set => SetValue(customersDependency, value);
         }
         static readonly DependencyProperty customersDependency = DependencyProperty.Register(
-            nameof(CustomersList),
+            nameof(Customer),
             typeof(ObservableCollection<BO.CustomerToList>),
             typeof(Window));
 
-        public CustumerWindow(BlApi.IBL bl)
+        public CustomerWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
-            CustomersList = new(this.bl.Customers());
-            //Main.Content = new AddPage(bl, this);
+            Customer = new(this.bl.Customers());
+            customerpage.Content = new AddCustomer(bl, this);
         }
-        public CustumerWindow(BlApi.IBL bl, int? id)
+        public CustomerWindow(BlApi.IBL bl, int? id)
         {
             if (id == null)
             {
-                new CustumerListWindow(bl).Show();
+                new CustomerListWindow(bl).Show();
                 this.Close();
             }
             else
             {
                 InitializeComponent();
-                //this.bl = bl;
-                //var w = this.bl.Drones().ToList().Find(delegate (BO.DroneToList D) { return (D.ID == ID); });
-                //List<BO.DroneToList> a = new();
-                //a.Add(w);
-                //DronesList = new(a);
-                //Main.Content = new ActionsPage(bl, (int)ID);
                 this.bl = bl;
                 var t = this.bl.Customers().Where(a => id == a.ID);
-                CustomersList = new(t);
-                //Main.Content = new ActionsPage(bl, (int)id, this);
+                Customer = new(t);
+                customerpage.Content = new ActionsCustomer(bl, (int)id, this);
             }
         }
 

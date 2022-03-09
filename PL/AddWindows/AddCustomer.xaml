@@ -1,0 +1,31 @@
+﻿<Page x:Class="PL.AddCustomer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PL"
+      mc:Ignorable="d" 
+      d:DesignHeight="480" d:DesignWidth="320"
+      Title="AddCustomer">
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Bottom">
+            <Label x:Name="IDLabel" Content="ID" Margin="46,111,146,340" />
+            <Label x:Name="NameLabel" Content="Customer name" Margin="46,145,146,307"/>
+            <Label x:Name="LongitudeLabel" Content="Longitude" Margin="46,178,146,274" />
+            <Label x:Name="LattitudeLabel" Content="Lattitude" Margin="46,217,146,240" />
+            <Label x:Name="PhoneLabel" Content="Phone" Margin="46,257,146,200" />
+
+
+            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="180,111,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxName" MaxLength="15" Margin="180,146,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="LetterValidationTextBox" Height="26" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxLongitude" MaxLength="15" Margin="180,181,20,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox x:Name="TextBoxLattitude" MaxLength="15" Margin="180,218,20,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox x:Name="TextBoxPhone" MaxLength="10" Margin="180,254,20,0" Width="120" Height="26" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+
+
+            <Button x:Name="BntAdd" Content="Add the Customer" HorizontalAlignment="Center" Margin="0,325,0,0" Width="176" FontWeight="Bold" Click="Button_Click_Add_Customer" Height="32" VerticalAlignment="Top"/>
+            <Button Content="close" Margin="87,391,87,57" Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</Page>

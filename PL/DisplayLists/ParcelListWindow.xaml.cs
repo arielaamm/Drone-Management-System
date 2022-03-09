@@ -22,13 +22,13 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
 
-        internal ObservableCollection<BO.ParcelToList> Parcels
+        internal ObservableCollection<BO.ParcelToList> Parcellist
         {
             get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
             set => SetValue(parcelsDependency, value);
         }
         static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
-            nameof(Parcels),
+            nameof(Parcellist),
             typeof(ObservableCollection<BO.ParcelToList>),
             typeof(Window));
         public ParcelListWindow(BlApi.IBL bl)
@@ -38,52 +38,53 @@ namespace PL
             WeightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             PrioritySeletor.ItemsSource = Enum.GetValues(typeof(BO.Priority));
             StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
-            Parcels = new(this.bl.Parcels());
+            Parcellist = new(this.bl.Parcels());
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
             if (cb.SelectedItem == null)
-                Parcels = new(bl.Parcels());
+                Parcellist = new(bl.Parcels());
             else
             {
-                Parcels = new();
+                Parcellist = new();
                 var a = from parcel in bl.Parcels()
                         where (parcel.Weight == (BO.Weight)cb.SelectedItem)
                         select parcel;
-                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+                Parcellist = new ObservableCollection<BO.ParcelToList>(a);
             }
         }
         private void PrioritySeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
             if (cb.SelectedItem == null)
-                Parcels = new(bl.Parcels());
+                Parcellist = new(bl.Parcels());
             else
             {
-                Parcels = new();
+                Parcellist = new();
                 var a = from parcel in bl.Parcels()
                         where (parcel.Priority == (BO.Priority)cb.SelectedItem)
                         select parcel;
-                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+                Parcellist = new ObservableCollection<BO.ParcelToList>(a);
             }
         }
         private void StatusSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
             if (cb.SelectedItem == null)
-                Parcels = new(bl.Parcels());
+                Parcellist = new(bl.Parcels());
             else
             {
-                Parcels = new();
+                Parcellist = new();
                 var a = from parcel in bl.Parcels()
                         where (parcel.status == (BO.Status)cb.SelectedItem)
                         select parcel;
-                Parcels = new ObservableCollection<BO.ParcelToList>(a);
+                Parcellist = new ObservableCollection<BO.ParcelToList>(a);
             }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Reload();
             new ParcelWindow(bl).Show();
         }
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
@@ -98,6 +99,10 @@ namespace PL
             {
                 MessageBox.Show("Click on properties only please");
             }
+        }
+        private void Reload()
+        {
+            Parcellist = new(bl.Parcels());
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DO
     /// </summary>
     public struct Parcel
     {
-        public int ? ID { set; get; }
+        public int ID { set; get; }
         public int SenderId { set; get; }
         public int TargetId { set; get; }
         public Weight Weight { set; get; }

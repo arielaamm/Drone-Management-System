@@ -109,7 +109,7 @@ namespace PL
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new CustumerListWindow(bl).Show();
+            new CustomerListWindow(bl).Show();
 
         }
     }//
