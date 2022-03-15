@@ -223,9 +223,9 @@ namespace DAL
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
-            double distans = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+            double Distance = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
-            d.Battery = d.Battery - distans * Power()[(int)d.Status];
+            d.Battery = d.Battery - Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
             d.Lattitude = FindCustomers(p.SenderId).Lattitude;
             d.Status = Status.PICKUP;
@@ -246,9 +246,9 @@ namespace DAL
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
-            double distans = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+            double Distance = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
-            d.Battery = d.Battery - distans * Power()[(int)d.Status];
+            d.Battery = d.Battery - Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.TargetId).Longitude;
             d.Lattitude = FindCustomers(p.TargetId).Lattitude;
             d.Status = Status.CREAT;
