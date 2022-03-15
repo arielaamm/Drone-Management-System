@@ -14,7 +14,6 @@ namespace BL
     public sealed class BL : BlApi.IBL//
     {
         readonly IDal dal = DalFactory.GetDal("DalObject");
-
         /// <summary>
         /// constractor
         /// </summary> 
@@ -26,42 +25,43 @@ namespace BL
             Random random = new();
             foreach (DO.Parcel i in p)
             {
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
-                if (i.DroneId != 0)
-                {
-                    if ((i.Scheduled != null) && (i.Deliverd == null))
-                    {
-                        tempDrone = dal.FindDrone((int)i.DroneId);//השמה של הנתונים הישנים
-                        tempDrone.Status = (DO.Status)2;
-                        if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
-                        {//shortest station
-                            Location sta = new()
-                            {
-                                Lattitude = 0,
-                                Longitude = 0,
-                            };
-                            double d = 0;
-                            foreach (DO.Station item in dal.Freechargeslotslist())
-                            {
-                                if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
-                                {
-                                    d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
-                                    sta = FindDrone((int)i.DroneId).Position;
-                                }
-                            }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
+                 if (i.DroneId != 0)
+                 {
+                    tempDrone = dal.FindDrone((int)i.DroneId); //tempDrone = dal.FindDrone((int)i.DroneId);//השמה של הנתונים הישנים
 
-                            tempDrone.Lattitude = sta.Lattitude;
-                            tempDrone.Longitude = sta.Longitude;
-                        }
-                        //מפה כל מה שאני אמרתי לך לטפל
-                        if ((i.Deliverd == null) && (i.PickedUp != null))
-                        {
-                            //FindDrone((int)i.DroneId).Position = FindStation(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
-                            tempDrone.Lattitude = dal.FindStation(i.SenderId).Lattitude;
-                            tempDrone.Longitude = dal.FindStation(i.SenderId).Longitude;
-                        }
-                        tempDrone.Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check minpower
-                    }
+                    if ((i.Scheduled != null) && (i.Deliverd == null))
+                     {
+                         tempDrone.Status = (DO.Status)2;
+                         if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
+                         {//shortest station
+                             Location sta = new()
+                             {
+                                 Lattitude = 0,
+                                 Longitude = 0,
+                             };
+                             double d = 0;
+                             foreach (DO.Station item in dal.Freechargeslotslist())
+                             {
+                                 if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
+                                 {
+                                     d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
+                                     sta = FindDrone((int)i.DroneId).Position;
+                                 }
+                             }
+
+                             tempDrone.Lattitude = sta.Lattitude;
+                             tempDrone.Longitude = sta.Longitude;
+                         }
+                         //מפה כל מה שאני אמרתי לך לטפל
+                         if ((i.Deliverd == null) && (i.PickedUp != null))
+                         {
+                             //FindDrone((int)i.DroneId).Position = FindStation(i.SenderId).Position;//בעיה - צריך להשוות את הרחפן *לשולח
+                             tempDrone.Lattitude = dal.FindStation(i.SenderId).Lattitude;
+                             tempDrone.Longitude = dal.FindStation(i.SenderId).Longitude;
+                         }
+                         tempDrone.Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check minpower
+                     }
                     if (FindDrone((int)i.DroneId).Status != (Status)1)//אם הרחפן לא מבצע משלוח
                     {
                         tempDrone.Status = (DO.Status)random.Next(3, 5);
@@ -77,7 +77,7 @@ namespace BL
                         tempDrone.Longitude = dal.FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Longitude;
                         tempDrone.Battery = random.Next(0, 21);
                     }
-                    if (FindDrone((int)i.DroneId).Status == Status.CREAT)
+                     if (FindDrone((int)i.DroneId).Status == Status.CREAT)
                     {
                         List<Parcel> pa = new();
                         foreach (var item in Parcels())
@@ -102,7 +102,7 @@ namespace BL
             }
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// סגור 
         static BL instance = null;
         public static BL GetInstance()
         {
