@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using DateTime = System.DateTime;
 namespace BL
 {
-    public sealed class BL : BlApi.IBL//
+    public sealed class BL : BlApi.IBL//מצב החסה בשטחים
     {
         readonly IDal dal = DalFactory.GetDal("DalObject");
         /// <summary>
