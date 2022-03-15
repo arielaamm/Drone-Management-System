@@ -1,6 +1,6 @@
 ﻿using BLExceptions;
-using DAL;
 using BO;
+using DAL;
 using DalApi;
 using System;
 using System.Collections.Generic;
@@ -25,30 +25,30 @@ namespace BL
             Random random = new();
             foreach (DO.Parcel i in p)
             {
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
-                 if (i.DroneId != 0)
-                 {
-                    tempDrone = dal.FindDrone((int)i.DroneId); //tempDrone = dal.FindDrone((int)i.DroneId);//השמה של הנתונים הישנים
-
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////לא סגור 
+                if (i.DroneId != 0)
+                {
+                    tempDrone = dal.FindDrone((int)i.DroneId);//השמה של הנתונים הישנים
                     if ((i.Scheduled != null) && (i.Deliverd == null))
-                     {
-                         tempDrone.Status = (DO.Status)2;
-                         if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
-                         {//shortest station
-                             Location sta = new()
-                             {
-                                 Lattitude = 0,
-                                 Longitude = 0,
-                             };
-                             double d = 0;
-                             foreach (DO.Station item in dal.Freechargeslotslist())
-                             {
-                                 if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
-                                 {
-                                     d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
-                                     sta = FindDrone((int)i.DroneId).Position;
-                                 }
-                             }
+                    {
+                        tempDrone.Status = (DO.Status)2;
+                        if ((i.PickedUp == null) && (i.Scheduled != null))//שויכה אבל לא נאספה
+                        {//shortest station
+                            Location sta = new()
+                            {
+                                Lattitude = 0,
+                                Longitude = 0,
+                            };
+                            double d = 0;
+                            foreach (DO.Station item in dal.Freechargeslotslist())
+                            {
+                                if (Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
+                                {
+                                    d = Distans(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
+                                    sta = FindDrone((int)i.DroneId).Position;
+                                }
+                            }
+                            }
 
                              tempDrone.Lattitude = sta.Lattitude;
                              tempDrone.Longitude = sta.Longitude;
@@ -109,10 +109,10 @@ namespace BL
             if (instance == null)
                 instance = new BL();
             return instance;
-        }    
+        }
         int MinPower(Drone drone)
         {
-            double a=0;
+            double a = 0;
             int c = 0;
             int? StationID;
             foreach (var item in dal.Stationlist())
@@ -123,12 +123,12 @@ namespace BL
                     Longitude = item.Longitude,
                 };
 
-                if ((a < Distans(location, drone.Position))&&c!=0)
+                if ((a < Distans(location, drone.Position)) && c != 0)
                 {
                     a = Distans(location, drone.Position);
                     StationID = item.ID;
-                } 
-                if (c == 0) 
+                }
+                if (c == 0)
                 {
                     a = Distans(location, drone.Position);
                     c++;
@@ -186,7 +186,7 @@ namespace BL
                     ID = drone.ID,
                     Model = drone.Model,
                     Weight = (DO.Weight)drone.Weight,
-                    Battery = ran.Next(20,40),
+                    Battery = ran.Next(20, 40),
                     haveParcel = false,
                 };
                 Location l = FindStation(IDStarting).Position;
@@ -204,7 +204,7 @@ namespace BL
             }
 
         }
-        
+
         /// <summary>
         /// Add customer
         /// </summary>
@@ -228,7 +228,7 @@ namespace BL
                 throw new AlreadyExistException(ex.Message, ex);
             }
         }
-        
+
         /// <summary>
         /// Add parcel
         /// </summary>
@@ -311,7 +311,7 @@ namespace BL
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if ((d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE) && d.Battery < 20 )
+            if ((d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE) && d.Battery < 20)
             {
                 throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
             }
@@ -359,10 +359,10 @@ namespace BL
             {
                 Drone drone = FindDrone(id);
                 drone.Status = Status.CREAT;
-                drone.Battery = dal.Power()[4] * (time/60);
+                drone.Battery = dal.Power()[4] * (time / 60);
                 var temp = dal.DroneChargelist().Where(i => i.DroneId == id).ToList();
                 Station station = FindStation(temp[0].StationId);
-                int index  = station.DroneChargingInStation.FindIndex(i => i.ID == id);
+                int index = station.DroneChargingInStation.FindIndex(i => i.ID == id);
                 station.DroneChargingInStation.RemoveAt(index);
                 UpdateDrone(drone);
                 dal.DroneOutCharge(id);
@@ -372,7 +372,7 @@ namespace BL
                 throw new DroneDontInChargingException($"The Drone {id} Doesn't In Charging");
             }
         }
-        
+
         /// <summary>
         /// Assign a parcel to a drone
         /// </summary>
@@ -485,7 +485,7 @@ namespace BL
             //        throw new ParcelPastErroeException($"there are no parcel to pickup");
             //}
         }
-        
+
         /// <summary>
         /// Delivery of a parcel by drone
         /// </summary>
@@ -568,7 +568,7 @@ namespace BL
             };
             return newStation;
         }
-        
+
         /// <summary>
         /// drone search
         /// </summary>
@@ -633,13 +633,13 @@ namespace BL
             newStation.Parcel = parcelTransactiningTemp;
             return newStation;
         }
-       
+
         /// <summary>
         /// parcel search
         /// </summary>
         /// <returns>found parcel</returns>
         public Parcel Findparcel(int id)//סיימתי
-        {  
+        {
             DO.Parcel p = dal.FindParcel(id);
             DO.Customer s = dal.FindCustomers(p.SenderId);
             DO.Customer t = dal.FindCustomers(p.TargetId);
@@ -670,7 +670,7 @@ namespace BL
             {
                 ID = 0,
             };
-            if (p.DroneId!=0)
+            if (p.DroneId != 0)
             {
                 DO.Drone d = dal.FindDrone(p.DroneId);
                 Location temp = new()
@@ -686,7 +686,7 @@ namespace BL
             }
             return newParcel;
         }
-        
+
         /// <summary>
         /// customer search
         /// </summary>
@@ -761,11 +761,11 @@ namespace BL
             newCustomer.toCustomer = TempToCustomer;
             return newCustomer;
         }
-        
+
         //-----------------------------------------------------------------------------------
         //listView func
         //-----------------------------------------------------------------------------------------
-        
+
         /// <summary>
         /// reture all the stations
         /// </summary>
@@ -788,16 +788,16 @@ namespace BL
             //    temp1.Add(temp);
             //}
             return from s in dal.Stationlist()
-                    select new StationToList()
-                    {
-                        ID = (int)s.ID,
-                        StationName = s.StationName,
-                        FreeChargeSlots = s.ChargeSlots - s.BusyChargeSlots,
-                        UsedChargeSlots = s.BusyChargeSlots
-                    };
+                   select new StationToList()
+                   {
+                       ID = (int)s.ID,
+                       StationName = s.StationName,
+                       FreeChargeSlots = s.ChargeSlots - s.BusyChargeSlots,
+                       UsedChargeSlots = s.BusyChargeSlots
+                   };
 
         }
-        
+
         /// <summary>
         /// reture all the drones
         /// </summary>
@@ -841,7 +841,7 @@ namespace BL
                        Weight = (Weight)d.Weight,
                    };
         }
-        
+
         /// <summary>
         /// reture all the parcels
         /// </summary>
@@ -945,7 +945,7 @@ namespace BL
                        Phone = c.Phone,
                        NumFoParcelSent = Findcustomer((int)c.ID).fromCustomer.Count(),
                        NumFoParcelOnWay = Findcustomer((int)c.ID).toCustomer.Count(),
-                       NumFoParcelReceived = Findcustomer((int)c.ID).toCustomer.Count(i=>i.Status == StatusParcel.DELIVERD),
+                       NumFoParcelReceived = Findcustomer((int)c.ID).toCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                        NumFoParcelSentAndDelivered = Findcustomer((int)c.ID).fromCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                    };
 
@@ -1005,7 +1005,7 @@ namespace BL
                        TargetName = Findparcel((int)p.ID).target.CustomerName,
                    };
         }
-        
+
         /// <summary>
         /// reture all the free chargeslots
         /// </summary>
