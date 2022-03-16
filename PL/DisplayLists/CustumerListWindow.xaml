@@ -18,6 +18,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
+            <ComboBox x:Name="OnWaySeletor" Grid.Column="1" Margin="40,10,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="OnWaySeletor_SelectionChanged" ItemsSource="{Binding}"/>
+            <ComboBox x:Name="ReceivedSeletor" Margin="69,10,10,12" SelectionChanged="ReceivedSeletor_SelectionChanged" ItemsSource="{Binding}" Text="Received" RenderTransformOrigin="0.492,0.548"/>
             <Button x:Name="AddCustomer" Content="Add Customer" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
         <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding CustomersList}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
@@ -28,6 +30,8 @@
                 <DataGridTextColumn Header="Sent And Delivered" Binding="{Binding NumFoParcelSentAndDelivered}" />
                 <DataGridTextColumn Header="Sent" Binding="{Binding NumFoParcelSent}" />
                 <DataGridTextColumn Header="OnWay" Binding="{Binding NumFoParcelOnWay}" />
+                <DataGridTextColumn Header="Received" Binding="{Binding NumFoParcelReceived}" />
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -31,11 +31,66 @@ namespace PL
             nameof(CustomersList),
             typeof(ObservableCollection<BO.CustomerToList>),
             typeof(Window));
+        public enum OnWay { nothing = 0, has = 1}
+        public enum Received { nothing = 0, has = 1}
+
         public CustomerListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
+            OnWaySeletor.ItemsSource = Enum.GetValues(typeof(OnWay));
+            ReceivedSeletor.ItemsSource = Enum.GetValues(typeof(OnWay));
             CustomersList = new(this.bl.Customers());
+        }
+        private void OnWaySeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                CustomersList = new(bl.Customers());
+            else
+            {
+                if ((Received)cb.SelectedItem == (Received)0)
+                {
+                    CustomersList = new();
+                    var a = from Customer in bl.Customers()
+                            where ((Received)Customer.NumFoParcelOnWay == (Received)cb.SelectedItem)
+                            select Customer;
+                    CustomersList = new ObservableCollection<BO.CustomerToList>(a);
+                }
+                else
+                {
+                    CustomersList = new();
+                    var a = from Customer in bl.Customers()
+                            where (Customer.NumFoParcelOnWay > 0)
+                            select Customer;
+                    CustomersList = new ObservableCollection<BO.CustomerToList>(a);
+                }
+            }
+        }
+        private void ReceivedSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                CustomersList = new(bl.Customers());
+            else
+            {
+                if ((Received)cb.SelectedItem == (Received)0)
+                {
+                    CustomersList = new();
+                    var a = from Customer in bl.Customers()
+                            where ((Received)Customer.NumFoParcelReceived == (Received)cb.SelectedItem)
+                            select Customer;
+                    CustomersList = new ObservableCollection<BO.CustomerToList>(a);
+                }
+                else
+                {
+                    CustomersList = new();
+                    var a = from Customer in bl.Customers()
+                            where (Customer.NumFoParcelReceived > 0)
+                            select Customer;
+                    CustomersList = new ObservableCollection<BO.CustomerToList>(a);
+                }
+            }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -59,5 +114,6 @@ namespace PL
         {
             CustomersList = new(bl.Customers());
         }
+
     }
 }
