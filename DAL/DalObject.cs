@@ -201,7 +201,9 @@ namespace DAL
         {
             int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.CREAT || i.Status == Status.CREAT);
             Drone d = new();
-            d = DataSource.drones[indexDrone];
+            d = DataSource.drones[indexDrone];   
+            if(d.IsActive == false)
+                throw new DeleteException($"This drone can't attached: {d.ID}");
             d.Status = Status.BELONG;
             d.haveParcel = true;
 
@@ -229,6 +231,8 @@ namespace DAL
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't pickup: {d.ID}");
             double Distance = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
             d.Battery -= Distance * Power()[(int)d.Status];
@@ -252,6 +256,8 @@ namespace DAL
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't deliver: {d.ID}");
             double Distance = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
             d.Battery -= Distance * Power()[(int)d.Status];
@@ -274,12 +280,16 @@ namespace DAL
             if (DataSource.drones[index].Status != 0)
                 throw new DroneInMiddleActionException("The drone is in the middle of the action");
             d = DataSource.drones[index];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't send to charge: {d.ID}");
             d.Status = Status.MAINTENANCE;
             DataSource.drones[index] = d;
             index = DataSource.stations.FindIndex(i => i.ID == stationID);
             if (DataSource.stations[index].ChargeSlots > 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
             s = DataSource.stations[index];
+            if (s.IsActive == false)
+                throw new DeleteException($"This station is deleted: {s.ID}");
             s.BusyChargeSlots++;
             DataSource.stations[index] = s;
             AddDroneCharge(droneID, stationID);
@@ -316,7 +326,7 @@ namespace DAL
         /// <returns>The <see cref="Station"/>.</returns>
         public Station FindStation(int id)
         {
-            return DataSource.stations[DataSource.stations.FindIndex(i => i.ID == id)];
+            return DataSource.stations[DataSource.stations.FindIndex(i => i.ID == id && i.IsActive == true)];
         }
 
         /// <summary>
@@ -326,7 +336,7 @@ namespace DAL
         /// <returns>The <see cref="Drone"/>.</returns>
         public Drone FindDrone(int id)
         {
-            return DataSource.drones[DataSource.drones.FindIndex(i => i.ID == id)];
+            return DataSource.drones[DataSource.drones.FindIndex(i => i.ID == id && i.IsActive == true)];
         }
 
         /// <summary>
@@ -336,7 +346,7 @@ namespace DAL
         /// <returns>The <see cref="Customer"/>.</returns>
         public Customer FindCustomers(int id)
         {
-            return DataSource.customers[DataSource.customers.FindIndex(i => i.ID == id)];
+            return DataSource.customers[DataSource.customers.FindIndex(i => i.ID == id && i.IsActive == true)];
         }
 
         /// <summary>
@@ -346,7 +356,7 @@ namespace DAL
         /// <returns>The <see cref="Parcel"/>.</returns>
         public Parcel FindParcel(int id)
         {
-            return DataSource.parcels[DataSource.parcels.FindIndex(i => i.ID == id)];
+            return DataSource.parcels[DataSource.parcels.FindIndex(i => i.ID == id && i.IsActive == true)];
         }
 
         /// <summary>

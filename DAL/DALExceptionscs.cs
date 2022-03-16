@@ -65,4 +65,12 @@ namespace DALExceptionscs
         public NameIsUsedException(string message, Exception innerException) : base(message, innerException) { }
         public NameIsUsedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class DeleteException : Exception
+    {
+        public DeleteException() { }
+        public DeleteException(string message) : base(message) { }
+        public DeleteException(string message, Exception innerException) : base(message, innerException) { }
+        public DeleteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }
