@@ -312,9 +312,9 @@ namespace DAL
 
             index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
             int indexStation = DataSource.droneCharges[index].StationId;
-            DataSource.droneCharges.RemoveAt(index);
+            DataSource.droneCharges.RemoveAt(index); 
 
-            s = DataSource.stations[index];
+            s = DataSource.stations[index]; 
             s.BusyChargeSlots--;
             DataSource.stations[index] = s;
         }
