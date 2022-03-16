@@ -31,11 +31,14 @@ namespace PL
             nameof(StationsList),
             typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
+        public enum Full { full = 0, usable = 1 }
         public StationListWindow(BlApi.IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
+            FullSeletor.ItemsSource = Enum.GetValues(typeof(Full));
             StationsList = new(this.bl.Stations());
+
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -58,6 +61,32 @@ namespace PL
         private void Reload()
         {
             StationsList = new(bl.Stations());
+        }
+
+        private void FullSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                StationsList = new(bl.Stations());
+            else
+            {
+                if ((Full)cb.SelectedItem == (Full)0)
+                {
+                    StationsList = new();
+                    var a = from Customer in bl.Stations()
+                            where ((Full)Customer.FreeChargeSlots == (Full)cb.SelectedItem)
+                            select Customer;
+                    StationsList = new ObservableCollection<BO.StationToList>(a);
+                }
+                else
+                {
+                    StationsList = new();
+                    var a = from Station in bl.Stations()
+                            where (Station.FreeChargeSlots > 0)
+                            select Station;
+                    StationsList = new ObservableCollection<BO.StationToList>(a);
+                }
+            }
         }
     }
 }

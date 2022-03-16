@@ -20,6 +20,7 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions >
+            <ComboBox x:Name="FullSeletor" Grid.Column="1" Margin="69,10,10,12" VerticalAlignment="Top" Height="26" SelectionChanged="FullSeletor_SelectionChanged" ItemsSource="{Binding}"/>
             <Button x:Name="AddStation" Content="Add Station" Grid.Column="3" HorizontalAlignment="Center" Margin="0,6,0,0" VerticalAlignment="Top" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
         <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding StationsList}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
