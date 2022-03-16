@@ -114,4 +114,12 @@ namespace BLExceptions
         public ThereIsNoParcelToAttachdException(string message, Exception innerException) : base(message, innerException) { }
         public ThereIsNoParcelToAttachdException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class CantDeleteException : Exception
+    {
+        public CantDeleteException() { }
+        public CantDeleteException(string message) : base(message) { }
+        public CantDeleteException(string message, Exception innerException) : base(message, innerException) { }
+        public CantDeleteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

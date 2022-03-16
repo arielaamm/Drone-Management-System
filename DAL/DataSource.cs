@@ -38,6 +38,7 @@ namespace DAL
             {
                 Station s = new Station()
                 {
+                    IsActive = true,
                     ID = Config.staticId,
                     StationName = "Station" +i,
                     Longitude = GetRandomNumber(33.289273, 29.494665),
@@ -61,6 +62,7 @@ namespace DAL
                 stations[index] = station;
                 Drone d = new Drone()
                 {
+                    IsActive = true,
                     ID = Config.staticId,
                     Model = ""+(Model)rnd.Next(0, 3),
                     Battery = 100,
@@ -83,6 +85,7 @@ namespace DAL
                     Phone = "05" + rnd.Next(10000000, 99999999),
                     Longitude = GetRandomNumber(33.289273, 29.494665),
                     Lattitude = GetRandomNumber(35.569495, 34.904675),
+                    IsActive = true,
                 };
                 Config.staticId++;
                 customers.Add(c);
@@ -103,6 +106,7 @@ namespace DAL
 
                 Parcel p = new Parcel()
                 {
+                    IsActive = true,
                     ID = Config.staticId,
                     SenderId = (int)customers[sID].ID,
                     TargetId = (int)customers[tID].ID,

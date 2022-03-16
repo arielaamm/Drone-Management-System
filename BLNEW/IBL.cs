@@ -30,5 +30,9 @@ namespace BlApi
         IEnumerable<CustomerToList> Customers();
         IEnumerable<ParcelToList> ParcelsNotAssociated();
         IEnumerable<StationToList> FreeChargeslots();
+        public void DeleteParcel(Parcel parcel);
+        public void DeleteStation(Station station);
+        public void DeleteCustomer(Customer customer);
+        public void DeleteDrone(Drone drone);
     }
 }

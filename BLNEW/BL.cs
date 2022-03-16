@@ -713,5 +713,16 @@ namespace BL
                        UsedChargeSlots = s.BusyChargeSlots
                    };
         }
+        public void DeleteParcel(Parcel parcel) => dal.DeleteParcel(dal.FindParcel(parcel.ID));
+        public void DeleteStation(Station station) => dal.DeleteStation(dal.FindStation(station.ID));
+        public void DeleteCustomer(Customer customer) => dal.DeleteCustomer(dal.FindCustomers(customer.ID));
+        public void DeleteDrone(Drone drone)
+        {
+            if (drone.Status == Status.MAINTENANCE && drone.Status == Status.CREAT)
+                dal.DeleteDrone(dal.FindDrone((int)drone.ID));
+            else
+                throw new CantDeleteException($"you can't delete this: drone - {drone.ID}");
+        }
+
     }
 }

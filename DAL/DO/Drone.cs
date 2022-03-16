@@ -12,6 +12,7 @@ namespace DO
     /// </summary>
     public struct Drone
     {
+        public bool IsActive { set; get; }
         public bool haveParcel { set; get; }
         public int? ID { get; set; }
         public string Model { set; get;}

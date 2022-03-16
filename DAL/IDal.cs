@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,9 @@ namespace DalApi
         IEnumerable<DO.Parcel> ParcelNotAssociatedList();
         IEnumerable<DO.Station> Freechargeslotslist();
         IEnumerable<DO.DroneCharge> DroneChargelist();
-
+        public void DeleteParcel(DO.Parcel parcel);
+        public void DeleteStation(DO.Station station);
+        public void DeleteCustomer(DO.Customer customer);
+        public void DeleteDrone(DO.Drone drone);
     }
 }

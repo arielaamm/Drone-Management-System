@@ -61,6 +61,7 @@ namespace DAL
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
             Config.staticId++;
+            s.IsActive = true;
             DataSource.stations.Add(s);
         }
 
@@ -74,6 +75,7 @@ namespace DAL
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
             Config.staticId++;
+            d.IsActive = true;
             DataSource.drones.Add(d);
             index = DataSource.stations.FindIndex(i => i.ChargeSlots - i.BusyChargeSlots > 0);
             Station s = new();
@@ -97,6 +99,7 @@ namespace DAL
             int index = DataSource.customers.FindIndex(i => i.ID == c.ID);
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
+            c.IsActive = true;
             Config.staticId++;
             DataSource.customers.Add(c);
         }
@@ -110,6 +113,7 @@ namespace DAL
             int index = DataSource.parcels.FindIndex(i => i.ID == p.ID);
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
+            p.IsActive = true;
             DataSource.parcels.Add(p);
         }
 
@@ -120,8 +124,10 @@ namespace DAL
         /// <param name="StationId">The StationId<see cref="int"/>.</param>
         public void AddDroneCharge(int DroneId, int StationId)
         {
-            DroneCharge d = new DroneCharge();
-            d.DroneId = DroneId;
+            DroneCharge d = new DroneCharge
+            {
+                DroneId = DroneId
+            };
             int index = DataSource.droneCharges.FindIndex(i => i.DroneId == DroneId);
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
@@ -225,7 +231,7 @@ namespace DAL
             d = DataSource.drones[indexDrone];
             double Distance = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
-            d.Battery = d.Battery - Distance * Power()[(int)d.Status];
+            d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
             d.Lattitude = FindCustomers(p.SenderId).Lattitude;
             d.Status = Status.PICKUP;
@@ -248,7 +254,7 @@ namespace DAL
             d = DataSource.drones[indexDrone];
             double Distance = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
                 Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
-            d.Battery = d.Battery - Distance * Power()[(int)d.Status];
+            d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.TargetId).Longitude;
             d.Lattitude = FindCustomers(p.TargetId).Lattitude;
             d.Status = Status.CREAT;
@@ -347,25 +353,31 @@ namespace DAL
         /// The Stationlist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Station}"/>.</returns>
-        public IEnumerable<Station> Stationlist() => DataSource.stations;
-
+        public IEnumerable<Station> Stationlist() => from T in DataSource.stations
+                                                     where T.IsActive ==true
+                                                     select T;
         /// <summary>
         /// The Customerlist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Customer}"/>.</returns>
-        public IEnumerable<Customer> Customerlist() => DataSource.customers;
-
+        public IEnumerable<Customer> Customerlist() => from T in DataSource.customers
+                                                       where T.IsActive == true
+                                                       select T;
         /// <summary>
         /// The Parcellist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Parcel}"/>.</returns>
-        public IEnumerable<Parcel> Parcellist() => DataSource.parcels;
+        public IEnumerable<Parcel> Parcellist() => from T in DataSource.parcels
+                                                   where T.IsActive == true
+                                                   select T;
 
         /// <summary>
         /// The Dronelist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Drone}"/>.</returns>
-        public IEnumerable<Drone> Dronelist() => DataSource.drones;
+        public IEnumerable<Drone> Dronelist() => from T in DataSource.drones
+                                                 where T.IsActive == true
+                                                 select T;
 
         /// <summary>
         /// The DroneChargelist.
@@ -380,7 +392,7 @@ namespace DAL
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in DataSource.parcels
-                   where Parcel.DroneId == 0 || Parcel.DroneId == null
+                   where Parcel.DroneId == 0 || Parcel.DroneId == 0 && Parcel.IsActive == true
                    select Parcel;
         }
 
@@ -391,8 +403,33 @@ namespace DAL
         public IEnumerable<Station> Freechargeslotslist()
         {
             return from Station in DataSource.stations
-                   where Station.ChargeSlots - Station.BusyChargeSlots > 0
+                   where Station.ChargeSlots - Station.BusyChargeSlots > 0 && Station.IsActive == true
                    select Station;
+        }
+        
+        public void DeleteParcel(Parcel parcel)
+        {
+            parcel.IsActive = false;
+            int index = DataSource.parcels.FindIndex(i => i.ID == parcel.ID);
+            DataSource.parcels[index] = parcel;
+        }
+        public void DeleteDrone(Drone drone)
+        {
+            drone.IsActive = false;
+            int index = DataSource.drones.FindIndex(i => i.ID == drone.ID);
+            DataSource.drones[index] = drone;
+        }
+        public void DeleteCustomer(Customer customer)
+        {
+            customer.IsActive = false;
+            int index = DataSource.customers.FindIndex(i => i.ID == customer.ID);
+            DataSource.customers[index] = customer;
+        }
+        public void DeleteStation(Station station)
+        {
+            station.IsActive = false;
+            int index = DataSource.stations.FindIndex(i => i.ID == station.ID);
+            DataSource.stations[index] = station;
         }
     }
 }
