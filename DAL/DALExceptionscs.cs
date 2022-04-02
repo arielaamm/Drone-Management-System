@@ -73,4 +73,22 @@ namespace DALExceptionscs
         public DeleteException(string message, Exception innerException) : base(message, innerException) { }
         public DeleteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    internal class XmlLoadException : Exception
+    {
+        public XmlLoadException() { }
+        public XmlLoadException(string message) : base(message) { }
+        public XmlLoadException(string message, Exception innerException) : base(message, innerException) { }
+        protected XmlLoadException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+    }
+    [Serializable]
+    internal class XmlWriteException : Exception
+    {
+        public XmlWriteException() { }
+        public XmlWriteException(string message) : base(message) { }
+        public XmlWriteException(string message, Exception innerException) : base(message, innerException) { }
+        protected XmlWriteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }
+
