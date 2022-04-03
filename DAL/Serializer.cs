@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml;
 
 namespace DAL
 {
@@ -27,16 +28,23 @@ namespace DAL
         public IEnumerable<T> GetElementsFromXml()
         {
             if (!File.Exists(Path)) WriteEnumerable(new List<T>());
-            StreamReader reader = new StreamReader(Path, Encoding.UTF8);
-            Elements = from item in (IEnumerable<T>)serializer.Deserialize(reader)
-                       select item;
+            XmlReader reader = new XmlTextReader(Path);
+            IEnumerable<T> enumerable()
+            {
+                foreach (var item in (IEnumerable<T>)serializer.Deserialize(reader))
+                {
+                    yield return item;
+                }
+            }
+
+            Elements = enumerable();
             reader.Close();
             return Elements;
         }
 
         public void WriteEnumerable(IEnumerable<T> enumerable)
         {
-            StreamWriter writer = new StreamWriter(Path, false, Encoding.UTF8);
+            StreamWriter writer = new StreamWriter(Path);
             serializer.Serialize(writer, enumerable);
             writer.Close();
         }
