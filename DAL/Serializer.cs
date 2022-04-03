@@ -49,11 +49,11 @@ namespace DAL
             WriteEnumerable(from item in list select item);
         }
 
-        public void Update(T obj, Predicate<T> pred, Exception doesNotExistException)
+        public void Update(T obj, Predicate<T> pred)//, Exception doesNotExistException)
         {
             List<T> list = GetElementsFromXml().ToList();
             int index = list.FindIndex(pred);
-            if (index == -1) throw doesNotExistException;
+            if (index == -1)// throw doesNotExistException;
             list[index] = obj;
             WriteEnumerable(from item in list select item);
         }

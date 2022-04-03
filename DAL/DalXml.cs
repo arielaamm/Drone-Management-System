@@ -41,13 +41,14 @@ namespace Dal
         internal static readonly string CustomersPath = String.Format(path, "CustomerToList");
         internal static readonly string DroneChargesPath = String.Format(path, "DroneChargesPath");
 
-        #region Files
+        
         Serializer<Station> sX = new Serializer<Station>(stationsPath);
         Serializer<Customer> cX = new Serializer<Customer>(ParcelsPath);
         Serializer<Parcel> pX  = new Serializer<Parcel>(CustomersPath);
         Serializer<DroneCharge> dX = new Serializer<DroneCharge>(DroneChargesPath);
 
-
+        /*
+        #region Files
         public IEnumerable<string> GetPathes()
         {
             yield return configPath;
@@ -57,12 +58,18 @@ namespace Dal
             yield return CustomersPath;
         }
         #endregion
-
+        */
 
 
         public double[] Power()
         {
-            throw new NotImplementedException();
+            double[] a = {
+                DAL.Config.free,
+                DAL.Config.light,
+                DAL.Config.medium,
+                DAL.Config.heavy,
+                DAL.Config.ChargePerHour };
+            return a;
         }
 
         public void AddDrone(Drone d)
@@ -81,76 +88,122 @@ namespace Dal
         }
 
         // throw new NotImplementedException();
-
-        bool CustomerChecker(Customer c)
+        #region checkers
+        bool AddCustomerChecker(Customer c)
+        {
+            if (Customerlist().ToList().FindIndex(i => i.ID == c.ID) == -1)
+                return true;
+            throw new NameIsUsedException($"An existing user name or email on the system.");
+            return false;
+        }
+        bool AddParcelChecker(Parcel parcel)
+        {
+            if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) == -1)
+                return true;
+            throw new NameIsUsedException($"An existing user name or email on the system.");
+            return false;
+        }
+        bool AddStationChecker(Station s)
+        {
+            if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) == -1)
+                return true;
+            throw new NameIsUsedException($"An existing user name or email on the system.");
+            return false;
+        }
+        bool AddDroneChargeChecker(DroneCharge d)
+        {
+            if (DroneChargelist().ToList().FindIndex(i => i.DroneId == d.DroneId) == -1)
+                return true;
+            throw new NameIsUsedException($"An existing user name or email on the system.");
+            return false;
+        }
+        bool UpdateCustomerChecker(Customer c)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == c.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
             return false;
         }
-        bool ParcelChecker(Parcel parcel)
+        bool UpdateParcelChecker(Parcel parcel)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
             return false;
         }
-        bool StationChecker(Station s)
+        bool UpdateStationChecker(Station s)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
             return false;
         }
+        #endregion
+
         public void AddCustomer(Customer c)
         {
             var anInstanceofMyClass = new Serializer<Customer>(CustomersPath);
-            anInstanceofMyClass.Add(c, CustomerChecker);
+            anInstanceofMyClass.Add(c, AddCustomerChecker);
           //  throw new NotImplementedException();
         }
 
         public void AddParcel(Parcel parcel)
         {
             var anInstanceofMyClass = new Serializer<Parcel>(ParcelsPath);
-            anInstanceofMyClass.Add(parcel, ParcelChecker);
+            anInstanceofMyClass.Add(parcel, AddParcelChecker);
             //  throw new NotImplementedException();
         }
         public void AddStation(Station s)
         {
 
             var anInstanceofMyClass = new Serializer<Station>(stationsPath);
-            anInstanceofMyClass.Add(s, StationChecker);
+            anInstanceofMyClass.Add(s, AddStationChecker);
             //  throw new NotImplementedException();
         }
         public void AddDroneCharge(DroneCharge d)
         {
-            throw new NotImplementedException();
+            var anInstanceofMyClass = new Serializer<DroneCharge>(DroneChargesPath);
+            anInstanceofMyClass.Add(d, AddDroneChargeChecker);
         }
 
         public void AddDroneCharge(int DroneId, int StationId)
         {
+            DroneCharge d = new DroneCharge() { DroneId = DroneId, StationId = StationId };
+            AddDroneCharge(d);
             throw new NotImplementedException();
         }
 
         public void UpdateDrone(Drone drone)
         {
-            throw new NotImplementedException();
+            XElement DronesRoot = LoadXml(DronesPath);
+            int index = LoadDronesFromXML(DronesRoot).ToList().FindIndex(i => (i.ID == drone.ID));
+            if (index == -1)
+                throw new NameIsUsedException($"not An existing name is on the system.");
+            try
+            {
+                DeleteDrone(drone);
+                DronesRoot.Add(DAL.XmlHelper.BuildElementToXml(drone));
+                DronesRoot.Save(DronesPath);
+            }
+            catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }
         }
 
         public void UpdateStation(Station station)
         {
-            throw new NotImplementedException();
+            var anInstanceofMyClass = new Serializer<Station>(stationsPath);
+            anInstanceofMyClass.Update(station, UpdateStationChecker);
         }
 
         public void UpdateParcel(Parcel parcel)
         {
-            throw new NotImplementedException();
+            var anInstanceofMyClass = new Serializer<Parcel>(ParcelsPath);
+            anInstanceofMyClass.Update(parcel, UpdateParcelChecker);
         }
 
         public void UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            var anInstanceofMyClass = new Serializer<Customer>(CustomersPath);
+            anInstanceofMyClass.Update(customer, UpdateCustomerChecker);
         }
 
         public void AttacheDrone(int parcelID)
@@ -180,22 +233,22 @@ namespace Dal
 
         public Station FindStation(int id)
         {
-            throw new NotImplementedException();
+          return  Stationlist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
         public Drone FindDrone(int id)
         {
-            throw new NotImplementedException();
+            return Dronelist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
         public Customer FindCustomers(int id)
         {
-            throw new NotImplementedException();
+            return Customerlist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
         public Parcel FindParcel(int id)
         {
-            throw new NotImplementedException();
+            return Parcellist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
         public IEnumerable<Station> Stationlist()
@@ -259,17 +312,20 @@ namespace Dal
 
         public void DeleteParcel(Parcel parcel)
         {
-            throw new NotImplementedException();
+            parcel.IsActive = false;
+            UpdateParcel(parcel);
         }
 
         public void DeleteStation(Station station)
         {
-            throw new NotImplementedException();
+            station.IsActive = false;
+            UpdateStation(station);
         }
 
         public void DeleteCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            customer.IsActive = false;
+            UpdateCustomer(customer);
         }
 
         public void DeleteDrone(Drone drone)
