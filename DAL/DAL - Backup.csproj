@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="DalFactory.cs">
+      <CustomToolNamespace></CustomToolNamespace>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="XML Files\" />
+  </ItemGroup>
+
+</Project>

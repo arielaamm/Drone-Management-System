@@ -13,7 +13,7 @@ namespace BL
 {
     public sealed class BL : BlApi.IBL
     {
-        readonly IDal dal = DalFactory.GetDal("DalObject");
+        readonly IDal dal = DalFactory.GetDal("DalXml");
         /// <summary>
         /// contractor
         /// </summary> 

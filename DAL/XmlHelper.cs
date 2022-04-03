@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using DALExceptionscs;
 
 namespace DAL
 {
@@ -14,8 +13,7 @@ namespace DAL
         {
             return new XElement(typeof(T).Name, from property in typeof(T).GetProperties()
                                                 select new XElement(property.Name,
-                                                                    property.GetValue(obj)
-                                                                    .ToString()));
+                                                                    property.GetValue(obj).ToString()));
         }
 
         public static void SaveToXml<T>(this IEnumerable<T> enumerable, string path, string rootName = "Root")

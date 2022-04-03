@@ -16,7 +16,8 @@ namespace Dal
     {
         private DalXml()
         {
-
+            foo();
+            Console.WriteLine("11111");
         }
         /// <summary>
         /// Defines the instance.
@@ -33,19 +34,95 @@ namespace Dal
                 instance = new DalXml();
             return instance;
         }
-        internal static readonly string path = Directory.GetCurrentDirectory() + @"\XML Files\{0}.xml";
-        internal static readonly string configPath = String.Format(path, "config");
-        internal readonly string DronesPath = String.Format(path, "DroneToList");
-        internal static readonly string stationsPath = String.Format(path, "StationToList");
-        internal static readonly string ParcelsPath = String.Format(path, "ParcelToList");
-        internal static readonly string CustomersPath = String.Format(path, "CustomerToList");
-        internal static readonly string DroneChargesPath = String.Format(path, "DroneChargesPath");
+        public void foo()
+        {
+            XElement DronesRoot;
+            string DronesPath = @"XML Files\DronesXml.xml";
+            if (!File.Exists(DronesPath))
+                CreateFiles(out DronesRoot, DronesPath , "Drones");
+            else
+                LoadData(out DronesRoot, DronesPath);
+            this.DronesPath = DronesPath;
 
-        
-        Serializer<Station> sX = new Serializer<Station>(stationsPath);
-        Serializer<Customer> cX = new Serializer<Customer>(ParcelsPath);
-        Serializer<Parcel> pX  = new Serializer<Parcel>(CustomersPath);
-        Serializer<DroneCharge> dX = new Serializer<DroneCharge>(DroneChargesPath);
+            XElement StationsRoot;
+            string StationsPath = @"XML Files\StationsXml.xml";
+            if (!File.Exists(StationsPath))
+                CreateFiles(out StationsRoot, StationsPath, "Stations");
+            else
+                LoadData(out DronesRoot, StationsPath);
+            DalXml.StationsPath = StationsPath;
+
+            XElement ParcelsRoot;
+            string ParcelsPath = @"XML Files\ParcelsXml.xml";
+            if (!File.Exists(ParcelsPath))
+                CreateFiles(out ParcelsRoot, ParcelsPath, "Parcels");
+            else
+                LoadData(out ParcelsRoot, ParcelsPath);
+            DalXml.ParcelsPath = ParcelsPath;
+
+            XElement CustomersRoot;
+            string CustomersPath = @"XML Files\CustomersXml.xml";
+            if (!File.Exists(CustomersPath))
+                CreateFiles(out CustomersRoot, CustomersPath, "Customers");
+            else
+                LoadData(out CustomersRoot, CustomersPath);
+            DalXml.CustomersPath = CustomersPath;
+
+            XElement DroneChargesRoot;
+            string DroneChargesPath = @"XML Files\DroneChargesXml.xml";
+            if (!File.Exists(DroneChargesPath))
+                CreateFiles(out DroneChargesRoot, DroneChargesPath, "DroneCharges");
+            else
+                LoadData(out DroneChargesRoot, DroneChargesPath);
+            DalXml.DroneChargesPath = DroneChargesPath;
+
+            XElement configPathRoot;
+            string configPath = @"XML Files\config.xml";
+            if (!File.Exists(configPath))
+                CreateFiles(out configPathRoot, configPath, "config");
+            else
+                LoadData(out configPathRoot, configPath);
+            DalXml.configPath = configPath;
+
+            Serializer<Station> sX = new Serializer<Station>(StationsPath);
+            this.sX = sX;
+            Serializer<Customer> cX = new Serializer<Customer>(ParcelsPath);
+            this.cX = cX;
+            Serializer<Parcel> pX = new Serializer<Parcel>(CustomersPath);
+            this.pX = pX;
+            Serializer<DroneCharge> dX = new Serializer<DroneCharge>(DroneChargesPath);
+            this.dX = dX;
+        }
+        private void CreateFiles(out XElement elementRoot ,string path , string type)
+        {
+            elementRoot = new XElement(type);
+            elementRoot.Save(path);
+        }
+        private void LoadData(out XElement elementRoot, string path)
+        {
+            elementRoot = null;
+            try
+            {
+                elementRoot = XElement.Load(path);
+            }
+            catch
+            {
+                Console.WriteLine("File upload problem");
+            }
+        }
+        //internal static string path = Directory.GetCurrentDirectory() + @"\XML Files\{0}.xml";
+        internal static string configPath;
+        internal string DronesPath;
+        internal static string StationsPath;
+        internal static string ParcelsPath;
+        internal static string CustomersPath;
+        internal static string DroneChargesPath;
+
+
+        internal Serializer<Station> sX ;
+        internal Serializer<Customer> cX ;
+        internal Serializer<Parcel> pX  ;
+        internal Serializer<DroneCharge> dX;
 
         /*
         #region Files
@@ -94,49 +171,42 @@ namespace Dal
             if (Customerlist().ToList().FindIndex(i => i.ID == c.ID) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool AddParcelChecker(Parcel parcel)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool AddStationChecker(Station s)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool AddDroneChargeChecker(DroneCharge d)
         {
             if (DroneChargelist().ToList().FindIndex(i => i.DroneId == d.DroneId) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool UpdateCustomerChecker(Customer c)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == c.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool UpdateParcelChecker(Parcel parcel)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         bool UpdateStationChecker(Station s)
         {
             if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) != -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
-            return false;
         }
         #endregion
 
@@ -156,7 +226,7 @@ namespace Dal
         public void AddStation(Station s)
         {
 
-            var anInstanceofMyClass = new Serializer<Station>(stationsPath);
+            var anInstanceofMyClass = new Serializer<Station>(StationsPath);
             anInstanceofMyClass.Add(s, AddStationChecker);
             //  throw new NotImplementedException();
         }
@@ -190,7 +260,7 @@ namespace Dal
 
         public void UpdateStation(Station station)
         {
-            var anInstanceofMyClass = new Serializer<Station>(stationsPath);
+            var anInstanceofMyClass = new Serializer<Station>(StationsPath);
             anInstanceofMyClass.Update(station, UpdateStationChecker);
         }
 
