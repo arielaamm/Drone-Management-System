@@ -36,7 +36,7 @@ namespace Dal
         }
         public void foo()
         {
-            XElement DronesRoot;
+            XElement DronesRoot; 
             string DronesPath = @"XML Files\DronesXml.xml";
             if (!File.Exists(DronesPath))
                 CreateFiles(out DronesRoot, DronesPath , "Drones");
