@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Drones>
+  <Drone>
+    <Id>3</Id>
+    <IsActive>true</IsActive>
+    <Model>MDL78</Model>
+    <Battery>100</Battery>
+    <HaveParcel>True</HaveParcel>
+    <Status />
+    <Weight />
+    <Longitude>2.812024251470353</Longitude>
+    <Lattitude>12.43037055406271</Lattitude>
+  </Drone>
+  <Drone>
+    <Id>4</Id>
+    <IsActive>true</IsActive>
+    <Model>MDL78</Model>
+    <Battery>100</Battery>
+    <HaveParcel>True</HaveParcel>
+    <Status />
+    <Weight />
+    <Longitude>3.647973855793463</Longitude>
+    <Lattitude>3.979500876730075</Lattitude>
+  </Drone>
+  <Drone>
+    <Id>5</Id>
+    <IsActive>true</IsActive>
+    <Model>MDL65</Model>
+    <Battery>100</Battery>
+    <HaveParcel>True</HaveParcel>
+    <Status />
+    <Weight />
+    <Longitude>3.647973855793463</Longitude>
+    <Lattitude>3.979500876730075</Lattitude>
+  </Drone>
+  <Drone>
+    <Id>6</Id>
+    <IsActive>true</IsActive>
+    <Model>MDL45</Model>
+    <Battery>100</Battery>
+    <HaveParcel>True</HaveParcel>
+    <Status />
+    <Weight />
+    <Longitude>2.812024251470353</Longitude>
+    <Lattitude>12.43037055406271</Lattitude>
+  </Drone>
+  <Drone>
+    <Id>7</Id>
+    <IsActive>true</IsActive>
+    <Model>MDL78</Model>
+    <Battery>100</Battery>
+    <HaveParcel>True</HaveParcel>
+    <Status />
+    <Weight />
+    <Longitude>3.647973855793463</Longitude>
+    <Lattitude>3.979500876730075</Lattitude>
+  </Drone>
+</Drones>

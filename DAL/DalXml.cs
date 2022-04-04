@@ -53,7 +53,7 @@ namespace Dal
         public void initialization()
         {
             Random rnd = new Random();
-            XElement id, name, isActive, model, battery, haveParcel, lattitude, longitude, chargeSlots, busyChargeSlots, droneId, stationId;
+            XElement parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9, parm10, parm11, parm12;
 
             #region DroneCharges
             XElement DroneChargesRoot;
@@ -94,14 +94,14 @@ namespace Dal
                 CreateFiles(out StationsRoot, StationsPath, "Stations");
                 for (int i = 0; i < 2; i++)
                 {
-                    isActive = new XElement("IsActive", true);
-                    id = new XElement("Id", GetID(ConfigRoot, 1));
-                    name = new XElement("StationName", "Station" + i);
-                    longitude = new XElement("Longitude", GetRandomNumber(15, 0));
-                    lattitude = new XElement("Lattitude", GetRandomNumber(17, 0));
-                    chargeSlots = new XElement("ChargeSlots", 5);
-                    busyChargeSlots = new XElement("BusyChargeSlots", 0);
-                    StationsRoot.Add(new XElement("Station", isActive, id, name, chargeSlots, busyChargeSlots, longitude, lattitude)); // אל תוריד את new XElement("Station"  זה בכוונה צריך כזה בכל אחד מהישויות למעט קונפיג
+                    parm1 = new XElement("IsActive", true);
+                    parm2 = new XElement("Id", GetID(ConfigRoot, 1));
+                    parm3 = new XElement("StationName", "Station" + i);
+                    parm4 = new XElement("Longitude", GetRandomNumber(15, 0));
+                    parm5 = new XElement("Lattitude", GetRandomNumber(17, 0));
+                    parm6 = new XElement("ChargeSlots", 5);
+                    parm7 = new XElement("BusyChargeSlots", 0);
+                    StationsRoot.Add(new XElement("Station", parm1, parm2, parm3, parm4, parm5, parm6, parm7));
                     StationsRoot.Save(StationsPath);
                 }
             }
@@ -121,26 +121,30 @@ namespace Dal
                     int temp = rnd.Next(1, 3);
                     XElement element = (from p in StationsRoot.Elements()
                                         where Convert.ToInt32(p.Element("Id").Value) == temp
+                                        && (Convert.ToBoolean(p.Element("IsActive").Value))
                                         select p).FirstOrDefault();
 
-                    id = new XElement("Id", GetID(ConfigRoot, 1));
-                    isActive = new XElement("IsActive", true);
-                    model = new XElement("Model", (Model)rnd.Next(0, 3));
-                    battery = new XElement("Battery", 100);
-                    haveParcel = new XElement("HaveParcel", false);
-                    longitude = new XElement("Longitude", element.Element("Longitude").Value);
-                    lattitude = new XElement("Lattitude", element.Element("Lattitude").Value);
-                    DronesRoot.Add(new XElement("Drone", isActive, id, model, haveParcel, longitude, lattitude));
+                    parm1 = new XElement("Id", GetID(ConfigRoot, 1));
+                    parm2 = new XElement("IsActive", true);
+                    parm3 = new XElement("Model", (Model)rnd.Next(0, 3));
+                    parm4 = new XElement("Battery", 100);
+                    parm5 = new XElement("HaveParcel", false);
+                    parm6 = new XElement("Status");
+                    parm7 = new XElement("Weight");
+                    parm8 = new XElement("Longitude", element.Element("Longitude").Value);
+                    parm9 = new XElement("Lattitude", element.Element("Lattitude").Value);
+                    DronesRoot.Add(new XElement("Drone", parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9));
                     DronesRoot.Save(DronesPath);
                     #region DroneCharge
                     if (File.Exists(DroneChargesPath))
                     {
-                        droneId = new XElement("DroneId", GetID(ConfigRoot, 0));
-                        stationId = new XElement("StationId", element.Element("Id").Value);
-                        //string tempString = element.Element("staticId").Value;
-                        //int tempInt = Convert.ToInt32(tempString);
-                        //element.Element("staticId").Value = (tempInt + 1).ToString();
-                        DroneChargesRoot.Add(new XElement("DroneCharge", droneId, stationId));
+                        parm11 = new XElement("DroneId", GetID(ConfigRoot, 0));
+                        parm12 = new XElement("StationId", element.Element("Id").Value);
+                        string tempString = element.Element("BusyChargeSlots").Value;
+                        int tempInt = Convert.ToInt32(tempString);
+                        element.Element("BusyChargeSlots").Value = (tempInt + 1).ToString();
+                        StationsRoot.Save(StationsPath);
+                        DroneChargesRoot.Add(new XElement("DroneCharge", parm11, parm12));
                         DroneChargesRoot.Save(DroneChargesPath);
                     }
                     #endregion
@@ -150,7 +154,32 @@ namespace Dal
                 LoadData(out DronesRoot, DronesPath);
             this.DronesPath = DronesPath;
             #endregion
-
+            
+            #region Customers
+            XElement CustomersRoot;
+            string CustomersPath = @"XML Files\CustomersXml.xml";   
+            if (!File.Exists(CustomersPath))
+            {
+                CreateFiles(out CustomersRoot, CustomersPath, "Customers");
+                for (int i = 0; i < 10; i++)
+                {
+                    parm1 = new XElement("Id", GetID(ConfigRoot, 1));
+                    parm2 = new XElement("IsActive", true);
+                    parm3 = new XElement("CustomerName", "Customer" + i);
+                    parm4 = new XElement("Phone",05 + rnd.Next(10000000, 99999999));
+                    parm5 = new XElement("Longitude", GetRandomNumber(15, 0));
+                    parm6 = new XElement("Lattitude", GetRandomNumber(17, 0));
+                    CustomersRoot.Add(new XElement("Customer", parm1, parm2, parm4, parm3, parm5, parm6));
+                    CustomersRoot.Save(CustomersPath);
+                }
+            }
+            else
+            {
+                LoadData(out CustomersRoot, CustomersPath);
+            }
+            DalXml.CustomersPath = CustomersPath;
+            #endregion
+            
             #region Parcels
             XElement ParcelsRoot;
             string ParcelsPath = @"XML Files\ParcelsXml.xml";
@@ -166,80 +195,50 @@ namespace Dal
                     {
                         tID = rnd.Next(0, 10);
                     }
-                    while (tID == sID)
+                    int temp = rnd.Next(1, 3);
+                    List<string> customerNameList = new();
+                    XElement element = (from p in DronesRoot.Elements()
+                                        where ((Convert.ToBoolean(p.Element("HaveParcel").Value) == false) 
+                                        && (Convert.ToBoolean(p.Element("IsActive").Value)))
+                                        select p).FirstOrDefault();
+                    foreach (var item in CustomersRoot.Elements())
                     {
-                        tID = rnd.Next(0, 10);
+                        customerNameList.Add(item.Element("CustomerName").Value);
                     }
-                    Parcel p = new Parcel()
+                    XElement Target = (from p in CustomersRoot.Elements()
+                                        where Convert.ToBoolean(p.Element("IsActive").Value)
+                                        select p).FirstOrDefault();
+                    parm1 = new XElement("Id", GetID(ConfigRoot, 1));
+                    parm2 = new XElement("IsActive", true);
+                    parm3 = new XElement("SenderId", customerNameList[sID]);
+                    parm4 = new XElement("TargetId", customerNameList[tID]);
+                    parm5 = new XElement("Priority", (Priority)rnd.Next(0, 3));
+                    parm6 = new XElement("Weight", (Weight)rnd.Next(0, 3));
+                    parm7 = new XElement("Status" , StatusParcel.CREAT);
+                    parm8 = new XElement("DroneId");
+                    if (element != null)
                     {
-                        IsActive = true,
-                        ID = Config.staticId,
-                        SenderId = (int)Customerlist().ToList()[sID].ID,
-                        TargetId = (int)Customerlist().ToList()[tID].ID,
-                        Weight = (Weight)rnd.Next(0, 3),
-                        Priority = (Priority)rnd.Next(0, 3),
-                        Requested = DateTime.Now,
-                        Scheduled = null,
-                        PickedUp = null,
-                        Deliverd = null,
-                        Status = StatusParcel.CREAT,
-                    };
-                    int temp = rnd.Next(0, 3);
-                    if (temp == 0)
-                    {
-                        temp = rnd.Next(0, Dronelist().ToList().Count);
-                        if (Parcellist().ToList().TrueForAll(i => i.DroneId != temp))
-                        {
-                            p.DroneId = (int)Dronelist().ToList()[temp].ID;
-                            int index = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
-                            Drone drone = Dronelist().ToList()[index];
-                            drone.Status = Status.BELONG;
-                            Dronelist().ToList()[index] = drone;
-                        }
-                        else
-                            p.DroneId = 0;
-
+                        parm8 = new XElement("DroneId", element.Element("Id").Value);
+                        element.Element("HaveParcel").Value = (true).ToString();
+                        DronesRoot.Save(DronesPath);
                     }
-
-                    Config.staticId++;
-                    AddParcel(p);
+                    parm9 = new XElement("Requested", DateTime.Now.ToString("g"));
+                    parm10 = new XElement("Scheduled");
+                    parm11 = new XElement("PickedUp");
+                    parm12 = new XElement("Deliverd");
+                    ParcelsRoot.Add(new XElement("Parcel", parm1, parm2, parm3, parm4, parm5,
+                        parm6, parm7, parm8, parm9, parm10, parm11, parm12));
+                    ParcelsRoot.Save(ParcelsPath);
                 }
-            
-        }
+            }
             else
             {
                 LoadData(out ParcelsRoot, ParcelsPath);
-    }
-    DalXml.ParcelsPath = ParcelsPath;
+            }
+            DalXml.ParcelsPath = ParcelsPath;
             #endregion
 
-            #region Customers
-            XElement CustomersRoot;
-            string CustomersPath = @"XML Files\CustomersXml.xml";
-            if (!File.Exists(CustomersPath))
-            {
-                CreateFiles(out CustomersRoot, CustomersPath, "Customers");
-                for (int i = 0; i < 10; i++)
-                {
-                    Customer c = new Customer()
-                    {
-                        ID = Config.staticId,
-                        CustomerName = "Customer" + i,
-                        Phone = "05" + rnd.Next(10000000, 99999999),
-                        Longitude = GetRandomNumber(33.289273, 29.494665),
-                        Lattitude = GetRandomNumber(35.569495, 34.904675),
-                        IsActive = true,
-                    };
-                    Config.staticId++;
-                    AddCustomer(c);
-                }
-            }
-            else
-            {
-                LoadData(out CustomersRoot, CustomersPath);
-            }
-            DalXml.CustomersPath = CustomersPath;
-            #endregion
+
 
             Serializer<Station> sX = new Serializer<Station>(StationsPath);
             this.sX = sX;

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <staticId>27</staticId>
+  <free>5</free>
+  <medium>10</medium>
+  <heavy>12</heavy>
+  <chargePerHour>50</chargePerHour>
+</config>
