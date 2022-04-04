@@ -9,13 +9,11 @@ namespace DAL
 {
     internal class Config
     {
-        public static int Idforparcel = 0;
         internal static double free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
         internal static double light { get { return 7; } }
         internal static double medium { get { return 10; } }
         internal static double heavy { get { return 12; } }
         internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
-        public static int sta = 123456;
         public static int staticId = 1;
     }
     public class DataSource
@@ -41,8 +39,8 @@ namespace DAL
                     IsActive = true,
                     ID = Config.staticId,
                     StationName = "Station" +i,
-                    Longitude = GetRandomNumber(33.289273, 29.494665),
-                    Lattitude = GetRandomNumber(35.569495, 34.904675),
+                    Longitude = GetRandomNumber(15, 0),
+                    Lattitude = GetRandomNumber(17, 0),
                     ChargeSlots = 5,
                 };
                 Config.staticId++;
@@ -52,7 +50,7 @@ namespace DAL
             {       
                 int counter= rnd.Next(0, 2);
                 DroneCharge temp = new()
-                { 
+                {
                     DroneId = Config.staticId,
                     StationId = (int)stations[counter].ID,
                 };
@@ -90,7 +88,6 @@ namespace DAL
                 Config.staticId++;
                 customers.Add(c);
             }
-
             for (int i = 0; i < 10; i++)
             {
                 int sID = rnd.Next(0, 10);
@@ -138,8 +135,6 @@ namespace DAL
                 Config.staticId++;
                 parcels.Add(p);
             }
-            Config.sta++;
-            Config.Idforparcel = Config.sta;
             //for (int i = 0; i < droneCharges.Count; i++)
             //{
             //    Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });

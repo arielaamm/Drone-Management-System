@@ -16,7 +16,7 @@ namespace Dal
     {
         private DalXml()
         {
-            foo();
+            initialization();
             Console.WriteLine("11111");
         }
         /// <summary>
@@ -34,40 +34,28 @@ namespace Dal
                 instance = new DalXml();
             return instance;
         }
-        public void foo()
+
+        static int GetID(XElement root, int add)
         {
-            XElement DronesRoot; 
-            string DronesPath = @"XML Files\DronesXml.xml";
-            if (!File.Exists(DronesPath))
-                CreateFiles(out DronesRoot, DronesPath , "Drones");
-            else
-                LoadData(out DronesRoot, DronesPath);
-            this.DronesPath = DronesPath;
+            string tempString = root.Element("staticId").Value;
+            int tempInt = Convert.ToInt32(tempString);
+            root.Element("staticId").Value = (tempInt + add).ToString(); 
+            root.Save(@"XML Files\config.xml");
+            return tempInt+add;
+        }
 
-            XElement StationsRoot;
-            string StationsPath = @"XML Files\StationsXml.xml";
-            if (!File.Exists(StationsPath))
-                CreateFiles(out StationsRoot, StationsPath, "Stations");
-            else
-                LoadData(out DronesRoot, StationsPath);
-            DalXml.StationsPath = StationsPath;
+        public static double GetRandomNumber(double minimum, double maximum)
+        {
+            Random random = new Random();
+            return random.NextDouble() * (maximum - minimum) + minimum;
+        }
 
-            XElement ParcelsRoot;
-            string ParcelsPath = @"XML Files\ParcelsXml.xml";
-            if (!File.Exists(ParcelsPath))
-                CreateFiles(out ParcelsRoot, ParcelsPath, "Parcels");
-            else
-                LoadData(out ParcelsRoot, ParcelsPath);
-            DalXml.ParcelsPath = ParcelsPath;
+        public void initialization()
+        {
+            Random rnd = new Random(); 
+            XElement id, name, isActive, model, battery, haveParcel, lattitude, longitude , chargeSlots, busyChargeSlots , droneId, stationId;
 
-            XElement CustomersRoot;
-            string CustomersPath = @"XML Files\CustomersXml.xml";
-            if (!File.Exists(CustomersPath))
-                CreateFiles(out CustomersRoot, CustomersPath, "Customers");
-            else
-                LoadData(out CustomersRoot, CustomersPath);
-            DalXml.CustomersPath = CustomersPath;
-
+            #region DroneCharges
             XElement DroneChargesRoot;
             string DroneChargesPath = @"XML Files\DroneChargesXml.xml";
             if (!File.Exists(DroneChargesPath))
@@ -75,14 +63,118 @@ namespace Dal
             else
                 LoadData(out DroneChargesRoot, DroneChargesPath);
             DalXml.DroneChargesPath = DroneChargesPath;
+            #endregion
 
-            XElement configPathRoot;
-            string configPath = @"XML Files\config.xml";
-            if (!File.Exists(configPath))
-                CreateFiles(out configPathRoot, configPath, "config");
+            #region Config
+            XElement ConfigRoot;
+            string ConfigPath = @"XML Files\config.xml";
+            if (!File.Exists(ConfigPath))
+            {
+                CreateFiles(out ConfigRoot, ConfigPath, "config");
+                XElement staticId, free, light, medium, heavy, chargePerHour;
+                staticId = new XElement("staticId", 0);
+                free = new XElement("free", 5);
+                light = new XElement("light", 7);
+                medium = new XElement("medium", 10);
+                heavy = new XElement("heavy", 12);
+                chargePerHour = new XElement("chargePerHour", 50);
+                ConfigRoot.Add(staticId, free, medium, heavy, chargePerHour);
+                ConfigRoot.Save(ConfigPath);
+            }
             else
-                LoadData(out configPathRoot, configPath);
-            DalXml.configPath = configPath;
+                LoadData(out ConfigRoot, ConfigPath);
+            DalXml.ConfigPath = ConfigPath;
+            #endregion
+
+            # region Stations
+            XElement StationsRoot;
+            string StationsPath = @"XML Files\StationsXml.xml";
+            if (!File.Exists(StationsPath)) 
+            {
+                CreateFiles(out StationsRoot, StationsPath, "Stations");
+                for (int i = 0; i < 2; i++)
+                {
+                    isActive = new XElement("IsActive", true);
+                    id = new XElement("Id", GetID(ConfigRoot,1));
+                    name = new XElement("StationName", "Station" + i);
+                    longitude = new XElement("Longitude", GetRandomNumber(15, 0));
+                    lattitude = new XElement("Lattitude", GetRandomNumber(17, 0));
+                    chargeSlots = new XElement("ChargeSlots", 5);
+                    busyChargeSlots = new XElement("BusyChargeSlots", 0);
+                    StationsRoot.Add(new XElement("Station" ,isActive, id, name, chargeSlots, busyChargeSlots, longitude, lattitude)); // אל תוריד את new XElement("Station"  זה בכוונה צריך כזה בכל אחד מהישויות למעט קונפיג
+                    StationsRoot.Save(StationsPath);
+                }
+            }
+            else
+                LoadData(out StationsRoot, StationsPath);
+            DalXml.StationsPath = StationsPath;
+            #endregion
+
+            #region Drones
+            XElement DronesRoot; 
+            string DronesPath = @"XML Files\DronesXml.xml";
+            if (!File.Exists(DronesPath))
+            {
+                CreateFiles(out DronesRoot, DronesPath, "Drones");
+                for (int i = 0; i < 5; i++)
+                {
+                    int temp = rnd.Next(1, 3);
+                    XElement element = (from p in StationsRoot.Elements()
+                                        where Convert.ToInt32(p.Element("Id").Value) == temp
+                                        select p).FirstOrDefault();
+
+                    id = new XElement("Id", GetID(ConfigRoot,1));
+                    isActive = new XElement("IsActive", true);
+                    model = new XElement("Model", (Model)rnd.Next(0, 3));
+                    battery = new XElement("Battery", 100);
+                    haveParcel = new XElement("HaveParcel", false);
+                    longitude = new XElement("Longitude", element.Element("Longitude").Value);
+                    lattitude = new XElement("Lattitude", element.Element("Lattitude").Value);
+                    DronesRoot.Add(new XElement("Drone", isActive, id, model, haveParcel, longitude, lattitude));
+                    DronesRoot.Save(DronesPath);
+                    #region DroneCharge
+                    if (File.Exists(DroneChargesPath))
+                    {
+                        droneId = new XElement("DroneId", GetID(ConfigRoot, 0));
+                        stationId = new XElement("StationId", element.Element("Id").Value);
+                        //string tempString = element.Element("staticId").Value;
+                        //int tempInt = Convert.ToInt32(tempString);
+                        //element.Element("staticId").Value = (tempInt + 1).ToString();
+                        DroneChargesRoot.Add(new XElement("DroneCharge", droneId, stationId));
+                        DroneChargesRoot.Save(DroneChargesPath);
+                    }
+                    #endregion
+                }
+            }
+            else
+                LoadData(out DronesRoot, DronesPath);
+            this.DronesPath = DronesPath;
+            #endregion
+
+            #region Parcels
+            XElement ParcelsRoot;
+            string ParcelsPath = @"XML Files\ParcelsXml.xml";
+            if (!File.Exists(ParcelsPath))
+            {
+                int SenderID = rnd.Next(0, 10);
+
+                CreateFiles(out ParcelsRoot, ParcelsPath, "Parcels");
+
+            }
+            else
+                LoadData(out ParcelsRoot, ParcelsPath);
+            DalXml.ParcelsPath = ParcelsPath;
+            #endregion
+
+            #region Customers
+            XElement CustomersRoot;
+            string CustomersPath = @"XML Files\CustomersXml.xml";
+            if (!File.Exists(CustomersPath))
+                CreateFiles(out CustomersRoot, CustomersPath, "Customers");
+            else
+                LoadData(out CustomersRoot, CustomersPath);
+            DalXml.CustomersPath = CustomersPath;
+            #endregion
 
             Serializer<Station> sX = new Serializer<Station>(StationsPath);
             this.sX = sX;
@@ -111,7 +203,7 @@ namespace Dal
             }
         }
         //internal static string path = Directory.GetCurrentDirectory() + @"\XML Files\{0}.xml";
-        internal static string configPath;
+        internal static string ConfigPath;
         internal string DronesPath;
         internal static string StationsPath;
         internal static string ParcelsPath;
