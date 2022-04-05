@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace DAL
 {
-    public class Serializer<T> where T : new()
+    /*public class Serializer<T> where T : new()
     {
         public IEnumerable<T> Elements { get; private set; }
 
@@ -66,7 +66,7 @@ namespace DAL
             list[index] = obj;
             WriteEnumerable(from item in list select item);
         }
-    }
+    }*/
     class XMLTools
     {
         static string dir = @"xml\";
@@ -147,6 +147,21 @@ namespace DAL
             }
         }
         #endregion
-        //free style funcsעכעכ
+        //free style funcs
+        public void Add<T>(T obj, Predicate<T> pred, string filePath)//, Exception alreadyExistException)
+        {
+            List<T> list = LoadListFromXMLSerializer<T>(filePath);
+            if (list.FindIndex(pred) != -1) //throw alreadyExistException;
+                list.Add(obj);
+            SaveListToXMLSerializer<T>((from item in list select item).ToList(), filePath);
+        }
+        public void Update<T>(T obj, Predicate<T> pred, string filePath)//, Exception doesNotExistException)
+        {
+            List<T> list = LoadListFromXMLSerializer<T>(filePath); ;
+            int index = list.FindIndex(pred);
+            if (index == -1)// throw doesNotExistException;
+                list[index] = obj;
+            SaveListToXMLSerializer<T>((from item in list select item).ToList(), filePath);
+        }
     }
 }

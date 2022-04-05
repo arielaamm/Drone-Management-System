@@ -240,14 +240,7 @@ namespace Dal
 
 
 
-            Serializer<Station> sX = new Serializer<Station>(StationsPath);
-            this.sX = sX;
-            Serializer<Customer> cX = new Serializer<Customer>(ParcelsPath);
-            this.cX = cX;
-            Serializer<Parcel> pX = new Serializer<Parcel>(CustomersPath);
-            this.pX = pX;
-            Serializer<DroneCharge> dX = new Serializer<DroneCharge>(DroneChargesPath);
-            this.dX = dX;
+            
         }
 
         private void CreateFiles(out XElement elementRoot ,string path , string type)
@@ -276,10 +269,7 @@ namespace Dal
         internal static string DroneChargesPath;
 
 
-        internal Serializer<Station> sX ;
-        internal Serializer<Customer> cX ;
-        internal Serializer<Parcel> pX  ;
-        internal Serializer<DroneCharge> dX;
+        
 
         /*
         #region Files
@@ -369,28 +359,30 @@ namespace Dal
 
         public void AddCustomer(Customer c)
         {
-            var anInstanceofMyClass = new Serializer<Customer>(CustomersPath);
-            anInstanceofMyClass.Add(c, AddCustomerChecker);
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Add<Customer>(c, AddCustomerChecker, CustomersPath);
+            
           //  throw new NotImplementedException();
         }
 
         public void AddParcel(Parcel parcel)
         {
-            var anInstanceofMyClass = new Serializer<Parcel>(ParcelsPath);
-            anInstanceofMyClass.Add(parcel, AddParcelChecker);
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Add<Parcel>(parcel, AddParcelChecker, ParcelsPath);
+            
             //  throw new NotImplementedException();
         }
         public void AddStation(Station s)
         {
-
-            var anInstanceofMyClass = new Serializer<Station>(StationsPath);
-            anInstanceofMyClass.Add(s, AddStationChecker);
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Add<Station>(s, AddStationChecker, StationsPath);
             //  throw new NotImplementedException();
         }
         public void AddDroneCharge(DroneCharge d)
         {
-            var anInstanceofMyClass = new Serializer<DroneCharge>(DroneChargesPath);
-            anInstanceofMyClass.Add(d, AddDroneChargeChecker);
+
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Add<DroneCharge>(d, AddDroneChargeChecker, DroneChargesPath);
         }
 
         public void AddDroneCharge(int DroneId, int StationId)
@@ -417,20 +409,20 @@ namespace Dal
 
         public void UpdateStation(Station station)
         {
-            var anInstanceofMyClass = new Serializer<Station>(StationsPath);
-            anInstanceofMyClass.Update(station, UpdateStationChecker);
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Update<Station>(station, UpdateStationChecker, StationsPath);
         }
 
         public void UpdateParcel(Parcel parcel)
         {
-            var anInstanceofMyClass = new Serializer<Parcel>(ParcelsPath);
-            anInstanceofMyClass.Update(parcel, UpdateParcelChecker);
+            var anInstanceofMyClass = new XMLTools();
+            anInstanceofMyClass.Update<Parcel>(parcel, UpdateParcelChecker, ParcelsPath);
         }
 
         public void UpdateCustomer(Customer customer)
         {
-            var anInstanceofMyClass = new Serializer<Customer>(CustomersPath);
-            anInstanceofMyClass.Update(customer, UpdateCustomerChecker);
+            var anInstanceofMyClass = new XMLTools(); 
+            anInstanceofMyClass.Update<Customer>(customer, UpdateCustomerChecker, CustomersPath);
         }
 
         public void AttacheDrone(int parcelID)
@@ -480,20 +472,20 @@ namespace Dal
 
         public IEnumerable<Station> Stationlist()
         {
-            return sX.GetElementsFromXml();
+            return XMLTools.LoadListFromXMLSerializer<Station>(StationsPath);
             //throw new NotImplementedException();
         }
 
         public IEnumerable<Customer> Customerlist()
         {
-            return cX.GetElementsFromXml();
-           // throw new NotImplementedException();
+            return XMLTools.LoadListFromXMLSerializer<Customer>(CustomersPath);
+            // throw new NotImplementedException();
         }
 
         public IEnumerable<Parcel> Parcellist()
         {
-            return pX.GetElementsFromXml();
-         //   throw new NotImplementedException();
+            return XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelsPath);
+            //   throw new NotImplementedException();
         }
 
         public IEnumerable<Drone> Dronelist()
@@ -533,7 +525,7 @@ namespace Dal
 
         public IEnumerable<DroneCharge> DroneChargelist()
         {
-            return dX.GetElementsFromXml();
+            return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargesPath);
             //throw new NotImplementedException();
         }
 
