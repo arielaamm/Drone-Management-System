@@ -13,18 +13,37 @@ namespace ConsoleUI_BL
         /// <param int="id"></param>
         /// <param string="type"></param>
         /// <returns>dont find => -1, find => the index</returns>
-        public static int ChackID(int id, string type)
+        public static int ChackID(int id, string type, BL.BL p)
         {
             switch (type)
             {
                 case "s":
-                    return 4;
-                //    return p.FindIndex(i => i.ID == id);
+                    var s = p.Stations().GetEnumerator();
+                    while (s.MoveNext())
+                    {
+                        var temp = s.Current;
+                        if (temp.ID == id)
+                            return 1;
+                    }
+                    return -1;
                 case "d":
-                    return 1;
+                    var d = p.Drones().GetEnumerator();
+                    while (d.MoveNext())
+                    {
+                        var temp = d.Current;
+                        if (temp.Id == id)
+                            return 1;
+                    }
+                    return -1;
                 case "c":
-                    return 2;
-                    //    return DataSource.customers.FindIndex(i => i.ID == id);
+                    var c = p.Customers().GetEnumerator();
+                    while (c.MoveNext())
+                    {
+                        var temp = c.Current;
+                        if (temp.ID == id)
+                            return 1;
+                    }
+                    return -1;
             }
             return 0;
         }
@@ -45,7 +64,7 @@ namespace ConsoleUI_BL
                 case "Add station" or "1":
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
-                    if (ChackID(idStation, "s") != -1)
+                    if (ChackID(idStation, "s",p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idStation} already exist");
                     }
@@ -65,7 +84,7 @@ namespace ConsoleUI_BL
                 case "Add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
-                    if (ChackID(idDrone, "d") != -1)
+                    if (ChackID(idDrone, "d",p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
@@ -89,7 +108,7 @@ namespace ConsoleUI_BL
                 case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");
                     int idCustomer = int.Parse(Console.ReadLine());
-                    if (ChackID(idCustomer, "c") != -1)
+                    if (ChackID(idCustomer, "c",p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idCustomer} already exist");
                     }
@@ -159,7 +178,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter drone's id new");
                     }
                     int idUpDataDrone = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idUpDataDrone, "d") == -1)
+                    if (ChackID(idUpDataDrone, "d",p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idUpDataDrone} dont exist");
 
@@ -184,7 +203,7 @@ namespace ConsoleUI_BL
 
                     }
                     int idStationUpdata = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idStationUpdata, "d") != -1)
+                    if (ChackID(idStationUpdata, "d",p) != -1)
                     {
                         throw new DoesNotExistException($"this id {idStationUpdata} dont exist");
 
@@ -227,7 +246,7 @@ namespace ConsoleUI_BL
                     int idCustomerUpdata = Int32.Parse(Console.ReadLine());
                     Customer customer = new();
                     customer = p.Findcustomer(idCustomerUpdata);
-                    if (ChackID(idCustomerUpdata, "d") == -1)
+                    if (ChackID(idCustomerUpdata, "d",p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idCustomerUpdata} dont exist");
 
@@ -267,95 +286,95 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter parcel's droneid new");
                     }
                     int droneID = Int32.Parse(Console.ReadLine());
-                    if (ChackID(droneID, "d") == -1)
+                    if (ChackID(droneID, "d",p) == -1)
                     {
                         throw new DoesNotExistException($"this id {droneID} dont exist");
 
                     }
                     p.DroneToCharge(droneID);
                     break;
-                #endregion
-                //#region Release from charging
-                //case "release from charging" or "5":
-                //    Console.WriteLine("enter droneID");
-                //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
-                //    type = Console.ReadLine();
-                //    if (type == "1")
-                //    {
-                //        Viewid("d");
-                //        Console.WriteLine("enter droneId new");
+                    #endregion
+                    #region Release from charging
+                    //case "release from charging" or "5":
+                    //    Console.WriteLine("enter droneID");
+                    //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    //    type = Console.ReadLine();
+                    //    if (type == "1")
+                    //    {
+                    //        Viewid("d");
+                    //        Console.WriteLine("enter droneId new");
 
-                //    }
-                //    int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
-                //    if (ChackID(idDroneReleaseFromCharge, "d") == -1)
-                //    {
-                //        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
+                    //    }
+                    //    int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
+                    //    if (ChackID(idDroneReleaseFromCharge, "d") == -1)
+                    //    {
+                    //        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
 
-                //    }
-                //    Console.WriteLine("how many hour the drone has charged (in full hours)");
-                //    int timeInCharge = int.Parse(Console.ReadLine());
-                //    p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
-                //    break;
-                //#endregion
-                //# region Assign a parcel to a drone
-                //case "Attache drone to parcel" or "6":
-                //    Console.WriteLine("enter drone's id");
-                //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
-                //    type = Console.ReadLine();
-                //    if (type == "1")
-                //    {
-                //        Viewid("p");
-                //        Console.WriteLine("enter drone's id new");
+                    //    }
+                    //    Console.WriteLine("how many hour the drone has charged (in full hours)");
+                    //    int timeInCharge = int.Parse(Console.ReadLine());
+                    //    p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
+                    //    break;
+                    #endregion
+                    #region Assign a parcel to a drone
+                    //case "Attache drone to parcel" or "6":
+                    //    Console.WriteLine("enter drone's id");
+                    //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    //    type = Console.ReadLine();
+                    //    if (type == "1")
+                    //    {
+                    //        Viewid("p");
+                    //        Console.WriteLine("enter drone's id new");
 
-                //    }
-                //    int idDroneAttache = Int32.Parse(Console.ReadLine());
-                //    if (ChackID(idDroneAttache, "d") == -1)
-                //        throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
-                //    if (p.FindDrone(idDroneAttache).HasParcel)
-                //        throw new DroneAloreadyAttached($"this drone is already attached");
-                //    p.AttacheDrone(idDroneAttache);
-                //    break;
-                //#endregion
-                //#region Collection of a parcel by drone
-                //case "PickUp parcel" or "7":
-                //    Console.WriteLine("enter drone's id");
-                //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
-                //    type = Console.ReadLine();
-                //    if (type == "1")
-                //    {
-                //        Viewid("p");
-                //        Console.WriteLine("enter drone's id new");
+                    //    }
+                    //    int idDroneAttache = Int32.Parse(Console.ReadLine());
+                    //    if (ChackID(idDroneAttache, "d") == -1)
+                    //        throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
+                    //    if (p.FindDrone(idDroneAttache).HasParcel)
+                    //        throw new DroneAloreadyAttached($"this drone is already attached");
+                    //    p.AttacheDrone(idDroneAttache);
+                    //    break;
+                    #endregion
+                    #region Collection of a parcel by drone
+                    //case "PickUp parcel" or "7":
+                    //    Console.WriteLine("enter drone's id");
+                    //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    //    type = Console.ReadLine();
+                    //    if (type == "1")
+                    //    {
+                    //        Viewid("p");
+                    //        Console.WriteLine("enter drone's id new");
 
-                //    }
-                //    int idDronePickUp = Int32.Parse(Console.ReadLine());
-                //    if (ChackID(idDronePickUp, "d") == -1)
-                //    {
-                //        throw new DoesNotExistException($"this id {idDronePickUp} dont exist");
+                    //    }
+                    //    int idDronePickUp = Int32.Parse(Console.ReadLine());
+                    //    if (ChackID(idDronePickUp, "d") == -1)
+                    //    {
+                    //        throw new DoesNotExistException($"this id {idDronePickUp} dont exist");
 
-                //    }
-                //    p.PickUpParcel(idDronePickUp);
-                //    break;
-                //#endregion
-                //#region Delivery of a parcel by drone
-                //case "delivery parcel" or "8":
-                //    Console.WriteLine("enter drone's id");
-                //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
-                //    type = Console.ReadLine();
-                //    if (type == "1")
-                //    {
-                //        Viewid("p");
-                //        Console.WriteLine("enter drone's id new");
+                    //    }
+                    //    p.PickUpParcel(idDronePickUp);
+                    //    break;
+                    #endregion
+                    #region Delivery of a parcel by drone
+                    //case "delivery parcel" or "8":
+                    //    Console.WriteLine("enter drone's id");
+                    //    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    //    type = Console.ReadLine();
+                    //    if (type == "1")
+                    //    {
+                    //        Viewid("p");
+                    //        Console.WriteLine("enter drone's id new");
 
-                //    }
-                //    int idDroneDelivery = Int32.Parse(Console.ReadLine());
-                //    if (ChackID(idDroneDelivery, "d") == -1)
-                //    {
-                //        throw new DoesNotExistException($"this id {idDroneDelivery} dont exist");
+                    //    }
+                    //    int idDroneDelivery = Int32.Parse(Console.ReadLine());
+                    //    if (ChackID(idDroneDelivery, "d") == -1)
+                    //    {
+                    //        throw new DoesNotExistException($"this id {idDroneDelivery} dont exist");
 
-                //    }
-                //    p.Parceldelivery(idDroneDelivery);
-                //    break;
-                //    #endregion
+                    //    }
+                    //    p.Parceldelivery(idDroneDelivery);
+                    //    break;
+                    #endregion
             }
         }
         /// <summary>
@@ -370,39 +389,39 @@ namespace ConsoleUI_BL
             t = Console.ReadLine();
             switch (t)
             {
-                //        #region Station
-                //        case "Station" or "1":
-                //            Console.WriteLine("enter id station");
-                //            int idStation = int.Parse(Console.ReadLine());
-                //            if (ChackID(idStation, "s") == -1)
-                //            {
-                //                throw new DoesNotExistException($"this id {idStation} dont exist");
-                //            }
-                //            Station s = p.FindStation(idStation);
-                //            Console.WriteLine(
-                //                $"ID: {s.ID}.\n" +
-                //                $"StationName: {s.StationName}.\n" +
-                //                $"Location: {s.location.Lattitude},{s.location.Longitude}.\n" +
-                //                $"FreeChargeSlots: {s.FreeChargeSlots}.\n" +
-                //                $"Drone Charging In Station:");
-                //            if (s.DroneChargingInStation.Count != 0)
-                //            {
-                //                foreach (var item in s.DroneChargingInStation)
-                //                {
-                //                    Console.WriteLine(
-                //                        $"\t-ID: {item.ID}.\n" +
-                //                        $"\t-Buttery: {item.Buttery}.");
-                //                }
-                //            }
-                //            else
-                //                Console.WriteLine("\t-None!");
-                //            break;
-                //        #endregion
-                //        #region Drone
+                #region Station
+                case "Station" or "1":
+                    Console.WriteLine("enter id station");
+                    int idStation = int.Parse(Console.ReadLine());
+                    if (ChackID(idStation, "s",p) == -1)
+                    {
+                        throw new DoesNotExistException($"this id {idStation} dont exist");
+                    }
+                    Station s = p.FindStation(idStation);
+                    Console.WriteLine(
+                        $"ID: {s.ID}.\n" +
+                        $"StationName: {s.StationName}.\n" +
+                        $"Location: {s.Position.Lattitude},{s.Position.Longitude}.\n" +
+                        $"FreeChargeSlots: {s.ChargeSlots - s.DroneChargingInStation.Count}.\n" +
+                        $"Drone Charging In Station:");
+                    if (s.DroneChargingInStation.Count != 0)
+                    {
+                        foreach (var item in s.DroneChargingInStation)
+                        {
+                            Console.WriteLine(
+                                $"\t-ID: {item.ID}.\n" +
+                                $"\t-Buttery: {item.Battery}.");
+                        }
+                    }
+                    else
+                        Console.WriteLine("\t-None!");
+                    break;
+                #endregion
+                #region Drone
                 case "Drone" or "2":
                     Console.WriteLine("enter id");
                     int idDrone = int.Parse(Console.ReadLine());
-                    if (ChackID(idDrone, "d") == -1)
+                    if (ChackID(idDrone, "d",p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDrone} dont exist");
                     }
@@ -433,7 +452,7 @@ namespace ConsoleUI_BL
                         $"distance: {d.Parcel.distance}.\n"
                         );
                     break;
-                    //        #endregion
+               #endregion
                     //        #region Customer
                     //        case "Customer" or "3":
                     //            Console.WriteLine("enter id");
@@ -804,4 +823,3 @@ namespace ConsoleUI_BL
         }
     }
 }
-

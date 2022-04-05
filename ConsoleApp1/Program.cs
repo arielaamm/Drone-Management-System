@@ -8,14 +8,13 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            List<int> amounts = new List<int>{ 5000, 1500, 9000, 8000,
-                    6500, 4000, 1500, 1500 };
-
-            
-            Console.WriteLine(amounts.ToList());
-            Console.WriteLine(amounts.Count(i=>i==1500));
-            
-
+            List<int> enumerator = new() { 1, 2, 3, 4, 13 };
+            var s = enumerator.GetEnumerator();
+            while (s.MoveNext())
+            {
+                var item = s.Current;
+                Console.WriteLine(item.ToString());
+            }
             /*
              This code produces the following output:
 

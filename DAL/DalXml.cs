@@ -40,7 +40,7 @@ namespace DAL
             string tempString = root.Element("staticId").Value;
             int tempInt = Convert.ToInt32(tempString);
             root.Element("staticId").Value = (tempInt + add).ToString();
-            root.Save(@"XML Files\config.xml");
+            root.Save(dir + @"config.xml");
             return tempInt + add;
         }
 
@@ -49,7 +49,7 @@ namespace DAL
             Random random = new Random();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
-
+        static string dir = @"XML Files\";
         public void initialization()
         {
             Random rnd = new Random();
@@ -57,17 +57,16 @@ namespace DAL
 
             #region DroneCharges
             XElement DroneChargesRoot;
-            string DroneChargesPath = @"XML Files\DroneChargesXml.xml";
+            string DroneChargesPath = dir + @"DroneChargesXml.xml";
             if (!File.Exists(DroneChargesPath))
                 CreateFiles(out DroneChargesRoot, DroneChargesPath, "DroneCharges");
             else
                 LoadData(out DroneChargesRoot, DroneChargesPath);
-            DalXml.DroneChargesPath = DroneChargesPath;
             #endregion
 
             #region Config
             XElement ConfigRoot;
-            string ConfigPath = @"XML Files\config.xml";
+            string ConfigPath = dir + @"config.xml";
             if (!File.Exists(ConfigPath))
             {
                 CreateFiles(out ConfigRoot, ConfigPath, "config");
@@ -88,7 +87,7 @@ namespace DAL
 
             # region Stations
             XElement StationsRoot;
-            string StationsPath = @"XML Files\StationsXml.xml";
+            string StationsPath = dir + @"StationsXml.xml";
             if (!File.Exists(StationsPath))
             {
                 CreateFiles(out StationsRoot, StationsPath, "Stations");
@@ -107,12 +106,11 @@ namespace DAL
             }
             else
                 LoadData(out StationsRoot, StationsPath);
-            DalXml.StationsPath = StationsPath;
             #endregion
 
             #region Drones
             XElement DronesRoot;
-            string DronesPath = @"XML Files\DronesXml.xml";
+            string DronesPath = dir + @"DronesXml.xml";
             if (!File.Exists(DronesPath))
             {
                 CreateFiles(out DronesRoot, DronesPath, "Drones");
@@ -152,12 +150,11 @@ namespace DAL
             }
             else
                 LoadData(out DronesRoot, DronesPath);
-            this.DronesPath = DronesPath;
             #endregion
             
             #region Customers
             XElement CustomersRoot;
-            string CustomersPath = @"XML Files\CustomersXml.xml";   
+            string CustomersPath = dir + @"CustomersXml.xml";   
             if (!File.Exists(CustomersPath))
             {
                 CreateFiles(out CustomersRoot, CustomersPath, "Customers");
@@ -177,12 +174,11 @@ namespace DAL
             {
                 LoadData(out CustomersRoot, CustomersPath);
             }
-            DalXml.CustomersPath = CustomersPath;
             #endregion
             
             #region Parcels
             XElement ParcelsRoot;
-            string ParcelsPath = @"XML Files\ParcelsXml.xml";
+            string ParcelsPath = dir + @"ParcelsXml.xml";
             if (!File.Exists(ParcelsPath))
             {
                 int SenderID = rnd.Next(0, 10);
@@ -235,7 +231,6 @@ namespace DAL
             {
                 LoadData(out ParcelsRoot, ParcelsPath);
             }
-            DalXml.ParcelsPath = ParcelsPath;
             #endregion
 
 
@@ -262,11 +257,11 @@ namespace DAL
         }
         //internal static string path = Directory.GetCurrentDirectory() + @"\XML Files\{0}.xml";
         internal static string ConfigPath;
-        internal string DronesPath;
-        internal static string StationsPath;
-        internal static string ParcelsPath;
-        internal static string CustomersPath;
-        internal static string DroneChargesPath;
+        internal string DronesPath = @"DronesXml.xml";
+        internal static string StationsPath = @"StationsXml.xml";
+        internal static string ParcelsPath = @"ParcelsXml.xml";
+        internal static string CustomersPath = @"CustomersXml.xml";
+        internal static string DroneChargesPath = @"DroneChargesXml.xml";
 
 
         

@@ -69,7 +69,7 @@ namespace DAL
     }*/
     class XMLTools
     {
-        static string dir = @"xml\";
+        static string dir = @"XML Files\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
