@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
-namespace Dal
+namespace DAL
 {
     public sealed class DalXml : DalApi.IDal
     {

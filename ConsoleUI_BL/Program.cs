@@ -15,15 +15,15 @@ namespace ConsoleUI_BL
         /// <returns>dont find => -1, find => the index</returns>
         public static int ChackID(int id, string type)
         {
-            //switch (type)
-            //{
-            //    case "s":
-            //        return DataSource.stations.FindIndex(i => i.ID == id);
-            //    case "d":
-            //        return DataSource.drones.FindIndex(i => i.ID == id);
-            //    case "c":
-            //        return DataSource.customers.FindIndex(i => i.ID == id);
-            //}
+            switch (type)
+            {
+                //case "s":
+                //    return p.FindIndex(i => i.ID == id);
+                case "d":
+                    return DalXml.instance.Customerlist()
+                //case "c":
+                //    return DataSource.customers.FindIndex(i => i.ID == id);
+            }
             return 0;
         }
         /// <summary>
