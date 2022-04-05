@@ -12,7 +12,7 @@ namespace DalApi
         public static IDal GetDal(string type) => type switch
         {
             "DalObject" => DalObject.GetInstance(),
-            "DalXml" => Dal.DalXml.GetInstance()
+            "DalXml" => DalXml.GetInstance()
         };
     }
 }

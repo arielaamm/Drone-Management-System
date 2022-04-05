@@ -17,12 +17,14 @@ namespace ConsoleUI_BL
         {
             switch (type)
             {
-                //case "s":
+                case "s":
+                    return 4;
                 //    return p.FindIndex(i => i.ID == id);
                 case "d":
-                    return DalXml.instance.Customerlist()
-                //case "c":
-                //    return DataSource.customers.FindIndex(i => i.ID == id);
+                    return 1;
+                case "c":
+                    return 2;
+                    //    return DataSource.customers.FindIndex(i => i.ID == id);
             }
             return 0;
         }
