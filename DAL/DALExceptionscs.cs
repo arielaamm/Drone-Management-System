@@ -90,5 +90,27 @@ namespace DALExceptionscs
         public XmlWriteException(string message, Exception innerException) : base(message, innerException) { }
         protected XmlWriteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class XMLFileLoadCreateException : Exception
+    {
+        private string filePath;
+        private string v;
+        private Exception ex;
+
+        public XMLFileLoadCreateException() { }
+
+        public XMLFileLoadCreateException(string message) : base(message) { }
+
+        public XMLFileLoadCreateException(string message, Exception innerException) : base(message, innerException) { }
+
+        public XMLFileLoadCreateException(string filePath, string v, Exception ex)
+        {
+            this.filePath = filePath;
+            this.v = v;
+            this.ex = ex;
+        }
+
+        public XMLFileLoadCreateException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }
 

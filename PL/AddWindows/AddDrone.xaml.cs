@@ -51,7 +51,7 @@ namespace PL
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
-            drone.Model = "" + (BO.Model)cb.SelectedItem;
+            drone.Model = (BO.Model)cb.SelectedItem;
         }
 
         private void MaxWeightSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)

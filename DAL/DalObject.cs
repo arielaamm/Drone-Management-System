@@ -68,7 +68,7 @@ namespace DAL
         /// <summary>
         /// The AddDrone.
         /// </summary>
-        /// <param name="d">The d<see cref="Drone"/>.</param>
+        /// <param name="d">The d<see cref="Customer"/>.</param>
         public void AddDrone(Drone d)
         {
             int index = DataSource.drones.FindIndex(i => i.ID == d.ID);
@@ -150,7 +150,7 @@ namespace DAL
         /// <summary>
         /// The UpdateDrone.
         /// </summary>
-        /// <param name="drone">The drone<see cref="Drone"/>.</param>
+        /// <param name="drone">The drone<see cref="Customer"/>.</param>
         public void UpdateDrone(Drone drone)
         {
             int index = DataSource.drones.FindIndex(i => i.ID == drone.ID);
@@ -333,7 +333,7 @@ namespace DAL
         /// The FindDrone.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
-        /// <returns>The <see cref="Drone"/>.</returns>
+        /// <returns>The <see cref="Customer"/>.</returns>
         public Drone FindDrone(int id)
         {
             return DataSource.drones[DataSource.drones.FindIndex(i => i.ID == id && i.IsActive == true)];

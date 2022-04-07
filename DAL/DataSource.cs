@@ -62,7 +62,7 @@ namespace DAL
                 {
                     IsActive = true,
                     ID = Config.staticId,
-                    Model = ""+(Model)rnd.Next(0, 3),
+                    Model = (Model)rnd.Next(0, 3),
                     Battery = 100,
                     haveParcel = false,
                     Lattitude = stations[counter].Lattitude,
@@ -115,14 +115,21 @@ namespace DAL
                     Deliverd = null,
                     Status = StatusParcel.CREAT,
                 };
-                int temp = rnd.Next(0, 3);
+                int ? temp = rnd.Next(0, 2);
                 if (temp == 0)
                 {
                     temp = rnd.Next(0, drones.Count);
-                    if (parcels.TrueForAll(i => i.DroneId != temp))
+                    try
                     {
-                        p.DroneId = (int)drones[temp].ID;
-                        int index = drones.FindIndex(i => i.ID == p.DroneId);
+                        temp =(from d in drones
+                                     where d.haveParcel == false
+                                     select d).FirstOrDefault().ID;
+                    }
+                    catch { temp = null; }
+                    if (null != temp)
+                    {
+                        p.DroneId = (int)temp;
+                        int index = drones.FindIndex(i => i.ID == temp);
                         Drone drone = drones[index];
                         drone.Status = Status.BELONG;
                         drones[index] = drone;

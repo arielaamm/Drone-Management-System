@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Runtime.Serialization;
 
 namespace DAL
 {
@@ -84,7 +85,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
 
@@ -105,7 +106,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
@@ -122,7 +123,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
@@ -143,7 +144,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion

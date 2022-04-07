@@ -15,7 +15,7 @@ namespace DO
         public bool IsActive { set; get; }
         public bool haveParcel { set; get; }
         public int? ID { get; set; }
-        public string Model { set; get;}
+        public Model Model { set; get;}
         public Weight Weight { set; get; }
         public Status Status { set; get; }
         public double Battery { set; get; }

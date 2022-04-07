@@ -6,22 +6,19 @@ namespace ConsoleApp1
 {
     class Program
     {
+        public class MyClass
+        {
+            public int i { set; get; }
+        }
         static void Main(string[] args)
         {
-            List<int> enumerator = new() { 1, 2, 3, 4, 13 };
-            var s = enumerator.GetEnumerator();
-            while (s.MoveNext())
+            void DisplayDefaultOf<T>()
             {
-                var item = s.Current;
-                Console.WriteLine(item.ToString());
+                var val = default(T);
+                Console.WriteLine($"Default value of {typeof(T)} is {(val == null ? "null" : val.ToString())}.");
             }
-            /*
-             This code produces the following output:
-
-             4000
-             1500
-             5500
-            */
+            DisplayDefaultOf<MyClass>();
+            Console.WriteLine(default(MyClass));
         }
     }
 }

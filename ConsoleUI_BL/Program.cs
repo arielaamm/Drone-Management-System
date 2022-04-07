@@ -88,7 +88,7 @@ namespace ConsoleUI_BL
                     {
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
-                    string nameDrone = Console.ReadLine();
+                    int nameDrone = int.Parse(Console.ReadLine());
                     Weight weightDrone = (Weight)int.Parse(Console.ReadLine());
                     if (((int)weightDrone < 1) || ((int)weightDrone > 3))
                         throw new PutTheRightNumberException($"this weight {weightDrone} is not in the right form");
@@ -100,7 +100,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter Station's id new");
                     }
                     int IDStartingStation = int.Parse(Console.ReadLine());
-                    Drone drone = new Drone { ID = idDrone, Model = nameDrone, Weight = weightDrone };
+                    Drone drone = new Drone { ID = idDrone, Model = (Model)nameDrone, Weight = weightDrone };
                     p.AddDrone(drone, IDStartingStation);
                     break;
                 #endregion
@@ -184,10 +184,10 @@ namespace ConsoleUI_BL
 
                     }
                     Console.WriteLine("enter the new model");
-                    string newModelUpDataDrone = Console.ReadLine();
+                    int newModelUpDataDrone = int.Parse(Console.ReadLine());
                     Drone d = new();
                     d = p.FindDrone(idUpDataDrone);
-                    d.Model = newModelUpDataDrone;
+                    d.Model = (Model)newModelUpDataDrone;
                     p.UpdateDrone(d);
                     break;
                 #endregion

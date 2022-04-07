@@ -150,6 +150,7 @@ namespace BL
             {
                 DO.Station tempStation = new()
                 {
+                    IsActive = true,
                     ID = station.ID,
                     StationName = station.StationName,
                     Longitude = station.Position.Longitude,
@@ -174,8 +175,9 @@ namespace BL
             {
                 DO.Drone tempDrone = new()
                 {
+                    IsActive = true,
                     ID = drone.ID,
-                    Model = drone.Model,
+                    Model = (DO.Model)drone.Model,
                     Weight = (DO.Weight)drone.Weight,
                     Battery = ran.Next(20, 40),
                     haveParcel = false,
@@ -205,6 +207,7 @@ namespace BL
             {
                 DO.Customer tempCustomer = new()
                 {
+                    IsActive = true,
                     ID = customer.ID,
                     CustomerName = customer.CustomerName,
                     Longitude = customer.Position.Longitude,
@@ -229,6 +232,7 @@ namespace BL
             {
                 DO.Parcel tempParcel = new()
                 {
+                    IsActive = true,
                     ID = parcel.ID,
                     Status = DO.StatusParcel.CREAT,
                     SenderId = parcel.sender.ID,
@@ -264,7 +268,7 @@ namespace BL
             haveParcel = drone.HaveParcel,
             Lattitude = drone.Position.Lattitude,
             Longitude = drone.Position.Longitude,
-            Model = drone.Model,
+            Model = (DO.Model)drone.Model,
             Status = (DO.Status)drone.Status,
             Weight = (DO.Weight)drone.Weight,
         });
@@ -425,7 +429,7 @@ namespace BL
             Drone newStation = new();
             newStation.HaveParcel = d.haveParcel;
             newStation.ID = d.ID;
-            newStation.Model = d.Model;
+            newStation.Model = (Model)d.Model;
             newStation.Weight = (Weight)d.Weight;
             newStation.Status = (Status)d.Status;
             newStation.Battery = d.Battery;
@@ -638,7 +642,7 @@ namespace BL
                        Id = (int)d.ID,
                        Battery = d.Battery,
                        IdParcel = FindDrone((int)d.ID).Parcel.ID,
-                       Model = d.Model,
+                       Model = (Model)d.Model,
                        Position = FindDrone((int)d.ID).Position,
                        Status = (Status)d.Status,
                        Weight = (Weight)d.Weight,
