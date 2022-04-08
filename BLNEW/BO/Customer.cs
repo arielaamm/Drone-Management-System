@@ -11,6 +11,7 @@ namespace BO
     /// </summary>
     public class Customer
     {
+        public bool IsActive { set; get; }
         public int ID { set; get; }
         public string CustomerName { set; get; }
         public string Phone { set; get; }

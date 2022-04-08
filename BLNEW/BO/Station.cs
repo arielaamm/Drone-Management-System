@@ -11,6 +11,7 @@ namespace BO
     /// </summary>
     public class Station
     {
+        public bool IsActive { set; get; }
         public int ID { set; get; }
         public string StationName { set; get; }
         public Location Position { set; get; }

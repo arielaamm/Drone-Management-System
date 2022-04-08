@@ -20,7 +20,7 @@
         </Button>
         <Button x:Name="AttacheDrone" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Attache Drone" Margin="86,204,86,244" Background="#FF6E49B0" BorderBrush="#FF6E49B0" Click="AttacheDrone_Click" />
         <Button x:Name="PickUpParcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Pickup a Parcel" Margin="0,258,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="172" Height="32" VerticalAlignment="Top" Click="PickUpParcel_Click" />
-        <Button x:Name="deliverparcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="deliver a parcel" Margin="0,314,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="192" Height="32" VerticalAlignment="Top" Click="deliverparcel_Click" />
+        <Button x:Name="deliverparcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="deliver a parcel" Margin="0,314,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="192" Height="32" VerticalAlignment="Top" Click="Deliverparcel_Click" />
 
         <Label Content="Inserting for charging" Margin="172,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="122"/>
         <Label Content="Release from charging" Margin="26,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="126"/>

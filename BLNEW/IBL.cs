@@ -10,6 +10,7 @@ namespace BlApi
         void AddDrone(Drone drone, int IDStarting);
         void AddCustomer(Customer customer);
         void AddParcel(Parcel parcel);
+        void UpdateParcel(Parcel parcel);
         void UpdateDrone(Drone drone);
         #nullable enable
         void UpdateStation(Station station);

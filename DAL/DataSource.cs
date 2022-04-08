@@ -9,10 +9,10 @@ namespace DAL
 {
     internal class Config
     {
-        internal static double free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
-        internal static double light { get { return 7; } }
-        internal static double medium { get { return 10; } }
-        internal static double heavy { get { return 12; } }
+        internal static double Free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
+        internal static double Light { get { return 7; } }
+        internal static double Medium { get { return 10; } }
+        internal static double Heavy { get { return 12; } }
         internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
         public static int staticId = 1;
     }
@@ -21,7 +21,7 @@ namespace DAL
 
         public static double GetRandomNumber(double minimum, double maximum)
         {
-            Random random = new Random();
+            Random random = new();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
         internal static List<Drone> drones = new();
@@ -31,10 +31,10 @@ namespace DAL
         internal static List<Parcel> parcels = new();
         public static void Initialize()
         {
-            Random rnd = new Random();
+            Random rnd = new();
             for (int i = 0; i < 2; i++)
             {
-                Station s = new Station()
+                Station s = new()
                 {
                     IsActive = true,
                     ID = Config.staticId,
@@ -58,7 +58,7 @@ namespace DAL
                 Station station = stations[index];
                 station.BusyChargeSlots++;
                 stations[index] = station;
-                Drone d = new Drone()
+                Drone d = new()
                 {
                     IsActive = true,
                     ID = Config.staticId,
@@ -76,7 +76,7 @@ namespace DAL
             
             for (int i = 0; i < 10; i++)
             {
-                Customer c = new Customer()
+                Customer c = new()
                 {
                     ID = Config.staticId,
                     CustomerName = "Customer" + i,
@@ -101,7 +101,7 @@ namespace DAL
                     tID = rnd.Next(0, 10);
                 }
 
-                Parcel p = new Parcel()
+                Parcel p = new()
                 {
                     IsActive = true,
                     ID = Config.staticId,
@@ -132,6 +132,7 @@ namespace DAL
                         int index = drones.FindIndex(i => i.ID == temp);
                         Drone drone = drones[index];
                         drone.Status = Status.BELONG;
+                        drone.haveParcel = true;
                         drones[index] = drone;
                     }
                     else

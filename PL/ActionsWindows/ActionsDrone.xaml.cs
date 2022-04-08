@@ -20,10 +20,10 @@ namespace PL
     /// </summary>
     public partial class ActionsDrone : Page
     {
-        BlApi.IBL bl;
-        int id;
+        readonly BlApi.IBL bl;
+        readonly int id;
         DateTime time;
-        Window parent;
+        readonly Window parent;
         public ActionsDrone(BlApi.IBL bl,int id, Window parent)
         {            
             InitializeComponent();
@@ -87,7 +87,7 @@ namespace PL
             //לשים סגירה
         }
 
-        private void deliverparcel_Click(object sender, RoutedEventArgs e)
+        private void Deliverparcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {

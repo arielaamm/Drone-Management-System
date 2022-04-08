@@ -25,7 +25,7 @@ namespace DAL
                 XMLTools.SaveListToXMLSerializer(DataSource.drones, DronesPath); 
             if (!File.Exists(dir + StationsPath))
                 XMLTools.SaveListToXMLSerializer(DataSource.stations, StationsPath);
-            initialization();
+            Initialization();
             Console.WriteLine("11111");
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace DAL
                 instance = new DalXml();
             return instance;
         }
-        static string dir = @"XML Files\"; 
+        static readonly string dir = @"XML Files\"; 
         internal static string ConfigPath = @"Config.xml";
         internal string DronesPath = @"DronesXml.xml";
         internal static string StationsPath = @"StationsXml.xml";
@@ -63,14 +63,13 @@ namespace DAL
 
         public static double GetRandomNumber(double minimum, double maximum)
         {
-            Random random = new Random();
+            Random random = new();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
 
-        public void initialization()
+        public static void Initialization()
         {
-            Random rnd = new Random();
-            XElement parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9, parm10, parm11, parm12;
+            XElement id, isActive, customerName, phone, longitude, lattitude;
 
             #region DroneCharges
             //XElement DroneChargesRoot;
@@ -89,12 +88,12 @@ namespace DAL
                 CreateFiles(out ConfigRoot, ConfigPath, "config");
                 XElement staticId, free, light, medium, heavy, chargePerHour;
                 staticId = new XElement("staticId", Config.staticId);
-                free = new XElement("free", Config.free);
-                light = new XElement("light", Config.light);
-                medium = new XElement("medium", Config.medium);
-                heavy = new XElement("heavy", Config.heavy);
+                free = new XElement("free", Config.Free);
+                light = new XElement("light", Config.Light);
+                medium = new XElement("medium", Config.Medium);
+                heavy = new XElement("heavy", Config.Heavy);
                 chargePerHour = new XElement("chargePerHour", Config.ChargePerHour);
-                ConfigRoot.Add(staticId, free, medium, heavy, chargePerHour);
+                ConfigRoot.Add(staticId, free, light, medium, heavy, chargePerHour);
                 ConfigRoot.Save(ConfigPath);
             }
             else
@@ -234,13 +233,13 @@ namespace DAL
                 CreateFiles(out CustomersRoot, CustomersPath, "Customers");
                 for (int i = 0; i < 10; i++)
                 {
-                    parm1 = new XElement("ID", DataSource.customers[i].ID);
-                    parm2 = new XElement("IsActive", DataSource.customers[i].IsActive);
-                    parm3 = new XElement("CustomerName", DataSource.customers[i].CustomerName);
-                    parm4 = new XElement("Phone", DataSource.customers[i].Phone);
-                    parm5 = new XElement("Longitude", DataSource.customers[i].Longitude);
-                    parm6 = new XElement("Lattitude", DataSource.customers[i].Lattitude);
-                    CustomersRoot.Add(new XElement("Customer", parm1, parm2, parm4, parm3, parm5, parm6));
+                    id = new XElement("ID", DataSource.customers[i].ID);
+                    isActive = new XElement("IsActive", DataSource.customers[i].IsActive);
+                    customerName = new XElement("CustomerName", DataSource.customers[i].CustomerName);
+                    phone = new XElement("Phone", DataSource.customers[i].Phone);
+                    longitude = new XElement("Longitude", DataSource.customers[i].Longitude);
+                    lattitude = new XElement("Lattitude", DataSource.customers[i].Lattitude);
+                    CustomersRoot.Add(new XElement("Customer", id, isActive, phone, customerName, longitude, lattitude));
                     CustomersRoot.Save(CustomersPath);
                 }
             }
@@ -251,12 +250,12 @@ namespace DAL
             #endregion
         }
 
-        private void CreateFiles(out XElement elementRoot ,string path , string type)
+        private static void CreateFiles(out XElement elementRoot ,string path , string type)
         {
             elementRoot = new XElement(type);
             elementRoot.Save(path);
         }
-        private void LoadData(out XElement elementRoot, string path)
+        private static void LoadData(out XElement elementRoot, string path)
         {
             elementRoot = null;
             try
@@ -291,10 +290,10 @@ namespace DAL
         public double[] Power()
         {
             double[] a = {
-                DAL.Config.free,
-                DAL.Config.light,
-                DAL.Config.medium,
-                DAL.Config.heavy,
+                DAL.Config.Free,
+                DAL.Config.Light,
+                DAL.Config.Medium,
+                DAL.Config.Heavy,
                 DAL.Config.ChargePerHour };
             return a;
         }
@@ -340,22 +339,25 @@ namespace DAL
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
-        bool UpdateDroneChecker(Drone c)
+        int UpdateDroneChecker(Drone c)
         {
-            if (Dronelist().ToList().FindIndex(i => i.ID == c.ID) != -1)
-                return true;
+            int i = Dronelist().ToList().FindIndex(i => i.ID == c.ID);
+            if (i != -1)
+                return i;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
-        bool UpdateParcelChecker(Parcel parcel)
+        int UpdateParcelChecker(Parcel parcel)
         {
-            if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) != -1)
-                return true;
+            int i = Parcellist().ToList().FindIndex(i => i.ID == parcel.ID);
+            if (i != -1)
+                return i;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
-        bool UpdateStationChecker(Station s)
+        int UpdateStationChecker(Station s)
         {
-            if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) != -1)
-                return true;
+            int i = Stationlist().ToList().FindIndex(i => i.ID == s.ID);
+            if (i != -1)
+                return i;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
         #endregion
@@ -363,7 +365,7 @@ namespace DAL
         public void AddDrone(Drone d)
         {
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Add<Drone>(d, AddDroneChecker, DronesPath);
+            XMLTools.Add(d, AddDroneChecker(d), DronesPath);
             
           //  throw new NotImplementedException();
         }
@@ -371,26 +373,26 @@ namespace DAL
         public void AddParcel(Parcel parcel)
         {
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Add<Parcel>(parcel, AddParcelChecker, ParcelsPath);
+            XMLTools.Add(parcel, AddParcelChecker(parcel), ParcelsPath);
             
             //  throw new NotImplementedException();
         }
         public void AddStation(Station s)
         {
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Add<Station>(s, AddStationChecker, StationsPath);
+            XMLTools.Add(s, AddStationChecker(s), StationsPath);
             //  throw new NotImplementedException();
         }
         public void AddDroneCharge(DroneCharge d)
         {
 
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Add<DroneCharge>(d, AddDroneChargeChecker, DroneChargesPath);
+            XMLTools.Add(d, AddDroneChargeChecker(d), DroneChargesPath);
         }
 
         public void AddDroneCharge(int DroneId, int StationId)
         {
-            DroneCharge d = new DroneCharge() { DroneId = DroneId, StationId = StationId };
+            DroneCharge d = new() { DroneId = DroneId, StationId = StationId };
             AddDroneCharge(d);
             throw new NotImplementedException();
         }
@@ -414,43 +416,144 @@ namespace DAL
         public void UpdateStation(Station station)
         {
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Update<Station>(station, UpdateStationChecker, StationsPath);
+            XMLTools.Update(station, UpdateStationChecker(station), StationsPath);
         }
 
         public void UpdateParcel(Parcel parcel)
         {
             var anInstanceofMyClass = new XMLTools();
-            anInstanceofMyClass.Update<Parcel>(parcel, UpdateParcelChecker, ParcelsPath);
+            XMLTools.Update(parcel, UpdateParcelChecker(parcel), ParcelsPath);
         }
         public void UpdateDrone(Drone drone)
         {
-            var anInstanceofMyClass = new XMLTools(); 
-            anInstanceofMyClass.Update<Drone>(drone, UpdateDroneChecker, DronesPath);
+            var anInstanceofMyClass = new XMLTools();
+            XMLTools.Update(drone, UpdateDroneChecker(drone), DronesPath);
         }
 
         public void AttacheDrone(int parcelID)
         {
-            throw new NotImplementedException();
+            int indexDrone = Dronelist().ToList().FindIndex(i => i.Status == Status.CREAT);
+            Drone d = new();
+            d = Dronelist().ToList()[indexDrone];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't attached: {d.ID}");
+            d.Status = Status.BELONG;
+            d.haveParcel = true;
+            UpdateDrone(d);
+
+            int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
+            Parcel p = new();
+            p = Parcellist().ToList()[indexParcel];
+            p.DroneId = (int)d.ID;
+            p.Scheduled = DateTime.Now;
+            UpdateParcel(p);
         }
 
         public void PickupParcel(int parcelID)
         {
-            throw new NotImplementedException();
+            int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
+            Parcel p = new();
+            p = Parcellist().ToList()[indexParcel];
+            p.PickedUp = DateTime.Now;
+            UpdateParcel(p);
+
+            int indexDrone = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
+            Drone d = new();
+            d = Dronelist().ToList()[indexDrone];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't pickup: {d.ID}");
+            double Distance = Math.Sqrt(Math.Pow(d.Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+                Math.Pow(d.Longitude - FindCustomers(p.SenderId).Longitude, 2));
+            d.Battery -= Distance * Power()[(int)d.Status];
+            d.Longitude = FindCustomers(p.SenderId).Longitude;
+            d.Lattitude = FindCustomers(p.SenderId).Lattitude;
+            d.Status = Status.PICKUP;
+            UpdateDrone(d);
+
+            int indexDroneCharge = DroneChargelist().ToList().FindIndex(i => i.DroneId == d.ID);
+            int IdStation = DroneChargelist().ToList()[indexDroneCharge].StationId;
+            DroneChargelist().ToList().RemoveAt(indexDroneCharge);
+            XMLTools.SaveListToXMLSerializer(DroneChargelist().ToList(), DroneChargesPath);
+
+            int indexStation = Stationlist().ToList().FindIndex(i => i.ID == IdStation);
+            Station s = new();
+            s = Stationlist().ToList()[indexStation];
+            s.BusyChargeSlots -= 1;
+            UpdateStation(s);
         }
 
         public void DeliverdParcel(int parcelID)
         {
-            throw new NotImplementedException();
+            int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
+            Parcel p = new();
+            p = Parcellist().ToList()[indexParcel];
+            p.Deliverd = DateTime.Now;
+            UpdateParcel(p);
+
+            int indexDrone = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
+            Drone d = new();
+            d = Dronelist().ToList()[indexDrone];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't deliver: {d.ID}");
+            double Distance = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
+                Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
+            d.Battery -= Distance * Power()[(int)d.Status];
+            d.Longitude = FindCustomers(p.TargetId).Longitude;
+            d.Lattitude = FindCustomers(p.TargetId).Lattitude;
+            d.Status = Status.CREAT;
+            d.haveParcel = false;
+            UpdateDrone(d);
         }
 
         public void DroneToCharge(int droneID, int stationID)
         {
-            throw new NotImplementedException();
+            
+            int indexS = Stationlist().ToList().FindIndex(i => i.ID == stationID);
+            if (Stationlist().ToList()[indexS].ChargeSlots > 0)
+                throw new ThereAreNoRoomException("There is no more room to load another Drone");
+            int indexD = Dronelist().ToList().FindIndex(i => i.ID == droneID);
+            if (Dronelist().ToList()[indexD].Status != Status.CREAT)
+                throw new DroneInMiddleActionException("The drone is in the middle of the action");
+            Station s = new();
+            s = Stationlist().ToList()[indexS];
+            if (s.IsActive == false)
+                throw new DeleteException($"This station is deleted: {s.ID}");
+            s.BusyChargeSlots += 1;
+            UpdateStation(s);
+            
+
+            Drone d = new();
+            d = Dronelist().ToList()[indexD];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't send to charge: {d.ID}");
+            d.Status = Status.MAINTENANCE;
+            UpdateDrone(d);
+            
+            AddDroneCharge(droneID, stationID);
+
         }
 
         public void DroneOutCharge(int droneID)
         {
-            throw new NotImplementedException();
+            
+            
+            int index = Dronelist().ToList().FindIndex(i => i.ID == droneID);
+            if (Dronelist().ToList()[index].Status != Status.MAINTENANCE)
+                throw new DroneNotChargingException("The drone is not charging at any station");
+            Drone d = new();
+            d = Dronelist().ToList()[index];
+            d.Status = Status.CREAT;
+            UpdateDrone(d);
+
+            index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+            int indexStation = DroneChargelist().ToList()[index].StationId;
+            DroneChargelist().ToList().RemoveAt(index);
+            XMLTools.SaveListToXMLSerializer(DroneChargelist().ToList(), DroneChargesPath);
+
+            Station s = new();
+            s = Stationlist().ToList()[index];
+            s.BusyChargeSlots -= 1;
+            UpdateStation(s);
         }
 
         public Station FindStation(int id)
@@ -564,7 +667,7 @@ namespace DAL
         /// xml stuff
         /// </summary>
         /// <returns>xml stuff</returns>
-        internal XElement LoadXml(string path)
+        internal static XElement LoadXml(string path)
         {
             try { return XElement.Load(dir + path); }
             catch (Exception ex)
@@ -572,9 +675,9 @@ namespace DAL
                 throw new XmlLoadException($"Could not find '{path}'" + $" Please make sure that file is exist.", ex);
             }
         }
-        internal IEnumerable<Customer> LoadCustomersFromXML(XElement CustomersRoot)
+        internal static IEnumerable<Customer> LoadCustomersFromXML(XElement CustomersRoot)
         {
-            List<Customer> Customers = new List<Customer>();
+            List<Customer> Customers = new();
             foreach (var Customer in CustomersRoot.Elements())
             {
                 // try

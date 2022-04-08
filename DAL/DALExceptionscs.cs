@@ -93,9 +93,9 @@ namespace DALExceptionscs
     [Serializable]
     public class XMLFileLoadCreateException : Exception
     {
-        private string filePath;
-        private string v;
-        private Exception ex;
+        private readonly string filePath;
+        private readonly string v;
+        private readonly Exception ex;
 
         public XMLFileLoadCreateException() { }
 

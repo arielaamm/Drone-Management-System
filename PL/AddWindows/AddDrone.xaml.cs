@@ -24,6 +24,7 @@ namespace PL
     {   
         private readonly BlApi.IBL bl;
         Window parent;
+        private int IDStation;
         public AddDrone(BlApi.IBL bl, Window parent)
         {            
             InitializeComponent();
@@ -63,7 +64,7 @@ namespace PL
         private void StartingstationSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
-            drone.ID = (int)cb.SelectedItem;
+            IDStation = (int)cb.SelectedItem;
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
@@ -76,9 +77,8 @@ namespace PL
             int c = bl.Drones().Count();
             try
             {
-                int i = (int)drone.ID;
                 drone.ID = int.Parse(TextBoxID.Text);
-                bl.AddDrone(drone, i);
+                bl.AddDrone(drone, IDStation);
             }
             catch (Exception ex)
             {

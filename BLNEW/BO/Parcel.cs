@@ -11,6 +11,7 @@ namespace BO
     /// </summary>
     public class Parcel
     {
+        public bool IsActive { set; get; }
         public int ID { set; get; }
         public CustomerInParcel sender { set; get; }
         public CustomerInParcel target { set; get; }
@@ -21,6 +22,7 @@ namespace BO
         public DateTime? Scheduled { set; get; }//שיוך
         public DateTime? PickedUp { set; get; }//איסוף
         public DateTime? Deliverd { set; get; }//אספקה
+
 
     }//done
 }

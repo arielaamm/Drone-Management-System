@@ -109,7 +109,7 @@ namespace BL
             int? StationID;
             foreach (var item in dal.Stationlist())
             {
-                Location location = new Location()
+                Location location = new()
                 {
                     Lattitude = item.Lattitude,
                     Longitude = item.Longitude,
@@ -168,7 +168,7 @@ namespace BL
         /// <summary>
         /// Add drone
         /// </summary>
-        readonly Random ran = new Random();
+        readonly Random ran = new();
         public void AddDrone(Drone drone, int IDStarting)
         {
             try
@@ -257,12 +257,27 @@ namespace BL
         //---------------------------------------------------------------------------------
         //updating functions:
         //---------------------------------------------------------------------------------
+        public void UpdateParcel(Parcel parcel) => dal.UpdateParcel(new DO.Parcel
+        {
+            IsActive = parcel.IsActive,
+            ID = parcel.ID,
+            Weight = (DO.Weight)parcel.Weight,
+            Requested = parcel.Requested,
+            Deliverd = parcel.Deliverd,
+            Scheduled = parcel.Scheduled,
+            SenderId = parcel.sender.ID,
+            DroneId = parcel.Drone.ID,
+            PickedUp = parcel.PickedUp,
+            Priority = (DO.Priority)parcel.Priority,
+            TargetId = parcel.target.ID,
+        });
 
         /// <summary>
         /// Update Drone model
         /// </summary>
         public void UpdateDrone(Drone drone) => dal.UpdateDrone(new DO.Drone
         {
+            IsActive = drone.IsActive,
             ID = drone.ID,
             Battery = drone.Battery,
             haveParcel = drone.HaveParcel,
@@ -279,12 +294,13 @@ namespace BL
 #nullable enable
         public void UpdateStation(Station station) => dal.UpdateStation(new DO.Station
         {
+            IsActive = station.IsActive,
             ID = station.ID,
             StationName = station.StationName,
             ChargeSlots = station.ChargeSlots,
             Lattitude = station.Position.Lattitude,
             Longitude = station.Position.Longitude,
-            BusyChargeSlots = station.DroneChargingInStation.Count(),
+            BusyChargeSlots = station.DroneChargingInStation.Count,
         });
 
         /// <summary>
@@ -292,6 +308,7 @@ namespace BL
         /// </summary>
         public void UpdateCustomer(Customer customer) => dal.UpdateCustomer(new DO.Customer
         {
+            IsActive = customer.IsActive,
             ID = customer.ID,
             CustomerName = customer.CustomerName,
             Lattitude = customer.Position.Lattitude,
@@ -347,7 +364,7 @@ namespace BL
         {
             if (!FindDrone(id).HaveParcel)
             {
-                if (ParcelsNotAssociated().Count() == 0)
+                if (!ParcelsNotAssociated().Any())
                     throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
                 var parcel = ParcelsNotAssociated().OrderBy(i => i.Priority).First();
                 dal.AttacheDrone(parcel.ID);
@@ -408,6 +425,7 @@ namespace BL
             };
             Station newStation = new()
             {
+                IsActive = s.IsActive,
                 ID = (int)s.ID,
                 StationName = s.StationName,
                 Position = temp,
@@ -426,19 +444,20 @@ namespace BL
             DO.Drone d = dal.FindDrone(id);
             ParcelTransactioning parcelTransactiningTemp = new();
             parcelTransactiningTemp.ID = null;
-            Drone newStation = new();
-            newStation.HaveParcel = d.haveParcel;
-            newStation.ID = d.ID;
-            newStation.Model = (Model)d.Model;
-            newStation.Weight = (Weight)d.Weight;
-            newStation.Status = (Status)d.Status;
-            newStation.Battery = d.Battery;
+            Drone newDrone = new();
+            newDrone.IsActive = d.IsActive;
+            newDrone.HaveParcel = d.haveParcel;
+            newDrone.ID = d.ID;
+            newDrone.Model = (Model)d.Model;
+            newDrone.Weight = (Weight)d.Weight;
+            newDrone.Status = (Status)d.Status;
+            newDrone.Battery = d.Battery;
             Location locationDrone = new()
             {
                 Lattitude = d.Lattitude,
                 Longitude = d.Longitude,
             };
-            newStation.Position = locationDrone;
+            newDrone.Position = locationDrone;
 
             if (d.Status == DO.Status.PICKUP || d.Status == DO.Status.BELONG)
             {
@@ -478,8 +497,8 @@ namespace BL
 
 
             }
-            newStation.Parcel = parcelTransactiningTemp;
-            return newStation;
+            newDrone.Parcel = parcelTransactiningTemp;
+            return newDrone;
         }
 
         /// <summary>
@@ -503,6 +522,7 @@ namespace BL
             };
             Parcel newParcel = new()
             {
+                IsActive = p.IsActive,
                 ID = (int)p.ID,
                 sender = send,
                 target = target,
@@ -550,6 +570,7 @@ namespace BL
             };
             Customer newCustomer = new()
             {
+                IsActive = c.IsActive,
                 ID = (int)c.ID,
                 CustomerName = c.CustomerName,
                 Phone = c.Phone,
@@ -678,8 +699,8 @@ namespace BL
                        ID = (int)c.ID,
                        CustomerName = c.CustomerName,
                        Phone = c.Phone,
-                       NumFoParcelSent = Findcustomer((int)c.ID).fromCustomer.Count(),
-                       NumFoParcelOnWay = Findcustomer((int)c.ID).toCustomer.Count(),
+                       NumFoParcelSent = Findcustomer((int)c.ID).fromCustomer.Count,
+                       NumFoParcelOnWay = Findcustomer((int)c.ID).toCustomer.Count,
                        NumFoParcelReceived = Findcustomer((int)c.ID).toCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                        NumFoParcelSentAndDelivered = Findcustomer((int)c.ID).fromCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                    };

@@ -70,7 +70,7 @@ namespace DAL
     }*/
     class XMLTools
     {
-        static string dir = @"XML Files\";
+        static readonly string dir = @"XML Files\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -99,7 +99,7 @@ namespace DAL
                 }
                 else
                 {
-                    XElement rootElem = new XElement(dir + filePath);
+                    XElement rootElem = new(dir + filePath);
                     rootElem.Save(dir + filePath);
                     return rootElem;
                 }
@@ -116,8 +116,8 @@ namespace DAL
         {
             try
             {
-                FileStream file = new FileStream(dir + filePath, FileMode.Create);
-                XmlSerializer x = new XmlSerializer(list.GetType());
+                FileStream file = new(dir + filePath, FileMode.Create);
+                XmlSerializer x = new(list.GetType());
                 x.Serialize(file, list);
                 file.Close();
             }
@@ -133,8 +133,8 @@ namespace DAL
                 if (File.Exists(dir + filePath))
                 {
                     List<T> list;
-                    XmlSerializer x = new XmlSerializer(typeof(List<T>));
-                    FileStream file = new FileStream(dir + filePath, FileMode.Open);
+                    XmlSerializer x = new(typeof(List<T>));
+                    FileStream file = new(dir + filePath, FileMode.Open);
                     list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;
@@ -149,20 +149,18 @@ namespace DAL
         }
         #endregion
         //free style funcs
-        public void Add<T>(T obj, Predicate<T> pred, string filePath)//, Exception alreadyExistException)
+        public static void Add<T>(T obj, bool pred, string filePath)//, Exception alreadyExistException)
         {
             List<T> list = LoadListFromXMLSerializer<T>(filePath);
-            if (list.FindIndex(pred) != -1) //throw alreadyExistException;
+            if (pred) //throw alreadyExistException;
                 list.Add(obj);
-            SaveListToXMLSerializer<T>((from item in list select item).ToList(), filePath);
+            SaveListToXMLSerializer<T>(list, filePath);
         }
-        public void Update<T>(T obj, Predicate<T> pred, string filePath)//, Exception doesNotExistException)
+        public static void Update<T>(T obj, int index, string filePath)//, Exception doesNotExistException)
         {
-            List<T> list = LoadListFromXMLSerializer<T>(filePath); ;
-            int index = list.FindIndex(pred);
-            if (index == -1)// throw doesNotExistException;
-                list[index] = obj;
-            SaveListToXMLSerializer<T>((from item in list select item).ToList(), filePath);
+            List<T> list = LoadListFromXMLSerializer<T>(filePath);
+            list[index] = obj;
+            SaveListToXMLSerializer<T>(list, filePath);
         }
     }
 }
