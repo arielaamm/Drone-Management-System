@@ -323,13 +323,13 @@ namespace DAL
         }
         bool AddParcelChecker(Parcel parcel)
         {
-            if (Customerlist().ToList().FindIndex(i => i.ID == parcel.ID) == -1)
+            if (Parcellist().ToList().FindIndex(i => i.ID == parcel.ID) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
         bool AddStationChecker(Station s)
         {
-            if (Customerlist().ToList().FindIndex(i => i.ID == s.ID) == -1)
+            if (Stationlist().ToList().FindIndex(i => i.ID == s.ID) == -1)
                 return true;
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
@@ -394,7 +394,6 @@ namespace DAL
         {
             DroneCharge d = new() { DroneId = DroneId, StationId = StationId };
             AddDroneCharge(d);
-            throw new NotImplementedException();
         }
 
         public void UpdateCustomer(Customer customer)

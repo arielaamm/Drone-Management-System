@@ -11,9 +11,10 @@ namespace DAL
     {
         public static XElement BuildElementToXml<T>(T obj)
         {
-            return new XElement(typeof(T).Name, from property in typeof(T).GetProperties()
+            var a = new XElement(typeof(T).Name, from property in typeof(T).GetProperties()
                                                 select new XElement(property.Name,
                                                                     property.GetValue(obj).ToString()));
+            return a;
         }
 
         public static void SaveToXml<T>(this IEnumerable<T> enumerable, string path, string rootName = "Root")

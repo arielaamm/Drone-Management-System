@@ -84,7 +84,7 @@ namespace PL
             BO.DroneToList a = (BO.DroneToList)cb.SelectedValue;
             try
             {
-                new DroneWindow(bl, a.Id).Show();
+                new DroneWindow(bl, a.ID).Show();
             }
             catch (Exception)
             {

@@ -182,13 +182,13 @@ namespace BL
                     Battery = ran.Next(20, 40),
                     haveParcel = false,
                 };
-                Location l = FindStation(IDStarting).Position;
-                tempDrone.Lattitude = l.Lattitude;
-                tempDrone.Longitude = l.Longitude;
                 Station s = FindStation(IDStarting);
-                DroneCharging temp = new() { ID = (int)drone.ID, Battery = drone.Battery };
+                tempDrone.Lattitude = s.Position.Lattitude;
+                tempDrone.Longitude = s.Position.Longitude;
+                DroneCharging temp = new() { ID = (int)drone.ID, Battery = tempDrone.Battery };
                 s.DroneChargingInStation.Add(temp);
                 UpdateStation(s);
+                dal.AddDroneCharge((int)drone.ID, IDStarting);
                 dal.AddDrone(tempDrone);
             }
             catch (Exception ex)
@@ -660,7 +660,7 @@ namespace BL
             return from d in dal.Dronelist()
                    select new DroneToList()
                    {
-                       Id = (int)d.ID,
+                       ID = (int)d.ID,
                        Battery = d.Battery,
                        IdParcel = FindDrone((int)d.ID).Parcel.ID,
                        Model = (Model)d.Model,

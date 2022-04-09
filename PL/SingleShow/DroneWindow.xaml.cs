@@ -54,7 +54,7 @@ namespace PL
             {
                 InitializeComponent();
                 this.bl = bl;
-                var t = this.bl.Drones().Where(a => id == a.Id);
+                var t = this.bl.Drones().Where(a => id == a.ID);
                 Drone = new(t);
                 dronepage.Content = new ActionsDrone(bl, (int)id, this);
             }
