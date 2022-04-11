@@ -122,4 +122,12 @@ namespace BLExceptions
         public CantDeleteException(string message, Exception innerException) : base(message, innerException) { }
         public CantDeleteException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class DroneInActionException : Exception
+    {
+        public DroneInActionException() { }
+        public DroneInActionException(string message) : base(message) { }
+        public DroneInActionException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneInActionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

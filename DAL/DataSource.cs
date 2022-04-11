@@ -121,9 +121,9 @@ namespace DAL
                     temp = rnd.Next(0, drones.Count);
                     try
                     {
-                        temp =(from d in drones
-                                     where d.haveParcel == false
-                                     select d).FirstOrDefault().ID;
+                        temp = (from d in drones
+                                where d.haveParcel == false
+                                select d).FirstOrDefault().ID;
                     }
                     catch { temp = null; }
                     if (null != temp)
@@ -131,6 +131,7 @@ namespace DAL
                         p.DroneId = (int)temp;
                         int index = drones.FindIndex(i => i.ID == temp);
                         Drone drone = drones[index];
+                        
                         drone.Status = Status.BELONG;
                         drone.haveParcel = true;
                         drones[index] = drone;

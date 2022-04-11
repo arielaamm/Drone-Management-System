@@ -4,18 +4,18 @@
     <IsActive>true</IsActive>
     <ID>1</ID>
     <StationName>Station0</StationName>
-    <Longitude>9.950740975304852</Longitude>
-    <Lattitude>6.667218137377509</Lattitude>
+    <Longitude>4.612124955566658</Longitude>
+    <Lattitude>15.508482951442005</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>2</BusyChargeSlots>
+    <BusyChargeSlots>3</BusyChargeSlots>
   </Station>
   <Station>
     <IsActive>true</IsActive>
     <ID>2</ID>
     <StationName>Station1</StationName>
-    <Longitude>14.686313099081774</Longitude>
-    <Lattitude>6.054716819922774</Lattitude>
+    <Longitude>2.636161641048343</Longitude>
+    <Lattitude>2.37923329154925</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>3</BusyChargeSlots>
+    <BusyChargeSlots>4</BusyChargeSlots>
   </Station>
 </ArrayOfStation>

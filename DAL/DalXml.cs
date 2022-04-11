@@ -408,12 +408,8 @@ namespace DAL
             {
                 //DeleteCustomer(customer);
                 //CustomersRoot.Add(DAL.XmlHelper.BuildElementToXml(customer));
-                CustomersRoot.Elements().Where(i=> int.Parse(i.Element("ID").Value) == customer.ID)
-                foreach (var item in CustomersRoot.Elements())
-                {
-                    if (int.Parse(item.Element("ID").Value) == customer.ID)
-                    {
-                        item.ReplaceWith(
+                var item = CustomersRoot.Elements().Where(i => int.Parse(i.Element("ID").Value) == customer.ID).FirstOrDefault();
+                item.ReplaceWith(
                             new XElement("Customer",
                             new XElement("ID", customer.ID),
                             new XElement("IsActive", customer.IsActive),
@@ -421,11 +417,8 @@ namespace DAL
                             new XElement("Phone", customer.Phone),
                             new XElement("Longitude", customer.Longitude),
                             new XElement("Lattitude", customer.Lattitude))
-                        );
-                        break;
-                    }
-                }
-                //CustomersRoot.Save(CustomersPath);
+                            );
+                CustomersRoot.Save(dir + CustomersPath);
             }
             catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }
         }
@@ -526,7 +519,7 @@ namespace DAL
         {
             
             int indexS = Stationlist().ToList().FindIndex(i => i.ID == stationID);
-            if (Stationlist().ToList()[indexS].ChargeSlots > 0)
+            if (Stationlist().ToList()[indexS].ChargeSlots <= 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
             int indexD = Dronelist().ToList().FindIndex(i => i.ID == droneID);
             if (Dronelist().ToList()[indexD].Status != Status.CREAT)

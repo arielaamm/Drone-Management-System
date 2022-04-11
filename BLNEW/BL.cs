@@ -323,10 +323,12 @@ namespace BL
         public void DroneToCharge(int id)
         {
             DO.Drone d = dal.FindDrone(id);
-            if ((d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP || d.Status == DO.Status.MAINTENANCE) && d.Battery < 20)
-            {
+            if (d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP)
+                throw new DroneInActionException($"the drone {id} is in the medal of an action");
+            else if (d.Battery < 20)
                 throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
-            }
+            else if (d.Status == DO.Status.MAINTENANCE)
+                throw new DroneIsAlreadyChargeException($"the drone {id} already charge");
             else
             {
                 int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
@@ -755,5 +757,25 @@ namespace BL
                 throw new CantDeleteException($"you can't delete this drone: {drone.ID}");
         }
 
+    }
+
+    [Serializable]
+    internal class DroneIsAlreadyChargeException : Exception
+    {
+        public DroneIsAlreadyChargeException()
+        {
+        }
+
+        public DroneIsAlreadyChargeException(string message) : base(message)
+        {
+        }
+
+        public DroneIsAlreadyChargeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected DroneIsAlreadyChargeException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

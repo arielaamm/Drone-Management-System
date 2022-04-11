@@ -261,7 +261,7 @@ namespace ConsoleUI_BL
                         customer.CustomerName = nameCustomerUpData;
                     }
 #nullable disable
-                    Console.WriteLine("if you want to updata the customer phone number enter 1\nelse press ayn key");
+                    Console.WriteLine("if you want to updata the customer phone number enter 1\nelse press any key");
                     e = int.Parse(Console.ReadLine());
                     if (e == 1)
                     {
@@ -274,13 +274,13 @@ namespace ConsoleUI_BL
                     break;
                 case "send for loadingor" or "4":
                     Console.WriteLine("enter droneID");
-                    Console.WriteLine("if you want to see the id list prees 1 else press any key");
+                    Console.WriteLine("if you want to see the id list press 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
                     {
 
                         Viewid("d", p);
-                        Console.WriteLine("enter parcel's droneid new");
+                        Console.WriteLine("enter parcel's droneID new");
                     }
                     int droneID = Int32.Parse(Console.ReadLine());
                     if (ChackID(droneID, "d", p) == -1)
