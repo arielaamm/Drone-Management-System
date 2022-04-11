@@ -620,9 +620,9 @@ namespace BL
                     CustomerInParcel o = new()
                     {
                         ID = item3.SenderId,
-                        CustomerName = dal.FindCustomers(item3.TargetId).CustomerName,
+                        CustomerName = dal.FindCustomers(item3.SenderId).CustomerName,
                     };
-                    item.Sender = o;
+                    item2.Sender = o;
                     TempToCustomer.Add(item2);
                 }
             }

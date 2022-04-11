@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
+    <IsActive>true</IsActive>
+    <ID>1</ID>
+    <StationName>Station0</StationName>
+    <Longitude>9.950740975304852</Longitude>
+    <Lattitude>6.667218137377509</Lattitude>
+    <ChargeSlots>5</ChargeSlots>
+    <BusyChargeSlots>2</BusyChargeSlots>
+  </Station>
+  <Station>
+    <IsActive>true</IsActive>
+    <ID>2</ID>
+    <StationName>Station1</StationName>
+    <Longitude>14.686313099081774</Longitude>
+    <Lattitude>6.054716819922774</Lattitude>
+    <ChargeSlots>5</ChargeSlots>
+    <BusyChargeSlots>3</BusyChargeSlots>
+  </Station>
+</ArrayOfStation>

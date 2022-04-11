@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>18</ID>
+    <SenderId>15</SenderId>
+    <TargetId>12</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>3</DroneId>
+    <Requested>2022-04-11T19:20:47.6810592+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>19</ID>
+    <SenderId>15</SenderId>
+    <TargetId>16</TargetId>
+    <Weight>MEDIUM</Weight>
+    <Priority>SOS</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-11T19:20:47.6907042+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>20</ID>
+    <SenderId>15</SenderId>
+    <TargetId>11</TargetId>
+    <Weight>MEDIUM</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>4</DroneId>
+    <Requested>2022-04-11T19:20:47.6907203+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>21</ID>
+    <SenderId>15</SenderId>
+    <TargetId>14</TargetId>
+    <Weight>MEDIUM</Weight>
+    <Priority>REGULAR</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-11T19:20:47.6907622+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>22</ID>
+    <SenderId>13</SenderId>
+    <TargetId>8</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>5</DroneId>
+    <Requested>2022-04-11T19:20:47.6907638+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>23</ID>
+    <SenderId>12</SenderId>
+    <TargetId>10</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>6</DroneId>
+    <Requested>2022-04-11T19:20:47.6907667+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>24</ID>
+    <SenderId>15</SenderId>
+    <TargetId>13</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>SOS</Priority>
+    <DroneId>7</DroneId>
+    <Requested>2022-04-11T19:20:47.6907677+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>25</ID>
+    <SenderId>13</SenderId>
+    <TargetId>17</TargetId>
+    <Weight>MEDIUM</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-11T19:20:47.6907689+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>26</ID>
+    <SenderId>12</SenderId>
+    <TargetId>11</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>REGULAR</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-11T19:20:47.6907695+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>27</ID>
+    <SenderId>8</SenderId>
+    <TargetId>10</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-11T19:20:47.6907702+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+</ArrayOfParcel>

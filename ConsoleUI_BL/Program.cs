@@ -70,10 +70,10 @@ namespace ConsoleUI_BL
             string type;
             switch (t)
             {
-                                case "Add station" or "1":
+                case "Add station" or "1":
                     Console.WriteLine("enter id station ,station name ,location ,how meny charge slots are");
                     int idStation = int.Parse(Console.ReadLine());
-                    if (ChackID(idStation, "s",p) != -1)
+                    if (ChackID(idStation, "s", p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idStation} already exist");
                     }
@@ -88,10 +88,10 @@ namespace ConsoleUI_BL
                     Station station = new Station { ID = idStation, StationName = nameStation, ChargeSlots = numChargeSlotsStation, Position = locationStation };
                     p.AddStation(station);
                     break;
-                                                case "Add drone" or "2":
+                case "Add drone" or "2":
                     Console.WriteLine("enter id, Model name, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), ID of the starting station ");
                     int idDrone = int.Parse(Console.ReadLine());
-                    if (ChackID(idDrone, "d",p) != -1)
+                    if (ChackID(idDrone, "d", p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idDrone} already exist");
                     }
@@ -110,10 +110,10 @@ namespace ConsoleUI_BL
                     Drone drone = new Drone { ID = idDrone, Model = (Model)nameDrone, Weight = weightDrone };
                     p.AddDrone(drone, IDStartingStation);
                     break;
-                                                case "add customer" or "3":
+                case "add customer" or "3":
                     Console.WriteLine("enter id customer, customer name, customer phone number, customer location");
                     int idCustomer = int.Parse(Console.ReadLine());
-                    if (ChackID(idCustomer, "c",p) != -1)
+                    if (ChackID(idCustomer, "c", p) != -1)
                     {
                         throw new AlreadyExistException($"this id {idCustomer} already exist");
                     }
@@ -129,8 +129,9 @@ namespace ConsoleUI_BL
                     Customer customer = new Customer { ID = idCustomer, CustomerName = nameCustomer, Phone = phoneCustomer, Position = locationCustomer };
                     p.AddCustomer(customer);
                     break;
-                                                case "add parcel" or "4":
-                    Console.WriteLine("enter SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
+                case "add parcel" or "4":
+                    Console.WriteLine("enterID, SenderId, TargetId, weight(LIGHT = 1, MEDIUM = 2, HEAVY = 3), priority(REGULAR = 1, FAST = 2, SOS = 3 )");
+                    int tempID = int.Parse(Console.ReadLine());
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
@@ -138,9 +139,9 @@ namespace ConsoleUI_BL
                         Viewid("c", p);
                         Console.WriteLine("enter customer's id new");
                     }
-                    CustomerInParcel SenderIdParcel=new();
+                    CustomerInParcel SenderIdParcel = new();
                     CustomerInParcel TargetIdParcel = new();
-                    SenderIdParcel.ID= int.Parse(Console.ReadLine());
+                    SenderIdParcel.ID = int.Parse(Console.ReadLine());
                     TargetIdParcel.ID = int.Parse(Console.ReadLine());
                     Weight weightParcel = (Weight)(int.Parse(Console.ReadLine()));
 
@@ -150,10 +151,10 @@ namespace ConsoleUI_BL
                     if ((temp < 1) || (temp > 3))
                         throw new PutTheRightNumberException($"this priority {temp} is not in the right form");
                     Priority priorityParcel = (Priority)temp;
-                    Parcel parcel = new Parcel { sender = SenderIdParcel, target = TargetIdParcel, Weight = weightParcel, Priority = priorityParcel };
+                    Parcel parcel = new Parcel {ID= tempID, sender = SenderIdParcel, target = TargetIdParcel, Weight = weightParcel, Priority = priorityParcel };
                     p.AddParcel(parcel);
                     break;
-                                }
+            }
         }
 
         /// <summary>
@@ -170,7 +171,7 @@ namespace ConsoleUI_BL
             string type;
             switch (t)
             {
-                                case "Updata drone model" or "1":
+                case "Updata drone model" or "1":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -180,7 +181,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter drone's id new");
                     }
                     int idUpDataDrone = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idUpDataDrone, "d",p) == -1)
+                    if (ChackID(idUpDataDrone, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idUpDataDrone} dont exist");
 
@@ -192,18 +193,18 @@ namespace ConsoleUI_BL
                     d.Model = (Model)newModelUpDataDrone;
                     p.UpdateDrone(d);
                     break;
-                                                case "UpdataStation" or "2":
+                case "UpdataStation" or "2":
                     Console.WriteLine("enter Station's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("s",p);
+                        Viewid("s", p);
                         Console.WriteLine("enter Station's id new");
 
                     }
                     int idStationUpdata = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idStationUpdata, "d",p) != -1)
+                    if (ChackID(idStationUpdata, "s", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idStationUpdata} dont exist");
 
@@ -230,7 +231,7 @@ namespace ConsoleUI_BL
                     station.ChargeSlots = chargeSlotsStationuUpData;
                     p.UpdateStation(station);
                     break;
-                                                case "UpdateCustomer" or "3":
+                case "UpdateCustomer" or "3":
 
                     Console.WriteLine("enter Customer's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
@@ -244,7 +245,7 @@ namespace ConsoleUI_BL
                     int idCustomerUpdata = Int32.Parse(Console.ReadLine());
                     Customer customer = new();
                     customer = p.Findcustomer(idCustomerUpdata);
-                    if (ChackID(idCustomerUpdata, "d",p) == -1)
+                    if (ChackID(idCustomerUpdata, "c", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idCustomerUpdata} dont exist");
 
@@ -254,24 +255,24 @@ namespace ConsoleUI_BL
 #nullable enable
 
                     if (e == 1)
-                    {                    
+                    {
                         string? nameCustomerUpData = null;
                         nameCustomerUpData = Console.ReadLine();
                         customer.CustomerName = nameCustomerUpData;
                     }
-                    #nullable disable
+#nullable disable
                     Console.WriteLine("if you want to updata the customer phone number enter 1\nelse press ayn key");
                     e = int.Parse(Console.ReadLine());
                     if (e == 1)
-                    {           
+                    {
                         string PhoneNumberCustomerUpData = "null";
-                        PhoneNumberCustomerUpData = Console.ReadLine();         
+                        PhoneNumberCustomerUpData = Console.ReadLine();
                         customer.Phone = PhoneNumberCustomerUpData;
 
                     }
                     p.UpdateCustomer(customer);
                     break;
-                                                case "send for loadingor" or "4":
+                case "send for loadingor" or "4":
                     Console.WriteLine("enter droneID");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -282,14 +283,14 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter parcel's droneid new");
                     }
                     int droneID = Int32.Parse(Console.ReadLine());
-                    if (ChackID(droneID, "d",p) == -1)
+                    if (ChackID(droneID, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {droneID} dont exist");
 
                     }
                     p.DroneToCharge(droneID);
                     break;
-                                                case "release from charging" or "5":
+                case "release from charging" or "5":
                     Console.WriteLine("enter droneID");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -300,7 +301,7 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idDroneReleaseFromCharge, "d",p) == -1)
+                    if (ChackID(idDroneReleaseFromCharge, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
 
@@ -309,7 +310,7 @@ namespace ConsoleUI_BL
                     int timeInCharge = int.Parse(Console.ReadLine());
                     p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
                     break;
-                                                case "Attache drone to parcel" or "6":
+                case "Attache drone to parcel" or "6":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -320,13 +321,13 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneAttache = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idDroneAttache, "d",p) == -1)
+                    if (ChackID(idDroneAttache, "d", p) == -1)
                         throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
                     if (p.FindDrone(idDroneAttache).HaveParcel)
                         throw new DroneAloreadyAttachedException($"this drone is already attached");
                     p.AttacheDrone(idDroneAttache);
                     break;
-                                                case "PickUp parcel" or "7":
+                case "PickUp parcel" or "7":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -337,14 +338,14 @@ namespace ConsoleUI_BL
 
                     }
                     int idDronePickUp = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idDronePickUp, "d",p) == -1)
+                    if (ChackID(idDronePickUp, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDronePickUp} dont exist");
 
                     }
                     p.PickUpParcel(idDronePickUp);
                     break;
-                                                case "delivery parcel" or "8":
+                case "delivery parcel" or "8":
                     Console.WriteLine("enter drone's id");
                     Console.WriteLine("if you want to see the id list prees 1 else press any key");
                     type = Console.ReadLine();
@@ -355,14 +356,14 @@ namespace ConsoleUI_BL
 
                     }
                     int idDroneDelivery = Int32.Parse(Console.ReadLine());
-                    if (ChackID(idDroneDelivery, "d",p) == -1)
+                    if (ChackID(idDroneDelivery, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDroneDelivery} dont exist");
 
                     }
                     p.Parceldelivery(idDroneDelivery);
                     break;
-                                }
+            }
         }
 
         /// <summary>
@@ -377,10 +378,10 @@ namespace ConsoleUI_BL
             t = Console.ReadLine();
             switch (t)
             {
-                                case "Station" or "1":
+                case "Station" or "1":
                     Console.WriteLine("enter id station");
                     int idStation = int.Parse(Console.ReadLine());
-                    if (ChackID(idStation, "s",p) == -1)
+                    if (ChackID(idStation, "s", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idStation} dont exist");
                     }
@@ -403,10 +404,10 @@ namespace ConsoleUI_BL
                     else
                         Console.WriteLine("\t-None!");
                     break;
-                                                case "Drone" or "2":
+                case "Drone" or "2":
                     Console.WriteLine("enter id");
                     int idDrone = int.Parse(Console.ReadLine());
-                    if (ChackID(idDrone, "d",p) == -1)
+                    if (ChackID(idDrone, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDrone} dont exist");
                     }
@@ -437,10 +438,10 @@ namespace ConsoleUI_BL
                         $"distance: {d.Parcel.distance}.\n"
                         );
                     break;
-                                                case "Customer" or "3":
+                case "Customer" or "3":
                     Console.WriteLine("enter id");
                     int idCustomer = int.Parse(Console.ReadLine());
-                    if (ChackID(idCustomer, "c",p) != 1)
+                    if (ChackID(idCustomer, "c", p) != 1)
                     {
                         throw new DoesNotExistException($"this id {idCustomer} dont exist");
                     }
@@ -481,10 +482,10 @@ namespace ConsoleUI_BL
                             $"\t\tReceiver name: {item.Target.CustomerName}.");
                     };
                     break;
-                                                case "Parcel" or "4":
+                case "Parcel" or "4":
                     Console.WriteLine("enter Id");
                     int idParcel = int.Parse(Console.ReadLine());
-                    if (ChackID(idParcel, "p",p) != 1)
+                    if (ChackID(idParcel, "p", p) != 1)
                     {
                         throw new DoesNotExistException($"this id {idParcel} dont exist");
                     }
@@ -509,7 +510,7 @@ namespace ConsoleUI_BL
                         $"PickedUp: {parcel.PickedUp}.\n" +
                         $"Deliverd: {parcel.Deliverd}.\n");
                     break;
-                                }
+            }
         }
 
         /// <summary>
@@ -524,7 +525,7 @@ namespace ConsoleUI_BL
             t = Console.ReadLine();
             switch (t)
             {
-                                case "Stations" or "1":
+                case "Stations" or "1":
                     foreach (var item1 in p.Stations())
                     {
                         var item = p.FindStation(item1.ID);
@@ -547,7 +548,7 @@ namespace ConsoleUI_BL
                             Console.WriteLine("\t-None!");
                     }
                     break;
-                                                case "Drones" or "2":
+                case "Drones" or "2":
                     foreach (var item1 in p.Drones())
                     {
                         var item = p.FindDrone(item1.ID);
@@ -585,7 +586,7 @@ namespace ConsoleUI_BL
                         }
                     }
                     break;
-                                                case "Customers" or "3":
+                case "Customers" or "3":
                     foreach (var item1 in p.Customers())
                     {
                         var item = p.Findcustomer(item1.ID);
@@ -640,7 +641,7 @@ namespace ConsoleUI_BL
                         };
                     }
                     break;
-                                                case "Parcels" or "4":
+                case "Parcels" or "4":
                     foreach (var item1 in p.Parcels())
                     {
                         var item = p.Findparcel(item1.ID);
@@ -665,7 +666,7 @@ namespace ConsoleUI_BL
                             $"Deliverd: {item.Deliverd}.\n");
                     }
                     break;
-                                                case "not associated" or "5":
+                case "not associated" or "5":
                     foreach (var item1 in p.ParcelsNotAssociated())
                     {
                         var item = p.Findparcel(item1.ID);
@@ -690,7 +691,7 @@ namespace ConsoleUI_BL
                             $"Deliverd: {item.Deliverd}.\n");
                     }
                     break;
-                                                case "free chargeslots" or "6":
+                case "free chargeslots" or "6":
                     foreach (var item1 in p.FreeChargeslots())
                     {
                         var item = p.FindStation(item1.ID);
@@ -698,7 +699,7 @@ namespace ConsoleUI_BL
                         $"ID: {item.ID}.\n" +
                         $"StationName: {item.StationName}.\n" +
                         $"Location: {item.Position.Lattitude},{item.Position.Longitude}.\n" +
-                        $"FreeChargeSlots{item.ChargeSlots - item.DroneChargingInStation.Count}.\n" + 
+                        $"FreeChargeSlots{item.ChargeSlots - item.DroneChargingInStation.Count}.\n" +
                         $"Drone Charging In Station:");
                         if (item.DroneChargingInStation.Count != 0)
                         {
@@ -713,7 +714,7 @@ namespace ConsoleUI_BL
                             Console.WriteLine("\t-None!");
                     }
                     break;
-                                }
+            }
         }
 
         /// <summary>

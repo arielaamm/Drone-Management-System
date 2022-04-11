@@ -301,13 +301,14 @@ namespace DAL
         public void AddCustomer(Customer c)
         {
             XElement CustomersRoot = LoadXml(CustomersPath);
-            int index = LoadCustomersFromXML(CustomersRoot).ToList().FindIndex(i => (i.ID == c.ID));
+            int index = LoadCustomersFromXML(CustomersRoot).ToList().FindIndex(i => i.ID == c.ID);
             if (index != -1)
                 throw new NameIsUsedException($"An existing name is on the system.");
             try
             {
-                CustomersRoot.Add(DAL.XmlHelper.BuildElementToXml(c));
-                CustomersRoot.Save(DronesPath);
+                CustomersRoot.Add(XmlHelper.BuildElementToXml(c));
+
+                CustomersRoot.Save(dir + CustomersPath);
             }
             catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }
 
@@ -396,18 +397,35 @@ namespace DAL
             AddDroneCharge(d);
         }
 
-        public void UpdateCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer) //לא מושלם
 
         {
-            XElement CustomersRoot = LoadXml(DronesPath);
+            XElement CustomersRoot = LoadXml(CustomersPath);
             int index = LoadCustomersFromXML(CustomersRoot).ToList().FindIndex(i => (i.ID == customer.ID));
             if (index == -1)
                 throw new NameIsUsedException($"not An existing name is on the system.");
             try
             {
-                DeleteCustomer(customer);
-                CustomersRoot.Add(DAL.XmlHelper.BuildElementToXml(customer));
-                CustomersRoot.Save(CustomersPath);
+                //DeleteCustomer(customer);
+                //CustomersRoot.Add(DAL.XmlHelper.BuildElementToXml(customer));
+                CustomersRoot.Elements().Where(i=> int.Parse(i.Element("ID").Value) == customer.ID)
+                foreach (var item in CustomersRoot.Elements())
+                {
+                    if (int.Parse(item.Element("ID").Value) == customer.ID)
+                    {
+                        item.ReplaceWith(
+                            new XElement("Customer",
+                            new XElement("ID", customer.ID),
+                            new XElement("IsActive", customer.IsActive),
+                            new XElement("CustomerName", customer.CustomerName),
+                            new XElement("Phone", customer.Phone),
+                            new XElement("Longitude", customer.Longitude),
+                            new XElement("Lattitude", customer.Lattitude))
+                        );
+                        break;
+                    }
+                }
+                //CustomersRoot.Save(CustomersPath);
             }
             catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }
         }
@@ -684,11 +702,11 @@ namespace DAL
                 //var a = Drone;
                 Customer d = new();
                 d.IsActive = bool.Parse(Customer.Element("IsActive").Value);
-                    d.ID = int.Parse(Customer.Element("ID").Value);
-                    d.CustomerName = (Customer.Element("CustomerName").Value);
-                    d.Phone = (Customer.Element("Phone").Value);
-                    d.Longitude = double.Parse(Customer.Element("Longitude").Value);
-                    d.Lattitude = double.Parse(Customer.Element("Lattitude").Value);
+                d.ID = int.Parse(Customer.Element("ID").Value);
+                d.CustomerName = (Customer.Element("CustomerName").Value);
+                d.Phone = (Customer.Element("Phone").Value);
+                d.Longitude = double.Parse(Customer.Element("Longitude").Value);
+                d.Lattitude = double.Parse(Customer.Element("Lattitude").Value);
                 Customers.Add(d);
             }
                 //  catch (ArgumentNullException ex) { throw new XmlParametersException("Argument is null", ex); }

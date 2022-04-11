@@ -81,8 +81,8 @@ namespace DAL
                     ID = Config.staticId,
                     CustomerName = "Customer" + i,
                     Phone = "05" + rnd.Next(10000000, 99999999),
-                    Longitude = GetRandomNumber(33.289273, 29.494665),
-                    Lattitude = GetRandomNumber(35.569495, 34.904675),
+                    Longitude = GetRandomNumber(15, 0),
+                    Lattitude = GetRandomNumber(17, 0),
                     IsActive = true,
                 };
                 Config.staticId++;
