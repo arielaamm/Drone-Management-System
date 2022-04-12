@@ -92,6 +92,7 @@ namespace PL
             try
             {
                 bl.Parceldelivery(id);
+                bl.AttacheDrone(id);
             }
             catch (Exception ex)
             {

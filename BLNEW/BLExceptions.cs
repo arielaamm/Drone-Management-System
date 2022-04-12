@@ -130,4 +130,12 @@ namespace BLExceptions
         public DroneInActionException(string message, Exception innerException) : base(message, innerException) { }
         public DroneInActionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+    [Serializable]
+    public class DroneIsAlreadyChargeException : Exception
+    {
+        public DroneIsAlreadyChargeException() { }
+        public DroneIsAlreadyChargeException(string message) : base(message) { }
+        public DroneIsAlreadyChargeException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneIsAlreadyChargeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

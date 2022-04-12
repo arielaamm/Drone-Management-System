@@ -316,7 +316,7 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p", p);
+                        Viewid("d", p);
                         Console.WriteLine("enter drone's id new");
 
                     }
@@ -333,7 +333,7 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p", p);
+                        Viewid("d", p);
                         Console.WriteLine("enter drone's id new");
 
                     }
@@ -351,7 +351,7 @@ namespace ConsoleUI_BL
                     type = Console.ReadLine();
                     if (type == "1")
                     {
-                        Viewid("p", p);
+                        Viewid("d", p);
                         Console.WriteLine("enter drone's id new");
 
                     }

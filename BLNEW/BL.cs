@@ -30,60 +30,58 @@ namespace BL
                 Random random = new();
                 foreach (DO.Parcel i in p)
                 {
-                    if (i.DroneId != 0)
+                    if ((i.Status != DO.StatusParcel.DELIVERD) && (i.DroneId != 0))
                     {
                         tempDrone = dal.FindDrone((int)i.DroneId);
-                        if ((i.Scheduled != null) && (i.Deliverd == null))
-                        {
-                            tempDrone.Status = (DO.Status)2;
-                            if ((i.PickedUp == null) && (i.Scheduled != null))//belong not pickup
-                            {//shortest station
-                                Location sta = new()
+                        
+                        tempDrone.Battery = random.Next(MinPower(FindDrone(i.DroneId), Findcustomer(i.TargetId), Findcustomer(i.SenderId)), 100);
+                        if ((i.PickedUp == null) && (i.Scheduled != null))//belong not pickup
+                        {//shortest station
+                            tempDrone.Status = DO.Status.MAINTENANCE;
+                            dal.UpdateDrone(tempDrone);
+                            Location sta = new()
+                            {
+                                Lattitude = 0,
+                                Longitude = 0,
+                            };
+                            double d = 0;
+                            foreach (var item in FreeChargeslots())
+                            {
+                                if (Distance(FindStation(item.ID).Position, Findcustomer(i.SenderId).Position) > d)
                                 {
-                                    Lattitude = 0,
-                                    Longitude = 0,
-                                };
-                                double d = 0;
-                                foreach (DO.Station item in dal.Freechargeslotslist())
-                                {
-                                    if (Distance(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position) > d)
-                                    {
-                                        d = Distance(FindStation((int)item.ID).Position, Findcustomer(i.SenderId).Position);
-                                        sta = FindDrone((int)i.DroneId).Position;
-                                    }
+                                    d = Distance(FindStation(item.ID).Position, Findcustomer(i.SenderId).Position);
+                                    sta = FindStation(item.ID).Position;
                                 }
+                            }
+                            dal.DroneOutCharge(i.DroneId);
+                            tempDrone.Status = DO.Status.BELONG;
+                            tempDrone.Lattitude = sta.Lattitude;
+                            tempDrone.Longitude = sta.Longitude;
+                        }
 
-                                tempDrone.Lattitude = sta.Lattitude;
-                                tempDrone.Longitude = sta.Longitude;
-                            }
-                            if ((i.Deliverd == null) && (i.PickedUp != null))
-                            {
-                                tempDrone.Lattitude = dal.FindStation(i.SenderId).Lattitude;
-                                tempDrone.Longitude = dal.FindStation(i.SenderId).Longitude;
-                            }
-                            tempDrone.Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);//need to check min-power
-                        }
-                        if (FindDrone((int)i.DroneId).Status != (Status)1)//Does not make delivery
+                        if ((i.Scheduled != null) && (i.Deliverd == null) && (i.PickedUp != null))//pickup not delivered
                         {
-                            tempDrone.Status = (DO.Status)random.Next(3, 5);
-                            if (FindDrone((int)i.DroneId).Status == Status.BELONG)
-                            {
-                                tempDrone.Status = DO.Status.CREAT;
-                            }
+                            tempDrone.Status = DO.Status.PICKUP;
+                            tempDrone.Longitude = dal.FindCustomers(i.SenderId).Longitude;
+                            tempDrone.Lattitude = dal.FindCustomers(i.SenderId).Lattitude;
                         }
-                        if (FindDrone((int)i.DroneId).Status == Status.MAINTENANCE)
+                        dal.UpdateDrone(tempDrone);
+                    }
+                }
+                foreach (var item in dal.Dronelist())
+                {
+                    if (item.Status == DO.Status.CREAT)
+                    {
+                        tempDrone.Status = DO.Status.MAINTENANCE;
+                        dal.UpdateDrone(tempDrone);
+                        dal.DroneOutCharge((int)item.ID);
+                        tempDrone = dal.FindDrone((int)item.ID);
+                        tempDrone.Status = DO.Status.CREAT;
+                        int temp = random.Next(0, 2);
+                        if (temp == 0)
                         {
-                            tempDrone.Lattitude = dal.FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Lattitude;
-                            tempDrone.Longitude = dal.FindStation(FreeChargeslots().ToList()[random.Next(0, FreeChargeslots().Count() - 1)].ID).Longitude;
-                            tempDrone.Battery = random.Next(0, 21);
-                        }
-                        if (FindDrone((int)i.DroneId).Status == Status.CREAT)
-                        {
-                            List<Parcel> pa = new();
-                            foreach (var item in Parcels())
-                            {
-                                pa = pa.FindAll(delegate (Parcel p) { return (p.Deliverd != null); });//Customer who received a package
-                            }
+                            List<DO.Parcel> pa = new();
+                            pa = dal.Parcellist().ToList().FindAll(delegate (DO.Parcel p) { return p.Deliverd != null; });//Customer who received a package
                             if (pa.Count == 0)
                             {
                                 tempDrone.Lattitude = dal.FindCustomers(Customers().ToList()[random.Next(0, Customers().Count() - 1)].ID).Lattitude;
@@ -91,12 +89,19 @@ namespace BL
                             }
                             else
                             {
-                                tempDrone.Lattitude = dal.FindCustomers(pa[random.Next(0, pa.Count - 1)].target.ID).Lattitude;
-                                tempDrone.Longitude = dal.FindCustomers(pa[random.Next(0, pa.Count - 1)].target.ID).Longitude;
+                                int q = random.Next(0, pa.Count - 1);
+                                tempDrone.Lattitude = dal.FindCustomers(pa[q].TargetId).Lattitude;
+                                tempDrone.Longitude = dal.FindCustomers(pa[q].TargetId).Longitude;
                             }
-                            tempDrone.Battery = random.Next(MinPower(FindDrone((int)i.DroneId)), 100);
+                            tempDrone.Battery = 80;
+                            dal.UpdateDrone(tempDrone);
                         }
-                        dal.UpdateDrone(tempDrone);
+                        else
+                        {
+                            tempDrone.Battery = 21;
+                            dal.UpdateDrone(tempDrone);
+                            DroneToCharge((int)tempDrone.ID);
+                        }
                     }
                 }
             }
@@ -108,7 +113,7 @@ namespace BL
                 instance = new BL();
             return instance;
         }
-        int MinPower(Drone drone)
+        int MinPower(Drone drone,Customer Target, Customer Sender)
         {
             double a = 0;
             int c = 0;
@@ -121,14 +126,14 @@ namespace BL
                     Longitude = item.Longitude,
                 };
 
-                if ((a < Distance(location, drone.Position)) && c != 0)
+                if ((a > Distance(location, Target.Position)) && c != 0)
                 {
-                    a = Distance(location, drone.Position);
+                    a = Distance(location, Target.Position);
                     StationID = item.ID;
                 }
                 if (c == 0)
                 {
-                    a = Distance(location, drone.Position);
+                    a = Distance(location, Target.Position);
                     c++;
                 }
             }
@@ -136,6 +141,8 @@ namespace BL
             {
                 double i = dal.Power()[((int)drone.Weight + 1) % 4];
 
+                
+                a += Distance(Sender.Position, Target.Position);
                 i *= a;
                 i = Math.Ceiling(i);
                 return (int)i;
@@ -424,7 +431,7 @@ namespace BL
                 {
                     if (!ParcelsNotAssociated().Any())
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
-                    var parcel = ParcelsNotAssociated().OrderBy(i => i.Priority).First();
+                    var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i=> i.Weight).First();
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
@@ -884,26 +891,6 @@ namespace BL
         public void Uploader(int droneId, Action display, Func<bool> checker)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    [Serializable]//wth is that?
-    internal class DroneIsAlreadyChargeException : Exception
-    {
-        public DroneIsAlreadyChargeException()
-        {
-        }
-
-        public DroneIsAlreadyChargeException(string message) : base(message)
-        {
-        }
-
-        public DroneIsAlreadyChargeException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected DroneIsAlreadyChargeException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

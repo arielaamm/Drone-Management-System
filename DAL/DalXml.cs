@@ -467,6 +467,7 @@ namespace DAL
             Parcel p = new();
             p = Parcellist().ToList()[indexParcel];
             p.DroneId = (int)d.ID;
+            p.Status = StatusParcel.BELONG;
             p.Scheduled = DateTime.Now;
             UpdateParcel(p);
         }
@@ -478,6 +479,7 @@ namespace DAL
             Parcel p = new();
             p = Parcellist().ToList()[indexParcel];
             p.PickedUp = DateTime.Now;
+            p.Status = StatusParcel.PICKUP;
             UpdateParcel(p);
 
             int indexDrone = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
@@ -490,19 +492,9 @@ namespace DAL
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
             d.Lattitude = FindCustomers(p.SenderId).Lattitude;
+            DroneOutCharge((int)d.ID);
             d.Status = Status.PICKUP;
             UpdateDrone(d);
-
-            int indexDroneCharge = DroneChargelist().ToList().FindIndex(i => i.DroneId == d.ID);
-            int IdStation = DroneChargelist().ToList()[indexDroneCharge].StationId;
-            DroneChargelist().ToList().RemoveAt(indexDroneCharge);
-            XMLTools.SaveListToXMLSerializer(DroneChargelist().ToList(), DroneChargesPath);
-
-            int indexStation = Stationlist().ToList().FindIndex(i => i.ID == IdStation);
-            Station s = new();
-            s = Stationlist().ToList()[indexStation];
-            s.BusyChargeSlots -= 1;
-            UpdateStation(s);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -512,6 +504,8 @@ namespace DAL
             Parcel p = new();
             p = Parcellist().ToList()[indexParcel];
             p.Deliverd = DateTime.Now;
+            p.DroneId = 0;
+            p.Status = StatusParcel.DELIVERD;
             UpdateParcel(p);
 
             int indexDrone = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
@@ -520,7 +514,7 @@ namespace DAL
             if (d.IsActive == false)
                 throw new DeleteException($"This drone can't deliver: {d.ID}");
             double Distance = Math.Sqrt(Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Lattitude, 2) +
-                Math.Pow(FindCustomers(p.TargetId).Lattitude - FindCustomers(p.SenderId).Longitude, 2));
+                Math.Pow(FindCustomers(p.TargetId).Longitude - FindCustomers(p.SenderId).Longitude, 2));
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.TargetId).Longitude;
             d.Lattitude = FindCustomers(p.TargetId).Lattitude;
@@ -543,7 +537,7 @@ namespace DAL
             s = Stationlist().ToList()[indexS];
             if (s.IsActive == false)
                 throw new DeleteException($"This station is deleted: {s.ID}");
-            s.BusyChargeSlots += 1;
+            s.BusyChargeSlots++;
             UpdateStation(s);
             
 
@@ -552,6 +546,13 @@ namespace DAL
             if (d.IsActive == false)
                 throw new DeleteException($"This drone can't send to charge: {d.ID}");
             d.Status = Status.MAINTENANCE;
+
+
+            double i = Power()[((int)d.Weight + 1) % 4];
+            i *= Math.Sqrt(Math.Pow(d.Lattitude - s.Lattitude, 2) + Math.Pow(d.Longitude - s.Longitude, 2));
+            d.Battery = Math.Ceiling(i);
+            d.Lattitude = s.Lattitude;
+            d.Longitude = s.Longitude;
             UpdateDrone(d);
             
             AddDroneCharge(droneID, stationID);
@@ -561,25 +562,29 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int droneID)
         {
-            
-            
-            int index = Dronelist().ToList().FindIndex(i => i.ID == droneID);
-            if (Dronelist().ToList()[index].Status != Status.MAINTENANCE)
-                throw new DroneNotChargingException("The drone is not charging at any station");
-            Drone d = new();
-            d = Dronelist().ToList()[index];
-            d.Status = Status.CREAT;
-            UpdateDrone(d);
 
-            index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
-            int indexStation = DroneChargelist().ToList()[index].StationId;
-            DroneChargelist().ToList().RemoveAt(index);
-            XMLTools.SaveListToXMLSerializer(DroneChargelist().ToList(), DroneChargesPath);
+            int index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+            if (index != -1)
+            {
+                index = Dronelist().ToList().FindIndex(i => i.ID == droneID);
+                if (Dronelist().ToList()[index].Status != Status.MAINTENANCE)
+                    throw new DroneNotChargingException("The drone is not charging at any station");
+                Drone d = new();
+                d = Dronelist().ToList()[index];
+                d.Status = Status.CREAT;
+                UpdateDrone(d);
 
-            Station s = new();
-            s = Stationlist().ToList()[index];
-            s.BusyChargeSlots -= 1;
-            UpdateStation(s);
+                index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+                int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
+                var a = DroneChargelist().ToList();
+                a.RemoveAt(index);
+                XMLTools.SaveListToXMLSerializer(a, DroneChargesPath);
+
+                Station s = new();
+                s = Stationlist().ToList()[indexStation];
+                s.BusyChargeSlots -= 1;
+                UpdateStation(s);
+            }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

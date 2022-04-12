@@ -39,8 +39,8 @@ namespace DAL
                     IsActive = true,
                     ID = Config.staticId,
                     StationName = "Station" +i,
-                    Longitude = GetRandomNumber(15, 0),
-                    Lattitude = GetRandomNumber(17, 0),
+                    Longitude = GetRandomNumber(5, 0),
+                    Lattitude = GetRandomNumber(7, 0),
                     ChargeSlots = 5,
                 };
                 Config.staticId++;
@@ -81,8 +81,8 @@ namespace DAL
                     ID = Config.staticId,
                     CustomerName = "Customer" + i,
                     Phone = "05" + rnd.Next(10000000, 99999999),
-                    Longitude = GetRandomNumber(15, 0),
-                    Lattitude = GetRandomNumber(17, 0),
+                    Longitude = GetRandomNumber(5, 0),
+                    Lattitude = GetRandomNumber(7, 0),
                     IsActive = true,
                 };
                 Config.staticId++;
@@ -113,6 +113,7 @@ namespace DAL
                     Scheduled = null,
                     PickedUp = null,
                     Deliverd = null,
+                    DroneId = 0,
                     Status = StatusParcel.CREAT,
                 };
                 int ? temp = rnd.Next(0, 2);
@@ -131,13 +132,12 @@ namespace DAL
                         p.DroneId = (int)temp;
                         int index = drones.FindIndex(i => i.ID == temp);
                         Drone drone = drones[index];
-                        
+                        p.Status = StatusParcel.BELONG;
+                        p.Scheduled = DateTime.Now;
                         drone.Status = Status.BELONG;
                         drone.haveParcel = true;
                         drones[index] = drone;
                     }
-                    else
-                        p.DroneId = 0;
 
                 }
 
