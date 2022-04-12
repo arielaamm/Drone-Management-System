@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 
 namespace DAL
@@ -271,7 +272,7 @@ namespace DAL
 
 
 
-        
+
 
         /*
         #region Files
@@ -286,7 +287,7 @@ namespace DAL
         #endregion
         */
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] Power()
         {
             double[] a = {
@@ -298,6 +299,7 @@ namespace DAL
             return a;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer c)
         {
             XElement CustomersRoot = LoadXml(CustomersPath);
@@ -363,6 +365,7 @@ namespace DAL
         }
         #endregion
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone d)
         {
             var anInstanceofMyClass = new XMLTools();
@@ -371,6 +374,7 @@ namespace DAL
           //  throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
             var anInstanceofMyClass = new XMLTools();
@@ -378,12 +382,14 @@ namespace DAL
             
             //  throw new NotImplementedException();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station s)
         {
             var anInstanceofMyClass = new XMLTools();
             XMLTools.Add(s, AddStationChecker(s), StationsPath);
             //  throw new NotImplementedException();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge d)
         {
 
@@ -391,12 +397,14 @@ namespace DAL
             XMLTools.Add(d, AddDroneChargeChecker(d), DroneChargesPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(int DroneId, int StationId)
         {
             DroneCharge d = new() { DroneId = DroneId, StationId = StationId };
             AddDroneCharge(d);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer) //לא מושלם
 
         {
@@ -423,23 +431,27 @@ namespace DAL
             catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
             var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(station, UpdateStationChecker(station), StationsPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(parcel, UpdateParcelChecker(parcel), ParcelsPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(drone, UpdateDroneChecker(drone), DronesPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int parcelID)
         {
             int indexDrone = Dronelist().ToList().FindIndex(i => i.Status == Status.CREAT);
@@ -459,6 +471,7 @@ namespace DAL
             UpdateParcel(p);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickupParcel(int parcelID)
         {
             int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
@@ -492,6 +505,7 @@ namespace DAL
             UpdateStation(s);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliverdParcel(int parcelID)
         {
             int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
@@ -515,6 +529,7 @@ namespace DAL
             UpdateDrone(d);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int droneID, int stationID)
         {
             
@@ -543,6 +558,7 @@ namespace DAL
 
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int droneID)
         {
             
@@ -566,32 +582,38 @@ namespace DAL
             UpdateStation(s);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
           return  Stationlist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
             return Dronelist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer FindCustomers(int id)
         {
             return Customerlist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel FindParcel(int id)
         {
             return Parcellist().ToList().FindAll(i => i.ID == id && i.IsActive).FirstOrDefault();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> Stationlist()
         {
             return XMLTools.LoadListFromXMLSerializer<Station>(StationsPath);
             //throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> Customerlist()
         {
             return from Customer in LoadCustomersFromXML(LoadXml(CustomersPath))
@@ -608,18 +630,21 @@ namespace DAL
             // throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> Parcellist()
         {
             return XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelsPath);
             //   throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> Dronelist()
         {
             return XMLTools.LoadListFromXMLSerializer<Drone>(DronesPath);
             // throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in Parcellist()
@@ -628,6 +653,7 @@ namespace DAL
             //throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> Freechargeslotslist()
         {
             return from Station in Stationlist()
@@ -636,30 +662,35 @@ namespace DAL
             //throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> DroneChargelist()
         {
             return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargesPath);
             //throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
             parcel.IsActive = false;
             UpdateParcel(parcel);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station station)
         {
             station.IsActive = false;
             UpdateStation(station);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone drone)
         {
             drone.IsActive = false;
             UpdateDrone(drone);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer customer)
         {
 

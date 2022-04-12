@@ -35,5 +35,9 @@ namespace BlApi
         public void DeleteStation(Station station);
         public void DeleteCustomer(Customer customer);
         public void DeleteDrone(Drone drone);
+        //----------------------------------
+        //simulator
+        //----------------------------------
+        public void Uploader(int droneId,Action display, Func<bool> checker);
     }
 }

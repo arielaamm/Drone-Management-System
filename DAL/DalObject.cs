@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
+using System.Runtime.CompilerServices;
+
 
 namespace DAL
 {
@@ -40,6 +42,7 @@ namespace DAL
         /// The Power.
         /// </summary>
         /// <returns>The <see cref="double[]"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] Power()
         {
             double[] a = {
@@ -55,6 +58,7 @@ namespace DAL
         /// The AddStation.
         /// </summary>
         /// <param name="s">The s<see cref="Station"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station s)
         {
             int index = DataSource.stations.FindIndex(i => i.ID == s.ID);
@@ -69,6 +73,7 @@ namespace DAL
         /// The AddDrone.
         /// </summary>
         /// <param name="d">The d<see cref="Customer"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone d)
         {
             int index = DataSource.drones.FindIndex(i => i.ID == d.ID);
@@ -94,6 +99,7 @@ namespace DAL
         /// The AddCustomer.
         /// </summary>
         /// <param name="c">The c<see cref="Customer"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer c)
         {
             int index = DataSource.customers.FindIndex(i => i.ID == c.ID);
@@ -108,6 +114,7 @@ namespace DAL
         /// The AddParcel.
         /// </summary>
         /// <param name="p">The p<see cref="Parcel"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel p)
         {
             int index = DataSource.parcels.FindIndex(i => i.ID == p.ID);
@@ -122,6 +129,7 @@ namespace DAL
         /// </summary>
         /// <param name="DroneId">The DroneId<see cref="int"/>.</param>
         /// <param name="StationId">The StationId<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(int DroneId, int StationId)
         {
             DroneCharge d = new()
@@ -139,6 +147,7 @@ namespace DAL
         /// The AddDroneCharge.
         /// </summary>
         /// <param name="d">The d<see cref="DroneCharge"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge d)
         {
             int index = DataSource.droneCharges.FindIndex(i => i.DroneId == d.DroneId);
@@ -151,6 +160,7 @@ namespace DAL
         /// The UpdateDrone.
         /// </summary>
         /// <param name="drone">The drone<see cref="Customer"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             int index = DataSource.drones.FindIndex(i => i.ID == drone.ID);
@@ -161,6 +171,7 @@ namespace DAL
         /// The UpdateStation.
         /// </summary>
         /// <param name="station">The station<see cref="Station"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
             if (DataSource.stations.TrueForAll(i => i.StationName != station.StationName))
@@ -173,6 +184,7 @@ namespace DAL
         /// The UpdateParcel.
         /// </summary>
         /// <param name="parcel">The parcel<see cref="Parcel"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             int index = DataSource.parcels.FindIndex(i => i.ID == parcel.ID);
@@ -183,6 +195,7 @@ namespace DAL
         /// The UpdateCustemer.
         /// </summary>
         /// <param name="customer">The customer<see cref="Customer"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
             if (DataSource.customers.TrueForAll(i => i.CustomerName != customer.CustomerName))
@@ -197,6 +210,7 @@ namespace DAL
         /// The AttacheDrone.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int parcelID)
         {
             int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.CREAT);
@@ -220,6 +234,7 @@ namespace DAL
         /// The PickParcel.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickupParcel(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
@@ -256,6 +271,7 @@ namespace DAL
         /// The ParcelToCustomer.
         /// </summary>
         /// <param name="parcelID">The parcelID<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliverdParcel(int parcelID)
         {
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
@@ -284,6 +300,7 @@ namespace DAL
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="stationID">The stationID<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int droneID, int stationID)
         {
             Drone d = new();
@@ -313,6 +330,7 @@ namespace DAL
         /// The DroneOutCharge.
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int droneID)
         {
             Drone d = new();
@@ -338,6 +356,7 @@ namespace DAL
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Station"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
             return DataSource.stations[DataSource.stations.FindIndex(i => i.ID == id && i.IsActive == true)];
@@ -348,6 +367,7 @@ namespace DAL
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Customer"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
             return DataSource.drones[DataSource.drones.FindIndex(i => i.ID == id && i.IsActive == true)];
@@ -358,6 +378,7 @@ namespace DAL
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Customer"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer FindCustomers(int id)
         {
             return DataSource.customers[DataSource.customers.FindIndex(i => i.ID == id && i.IsActive == true)];
@@ -368,6 +389,7 @@ namespace DAL
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Parcel"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel FindParcel(int id)
         {
             return DataSource.parcels[DataSource.parcels.FindIndex(i => i.ID == id && i.IsActive == true)];
@@ -377,6 +399,7 @@ namespace DAL
         /// The Stationlist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Station}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> Stationlist() => from T in DataSource.stations
                                                      where T.IsActive ==true
                                                      select T;
@@ -384,6 +407,7 @@ namespace DAL
         /// The Customerlist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Customer}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> Customerlist() => from T in DataSource.customers
                                                        where T.IsActive == true
                                                        select T;
@@ -391,6 +415,7 @@ namespace DAL
         /// The Parcellist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Parcel}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> Parcellist() => from T in DataSource.parcels
                                                    where T.IsActive == true
                                                    select T;
@@ -399,6 +424,7 @@ namespace DAL
         /// The Dronelist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Drone}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> Dronelist() => from T in DataSource.drones
                                                  where T.IsActive == true
                                                  select T;
@@ -407,12 +433,14 @@ namespace DAL
         /// The DroneChargelist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{DroneCharge}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> DroneChargelist() => DataSource.droneCharges;
 
         /// <summary>
         /// The ParcelNotAssociatedList.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Parcel}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in DataSource.parcels
@@ -424,31 +452,36 @@ namespace DAL
         /// The Freechargeslotslist.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{Station}"/>.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> Freechargeslotslist()
         {
             return from Station in DataSource.stations
                    where Station.ChargeSlots - Station.BusyChargeSlots > 0 && Station.IsActive == true
                    select Station;
         }
-        
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
             parcel.IsActive = false;
             int index = DataSource.parcels.FindIndex(i => i.ID == parcel.ID);
             DataSource.parcels[index] = parcel;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone drone)
         {
             drone.IsActive = false;
             int index = DataSource.drones.FindIndex(i => i.ID == drone.ID);
             DataSource.drones[index] = drone;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer customer)
         {
             customer.IsActive = false;
             int index = DataSource.customers.FindIndex(i => i.ID == customer.ID);
             DataSource.customers[index] = customer;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station station)
         {
             station.IsActive = false;
