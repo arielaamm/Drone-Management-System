@@ -98,7 +98,7 @@ namespace BL
                         }
                         else
                         {
-                            tempDrone.Battery = 21;
+                            tempDrone.Battery = 80;
                             dal.UpdateDrone(tempDrone);
                             DroneToCharge((int)tempDrone.ID);
                         }
@@ -203,6 +203,7 @@ namespace BL
                     Weight = (DO.Weight)drone.Weight,
                     Battery = ran.Next(20, 40),
                     haveParcel = false,
+                    Status = DO.Status.MAINTENANCE,
                 };
                 lock (dal)
                 {
@@ -403,10 +404,11 @@ namespace BL
                 if (FindDrone(id).Status == Status.MAINTENANCE)
                 {
                     Drone drone = FindDrone(id);
-                    drone.Status = Status.CREAT;
-                    drone.Battery = dal.Power()[4] * (time / 60);
-                    var temp = dal.DroneChargelist().Where(i => i.DroneId == id).ToList();
-                    Station station = FindStation(temp[0].StationId);
+                    drone.Battery = dal.Power()[4] * time;
+                    if (drone.Battery > 100)
+                        drone.Battery = 100;
+                    var temp = dal.DroneChargelist().Where(i => i.DroneId == id).FirstOrDefault();
+                    Station station = FindStation(temp.StationId);
                     int index = station.DroneChargingInStation.FindIndex(i => i.ID == id);
                     station.DroneChargingInStation.RemoveAt(index);
                     UpdateDrone(drone);

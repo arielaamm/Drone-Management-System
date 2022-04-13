@@ -16,6 +16,7 @@ namespace BL
         int DELAY = 1000; // whaiting time 1 sec(1000 mlsc)
         public Simulator(BL bl, int droneId, Action display, bool checker)//constractor
         {
+            /*
             while (!checker)
             {
                 Drone d = new Drone();
@@ -92,7 +93,7 @@ namespace BL
                         bl.AddBattery(droneId, (delay / 1000) * myBl.ChargePerSecond);
                         break;
                 }
-            }
+            }*/
         }
 
     }

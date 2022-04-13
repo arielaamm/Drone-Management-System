@@ -225,6 +225,7 @@ namespace DAL
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
             p.DroneId = (int)d.ID;
+            p.Status = StatusParcel.BELONG;
             p.Scheduled = DateTime.Now;
             DataSource.parcels[indexParcel] = p;
             DataSource.drones[indexDrone] = d;
@@ -241,6 +242,7 @@ namespace DAL
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
             p.PickedUp = DateTime.Now;
+            p.Status = StatusParcel.PICKUP;
             DataSource.parcels[indexParcel] = p;
 
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
@@ -253,18 +255,9 @@ namespace DAL
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
             d.Lattitude = FindCustomers(p.SenderId).Lattitude;
+            DroneOutCharge((int)d.ID);
             d.Status = Status.PICKUP;
             DataSource.drones[indexDrone] = d;
-
-            int indexDroneCharge = DataSource.droneCharges.FindIndex(i => i.DroneId == d.ID);
-            int IdStation = DataSource.droneCharges[indexDroneCharge].StationId;
-            DataSource.droneCharges.RemoveAt(indexDroneCharge);
-
-            int indexStation = DataSource.stations.FindIndex(i => i.ID == IdStation);
-            Station s = new();
-            s = DataSource.stations[indexStation];
-            s.BusyChargeSlots -= 1; 
-            DataSource.stations[indexStation] = s;
         }
 
         /// <summary>
@@ -278,6 +271,8 @@ namespace DAL
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
             p.Deliverd = DateTime.Now;
+            p.DroneId = 0;
+            p.Status = StatusParcel.DELIVERD;
             DataSource.parcels[indexParcel] = p;
 
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
@@ -303,25 +298,32 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int droneID, int stationID)
         {
-            Drone d = new();
-            Station s = new();
+            
             int indexD = DataSource.drones.FindIndex(i => i.ID == droneID);
             if (DataSource.drones[indexD].Status != 0)
                 throw new DroneInMiddleActionException("The drone is in the middle of the action"); 
             int indexS = DataSource.stations.FindIndex(i => i.ID == stationID);
             if (DataSource.stations[indexS].ChargeSlots > 0)
-                throw new ThereAreNoRoomException("There is no more room to load another Drone");
-            d = DataSource.drones[indexD];
-            if (d.IsActive == false)
-                throw new DeleteException($"This drone can't send to charge: {d.ID}");
-            d.Status = Status.MAINTENANCE;
-            DataSource.drones[indexD] = d;
+                throw new ThereAreNoRoomException("There is no more room to load another Drone");\
 
+            Station s = new();
             s = DataSource.stations[indexS];
             if (s.IsActive == false)
                 throw new DeleteException($"This station is deleted: {s.ID}");
             s.BusyChargeSlots += 1;
             DataSource.stations[indexS] = s;
+
+            Drone d = new();
+            d = DataSource.drones[indexD];
+            if (d.IsActive == false)
+                throw new DeleteException($"This drone can't send to charge: {d.ID}");
+            d.Status = Status.MAINTENANCE;
+            double i = Power()[((int)d.Weight + 1) % 4];
+            i *= Math.Sqrt(Math.Pow(d.Lattitude - s.Lattitude, 2) + Math.Pow(d.Longitude - s.Longitude, 2));
+            d.Battery = Math.Ceiling(i);
+            d.Lattitude = s.Lattitude;
+            d.Longitude = s.Longitude;
+            DataSource.drones[indexD] = d;
 
             AddDroneCharge(droneID, stationID);
         }
@@ -333,22 +335,27 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int droneID)
         {
-            Drone d = new();
-            Station s = new();
-            int index = DataSource.drones.FindIndex(i => i.ID == droneID);
-            if (DataSource.drones[index].Status != Status.MAINTENANCE)
-                throw new DroneNotChargingException("The drone is not charging");
-            d = DataSource.drones[index];
-            d.Status = Status.CREAT;
-            DataSource.drones[index] = d;
 
-            index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
-            int indexStation = DataSource.droneCharges[index].StationId;
-            DataSource.droneCharges.RemoveAt(index); 
+            int index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+            if (index != -1)
+            {
+                index = DataSource.drones.FindIndex(i => i.ID == droneID);
+                if (DataSource.drones[index].Status != Status.MAINTENANCE)
+                    throw new DroneNotChargingException("The drone is not charging");
+                Drone d = new();
+                d = DataSource.drones[index];
+                d.Status = Status.CREAT;
+                DataSource.drones[index] = d;
 
-            s = DataSource.stations[index]; 
-            s.BusyChargeSlots -= 1;
-            DataSource.stations[index] = s;
+                index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+                int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
+                DataSource.droneCharges.RemoveAt(index);
+
+                Station s = new();
+                s = DataSource.stations[index];
+                s.BusyChargeSlots -= 1;
+                DataSource.stations[index] = s;
+            }
         }
 
         /// <summary>

@@ -67,6 +67,7 @@ namespace DAL
                     haveParcel = false,
                     Lattitude = stations[counter].Lattitude,
                     Longitude = stations[counter].Longitude,
+                    Status = Status.MAINTENANCE
                 };
                 droneCharges.Add(temp);
                 drones.Add(d);

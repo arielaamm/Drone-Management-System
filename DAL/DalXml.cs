@@ -368,7 +368,6 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone d)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Add(d, AddDroneChecker(d), DronesPath);
             
           //  throw new NotImplementedException();
@@ -377,7 +376,6 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Add(parcel, AddParcelChecker(parcel), ParcelsPath);
             
             //  throw new NotImplementedException();
@@ -385,7 +383,6 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station s)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Add(s, AddStationChecker(s), StationsPath);
             //  throw new NotImplementedException();
         }
@@ -393,7 +390,6 @@ namespace DAL
         public void AddDroneCharge(DroneCharge d)
         {
 
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Add(d, AddDroneChargeChecker(d), DroneChargesPath);
         }
 
@@ -434,20 +430,17 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(station, UpdateStationChecker(station), StationsPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(parcel, UpdateParcelChecker(parcel), ParcelsPath);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
-            var anInstanceofMyClass = new XMLTools();
             XMLTools.Update(drone, UpdateDroneChecker(drone), DronesPath);
         }
 
@@ -533,21 +526,19 @@ namespace DAL
             int indexD = Dronelist().ToList().FindIndex(i => i.ID == droneID);
             if (Dronelist().ToList()[indexD].Status != Status.CREAT)
                 throw new DroneInMiddleActionException("The drone is in the middle of the action");
+
             Station s = new();
             s = Stationlist().ToList()[indexS];
             if (s.IsActive == false)
                 throw new DeleteException($"This station is deleted: {s.ID}");
             s.BusyChargeSlots++;
             UpdateStation(s);
-            
 
             Drone d = new();
             d = Dronelist().ToList()[indexD];
             if (d.IsActive == false)
                 throw new DeleteException($"This drone can't send to charge: {d.ID}");
             d.Status = Status.MAINTENANCE;
-
-
             double i = Power()[((int)d.Weight + 1) % 4];
             i *= Math.Sqrt(Math.Pow(d.Lattitude - s.Lattitude, 2) + Math.Pow(d.Longitude - s.Longitude, 2));
             d.Battery = Math.Ceiling(i);
