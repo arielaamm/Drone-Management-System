@@ -888,9 +888,10 @@ namespace BL
             }
         }
 
-        public void Uploader(int droneId, Action display, Func<bool> checker)
+        public void Uploader(int droneId, Action display, bool checker)
         {
-            throw new NotImplementedException();
+            BL bl = new BL();
+            Simulator simulator= new Simulator(bl, droneId, display, checker);//constractor
         }
     }
 }

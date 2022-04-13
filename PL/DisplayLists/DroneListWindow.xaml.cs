@@ -76,6 +76,7 @@ namespace PL
         {
             Reload();
             new DroneWindow(bl).Show();
+
         }
 
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
