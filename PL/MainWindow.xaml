@@ -17,11 +17,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="30*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Grid.RowSpan="2">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFC5C5C5" Offset="1"/>
@@ -38,7 +38,7 @@
 
 
                 <Grid Background="#FFA46FE4" >
-                    <TextBlock Text="DashBoard" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="WS Simple Gallifreyan" Foreground="#FF09011B" FontSize="16"/>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="WS Simple Gallifreyan" FontWeight="Bold" Foreground="#FF09011B" FontSize="22" Text="Menu"/>
                 </Grid>
 
                 <StackPanel Grid.Row="1">
@@ -80,6 +80,11 @@
                         <matrialDesign:PackIcon Kind="Power"/>
                     </Button>
                 </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <!--דאגרמות גרפים וכו-->
+                
+                
             </Grid>
         </Grid>
     </Border>

@@ -44,7 +44,7 @@
         <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding DroneList}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
-                <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Battery" Binding="{Binding Battery}" />

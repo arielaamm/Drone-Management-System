@@ -12,9 +12,6 @@ namespace ConsoleUI_BL
     /// </summary>
     public class Program
     {
-        /// <param int="id"></param>
-        /// <param string="type"></param>
-        /// <returns>dont find => -1, find => the index</returns>
         /// <summary>
         /// The ChackID.
         /// </summary>
@@ -30,7 +27,7 @@ namespace ConsoleUI_BL
                     var s = p.Stations().GetEnumerator();
                     while (s.MoveNext())
                     {
-                        var temp = s.Current;
+                        StationToList temp = s.Current;
                         if (temp.ID == id)
                             return 1;
                     }
@@ -151,7 +148,7 @@ namespace ConsoleUI_BL
                     if ((temp < 1) || (temp > 3))
                         throw new PutTheRightNumberException($"this priority {temp} is not in the right form");
                     Priority priorityParcel = (Priority)temp;
-                    Parcel parcel = new Parcel {ID= tempID, sender = SenderIdParcel, target = TargetIdParcel, Weight = weightParcel, Priority = priorityParcel };
+                    Parcel parcel = new Parcel { ID = tempID, sender = SenderIdParcel, target = TargetIdParcel, Weight = weightParcel, Priority = priorityParcel };
                     p.AddParcel(parcel);
                     break;
             }
@@ -750,9 +747,9 @@ namespace ConsoleUI_BL
                             break;
                         case "Exit" or "5":
                             Console.WriteLine("Thank you have a good day");
-                        break;
+                            break;
                         default:
-                        break;
+                            break;
                     };
                 }
                 catch (Exception ex)//catch all the exception and try agine

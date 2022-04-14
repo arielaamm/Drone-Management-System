@@ -3,19 +3,21 @@ using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Randon = System.Random;
-using System.Runtime.CompilerServices;
-
 
 namespace DAL
 {
+    /// <summary>
+    /// Defines the <see cref="DalObject" />.
+    /// </summary>
     public sealed class DalObject : DalApi.IDal
     {
         /// <summary>
-        /// Prevents a default instance of the class from being created.
+        /// Prevents a default instance of the <see cref="DalObject"/> class from being created.
         /// </summary>
         private DalObject()
         {
@@ -215,8 +217,8 @@ namespace DAL
         {
             int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.CREAT);
             Drone d = new();
-            d = DataSource.drones[indexDrone];   
-            if(d.IsActive == false)
+            d = DataSource.drones[indexDrone];
+            if (d.IsActive == false)
                 throw new DeleteException($"This drone can't attached: {d.ID}");
             d.Status = Status.BELONG;
             d.haveParcel = true;
@@ -298,10 +300,10 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int droneID, int stationID)
         {
-            
+
             int indexD = DataSource.drones.FindIndex(i => i.ID == droneID);
             if (DataSource.drones[indexD].Status != 0)
-                throw new DroneInMiddleActionException("The drone is in the middle of the action"); 
+                throw new DroneInMiddleActionException("The drone is in the middle of the action");
             int indexS = DataSource.stations.FindIndex(i => i.ID == stationID);
             if (DataSource.stations[indexS].ChargeSlots > 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
@@ -344,6 +346,40 @@ namespace DAL
                     throw new DroneNotChargingException("The drone is not charging");
                 Drone d = new();
                 d = DataSource.drones[index];
+                d.Battery = 100;
+                d.Status = Status.CREAT;
+                DataSource.drones[index] = d;
+
+                index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+                int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
+                DataSource.droneCharges.RemoveAt(index);
+
+                Station s = new();
+                s = DataSource.stations[index];
+                s.BusyChargeSlots -= 1;
+                DataSource.stations[index] = s;
+            }
+        }
+
+        /// <summary>
+        /// The DroneOutCharge.
+        /// </summary>
+        /// <param name="droneID">The droneID<see cref="int"/>.</param>
+        /// <param name="time">The time<see cref="double"/>.</param>
+        public void DroneOutCharge(int droneID, double time)
+        {
+
+            int index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+            if (index != -1)
+            {
+                index = DataSource.drones.FindIndex(i => i.ID == droneID);
+                if (DataSource.drones[index].Status != Status.MAINTENANCE)
+                    throw new DroneNotChargingException("The drone is not charging");
+                Drone d = new();
+                d = DataSource.drones[index];
+                d.Battery = Power()[4] * time;
+                if (d.Battery > 100)
+                    d.Battery = 100;
                 d.Status = Status.CREAT;
                 DataSource.drones[index] = d;
 
@@ -408,8 +444,9 @@ namespace DAL
         /// <returns>The <see cref="IEnumerable{Station}"/>.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> Stationlist() => from T in DataSource.stations
-                                                     where T.IsActive ==true
+                                                     where T.IsActive == true
                                                      select T;
+
         /// <summary>
         /// The Customerlist.
         /// </summary>
@@ -418,6 +455,7 @@ namespace DAL
         public IEnumerable<Customer> Customerlist() => from T in DataSource.customers
                                                        where T.IsActive == true
                                                        select T;
+
         /// <summary>
         /// The Parcellist.
         /// </summary>
@@ -467,6 +505,10 @@ namespace DAL
                    select Station;
         }
 
+        /// <summary>
+        /// The DeleteParcel.
+        /// </summary>
+        /// <param name="parcel">The parcel<see cref="Parcel"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
@@ -474,6 +516,11 @@ namespace DAL
             int index = DataSource.parcels.FindIndex(i => i.ID == parcel.ID);
             DataSource.parcels[index] = parcel;
         }
+
+        /// <summary>
+        /// The DeleteDrone.
+        /// </summary>
+        /// <param name="drone">The drone<see cref="Drone"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone drone)
         {
@@ -481,6 +528,11 @@ namespace DAL
             int index = DataSource.drones.FindIndex(i => i.ID == drone.ID);
             DataSource.drones[index] = drone;
         }
+
+        /// <summary>
+        /// The DeleteCustomer.
+        /// </summary>
+        /// <param name="customer">The customer<see cref="Customer"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer customer)
         {
@@ -488,6 +540,11 @@ namespace DAL
             int index = DataSource.customers.FindIndex(i => i.ID == customer.ID);
             DataSource.customers[index] = customer;
         }
+
+        /// <summary>
+        /// The DeleteStation.
+        /// </summary>
+        /// <param name="station">The station<see cref="Station"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station station)
         {

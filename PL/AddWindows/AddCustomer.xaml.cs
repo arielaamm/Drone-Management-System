@@ -38,7 +38,7 @@ namespace PL
         }
         private void LetterValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex(@"^[A-Za-z ]+$");
+            Regex regex = new Regex(@"[^A-Za-z ]+$");
             e.Handled = regex.IsMatch(e.Text);
         }
 

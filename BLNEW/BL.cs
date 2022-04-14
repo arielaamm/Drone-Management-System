@@ -5,21 +5,27 @@ using DalApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DateTime = System.DateTime;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    /// <summary>
+    /// Defines the <see cref="BL" />.
+    /// </summary>
     public sealed class BL : BlApi.IBL
     {
-        internal IDal dal = DalFactory.GetDal("DalXml");
         /// <summary>
-        /// contractor
-        /// </summary> 
+        /// Defines the dal.
+        /// </summary>
+        internal IDal dal = DalFactory.GetDal("DalXml");
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="BL"/> class from being created.
+        /// </summary>
         private BL()
         {
 
@@ -33,7 +39,7 @@ namespace BL
                     if ((i.Status != DO.StatusParcel.DELIVERD) && (i.DroneId != 0))
                     {
                         tempDrone = dal.FindDrone((int)i.DroneId);
-                        
+
                         tempDrone.Battery = random.Next(MinPower(FindDrone(i.DroneId), Findcustomer(i.TargetId), Findcustomer(i.SenderId)), 100);
                         if ((i.PickedUp == null) && (i.Scheduled != null))//belong not pickup
                         {//shortest station
@@ -106,14 +112,31 @@ namespace BL
                 }
             }
         }
-        static BL instance = null;
+
+        /// <summary>
+        /// Defines the instance.
+        /// </summary>
+        public static BL instance = null;
+
+        /// <summary>
+        /// The GetInstance.
+        /// </summary>
+        /// <returns>The <see cref="BL"/>.</returns>
         public static BL GetInstance()
         {
             if (instance == null)
                 instance = new BL();
             return instance;
         }
-        int MinPower(Drone drone,Customer Target, Customer Sender)
+
+        /// <summary>
+        /// The MinPower.
+        /// </summary>
+        /// <param name="drone">The drone<see cref="Drone"/>.</param>
+        /// <param name="Target">The Target<see cref="Customer"/>.</param>
+        /// <param name="Sender">The Sender<see cref="Customer"/>.</param>
+        /// <returns>The <see cref="int"/>.</returns>
+        public int MinPower(Drone drone, Customer Target, Customer Sender)
         {
             double a = 0;
             int c = 0;
@@ -141,26 +164,29 @@ namespace BL
             {
                 double i = dal.Power()[((int)drone.Weight + 1) % 4];
 
-                
+
                 a += Distance(Sender.Position, Target.Position);
                 i *= a;
                 i = Math.Ceiling(i);
                 return (int)i;
             }
         }
+
         /// <summary>
-        /// Distance
+        /// Distance.
         /// </summary>
-        /// <returns>Distance between a - b</returns>
+        /// <param name="a">The a<see cref="Location"/>.</param>
+        /// <param name="b">The b<see cref="Location"/>.</param>
+        /// <returns>Distance between a - b.</returns>
         static private double Distance(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
-        //add functions:
-        //---------------------------------------------------------------------------------
+
         /// <summary>
-        /// Add station
+        /// Add station.
         /// </summary>
+        /// <param name="station">The station<see cref="Station"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
@@ -187,9 +213,15 @@ namespace BL
         }
 
         /// <summary>
-        /// Add drone
+        /// Add drone.
         /// </summary>
-        readonly Random ran = new();
+        public readonly Random ran = new();
+
+        /// <summary>
+        /// The AddDrone.
+        /// </summary>
+        /// <param name="drone">The drone<see cref="Drone"/>.</param>
+        /// <param name="IDStarting">The IDStarting<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone, int IDStarting)
         {
@@ -221,12 +253,12 @@ namespace BL
             {
                 throw new AlreadyExistException(ex.Message, ex);
             }
-
         }
 
         /// <summary>
-        /// Add customer
+        /// Add customer.
         /// </summary>
+        /// <param name="customer">The customer<see cref="Customer"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
@@ -253,8 +285,9 @@ namespace BL
         }
 
         /// <summary>
-        /// Add parcel
+        /// Add parcel.
         /// </summary>
+        /// <param name="parcel">The parcel<see cref="Parcel"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
@@ -289,6 +322,10 @@ namespace BL
         //---------------------------------------------------------------------------------
         //updating functions:
         //---------------------------------------------------------------------------------
+        /// <summary>
+        /// The UpdateParcel.
+        /// </summary>
+        /// <param name="parcel">The parcel<see cref="Parcel"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel) => dal.UpdateParcel(new DO.Parcel
         {
@@ -306,8 +343,9 @@ namespace BL
         });
 
         /// <summary>
-        /// Update Drone model
+        /// Update Drone model.
         /// </summary>
+        /// <param name="drone">The drone<see cref="Drone"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
@@ -327,10 +365,11 @@ namespace BL
                 });
             }
         }
+
         /// <summary>
-        /// Update Station details
+        /// Update Station details.
         /// </summary>
-#nullable enable
+        /// <param name="station">The station<see cref="Station"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
@@ -350,8 +389,9 @@ namespace BL
         }
 
         /// <summary>
-        /// Update Customer details
+        /// Update Customer details.
         /// </summary>
+        /// <param name="customer">The customer<see cref="Customer"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
@@ -368,11 +408,11 @@ namespace BL
                 });
             }
         }
-#nullable disable
 
         /// <summary>
-        /// Inserting a drone from a charger
+        /// Inserting a drone from a charger.
         /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int id)
         {
@@ -393,9 +433,12 @@ namespace BL
                 }
             }
         }
+
         /// <summary>
-        /// Removing a drone from a charger
+        /// Removing a drone from a charger.
         /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="time">The time<see cref="double"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int id, double time)
         {
@@ -404,15 +447,12 @@ namespace BL
                 if (FindDrone(id).Status == Status.MAINTENANCE)
                 {
                     Drone drone = FindDrone(id);
-                    drone.Battery = dal.Power()[4] * time;
-                    if (drone.Battery > 100)
-                        drone.Battery = 100;
                     var temp = dal.DroneChargelist().Where(i => i.DroneId == id).FirstOrDefault();
                     Station station = FindStation(temp.StationId);
                     int index = station.DroneChargingInStation.FindIndex(i => i.ID == id);
                     station.DroneChargingInStation.RemoveAt(index);
                     UpdateDrone(drone);
-                    dal.DroneOutCharge(id);
+                    dal.DroneOutCharge(id, time);
                 }
                 else
                 {
@@ -422,8 +462,9 @@ namespace BL
         }
 
         /// <summary>
-        /// Assign a parcel to a drone
+        /// Assign a parcel to a drone.
         /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int id)
         {
@@ -433,7 +474,7 @@ namespace BL
                 {
                     if (!ParcelsNotAssociated().Any())
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
-                    var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i=> i.Weight).First();
+                    var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i => i.Weight).First();
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
@@ -442,8 +483,9 @@ namespace BL
         }
 
         /// <summary>
-        /// Collection of a parcel by drone
+        /// Collection of a parcel by drone.
         /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickUpParcel(int id)
         {
@@ -463,8 +505,9 @@ namespace BL
         }
 
         /// <summary>
-        /// Delivery of a parcel by drone
+        /// Delivery of a parcel by drone.
         /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Parceldelivery(int id)
         {
@@ -482,13 +525,11 @@ namespace BL
             catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to delivered"); }
         }
 
-        //-----------------------------------------------------------------------------
-        //display func
-        //------------------------------------------------------------------------------
         /// <summary>
-        /// station search
+        /// station search.
         /// </summary>
-        /// <returns>found station</returns>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <returns>found station.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
@@ -517,9 +558,10 @@ namespace BL
         }
 
         /// <summary>
-        /// drone search
+        /// drone search.
         /// </summary>
-        /// <returns>found drone</returns>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <returns>found drone.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
@@ -587,9 +629,10 @@ namespace BL
         }
 
         /// <summary>
-        /// parcel search
+        /// parcel search.
         /// </summary>
-        /// <returns>found parcel</returns>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <returns>found parcel.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel Findparcel(int id)
         {
@@ -645,9 +688,10 @@ namespace BL
         }
 
         /// <summary>
-        /// customer search
+        /// customer search.
         /// </summary>
-        /// <returns>found customer</returns>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <returns>found customer.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer Findcustomer(int id)
         {
@@ -724,14 +768,10 @@ namespace BL
             }
         }
 
-        //-----------------------------------------------------------------------------------
-        //listView func
-        //-----------------------------------------------------------------------------------------
-
         /// <summary>
-        /// return all the stations
+        /// return all the stations.
         /// </summary>
-        /// <returns>the stations</returns>
+        /// <returns>the stations.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> Stations()
         {
@@ -749,9 +789,9 @@ namespace BL
         }
 
         /// <summary>
-        /// return all the drones
+        /// return all the drones.
         /// </summary>
-        /// <returns>the drones</returns>
+        /// <returns>the drones.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> Drones()
         {
@@ -772,9 +812,9 @@ namespace BL
         }
 
         /// <summary>
-        /// return all the parcels
+        /// return all the parcels.
         /// </summary>
-        /// <returns>the parcels</returns>
+        /// <returns>the parcels.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> Parcels()
         {
@@ -793,9 +833,9 @@ namespace BL
         }
 
         /// <summary>
-        /// return all the customers
+        /// return all the customers.
         /// </summary>
-        /// <returns>the customers</returns>
+        /// <returns>the customers.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> Customers()
         {
@@ -813,12 +853,12 @@ namespace BL
                            NumFoParcelSentAndDelivered = Findcustomer((int)c.ID).fromCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                        };
             }
-
         }
+
         /// <summary>
-        /// return all the parcels are not associated
+        /// return all the parcels are not associated.
         /// </summary>
-        /// <returns>the parcels are not associated</returns>
+        /// <returns>the parcels are not associated.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> ParcelsNotAssociated()
         {
@@ -837,9 +877,9 @@ namespace BL
         }
 
         /// <summary>
-        /// return all the free chargeslots
+        /// return all the free chargeslots.
         /// </summary>
-        /// <returns>the free chargeslots</returns>
+        /// <returns>the free chargeslots.</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> FreeChargeslots()
         {
@@ -855,6 +895,11 @@ namespace BL
                        };
             }
         }
+
+        /// <summary>
+        /// The DeleteParcel.
+        /// </summary>
+        /// <param name="parcel">The parcel<see cref="Parcel"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
@@ -866,18 +911,33 @@ namespace BL
                     throw new CantDeleteException($"you can't delete this parcel: {parcel.ID}");
             }
         }
+
+        /// <summary>
+        /// The DeleteStation.
+        /// </summary>
+        /// <param name="station">The station<see cref="Station"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station station)
         {
             lock (dal)
                 dal.DeleteStation(dal.FindStation(station.ID));
         }
+
+        /// <summary>
+        /// The DeleteCustomer.
+        /// </summary>
+        /// <param name="customer">The customer<see cref="Customer"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer customer)
         {
             lock (dal)
                 dal.DeleteCustomer(dal.FindCustomers(customer.ID));
         }
+
+        /// <summary>
+        /// The DeleteDrone.
+        /// </summary>
+        /// <param name="drone">The drone<see cref="Drone"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone drone)
         {
@@ -890,10 +950,16 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// The Uploader.
+        /// </summary>
+        /// <param name="droneId">The droneId<see cref="int"/>.</param>
+        /// <param name="display">The display<see cref="Action"/>.</param>
+        /// <param name="checker">The checker<see cref="bool"/>.</param>
         public void Uploader(int droneId, Action display, bool checker)
         {
             BL bl = new BL();
-            Simulator simulator= new Simulator(bl, droneId, display, checker);//constractor
+            Simulator simulator = new Simulator(bl, droneId, display, checker);//constractor
         }
     }
 }
