@@ -10,7 +10,8 @@ namespace BlApi
     {
         public static IBL GetBL(string type) => type switch
         {
-            "BL" => BL.BL.GetInstance()
+            "BL" => BL.BL.GetInstance(),
+            _ => throw new NotImplementedException()
         };
     }
 }

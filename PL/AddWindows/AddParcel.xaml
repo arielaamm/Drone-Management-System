@@ -5,27 +5,29 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="300"     
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="AddParcel">
 
     <Grid>
-        <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Bottom">
-            <Label x:Name="IDLabel" Content="ID" Margin="46,111,146,340" />
-            <Label x:Name="WeightLabel" Content="Weight" Margin="46,145,146,307"/>
-            <Label x:Name="PriorityLabel" Content="Priority" Margin="46,178,146,274" />
-            <Label x:Name="TargetLabel" Content="Target name" Margin="46,217,146,240" />
-            <Label x:Name="SenderLabel" Content="Sender name" Margin="46,257,146,200" />
+        <Grid>
+            <Label x:Name="IDLabel" Content="ID"                    Margin="29,55,163,322" />
+            <Label x:Name="WeightLabel" Content="Weight"       Margin="29,92,163,284"/>
+            <Label x:Name="PriorityLabel" Content="Priority"      Margin="29,125,163,256" />
+            <Label x:Name="TargetLabel" Content="Target name"      Margin="29,162,163,210" />
+            <Label x:Name="SenderLabel" Content="Sender name"              Margin="29,202,163,170" />
 
 
-            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="180,111,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
-            <ComboBox x:Name="WeightSelector" Margin="180,148,20,0" Height="25" VerticalAlignment="Top"/>
-            <ComboBox x:Name="PrioritySelector" Margin="180,181,20,0" Width="120" Height="25" VerticalAlignment="Top"/>
-            <ComboBox x:Name="TargetSelector" Margin="180,218,20,0" Width="120" Height="25" VerticalAlignment="Top"/>
-            <ComboBox x:Name="SenderSelector" Margin="180,254,20,0" Width="120" Height="26" VerticalAlignment="Top"/>
 
 
-            <Button x:Name="BntAdd" Content="Add the Parcel" HorizontalAlignment="Center" Margin="0,325,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Parcel" Height="32" VerticalAlignment="Top"/>
-            <Button Content="close" Margin="87,391,87,57" Click="Button_Click"/>
+            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="168,55,32,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="WeightSelector" Margin="168,92,32,0" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="PrioritySelector" Margin="168,125,32,0" Width="120" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="TargetSelector" Margin="168,162,32,0" Width="120" Height="25" VerticalAlignment="Top"/>
+            <ComboBox x:Name="SenderSelector" Margin="168,202,32,0" Width="120" Height="26" VerticalAlignment="Top"/>
+
+
+            <Button x:Name="BntAdd" Content="Add the Parcel" HorizontalAlignment="Left" Margin="57,271,0,0" Width="182" FontWeight="Bold" Click="Button_Click_Add_Parcel" Height="32" VerticalAlignment="Top"/>
+            <Button Content="close" Margin="75,322,99,53" Click="Button_Click"/>
 
         </Grid>
     </Grid>

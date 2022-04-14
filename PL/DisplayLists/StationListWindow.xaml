@@ -3,32 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"
+        xmlns:local="clr-namespace:PL" xmlns:matrialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="StationListWindow" Height="450" Width="800"
+               ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        AllowsTransparency="True" 
+        WindowStyle="None"
         DataContext="{Binding RelativeSource={RelativeSource self}}">
-    <Grid  x:Name="MainGrid">
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Right" Height="auto" Grid.Row="0" Width="800">
+        <Grid x:Name="GridTitleBar" Grid.Row="0" Background="#FF8522BD" MouseDown="GridTitleBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
+                    <matrialDesign:PackIcon Kind="Account"/>
+                </Button>
+                <Button x:Name="ButtonFechar" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="navigateBackButton_Click">
+                    <matrialDesign:PackIcon Kind="ArrowLeftCircle"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Name="UpGrid" HorizontalAlignment="Right" Height="auto" Grid.Row="1" Width="800">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="FullSeletor" Grid.Column="1" Margin="69,10,10,12" VerticalAlignment="Top" Height="26" SelectionChanged="FullSeletor_SelectionChanged" ItemsSource="{Binding}"/>
+            <ComboBox x:Name="FullSeletor" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="FullSeletor_SelectionChanged" ItemsSource="{Binding}"/>
+            <Label Content="Station Status" HorizontalAlignment="Center" Margin="0,-2,0,0" VerticalAlignment="Top" Width="88" Height="25" FontWeight="Bold" FontStretch="Medium"/>
+
             <Button x:Name="AddStation" Content="Add Station" Grid.Column="3" HorizontalAlignment="Center" Margin="0,6,0,0" VerticalAlignment="Top" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
-        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding StationsList}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
+        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding StationsList}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
-                <DataGridTextColumn Header="StationName" Binding="{Binding StationName}" />
-                <DataGridTextColumn Header="FreeChargeSlots" Binding="{Binding FreeChargeSlots}" />
-                <DataGridTextColumn Header="UsedChargeSlots" Binding="{Binding UsedChargeSlots}" />
+                <DataGridTextColumn Header="Station Name" Binding="{Binding StationName}" />
+                <DataGridTextColumn Header="Free ChargeSlots" Binding="{Binding FreeChargeSlots}" />
+                <DataGridTextColumn Header="Used ChargeSlots" Binding="{Binding UsedChargeSlots}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

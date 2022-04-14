@@ -38,7 +38,7 @@ namespace PL
         }
         private void LetterValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex(@"^[a-zA-Z]+$");
+            Regex regex = new Regex(@"^[A-Za-z ]+$");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -76,8 +76,9 @@ namespace PL
             if (c < bl.Customers().Count())
             {
                 MessageBox.Show("The customer successfully added");
-                parent.Close();
+                
                 new CustomerWindow(bl, int.Parse(TextBoxID.Text)).Show();
+                parent.Close();
             }
         }
     }

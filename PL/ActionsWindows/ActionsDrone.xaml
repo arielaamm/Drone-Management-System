@@ -7,23 +7,23 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       DataContext="{Binding RelativeSource={RelativeSource self}}"
-      d:DesignHeight="480" d:DesignWidth="320"
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="ActionsPage">
 
-    <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Top">
+    <Grid>
 
-        <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="60,0,0,338" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="ReleRelease_from_charging">
+        <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="61,0,0,285" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="ReleRelease_from_charging">
             <materialDesign:PackIcon Kind="BatteryCharging" Height="38" Width="46" VerticalAlignment="Center" />
         </Button>
-        <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="204,0,0,338" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="Inserting_for_charging">
+        <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="200,0,0,285" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="Inserting_for_charging">
             <materialDesign:PackIcon Kind="BatteryOutline" Height="38" Width="46" />
         </Button>
-        <Button x:Name="AttacheDrone" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Attache Drone" Margin="86,204,86,244" Background="#FF6E49B0" BorderBrush="#FF6E49B0" Click="AttacheDrone_Click" />
-        <Button x:Name="PickUpParcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Pickup a Parcel" Margin="0,258,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="172" Height="32" VerticalAlignment="Top" Click="PickUpParcel_Click" />
-        <Button x:Name="deliverparcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="deliver a parcel" Margin="0,314,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="192" Height="32" VerticalAlignment="Top" Click="Deliverparcel_Click" />
+        <Button x:Name="AttacheDrone" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Attache Drone" Background="#FF6E49B0" BorderBrush="#FF6E49B0" Click="AttacheDrone_Click" HorizontalAlignment="Center" Width="188" Height="32" VerticalAlignment="Top" Margin="0,182,0,0" />
+        <Button x:Name="PickUpParcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="Pickup a Parcel" Margin="0,237,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="172" Height="32" VerticalAlignment="Top" Click="PickUpParcel_Click" />
+        <Button x:Name="deliverparcel" Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="Resource name: MaterialDesignRaisedLightButton" Content="deliver a parcel" Margin="0,293,0,0" Background="#FF6E49B0" BorderBrush="#FF6E49B0" HorizontalAlignment="Center" Width="192" Height="32" VerticalAlignment="Top" Click="Deliverparcel_Click" />
 
-        <Label Content="Inserting for charging" Margin="172,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="122"/>
-        <Label Content="Release from charging" Margin="26,0,0,398" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Left" Width="126"/>
-        <Button Content="close" Margin="87,370,87,78" Click="Button_Click"/>
+        <Label Content="Inserting for charging" Margin="168,37,0,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="122"/>
+        <Label Content="Release from charging" Margin="0,37,168,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="129"/>
+        <Button Content="close"  Click="Button_Click" Margin="0,344,0,0" HorizontalAlignment="Center" Width="228" Height="32" VerticalAlignment="Top"/>
     </Grid>
 </Page>

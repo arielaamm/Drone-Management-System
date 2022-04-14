@@ -5,16 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="320"
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="ActionsCustomer">
 
-    <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Top">
+    <Grid>
         <TextBox x:Name="TextBoxName" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Margin="193,121,10,0"/>
         <TextBox x:Name="TextBoxPhone" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Margin="193,159,10,0"/>
-        <Button Content="close" Margin="87,370,87,78" Click="Button_Click"/>
+        <Button Content="close" Margin="87,339,87,36" Click="Button_Click"/>
         <Label x:Name="IDLabel" Content="Update the customer" HorizontalAlignment="Center" Margin="0,62,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="Updata the customer name:" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top"/>
         <Label Content="Updata the customer phone:" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="UpdateBnt" Content="Updata" Margin="62,302,62,146" Click="UpdateBnt_Click"/>
+        <Button x:Name="UpdateBnt" Content="Updata" Margin="62,289,62,86" Click="UpdateBnt_Click"/>
     </Grid>
 </Page>

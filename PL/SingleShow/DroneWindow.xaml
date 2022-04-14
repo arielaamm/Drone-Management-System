@@ -3,19 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"
+        xmlns:local="clr-namespace:PL" xmlns:matrialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource self}}"
-        Title="DroneWindow" Height="450" Width="800" Closing="Window_Closing">
-    <Grid>
+        Title="DroneWindow" Height="450" Width="800"
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        AllowsTransparency="True" 
+        WindowStyle="None">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="407*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width ="3*"/>
             <ColumnDefinition Width ="2*"/>
         </Grid.ColumnDefinitions>
-
-        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Drone}" AutoGenerateColumns="False" >
+        <Grid x:Name="GridTitleBar" Grid.Row="0" Background="#FF8522BD" MouseDown="GridTitleBar_MouseDown" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
+                    <matrialDesign:PackIcon Kind="Account"/>
+                </Button>
+                <Button x:Name="ButtonFechar" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="ButtonFechar_Click">
+                    <matrialDesign:PackIcon Kind="ArrowLeftCircle"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Drone}" AutoGenerateColumns="False" Grid.Row="1" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
@@ -24,6 +41,6 @@
                 <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
             </DataGrid.Columns>
         </DataGrid>  
-        <Frame Grid.Column="1" x:Name="dronepage" NavigationUIVisibility="Hidden" />
+        <Frame Grid.Column="1" Grid.Row="1" x:Name="dronepage" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

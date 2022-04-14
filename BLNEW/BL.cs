@@ -785,7 +785,7 @@ namespace BL
                        {
                            ID = (int)p.ID,
                            Priority = (Priority)p.Priority,
-                           status = (Status)p.Status,
+                           status = (StatusParcel)p.Status,
                            SenderName = Findparcel((int)p.ID).sender.CustomerName,
                            TargetName = Findparcel((int)p.ID).target.CustomerName,
                        };
@@ -829,7 +829,7 @@ namespace BL
                        {
                            ID = (int)p.ID,
                            Priority = (Priority)p.Priority,
-                           status = (Status)p.Status,
+                           status = (StatusParcel)p.Status,
                            SenderName = Findparcel((int)p.ID).sender.CustomerName,
                            TargetName = Findparcel((int)p.ID).target.CustomerName,
                        };

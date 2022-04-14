@@ -304,7 +304,7 @@ namespace DAL
                 throw new DroneInMiddleActionException("The drone is in the middle of the action"); 
             int indexS = DataSource.stations.FindIndex(i => i.ID == stationID);
             if (DataSource.stations[indexS].ChargeSlots > 0)
-                throw new ThereAreNoRoomException("There is no more room to load another Drone");\
+                throw new ThereAreNoRoomException("There is no more room to load another Drone");
 
             Station s = new();
             s = DataSource.stations[indexS];

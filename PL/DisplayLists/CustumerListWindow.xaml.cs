@@ -49,11 +49,11 @@ namespace PL
                 CustomersList = new(bl.Customers());
             else
             {
-                if ((Received)cb.SelectedItem == (Received)0)
+                if ((Received)cb.SelectedItem == Received.nothing)
                 {
                     CustomersList = new();
                     var a = from Customer in bl.Customers()
-                            where ((Received)Customer.NumFoParcelOnWay == (Received)cb.SelectedItem)
+                            where (Received)Customer.NumFoParcelOnWay == (Received)cb.SelectedItem
                             select Customer;
                     CustomersList = new ObservableCollection<BO.CustomerToList>(a);
                 }
@@ -61,7 +61,7 @@ namespace PL
                 {
                     CustomersList = new();
                     var a = from Customer in bl.Customers()
-                            where (Customer.NumFoParcelOnWay > 0)
+                            where Customer.NumFoParcelOnWay > 0
                             select Customer;
                     CustomersList = new ObservableCollection<BO.CustomerToList>(a);
                 }
@@ -74,11 +74,11 @@ namespace PL
                 CustomersList = new(bl.Customers());
             else
             {
-                if ((Received)cb.SelectedItem == (Received)0)
+                if ((Received)cb.SelectedItem == Received.nothing)
                 {
                     CustomersList = new();
                     var a = from Customer in bl.Customers()
-                            where ((Received)Customer.NumFoParcelReceived == (Received)cb.SelectedItem)
+                            where (Received)Customer.NumFoParcelReceived == (Received)cb.SelectedItem
                             select Customer;
                     CustomersList = new ObservableCollection<BO.CustomerToList>(a);
                 }
@@ -86,7 +86,7 @@ namespace PL
                 {
                     CustomersList = new();
                     var a = from Customer in bl.Customers()
-                            where (Customer.NumFoParcelReceived > 0)
+                            where Customer.NumFoParcelReceived > 0
                             select Customer;
                     CustomersList = new ObservableCollection<BO.CustomerToList>(a);
                 }
@@ -94,16 +94,21 @@ namespace PL
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Reload();
-            new CustomerWindow(bl).Show();
+            new CustomerWindow(bl).Show(); 
+            Close();
+        }
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
         {
             var cb = sender as DataGrid;
             BO.CustomerToList a = (BO.CustomerToList)cb.SelectedValue;
             try
-            {
+            {              
                 new CustomerWindow(bl, a.ID).Show();
+                Close();
             }
             catch (Exception)
             {
@@ -115,5 +120,10 @@ namespace PL
             CustomersList = new(bl.Customers());
         }
 
+        private void ButtonFechar_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show(); 
+            this.Close();
+        }
     }
 }

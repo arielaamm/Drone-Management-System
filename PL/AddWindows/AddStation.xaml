@@ -5,27 +5,27 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="320"
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="AddStation">
 
     <Grid>
-        <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Bottom">
-            <Label x:Name="IDLabel" Content="ID" Margin="46,111,146,340" />
-            <Label x:Name="NameLabel" Content="Station name" Margin="46,145,146,307"/>
-            <Label x:Name="LongitudeLabel" Content="Longitude" Margin="46,178,146,274" />
-            <Label x:Name="LattitudeLabel" Content="Lattitude" Margin="46,217,146,240" />
-            <Label x:Name="ChargeSlotsLabel" Content="ChargeSlots" Margin="46,257,146,200" />
+        <Grid>
+            <Label x:Name="IDLabel" Content="ID" Margin="34,65,158,317" />
+            <Label x:Name="NameLabel" Content="Station name" Margin="34,99,158,280"/>
+            <Label x:Name="LongitudeLabel" Content="Longitude" Margin="34,132,158,249" />
+            <Label x:Name="LattitudeLabel" Content="Lattitude" Margin="34,171,158,210" />
+            <Label x:Name="ChargeSlotsLabel" Content="ChargeSlots" Margin="34,211,158,173" />
 
 
-            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="180,111,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
-            <TextBox x:Name="TextBoxName" MaxLength="15" Margin="180,146,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="LetterValidationTextBox" Height="26" VerticalAlignment="Top"/>
-            <TextBox x:Name="TextBoxLongitude" MaxLength="15" Margin="180,181,20,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
-            <TextBox x:Name="TextBoxLattitude" MaxLength="15" Margin="180,218,20,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
-            <TextBox x:Name="TextBoxChargeSlots" MaxLength="2" Margin="180,254,20,0" Width="120" Height="26" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="168,65,32,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxName" MaxLength="15" Margin="168,99,32,0" Text="" TextWrapping="Wrap" PreviewTextInput="LetterValidationTextBox" Height="26" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxLongitude" MaxLength="15" Margin="168,132,32,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox x:Name="TextBoxLattitude" MaxLength="15" Margin="168,171,32,0" Width="120" Height="25" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox x:Name="TextBoxChargeSlots" MaxLength="2" Margin="168,211,32,0" Width="120" Height="26" VerticalAlignment="Top" PreviewTextInput="NumberValidationTextBox"/>
 
 
-            <Button x:Name="BntAdd" Content="Add the Station" HorizontalAlignment="Center" Margin="0,325,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Station" Height="32" VerticalAlignment="Top"/>
-            <Button Content="close" Margin="87,391,87,57" Click="Button_Click"/>
+            <Button x:Name="BntAdd" Content="Add the Station" HorizontalAlignment="Left" Margin="68,263,0,0" Width="160" FontWeight="Bold" Click="Button_Click_Add_Station" Height="32" VerticalAlignment="Top"/>
+            <Button Content="close" Margin="75,309,99,66" Click="Button_Click"/>
 
         </Grid>
     </Grid>

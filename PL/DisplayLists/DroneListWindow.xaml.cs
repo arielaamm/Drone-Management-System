@@ -39,7 +39,7 @@ namespace PL
             InitializeComponent();
             this.bl = bl;
             WightsSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
-            StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.Status));
+            StatusSeletor.ItemsSource = Enum.GetValues(typeof(BO.StatusParcel));
             DroneList = new(this.bl.Drones());
         }
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -76,9 +76,13 @@ namespace PL
         {
             Reload();
             new DroneWindow(bl).Show();
+            Close();
 
         }
-
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
         {
             var cb = sender as DataGrid;
@@ -86,6 +90,7 @@ namespace PL
             try
             {
                 new DroneWindow(bl, a.ID).Show();
+                Close();
             }
             catch (Exception)
             {
@@ -95,6 +100,13 @@ namespace PL
         private void Reload()
         {
             DroneList = new(bl.Drones());
+        }
+
+        private void ButtonFechar_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            this.Close();
+
         }
     }
 }

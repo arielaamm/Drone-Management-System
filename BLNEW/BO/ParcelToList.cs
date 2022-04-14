@@ -17,7 +17,7 @@ namespace BO
         public string TargetName { set; get; }
         public Weight Weight { set; get; }
         public Priority Priority { set; get; }
-        public Status status { set; get; }
+        public StatusParcel status { set; get; }
 
     }//done
 }
