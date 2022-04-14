@@ -9,17 +9,38 @@ namespace BO
 {
     /// <summary>
     /// Parcel in Customer 
-    /// sub object 
+    /// sub object.
     /// </summary>
     public class ParcelInCustomer
     {
+        /// <summary>
+        /// Gets or sets the ID.
+        /// </summary>
         public int ID { set; get; }
-        public Weight Weight { set; get; }
-        public Priority Priority { set; get; }
-        public StatusParcel Status { set; get; }
-        public CustomerInParcel Sender { set; get; }
-        public CustomerInParcel Target { set; get; }
 
-        //done
+        /// <summary>
+        /// Gets or sets the Weight.
+        /// </summary>
+        public Weight Weight { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Priority.
+        /// </summary>
+        public Priority Priority { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Status.
+        /// </summary>
+        public StatusParcel Status { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Sender.
+        /// </summary>
+        public CustomerInParcel Sender { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Target.
+        /// </summary>
+        public CustomerInParcel Target { set; get; }
     }
 }

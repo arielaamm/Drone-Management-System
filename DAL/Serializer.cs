@@ -1,82 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace DAL
 {
-    /*public class Serializer<T> where T : new()
+    /// <summary>
+    /// Defines the <see cref="XMLTools" />.
+    /// </summary>
+    public class XMLTools
     {
-        public IEnumerable<T> Elements { get; private set; }
+        /// <summary>
+        /// Defines the dir.
+        /// </summary>
+        public static readonly string dir = @"XML Files\";
 
-        public string Path { get; set; }
-
-        XmlSerializer serializer;
-
-
-        public Serializer(string path)
-        {
-            Path = path;
-            serializer = new XmlSerializer(new List<T>().GetType());
-            GetElementsFromXml();
-        }
-
-        public IEnumerable<T> GetElementsFromXml()
-        {
-            if (!File.Exists(Path)) WriteEnumerable(new List<T>());
-            XmlReader reader = new XmlTextReader(Path);
-            IEnumerable<T> enumerable()
-            {
-                foreach (var item in (IEnumerable<T>)serializer.Deserialize(reader))
-                {
-                    yield return item;
-                }
-            }
-
-            Elements = enumerable();
-            reader.Close();
-            return Elements;
-        }
-
-        public void WriteEnumerable(IEnumerable<T> enumerable)
-        {
-            StreamWriter writer = new StreamWriter(Path);
-            serializer.Serialize(writer, enumerable);
-            writer.Close();
-        }
-
-        public void Add(T obj, Predicate<T> pred)//, Exception alreadyExistException)
-        {
-            List<T> list = GetElementsFromXml().ToList();
-            if (list.FindIndex(pred) != -1) //throw alreadyExistException;
-            list.Add(obj);
-            WriteEnumerable(from item in list select item);
-        }
-
-        public void Update(T obj, Predicate<T> pred)//, Exception doesNotExistException)
-        {
-            List<T> list = GetElementsFromXml().ToList();
-            int index = list.FindIndex(pred);
-            if (index == -1)// throw doesNotExistException;
-            list[index] = obj;
-            WriteEnumerable(from item in list select item);
-        }
-    }*/
-    class XMLTools
-    {
-        static readonly string dir = @"XML Files\";
+        /// <summary>
+        /// Initializes static members of the <see cref="XMLTools"/> class.
+        /// </summary>
         static XMLTools()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
-        #region SaveLoadWithXElement
+
+        /// <summary>
+        /// The SaveListToXMLElement.
+        /// </summary>
+        /// <param name="rootElem">The rootElem<see cref="XElement"/>.</param>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
         public static void SaveListToXMLElement(XElement rootElem, string filePath)
         {
             try
@@ -89,6 +47,11 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// The LoadListFromXMLElement.
+        /// </summary>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
+        /// <returns>The <see cref="XElement"/>.</returns>
         public static XElement LoadListFromXMLElement(string filePath)
         {
             try
@@ -109,9 +72,13 @@ namespace DAL
                 throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-        #endregion
 
-        #region SaveLoadWithXMLSerializer
+        /// <summary>
+        /// The SaveListToXMLSerializer.
+        /// </summary>
+        /// <typeparam name="T">.</typeparam>
+        /// <param name="list">The list<see cref="List{T}"/>.</param>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
         {
             try
@@ -126,6 +93,13 @@ namespace DAL
                 throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
+
+        /// <summary>
+        /// The LoadListFromXMLSerializer.
+        /// </summary>
+        /// <typeparam name="T">.</typeparam>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
+        /// <returns>The <see cref="List{T}"/>.</returns>
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
@@ -147,16 +121,30 @@ namespace DAL
                 throw new DALExceptionscs.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-        #endregion
-        //free style funcs
-        public static void Add<T>(T obj, bool pred, string filePath)//, Exception alreadyExistException)
+
+        /// <summary>
+        /// The Add.
+        /// </summary>
+        /// <typeparam name="T">.</typeparam>
+        /// <param name="obj">The obj<see cref="T"/>.</param>
+        /// <param name="condition">The condition<see cref="bool"/>.</param>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
+        public static void Add<T>(T obj, bool condition, string filePath)
         {
             List<T> list = LoadListFromXMLSerializer<T>(filePath);
-            if (pred) //throw alreadyExistException;
+            if (condition)
                 list.Add(obj);
             SaveListToXMLSerializer<T>(list, filePath);
         }
-        public static void Update<T>(T obj, int index, string filePath)//, Exception doesNotExistException)
+
+        /// <summary>
+        /// The Update.
+        /// </summary>
+        /// <typeparam name="T">.</typeparam>
+        /// <param name="obj">The obj<see cref="T"/>.</param>
+        /// <param name="index">The index<see cref="int"/>.</param>
+        /// <param name="filePath">The filePath<see cref="string"/>.</param>
+        public static void Update<T>(T obj, int index, string filePath)
         {
             List<T> list = LoadListFromXMLSerializer<T>(filePath);
             list[index] = obj;

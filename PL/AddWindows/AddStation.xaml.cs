@@ -64,8 +64,9 @@ namespace PL
             if (c < bl.Stations().Count())
             {
                 MessageBox.Show("The station successfully added");
-                parent.Close();
                 new StationWindow(bl, int.Parse(TextBoxID.Text)).Show();
+                parent.Close();
+
             }
         }
 
@@ -77,7 +78,7 @@ namespace PL
         }
         private void LetterValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex(@"^[a-zA-Z]+$");
+            Regex regex = new Regex(@"[^A-Za-z ]+$");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

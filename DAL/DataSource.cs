@@ -1,34 +1,109 @@
-﻿using System;
+﻿using DAL;
+using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DO;
-using DAL;
+
 namespace DAL
 {
+    /// <summary>
+    /// Defines the <see cref="Config" />.
+    /// </summary>
     internal class Config
     {
-        internal static double Free { get { return 5; } }//כמה בטריה לקילומטר כשהוא לא סוחב כלום
-        internal static double Light { get { return 7; } }
-        internal static double Medium { get { return 10; } }
-        internal static double Heavy { get { return 12; } }
-        internal static int ChargePerHour { get { return 50; } } // 50 אחוז בשעה
+        /// <summary>
+        /// Gets the Free.
+        /// </summary>
+        internal static double Free
+        {
+            get { return 5; }
+        }
+
+        /// <summary>
+        /// Gets the Light.
+        /// </summary>
+        internal static double Light
+        {
+            get { return 7; }
+        }
+
+        /// <summary>
+        /// Gets the Medium.
+        /// </summary>
+        internal static double Medium
+        {
+            get { return 10; }
+        }
+
+        /// <summary>
+        /// Gets the Heavy.
+        /// </summary>
+        internal static double Heavy
+        {
+            get { return 12; }
+        }
+
+        /// <summary>
+        /// Gets the ChargePerHour.
+        /// </summary>
+        internal static int ChargePerHour
+        {
+            get { return 50; }
+        }
+
+        /// <summary>
+        /// Defines the staticId.
+        /// </summary>
         public static int staticId = 1;
     }
+
+    /// <summary>
+    /// Defines the <see cref="DataSource" />.
+    /// </summary>
     public class DataSource
     {
-
+        /// <summary>
+        /// The GetRandomNumber.
+        /// </summary>
+        /// <param name="minimum">The minimum<see cref="double"/>.</param>
+        /// <param name="maximum">The maximum<see cref="double"/>.</param>
+        /// <returns>The <see cref="double"/>.</returns>
         public static double GetRandomNumber(double minimum, double maximum)
         {
             Random random = new();
             return random.NextDouble() * (maximum - minimum) + minimum;
         }
+
+        /// <summary>
+        /// Defines the drones.
+        /// </summary>
         internal static List<Drone> drones = new();
+
+        /// <summary>
+        /// Defines the droneCharges.
+        /// </summary>
         internal static List<DroneCharge> droneCharges = new();
+
+        /// <summary>
+        /// Defines the stations.
+        /// </summary>
         internal static List<Station> stations = new();
+
+        /// <summary>
+        /// Defines the customers.
+        /// </summary>
         internal static List<Customer> customers = new();
+
+        /// <summary>
+        /// Defines the parcels.
+        /// </summary>
         internal static List<Parcel> parcels = new();
+
+        /// <summary>
+        /// The Initialize.
+        /// </summary>
         public static void Initialize()
         {
             Random rnd = new();
@@ -38,7 +113,7 @@ namespace DAL
                 {
                     IsActive = true,
                     ID = Config.staticId,
-                    StationName = "Station" +i,
+                    StationName = "Station" + i,
                     Longitude = GetRandomNumber(5, 0),
                     Lattitude = GetRandomNumber(7, 0),
                     ChargeSlots = 5,
@@ -47,8 +122,8 @@ namespace DAL
                 stations.Add(s);
             }
             for (int i = 0; i < 5; i++)
-            {       
-                int counter= rnd.Next(0, 2);
+            {
+                int counter = rnd.Next(0, 2);
                 DroneCharge temp = new()
                 {
                     DroneId = Config.staticId,
@@ -67,13 +142,14 @@ namespace DAL
                     haveParcel = false,
                     Lattitude = stations[counter].Lattitude,
                     Longitude = stations[counter].Longitude,
+                    Status = Status.MAINTENANCE
                 };
                 droneCharges.Add(temp);
                 drones.Add(d);
                 Config.staticId++;
             }
 
-            
+
             for (int i = 0; i < 10; i++)
             {
                 Customer c = new()
@@ -96,7 +172,7 @@ namespace DAL
                 {
                     tID = rnd.Next(0, 10);
                 }
-                while (tID==sID)
+                while (tID == sID)
                 {
                     tID = rnd.Next(0, 10);
                 }
@@ -116,7 +192,7 @@ namespace DAL
                     DroneId = 0,
                     Status = StatusParcel.CREAT,
                 };
-                int ? temp = rnd.Next(0, 2);
+                int? temp = rnd.Next(0, 2);
                 if (temp == 0)
                 {
                     temp = rnd.Next(0, drones.Count);
@@ -144,13 +220,6 @@ namespace DAL
                 Config.staticId++;
                 parcels.Add(p);
             }
-            //for (int i = 0; i < droneCharges.Count; i++)
-            //{
-            //    Station s = stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; });
-            //    s.ChargeSlots--;
-            //    stations.Remove(stations.Find(delegate (Station p) { return droneCharges[i].StationId == p.ID; }));
-            //    stations.Add(s);
-            //}
         }
     }
 }

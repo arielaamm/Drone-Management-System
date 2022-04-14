@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="320"
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="ActionsStation">
 
-    <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Top">
-        <Button Content="close" Margin="87,370,87,78" Click="Button_Click"/>
+    <Grid>
+        <Button Content="close" Click="Button_Click" Margin="0,296,0,79"/>
     </Grid>
 </Page>

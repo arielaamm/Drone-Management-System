@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PL
@@ -21,7 +22,6 @@ namespace PL
     public partial class StationListWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
-
         internal ObservableCollection<BO.StationToList> StationsList
         {
             get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
@@ -44,6 +44,7 @@ namespace PL
         {
             Reload();
             new StationWindow(bl).Show();
+            Close();
         }
         private void mousedoubleclick(object sender, MouseButtonEventArgs e)
         {
@@ -52,6 +53,7 @@ namespace PL
             try
             {
                 new StationWindow(bl, a.ID).Show();
+                Close();
             }
             catch (Exception)
             {
@@ -70,23 +72,33 @@ namespace PL
                 StationsList = new(bl.Stations());
             else
             {
-                if ((Full)cb.SelectedItem == (Full)0)
+                if ((Full)cb.SelectedItem == Full.full)
                 {
                     StationsList = new();
-                    var a = from Customer in bl.Stations()
-                            where ((Full)Customer.FreeChargeSlots == (Full)cb.SelectedItem)
-                            select Customer;
+                    var a = from Station in bl.Stations()
+                            where (Full)Station.FreeChargeSlots == (Full)cb.SelectedItem
+                            select Station;
                     StationsList = new ObservableCollection<BO.StationToList>(a);
                 }
                 else
                 {
                     StationsList = new();
                     var a = from Station in bl.Stations()
-                            where (Station.FreeChargeSlots > 0)
+                            where Station.FreeChargeSlots > 0
                             select Station;
                     StationsList = new ObservableCollection<BO.StationToList>(a);
                 }
             }
+        }
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+        private void navigateBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            this.Close();
+
         }
     }
 }

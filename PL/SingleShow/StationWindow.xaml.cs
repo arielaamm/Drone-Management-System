@@ -21,7 +21,6 @@ namespace PL
     public partial class StationWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
-
         internal ObservableCollection<BO.StationToList> Station
         {
             get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
@@ -55,12 +54,16 @@ namespace PL
 
             }
         }
-        bool closing = false;
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = closing;
-        internal new void Close()
+        internal new void Close() => base.Close();
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            closing = true;
-            base.Close();
+            DragMove();
+        }
+        private void ButtonFechar_Click(object sender, RoutedEventArgs e)
+        {
+            new StationListWindow(bl).Show();
+            this.Close();
+
         }
     }
 }

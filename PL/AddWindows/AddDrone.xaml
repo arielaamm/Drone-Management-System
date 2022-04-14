@@ -6,22 +6,22 @@
       xmlns:local="clr-namespace:PL" 
       DataContext="{Binding RelativeSource={RelativeSource self}}"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="320"     
+      d:DesignHeight="407" d:DesignWidth="320"
       Title="AddPage">
 
-    <Grid HorizontalAlignment="Center" Width="320" Height="480" VerticalAlignment="Bottom">
-        <Label x:Name="IDLabel" Content="ID" Margin="46,111,146,225" />
-        <Label x:Name="ModelLabel" Content="Model" Margin="46,145,146,193"/>
-        <Label x:Name="MaxWieghLabel" Content="MaxWiegh" Margin="46,178,146,160" />
-        <Label x:Name="Starting_StationLabel" Content="Starting station" Margin="46,217,146,120" />
+    <Grid>
+        <Label x:Name="IDLabel" Content="ID" Margin="40,61,152,321" />
+        <Label x:Name="ModelLabel" Content="Model" Margin="40,95,152,284"/>
+        <Label x:Name="MaxWieghLabel" Content="MaxWiegh" Margin="40,128,152,253" />
+        <Label x:Name="Starting_StationLabel" Content="Starting station" Margin="40,167,152,214" />
 
-        <TextBox x:Name="TextBoxID" MaxLength="5" Margin="180,111,20,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
-        <ComboBox x:Name="ModelSeletor" Margin="180,148,20,0" SelectionChanged="ModelSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
-        <ComboBox x:Name="MaxWeightSeletor" Margin="180,181,20,0" Width="120" SelectionChanged="MaxWeightSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
-        <ComboBox x:Name="StartingstationSeletor" Margin="180,218,20,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBoxID" MaxLength="5" Margin="174,61,26,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ModelSeletor" Margin="174,98,26,0" SelectionChanged="ModelSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="MaxWeightSeletor" Margin="174,131,26,0" Width="120" SelectionChanged="MaxWeightSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
+        <ComboBox x:Name="StartingstationSeletor" Margin="174,167,26,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
 
-        <Button x:Name="BntAdd" Content="Add the drone" HorizontalAlignment="Center" Margin="0,325,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Top"/>
-        <Button Content="close" Margin="87,391,87,57" Click="Button_Click"/>
+        <Button x:Name="BntAdd" Content="Add the drone" HorizontalAlignment="Left" Margin="85,238,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Top"/>
+        <Button Content="close" Margin="64,300,76,75" Click="Button_Click"/>
 
     </Grid>
 </Page>

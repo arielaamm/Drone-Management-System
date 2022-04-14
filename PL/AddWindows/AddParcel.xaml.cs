@@ -78,8 +78,9 @@ namespace PL
             if (t < bl.Parcels().Count())
             {
                 MessageBox.Show("The Parcel successfully added");
-                parent.Close();
                 new ParcelWindow(bl, int.Parse(TextBoxID.Text)).Show();
+                parent.Close();
+
 
             }
         }

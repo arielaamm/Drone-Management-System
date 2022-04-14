@@ -5,27 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL" xmlns:matrialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="640" Width="800"
+        Title="DroneListWindow" Height="450" Width="800"
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        AllowsTransparency="True" 
+        WindowStyle="None"
         DataContext="{Binding RelativeSource={RelativeSource self}}">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Right" Height="auto" Grid.Row="0" Width="800">
+        <Grid x:Name="GridTitleBar" Grid.Row="0" Background="#FF8522BD" MouseDown="GridTitleBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
+                    <matrialDesign:PackIcon Kind="Account"/>
+                </Button>
+                <Button x:Name="ButtonFechar" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="ButtonFechar_Click">
+                    <matrialDesign:PackIcon Kind="ArrowLeftCircle"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Name="UpGrid" HorizontalAlignment="Right" Height="auto" Grid.Row="1" Width="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="StatusSeletor" Grid.Column="0" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}"/>
-            <ComboBox x:Name="WightsSeletor" Grid.Column="1" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}"/>
+            <ComboBox x:Name="StatusSeletor" Grid.Column="0" Margin="40,19,0,0" VerticalAlignment="Top" Height="26" SelectionChanged="StatusSeletor_SelectionChanged" ItemsSource="{Binding}" HorizontalAlignment="Left" Width="186"/>
+            <Label Content="Status" Grid.Column="0" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="47" Height="22" FontWeight="Bold" FontStretch="Medium"/>
+
+            <ComboBox x:Name="WightsSeletor" Grid.Column="1" Margin="40,19,0,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}" HorizontalAlignment="Left" Width="186"/>
+            <Label Content="Wight" Grid.Column="1" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="43" Height="25" FontWeight="Bold" FontStretch="Medium"/>
+
             <Button x:Name="AddDrone" Content="Add Drone" Grid.Column="2" Margin="82,19,82,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
-        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding DroneList}" AutoGenerateColumns="False" Grid.Row="1"  SelectionMode="Single" IsReadOnly="True">
+        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding DroneList}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
-                <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
                 <DataGridTextColumn Header="Weight" Binding="{Binding Weight}" />
                 <DataGridTextColumn Header="Battery" Binding="{Binding Battery}" />

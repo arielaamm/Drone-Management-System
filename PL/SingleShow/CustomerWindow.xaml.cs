@@ -56,12 +56,16 @@ namespace PL
             }
         }
 
-        bool closing = false;
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = closing;
-        internal new void Close()
+        internal new void Close() => base.Close();
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            closing = true;
-            base.Close();
+            DragMove();
+        }
+        private void ButtonFechar_Click(object sender, RoutedEventArgs e)
+        {
+            new CustomerListWindow(bl).Show();
+            Close();
+
         }
     }
 }
