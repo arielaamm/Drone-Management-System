@@ -38,6 +38,6 @@ namespace BlApi
         //----------------------------------
         //simulator
         //----------------------------------
-        public void Uploader(int droneId,Action display, Func<bool> checker);
+        public void Uploader(int droneId, Action display, bool checker);
     }
 }
