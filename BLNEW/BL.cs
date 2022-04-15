@@ -178,7 +178,7 @@ namespace BL
         /// <param name="a">The a<see cref="Location"/>.</param>
         /// <param name="b">The b<see cref="Location"/>.</param>
         /// <returns>Distance between a - b.</returns>
-        static private double Distance(Location a, Location b)
+        static public double Distance(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
