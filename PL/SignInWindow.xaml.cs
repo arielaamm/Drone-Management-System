@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 
 namespace PL
@@ -29,15 +28,8 @@ namespace PL
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            var t = from i in bl.Customers()
-                    where i.ID == int.Parse(txtID.Text) && IsActive
-                    select false;
-
-            if (t.Count()==0)
-            {
-                new UserWindow(bl);
-                Close();
-            }
+            new UserWindow(bl, bl.Findcustomer(int.Parse(txtID.Text))).Show();
+            Close();
         }
     }
 }

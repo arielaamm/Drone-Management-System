@@ -21,7 +21,7 @@ namespace PL
             typeof(ObservableCollection<BO.CustomerToList>),
             typeof(Window));
 
-        public UserWindow(BlApi.IBL bl)
+        public UserWindow(BlApi.IBL bl, BO.Customer customer)
         {
             InitializeComponent();
             this.bl = bl;
