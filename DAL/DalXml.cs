@@ -1,13 +1,10 @@
-﻿using DAL;
-using DALExceptionscs;
+﻿using DALExceptionscs;
 using DO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace DAL
@@ -111,7 +108,7 @@ namespace DAL
         /// </summary>
         public static void Initialization()
         {
-            XElement id, isActive, customerName, phone, longitude, lattitude;
+            XElement id, isActive, customerName, phone, longitude, lattitude, password, email;
 
             XElement ConfigRoot;
             string ConfigPath = dir + @"config.xml";
@@ -146,7 +143,9 @@ namespace DAL
                     phone = new XElement("Phone", DataSource.customers[i].Phone);
                     longitude = new XElement("Longitude", DataSource.customers[i].Longitude);
                     lattitude = new XElement("Lattitude", DataSource.customers[i].Lattitude);
-                    CustomersRoot.Add(new XElement("Customer", id, isActive, phone, customerName, longitude, lattitude));
+                    password = new XElement("Password", DataSource.customers[i].Password);
+                    email = new XElement("Email", DataSource.customers[i].Email);
+                    CustomersRoot.Add(new XElement("Customer", id, isActive, phone, customerName, longitude, lattitude, password, email));
                     CustomersRoot.Save(CustomersPath);
                 }
             }
@@ -367,7 +366,7 @@ namespace DAL
         /// </summary>
         /// <param name="customer">The customer<see cref="Customer"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateCustomer(Customer customer) 
+        public void UpdateCustomer(Customer customer)
         {
             XElement CustomersRoot = LoadXml(CustomersPath);
             int index = LoadCustomersFromXML(CustomersRoot).ToList().FindIndex(i => (i.ID == customer.ID));
@@ -383,7 +382,9 @@ namespace DAL
                             new XElement("CustomerName", customer.CustomerName),
                             new XElement("Phone", customer.Phone),
                             new XElement("Longitude", customer.Longitude),
-                            new XElement("Lattitude", customer.Lattitude))
+                            new XElement("Lattitude", customer.Lattitude)),
+                            new XElement("Password", customer.Password),
+                            new XElement("Email", customer.Email)
                             );
                 CustomersRoot.Save(dir + CustomersPath);
             }
@@ -683,6 +684,8 @@ namespace DAL
                        Lattitude = Customer.Lattitude,
                        CustomerName = Customer.CustomerName,
                        Phone = Customer.Phone,
+                       Password = Customer.Password,
+                       Email = Customer.Email,
                    };
         }
 
@@ -783,7 +786,7 @@ namespace DAL
 
             XElement CustomersRoot = LoadXml(CustomersPath);
             var Customer = LoadCustomersFromXML(CustomersRoot).ToList();
-            int index = Customer.FindIndex((Predicate<Customer>)(i => (i.ID == customer.ID)));
+            int index = Customer.FindIndex(i => (i.ID == customer.ID));
             if (index == -1)
                 throw new DoesNotExistException($"Drone does not exist");
             customer.IsActive = false;
@@ -815,14 +818,16 @@ namespace DAL
             List<Customer> Customers = new();
             foreach (var Customer in CustomersRoot.Elements())
             {
-                Customer d = new();
-                d.IsActive = bool.Parse(Customer.Element("IsActive").Value);
-                d.ID = int.Parse(Customer.Element("ID").Value);
-                d.CustomerName = (Customer.Element("CustomerName").Value);
-                d.Phone = (Customer.Element("Phone").Value);
-                d.Longitude = double.Parse(Customer.Element("Longitude").Value);
-                d.Lattitude = double.Parse(Customer.Element("Lattitude").Value);
-                Customers.Add(d);
+                Customer c = new();
+                c.IsActive = bool.Parse(Customer.Element("IsActive").Value);
+                c.ID = int.Parse(Customer.Element("ID").Value);
+                c.CustomerName = (Customer.Element("CustomerName").Value);
+                c.Phone = (Customer.Element("Phone").Value);
+                c.Longitude = double.Parse(Customer.Element("Longitude").Value);
+                c.Lattitude = double.Parse(Customer.Element("Lattitude").Value);
+                c.Email = Customer.Element("Email").Value;
+                c.Password = Customer.Element("Password").Value;
+                Customers.Add(c);
             }
             return Customers;
         }

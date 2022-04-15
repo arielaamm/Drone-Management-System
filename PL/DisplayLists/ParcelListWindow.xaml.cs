@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -27,7 +19,8 @@ namespace PL
             get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
             set => SetValue(parcelsDependency, value);
         }
-        static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
             nameof(Parcellist),
             typeof(ObservableCollection<BO.ParcelToList>),
             typeof(Window));
@@ -113,7 +106,7 @@ namespace PL
 
         private void ButtonFechar_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            new MainWindow(bl).Show();
             Close();
 
         }

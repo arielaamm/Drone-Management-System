@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -21,19 +12,19 @@ namespace PL
     /// Interaction logic for AddPage.xaml
     /// </summary>
     public partial class AddDrone : Page
-    {   
+    {
         private readonly BlApi.IBL bl;
-        Window parent;
+        private readonly Window parent;
         private int IDStation;
         public AddDrone(BlApi.IBL bl, Window parent)
-        {            
+        {
             InitializeComponent();
             this.bl = bl;
             this.parent = parent;
             ModelSeletor.ItemsSource = Enum.GetValues(typeof(BO.Model));
             MaxWeightSeletor.ItemsSource = Enum.GetValues(typeof(BO.Weight));
             List<int> stationToLists = new();
-            List <BO.StationToList> stations=bl.FreeChargeslots().ToList();
+            List<BO.StationToList> stations = bl.FreeChargeslots().ToList();
             int i = 0;
             while (i!=bl.FreeChargeslots().Count())
             {
@@ -46,7 +37,8 @@ namespace PL
             }
             StartingstationSeletor.ItemsSource = stationToLists;
         }
-        BO.Drone drone = new();
+
+        private readonly BO.Drone drone = new();
 
         private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();
         private void ModelSeletor_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -93,8 +85,8 @@ namespace PL
             if (c < bl.Drones().Count())
             {
                 MessageBox.Show("The drone successfully added");
-                
-                new DroneWindow(bl,(int)drone.ID).Show();
+
+                new DroneWindow(bl, (int)drone.ID).Show();
                 parent.Close();
             }
         }

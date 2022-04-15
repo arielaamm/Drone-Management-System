@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -20,9 +8,9 @@ namespace PL
     /// </summary>
     public partial class ActionsStation : Page
     {
-        BlApi.IBL bl;
-        int id;
-        Window parent;
+        private readonly BlApi.IBL bl;
+        private readonly int id;
+        private readonly Window parent;
         public ActionsStation(BlApi.IBL bl, int id, Window parent)
         {
             InitializeComponent();

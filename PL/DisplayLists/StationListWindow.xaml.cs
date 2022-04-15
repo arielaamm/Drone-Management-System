@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -27,7 +18,8 @@ namespace PL
             get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
             set => SetValue(stationsDependency, value);
         }
-        static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
             nameof(StationsList),
             typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
@@ -96,9 +88,8 @@ namespace PL
         }
         private void navigateBackButton_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
-            this.Close();
-
+            new MainWindow(bl).Show();
+            Close();
         }
     }
 }

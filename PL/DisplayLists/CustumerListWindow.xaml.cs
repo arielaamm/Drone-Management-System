@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -27,12 +19,13 @@ namespace PL
             get => (ObservableCollection<BO.CustomerToList>)GetValue(customersDependency);
             set => SetValue(customersDependency, value);
         }
-        static readonly DependencyProperty customersDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty customersDependency = DependencyProperty.Register(
             nameof(CustomersList),
             typeof(ObservableCollection<BO.CustomerToList>),
             typeof(Window));
-        public enum OnWay { nothing = 0, has = 1}
-        public enum Received { nothing = 0, has = 1}
+        public enum OnWay { nothing = 0, has = 1 }
+        public enum Received { nothing = 0, has = 1 }
 
         public CustomerListWindow(BlApi.IBL bl)
         {
@@ -94,7 +87,7 @@ namespace PL
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerWindow(bl).Show(); 
+            new CustomerWindow(bl).Show();
             Close();
         }
         private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -106,7 +99,7 @@ namespace PL
             var cb = sender as DataGrid;
             BO.CustomerToList a = (BO.CustomerToList)cb.SelectedValue;
             try
-            {              
+            {
                 new CustomerWindow(bl, a.ID).Show();
                 Close();
             }
@@ -122,8 +115,8 @@ namespace PL
 
         private void ButtonFechar_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show(); 
-            this.Close();
+            new MainWindow(bl).Show();
+            Close();
         }
     }
 }

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -27,7 +17,8 @@ namespace PL
             get => (ObservableCollection<BO.ParcelToList>)GetValue(parcelsDependency);
             set => SetValue(parcelsDependency, value);
         }
-        static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty parcelsDependency = DependencyProperty.Register(
             nameof(Parcel),
             typeof(ObservableCollection<BO.ParcelToList>),
             typeof(Window));
@@ -36,14 +27,14 @@ namespace PL
             InitializeComponent();
             this.bl = bl;
             Parcel = new(this.bl.Parcels());
-            parcelPage.Content = new AddParcel(bl,this);
+            parcelPage.Content = new AddParcel(bl, this);
         }
         public ParcelWindow(BlApi.IBL bl, int? id)
         {
             if (id == null)
             {
                 new ParcelListWindow(bl).Show();
-                this.Close();
+                Close();
             }
             else
             {

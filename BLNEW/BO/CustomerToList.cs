@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BO
+﻿namespace BO
 {
     /// <summary>
     /// Customer To List
@@ -46,5 +40,14 @@ namespace BO
         /// Gets or sets the NumFoParcelOnWay.
         /// </summary>
         public int NumFoParcelOnWay { set; get; }
+        /// <summary>
+        /// Gets or sets the Password.
+        /// </summary>
+        public string Password { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Email.
+        /// </summary>
+        public string Email { set; get; }
     }
 }

@@ -1,14 +1,10 @@
 ﻿using BLExceptions;
 using BO;
-using DAL;
 using DalApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using DateTime = System.DateTime;
 
 namespace BL
@@ -38,7 +34,7 @@ namespace BL
                 {
                     if ((i.Status != DO.StatusParcel.DELIVERD) && (i.DroneId != 0))
                     {
-                        tempDrone = dal.FindDrone((int)i.DroneId);
+                        tempDrone = dal.FindDrone(i.DroneId);
 
                         tempDrone.Battery = random.Next(MinPower(FindDrone(i.DroneId), Findcustomer(i.TargetId), Findcustomer(i.SenderId)), 100);
                         if ((i.PickedUp == null) && (i.Scheduled != null))//belong not pickup
@@ -178,11 +174,10 @@ namespace BL
         /// <param name="a">The a<see cref="Location"/>.</param>
         /// <param name="b">The b<see cref="Location"/>.</param>
         /// <returns>Distance between a - b.</returns>
-        static public double Distance(Location a, Location b)
+        public static double Distance(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
-
         /// <summary>
         /// Add station.
         /// </summary>
@@ -272,6 +267,8 @@ namespace BL
                     Longitude = customer.Position.Longitude,
                     Lattitude = customer.Position.Lattitude,
                     Phone = customer.Phone,
+                    Email = customer.Email,
+                    Password = customer.Password,
                 };
                 lock (dal)
                 {
@@ -549,7 +546,7 @@ namespace BL
                     IsActive = s.IsActive,
                     ID = (int)s.ID,
                     StationName = s.StationName,
-                    Position = temp, 
+                    Position = temp,
                     ChargeSlots = s.ChargeSlots,
                     DroneChargingInStation = droneChargingTemp,
                 };
@@ -611,7 +608,7 @@ namespace BL
                         Longitude = t.Longitude,
                     };
 
-                    parcelTransactiningTemp.ID = (int)p.ID;
+                    parcelTransactiningTemp.ID = p.ID;
                     parcelTransactiningTemp.ParcelStatus = p.PickedUp == null;
                     parcelTransactiningTemp.priority = (Priority)p.Priority;
                     parcelTransactiningTemp.weight = (Weight)p.Weight;
@@ -654,7 +651,7 @@ namespace BL
                 Parcel newParcel = new()
                 {
                     IsActive = p.IsActive,
-                    ID = (int)p.ID,
+                    ID = p.ID,
                     sender = send,
                     target = target,
                     Weight = (Weight)p.Weight,
@@ -711,6 +708,8 @@ namespace BL
                     CustomerName = c.CustomerName,
                     Phone = c.Phone,
                     Position = temp,
+                    Email = c.Email,
+                    Password = c.Password,
                 };
                 List<ParcelInCustomer> TempFromCustomer = new();
                 ParcelInCustomer item = new();
@@ -718,7 +717,7 @@ namespace BL
                 {
                     if (item1.SenderId == id)
                     {
-                        item.ID = (int)item1.ID;
+                        item.ID = item1.ID;
                         item.Priority = (Priority)item1.Priority;
                         item.Weight = (Weight)item1.Weight;
                         item.Status = (StatusParcel)item1.Status;
@@ -743,7 +742,7 @@ namespace BL
                 {
                     if (item3.TargetId == id)
                     {
-                        item2.ID = (int)item3.ID;
+                        item2.ID = item3.ID;
                         item2.Priority = (Priority)item3.Priority;
                         item2.Weight = (Weight)item3.Weight;
                         item2.Status = (StatusParcel)item3.Status;
@@ -823,11 +822,11 @@ namespace BL
                 return from p in dal.Parcellist()
                        select new ParcelToList()
                        {
-                           ID = (int)p.ID,
+                           ID = p.ID,
                            Priority = (Priority)p.Priority,
                            status = (StatusParcel)p.Status,
-                           SenderName = Findparcel((int)p.ID).sender.CustomerName,
-                           TargetName = Findparcel((int)p.ID).target.CustomerName,
+                           SenderName = Findparcel(p.ID).sender.CustomerName,
+                           TargetName = Findparcel(p.ID).target.CustomerName,
                        };
             }
         }
@@ -844,6 +843,8 @@ namespace BL
                 return from c in dal.Customerlist()
                        select new CustomerToList()
                        {
+                           Email = c.Email,
+                           Password = c.Password,
                            ID = (int)c.ID,
                            CustomerName = c.CustomerName,
                            Phone = c.Phone,
@@ -867,11 +868,11 @@ namespace BL
                 return from p in dal.ParcelNotAssociatedList()
                        select new ParcelToList()
                        {
-                           ID = (int)p.ID,
+                           ID = p.ID,
                            Priority = (Priority)p.Priority,
                            status = (StatusParcel)p.Status,
-                           SenderName = Findparcel((int)p.ID).sender.CustomerName,
-                           TargetName = Findparcel((int)p.ID).target.CustomerName,
+                           SenderName = Findparcel(p.ID).sender.CustomerName,
+                           TargetName = Findparcel(p.ID).target.CustomerName,
                        };
             }
         }

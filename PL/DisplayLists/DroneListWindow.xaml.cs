@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
@@ -29,7 +19,8 @@ namespace PL
             get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
             set => SetValue(dronesDependency, value);
         }
-        static readonly DependencyProperty dronesDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty dronesDependency = DependencyProperty.Register(
             nameof(DroneList),
             typeof(ObservableCollection<BO.DroneToList>),
             typeof(Window));
@@ -104,8 +95,8 @@ namespace PL
 
         private void ButtonFechar_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
-            this.Close();
+            new MainWindow(bl).Show();
+            Close();
 
         }
     }

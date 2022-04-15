@@ -1,9 +1,6 @@
-﻿using BlApi;
-using BLExceptions;
+﻿using BLExceptions;
 using BO;
-using DAL;
 using System;
-using System.Runtime.Serialization;
 
 namespace ConsoleUI_BL
 {
@@ -177,7 +174,7 @@ namespace ConsoleUI_BL
                         Viewid("d", p);
                         Console.WriteLine("enter drone's id new");
                     }
-                    int idUpDataDrone = Int32.Parse(Console.ReadLine());
+                    int idUpDataDrone = int.Parse(Console.ReadLine());
                     if (ChackID(idUpDataDrone, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idUpDataDrone} dont exist");
@@ -200,7 +197,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter Station's id new");
 
                     }
-                    int idStationUpdata = Int32.Parse(Console.ReadLine());
+                    int idStationUpdata = int.Parse(Console.ReadLine());
                     if (ChackID(idStationUpdata, "s", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idStationUpdata} dont exist");
@@ -239,7 +236,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter Customer's id new");
 
                     }
-                    int idCustomerUpdata = Int32.Parse(Console.ReadLine());
+                    int idCustomerUpdata = int.Parse(Console.ReadLine());
                     Customer customer = new();
                     customer = p.Findcustomer(idCustomerUpdata);
                     if (ChackID(idCustomerUpdata, "c", p) == -1)
@@ -279,7 +276,7 @@ namespace ConsoleUI_BL
                         Viewid("d", p);
                         Console.WriteLine("enter parcel's droneID new");
                     }
-                    int droneID = Int32.Parse(Console.ReadLine());
+                    int droneID = int.Parse(Console.ReadLine());
                     if (ChackID(droneID, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {droneID} dont exist");
@@ -297,7 +294,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter droneId new");
 
                     }
-                    int idDroneReleaseFromCharge = Int32.Parse(Console.ReadLine());
+                    int idDroneReleaseFromCharge = int.Parse(Console.ReadLine());
                     if (ChackID(idDroneReleaseFromCharge, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
@@ -317,7 +314,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter drone's id new");
 
                     }
-                    int idDroneAttache = Int32.Parse(Console.ReadLine());
+                    int idDroneAttache = int.Parse(Console.ReadLine());
                     if (ChackID(idDroneAttache, "d", p) == -1)
                         throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
                     if (p.FindDrone(idDroneAttache).HaveParcel)
@@ -334,7 +331,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter drone's id new");
 
                     }
-                    int idDronePickUp = Int32.Parse(Console.ReadLine());
+                    int idDronePickUp = int.Parse(Console.ReadLine());
                     if (ChackID(idDronePickUp, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDronePickUp} dont exist");
@@ -352,7 +349,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter drone's id new");
 
                     }
-                    int idDroneDelivery = Int32.Parse(Console.ReadLine());
+                    int idDroneDelivery = int.Parse(Console.ReadLine());
                     if (ChackID(idDroneDelivery, "d", p) == -1)
                     {
                         throw new DoesNotExistException($"this id {idDroneDelivery} dont exist");
