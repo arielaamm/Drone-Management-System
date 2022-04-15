@@ -549,7 +549,7 @@ namespace BL
                     IsActive = s.IsActive,
                     ID = (int)s.ID,
                     StationName = s.StationName,
-                    Position = temp,
+                    Position = temp, 
                     ChargeSlots = s.ChargeSlots,
                     DroneChargingInStation = droneChargingTemp,
                 };
