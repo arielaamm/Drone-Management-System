@@ -28,7 +28,10 @@ namespace PL
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            new UserWindow(bl, bl.Findcustomer(int.Parse(txtID.Text))).Show();
+            if (bl.Findcustomer(int.Parse(txtID.Text)).Password == txtPassword.Password && bl.Findcustomer(int.Parse(txtID.Text)).IsActive)
+                new UserWindow(bl, bl.Findcustomer(int.Parse(txtID.Text))).Show();
+            else
+                MessageBox.Show("this isn't the right password");
             Close();
         }
     }
