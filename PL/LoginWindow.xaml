@@ -28,11 +28,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Viewbox Width="100" Height="100" Margin="100,14,100,15">
                 <materialDesign:PackIcon Kind="AccountGroup" Height="469" Width="580"/>
             </Viewbox>
-            <TextBlock Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="2" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="AccountCircle" Height="469" Width="580"/>
                     </Viewbox>
@@ -45,7 +46,7 @@
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
-            <TextBlock Grid.Row="2" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="3" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="KeyVariant" Height="500" Width="580"/>
                     </Viewbox>
@@ -87,7 +88,7 @@
                         </Grid>
                 </Underline>
             </TextBlock>
-            <TextBlock Grid.Row="3" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="4" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="Phone" Height="469" Width="580"/>
                     </Viewbox>
@@ -101,7 +102,7 @@
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
-            <TextBlock Grid.Row="4" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="5" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="At" Height="469" Width="580"/>
                     </Viewbox>
@@ -115,7 +116,7 @@
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
-            <TextBlock Grid.Row="5" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="6" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="MapMarker" Height="469" Width="580"/>
                     </Viewbox>
@@ -129,7 +130,7 @@
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
-            <TextBlock Grid.Row="6" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="7" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
                         <materialDesign:PackIcon Kind="MapMarker" Height="469" Width="580"/>
                     </Viewbox>
@@ -143,7 +144,21 @@
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
-            <Button x:Name="btnSignUp" Grid.Row="7" FontSize="20" Width="250" Height="50"
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center">
+                    <Viewbox Width="25" Height="25">
+                        <materialDesign:PackIcon Kind="IdCard" Height="469" Width="580"/>
+                    </Viewbox>
+                    <Underline>
+                        <TextBox x:Name="txtID" FontSize="15" Width="220" FontWeight="Bold" BorderThickness="0"
+                                 HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Background="Transparent"
+                                 materialDesign:HintAssist.Hint="txtID"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                    </Underline>
+            </TextBlock>
+            <Button x:Name="btnSignUp" Grid.Row="8" FontSize="20" Width="250" Height="50"
                         Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans" Margin="5"
                         FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
                         Content="REGISTER" BorderThickness="2" HorizontalContentAlignment="Center"

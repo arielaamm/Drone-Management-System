@@ -26,14 +26,6 @@ namespace PL
         {
             Random rnd = new Random();
             var c = bl.Customers();
-            var list = (from i in c
-                        select i.ID).ToList();
-            int rand = rnd.Next();
-
-            while (!list.TrueForAll(i => i != rand))
-            {
-                rand = rnd.Next();
-            }
             try
             {
                 while (txtPhone.Text.Length != 10 && txtPhone.Text[0] != '0' && txtPhone.Text[1] != '5')
@@ -45,7 +37,7 @@ namespace PL
                 };
                 BO.Customer customer = new BO.Customer()
                 {
-                    ID = rand,
+                    ID = int.Parse(txtID.Text),
                     CustomerName = txtUsername.Text,
                     Position = location,
                     Phone = txtPhone.Text,
