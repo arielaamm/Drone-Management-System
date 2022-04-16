@@ -402,6 +402,8 @@ namespace BL
                     Lattitude = customer.Position.Lattitude,
                     Longitude = customer.Position.Longitude,
                     Phone = customer.Phone,
+                    Email = customer.Email,
+                    Password= customer.Password,
                 });
             }
         }
@@ -461,13 +463,13 @@ namespace BL
         /// <summary>
         /// Assign a parcel to a drone.
         /// </summary>
-        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="DroneID">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AttacheDrone(int id)
+        public void AttacheDrone(int DroneID)
         {
             lock (dal)
             {
-                if (!FindDrone(id).HaveParcel)
+                if (!FindDrone(DroneID).HaveParcel)
                 {
                     if (!ParcelsNotAssociated().Any())
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
@@ -475,7 +477,14 @@ namespace BL
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
-                    throw new DroneIsBusyException($"the drone {id} in busy right new");
+                    throw new DroneIsBusyException($"the drone {DroneID} in busy right new");
+            }
+        }
+        public void AttacheDroneParcelID(int ParcelID)
+        {
+            lock (dal)
+            {
+                dal.AttacheDrone(ParcelID);
             }
         }
 
@@ -500,6 +509,17 @@ namespace BL
             }
             catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to pickup"); }
         }
+        public void PickUpParcelParcelID(int id)
+        {
+            try
+            {
+                lock (dal)
+                {
+                    dal.PickupParcel(id);
+                }
+            }
+            catch (Exception) { throw new Exception(); }
+        }
 
         /// <summary>
         /// Delivery of a parcel by drone.
@@ -521,7 +541,13 @@ namespace BL
             }
             catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to delivered"); }
         }
-
+        public void ParceldeliveryParcelID(int id)
+        {
+            lock (dal)
+            {
+                dal.DeliverdParcel(id);
+            }
+        }
         /// <summary>
         /// station search.
         /// </summary>

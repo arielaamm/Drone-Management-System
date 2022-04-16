@@ -428,7 +428,10 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int parcelID)
         {
-            int indexDrone = Dronelist().ToList().FindIndex(i => i.Status == Status.CREAT || i.Status == Status.MAINTENANCE);
+            int indexDrone = Dronelist().ToList().FindIndex(i =>
+                (i.Status == Status.CREAT || i.Status == Status.MAINTENANCE)
+                && i.haveParcel == false
+                && i.IsActive == true);
             Drone d = new();
             d = Dronelist().ToList()[indexDrone];
             if (d.IsActive == false)
