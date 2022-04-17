@@ -61,7 +61,6 @@ namespace BL
                                 //bl.AddBattery(droneId, -bl.GetElectricityPerKM((DELAY / 1000) * speed, d.Parcel.weight));
                                 //TODO bonus location
                             }
-
                         }
                         else
                         {
