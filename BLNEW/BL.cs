@@ -989,4 +989,4 @@ namespace BL
             Simulator simulator = new Simulator(bl, droneId, display, checker);//constractor
         }
     }
-}
+} 
