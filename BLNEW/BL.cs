@@ -401,13 +401,9 @@ namespace BL
                     CustomerName = customer.CustomerName,
                     Lattitude = customer.Position.Lattitude,
                     Longitude = customer.Position.Longitude,
-                    Phone= customer.Phone,
+                    Phone = customer.Phone,
                     Email = customer.Email,
-<<<<<<< HEAD
                     Password = customer.Password,
-=======
-                    Password= customer.Password,
->>>>>>> 24814bf98c233ab363c1dc0a584770dcbd4fdc06
                 });
             }
         }
@@ -993,4 +989,4 @@ namespace BL
             Simulator simulator = new Simulator(bl, droneId, display, checker);//constractor
         }
     }
-} 
+}
