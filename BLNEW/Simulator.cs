@@ -43,7 +43,7 @@ namespace BL
                     case Status.BELONG:
                         if (bl.Findparcel((int)(d.Parcel.ID)).PickedUp == null)
                         {
-                            double time = Distance(d.Position, d.Parcel.LocationOfSender) / speed;//enough battery??
+                            MinPower(d, d.Position, d.Parcel.LocationOfSender) / speed;//enough battery??
                             if (time < 1)
                             {
                                 bl.PickUpParcel((int)(d.Parcel.ID));
