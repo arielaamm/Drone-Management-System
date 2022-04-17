@@ -3,6 +3,7 @@ using BO;
 using System;
 using System.Threading;
 using static BL.BL;
+//ntc the delay
 
 namespace BL
 {
@@ -43,9 +44,10 @@ namespace BL
                     case Status.BELONG:
                         if (bl.Findparcel((int)(d.Parcel.ID)).PickedUp == null)
                         {
-                            MinPower(d, d.Position, d.Parcel.LocationOfSender) / speed;//enough battery??
-                            if (time < 1)
+                            double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOfSender), d.Parcel.weight);
+                            if (a < d.Battery)
                             {
+                                d.Parcel.distance = Distance(d.Position, d.Parcel.LocationOfSender);
                                 bl.PickUpParcel((int)(d.Parcel.ID));
                                 //i = 0;
                                 Thread.Sleep((int)(Distance(d.Position, d.Parcel.LocationOfSender) / speed));
@@ -59,9 +61,10 @@ namespace BL
                         }
                         else
                         {
-                            double time = Distance(d.Position, d.Parcel.LocationOftarget) / speed;// - i;//enough battery??
-                            if (time < 1)
+                            double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOftarget), d.Parcel.weight);
+                            if (a < d.Battery)
                             {
+                                d.Parcel.distance = Distance(d.Position, d.Parcel.LocationOftarget);
                                 bl.Parceldelivery((int)d.Parcel.ID);
                                 //i = 0;
                                 Thread.Sleep((int)(Distance(d.Position, d.Parcel.LocationOfSender) / speed));

@@ -167,7 +167,16 @@ namespace BL
                 return (int)i;
             }
         }
-
+        public static double PowerConsumption(double distance, Weight a)
+        {
+            if (a == Weight.FREE)
+                return (5 * distance);
+            if (a == Weight.LIGHT)
+                return (7 * distance);
+            if (a == Weight.MEDIUM)
+                return (10 * distance);
+            return (12 * distance);
+        }
         /// <summary>
         /// Distance.
         /// </summary>
