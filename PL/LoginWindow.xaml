@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL" 
+        xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" 
         ResizeMode="NoResize" 
@@ -49,7 +49,7 @@
             </TextBlock>
             <TextBlock Grid.Row="3" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
-                        <materialDesign:PackIcon Kind="KeyVariant" Height="500" Width="580"/>
+                        <materialDesign:PackIcon Kind="KeyVariant" Height="469" Width="580"/>
                     </Viewbox>
                     <Underline>
                         <Label Grid.Column="2" FontSize="15" Background="Transparent" x:Name="lblPass"
@@ -70,7 +70,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
                                  Background="Transparent" FontSize="15" FontWeight="Bold" materialDesign:HintAssist.Hint="Password"
                                  materialDesign:HintAssist.HelperText="At least 4 characters"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent">
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" Width="220">
                         <PasswordBox.Resources>
                             <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                                 <Setter Property="Width" Value="200" />
@@ -82,11 +82,6 @@
                                 </Style>
                         </PasswordBox.Resources>
                     </PasswordBox>
-                        <Grid x:Name="imgShowPassword" Background="Transparent" Cursor="Hand">
-                            <Viewbox Width="20" Height="20">
-                                <materialDesign:PackIcon Kind="Eye" Height="469" Width="580"/>
-                            </Viewbox>
-                        </Grid>
                 </Underline>
             </TextBlock>
             <TextBlock Grid.Row="4" HorizontalAlignment="Center">
@@ -154,7 +149,7 @@
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
-                                 materialDesign:HintAssist.Hint="txtID"
+                                 materialDesign:HintAssist.Hint="ID"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>

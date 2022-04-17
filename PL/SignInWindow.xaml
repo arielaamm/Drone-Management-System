@@ -77,11 +77,6 @@
                                 </Style>
                         </PasswordBox.Resources>
                     </PasswordBox>
-                        <Grid x:Name="imgShowPassword" Background="Transparent" Cursor="Hand">
-                            <Viewbox Width="20" Height="20">
-                                <materialDesign:PackIcon Kind="Eye" Height="469" Width="580"/>
-                            </Viewbox>
-                        </Grid>
                 </Underline>
             </TextBlock>
             <TextBlock Grid.Row="3" HorizontalAlignment="Center">

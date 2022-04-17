@@ -7,7 +7,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>42</Battery>
+    <Battery>36</Battery>
     <Longitude>4.63118711236454</Longitude>
     <Lattitude>0.5018978242305563</Lattitude>
   </Drone>
@@ -18,7 +18,7 @@
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>64</Battery>
+    <Battery>93</Battery>
     <Longitude>0.6665006026935298</Longitude>
     <Lattitude>2.7730787181170093</Lattitude>
   </Drone>
@@ -29,7 +29,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>93</Battery>
+    <Battery>72</Battery>
     <Longitude>4.63118711236454</Longitude>
     <Lattitude>0.5018978242305563</Lattitude>
   </Drone>
@@ -40,7 +40,7 @@
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>88</Battery>
+    <Battery>48</Battery>
     <Longitude>0.6665006026935298</Longitude>
     <Lattitude>2.7730787181170093</Lattitude>
   </Drone>
@@ -51,7 +51,7 @@
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>44</Battery>
+    <Battery>30</Battery>
     <Longitude>4.63118711236454</Longitude>
     <Lattitude>0.5018978242305563</Lattitude>
   </Drone>

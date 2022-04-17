@@ -65,7 +65,7 @@
     { /// <summary>
       /// Defines the CREAT.
       /// </summary>
-        CREAT = 0,
+        FREE = 0,
         /// <summary>
         /// Defines the BELONG.
         /// </summary>

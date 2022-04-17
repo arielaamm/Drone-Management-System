@@ -429,7 +429,7 @@ namespace DAL
         public void AttacheDrone(int parcelID)
         {
             int indexDrone = Dronelist().ToList().FindIndex(i =>
-                (i.Status == Status.CREAT || i.Status == Status.MAINTENANCE)
+                (i.Status == Status.FREE || i.Status == Status.MAINTENANCE)
                 && i.haveParcel == false
                 && i.IsActive == true);
             Drone d = new();
@@ -504,7 +504,7 @@ namespace DAL
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.TargetId).Longitude;
             d.Lattitude = FindCustomers(p.TargetId).Lattitude;
-            d.Status = Status.CREAT;
+            d.Status = Status.FREE;
             d.haveParcel = false;
             UpdateDrone(d);
         }
@@ -522,7 +522,7 @@ namespace DAL
             if (Stationlist().ToList()[indexS].ChargeSlots <= 0)
                 throw new ThereAreNoRoomException("There is no more room to load another Drone");
             int indexD = Dronelist().ToList().FindIndex(i => i.ID == droneID);
-            if (Dronelist().ToList()[indexD].Status != Status.CREAT)
+            if (Dronelist().ToList()[indexD].Status != Status.FREE)
                 throw new DroneInMiddleActionException("The drone is in the middle of the action");
 
             Station s = new();
@@ -564,7 +564,7 @@ namespace DAL
                 Drone d = new();
                 d = Dronelist().ToList()[index];
                 d.Battery = 100;
-                d.Status = Status.CREAT;
+                d.Status = Status.FREE;
                 UpdateDrone(d);
 
                 index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
@@ -600,7 +600,7 @@ namespace DAL
                 d.Battery = Power()[4] * time / 60;
                 if (d.Battery > 100)
                     d.Battery = 100;
-                d.Status = Status.CREAT;
+                d.Status = Status.FREE;
                 UpdateDrone(d);
 
                 index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);

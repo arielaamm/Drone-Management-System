@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 
 namespace PL
 {
@@ -10,17 +9,6 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
         private readonly BO.Customer customer;
-        internal ObservableCollection<BO.CustomerToList> CustomersList
-        {
-            get => (ObservableCollection<BO.CustomerToList>)GetValue(customersDependency);
-            set => SetValue(customersDependency, value);
-        }
-
-        private static readonly DependencyProperty customersDependency = DependencyProperty.Register(
-            nameof(CustomersList),
-            typeof(ObservableCollection<BO.CustomerToList>),
-            typeof(Window));
-
         public UserWindow(BlApi.IBL bl, BO.Customer customer)
         {
             InitializeComponent();

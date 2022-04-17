@@ -110,4 +110,14 @@
     <Password>12321</Password>
     <Email>fsasfa</Email>
   </Customer>
+  <Customer>
+    <IsActive>True</IsActive>
+    <ID>60</ID>
+    <CustomerName>wer</CustomerName>
+    <Phone>0525111348</Phone>
+    <Longitude>12</Longitude>
+    <Lattitude>21</Lattitude>
+    <Password>34</Password>
+    <Email>qwewe</Email>
+  </Customer>
 </Customers>

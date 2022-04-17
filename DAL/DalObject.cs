@@ -211,7 +211,7 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int parcelID)
         {
-            int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.CREAT);
+            int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.FREE);
             Drone d = new();
             d = DataSource.drones[indexDrone];
             if (d.IsActive == false)
@@ -283,7 +283,7 @@ namespace DAL
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.TargetId).Longitude;
             d.Lattitude = FindCustomers(p.TargetId).Lattitude;
-            d.Status = Status.CREAT;
+            d.Status = Status.FREE;
             d.haveParcel = false;
             DataSource.drones[indexDrone] = d;
         }
@@ -343,7 +343,7 @@ namespace DAL
                 Drone d = new();
                 d = DataSource.drones[index];
                 d.Battery = 100;
-                d.Status = Status.CREAT;
+                d.Status = Status.FREE;
                 DataSource.drones[index] = d;
 
                 index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
@@ -376,7 +376,7 @@ namespace DAL
                 d.Battery = Power()[4] * time;
                 if (d.Battery > 100)
                     d.Battery = 100;
-                d.Status = Status.CREAT;
+                d.Status = Status.FREE;
                 DataSource.drones[index] = d;
 
                 index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);

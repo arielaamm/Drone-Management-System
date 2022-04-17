@@ -72,13 +72,13 @@ namespace BL
                 }
                 foreach (var item in dal.Dronelist())
                 {
-                    if (item.Status == DO.Status.CREAT)
+                    if (item.Status == DO.Status.FREE)
                     {
                         tempDrone.Status = DO.Status.MAINTENANCE;
                         dal.UpdateDrone(tempDrone);
                         dal.DroneOutCharge((int)item.ID);
                         tempDrone = dal.FindDrone((int)item.ID);
-                        tempDrone.Status = DO.Status.CREAT;
+                        tempDrone.Status = DO.Status.FREE;
                         int temp = random.Next(0, 2);
                         if (temp == 0)
                         {
@@ -970,7 +970,7 @@ namespace BL
         {
             lock (dal)
             {
-                if (drone.Status == Status.MAINTENANCE && drone.Status == Status.CREAT)
+                if (drone.Status == Status.MAINTENANCE && drone.Status == Status.FREE)
                     dal.DeleteDrone(dal.FindDrone((int)drone.ID));
                 else
                     throw new CantDeleteException($"you can't delete this drone: {drone.ID}");
