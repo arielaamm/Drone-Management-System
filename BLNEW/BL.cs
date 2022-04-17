@@ -182,6 +182,17 @@ namespace BL
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
+        public double PowerConsumption(double distance, Weight a)
+        {
+            if (a == Weight.FREE)
+                return dal.Power()[0] * distance;
+            if (a == Weight.LIGHT)
+                return dal.Power()[1] * distance;
+            if (a == Weight.MEDIUM)
+                return dal.Power()[2] * distance;
+            return dal.Power()[3] * distance;
+
+        }
 
         /// <summary>
         /// Add station.
