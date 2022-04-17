@@ -22,6 +22,7 @@ namespace PL
         {
             TextBoxLattitude.Visibility = Visibility.Visible;
             TextBoxLongitude.Visibility = Visibility.Visible;
+            TextBoxEmail.Visibility = Visibility.Hidden;
             Bnt.Visibility = Visibility.Visible;
             bnt = "Changelocation";
         }
@@ -29,13 +30,15 @@ namespace PL
         private void Changeemail_Click(object sender, RoutedEventArgs e)
         {
             TextBoxEmail.Visibility = Visibility.Visible;
+            TextBoxLattitude.Visibility = Visibility.Hidden;
+            TextBoxLongitude.Visibility = Visibility.Hidden;
             Bnt.Visibility = Visibility.Visible;
             bnt = "Changeemail";
         }
 
         private void SingOut_Click(object sender, RoutedEventArgs e)
         {
-            new LoginWindow();
+            new LoginWindow().Show();
             Close();
         }
 
@@ -56,7 +59,7 @@ namespace PL
 
         private void SendParcel_Click(object sender, RoutedEventArgs e)
         {
-            new SendParcelWindow(bl, customer);
+            new SendParcelWindow(bl, customer).Show();
             Close();
         }
     }

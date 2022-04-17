@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -15,16 +14,6 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
         private readonly BO.Customer customer;
-        internal ObservableCollection<BO.CustomerToList> CustomersList
-        {
-            get => (ObservableCollection<BO.CustomerToList>)GetValue(customersDependency);
-            set => SetValue(customersDependency, value);
-        }
-
-        private static readonly DependencyProperty customersDependency = DependencyProperty.Register(
-            nameof(CustomersList),
-            typeof(ObservableCollection<BO.CustomerToList>),
-            typeof(Window));
         public SendParcelWindow(BlApi.IBL bl, BO.Customer customer)
         {
             InitializeComponent();
@@ -87,7 +76,7 @@ namespace PL
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new UserWindow(bl, customer);
+            new UserWindow(bl, customer).Show();
             Close();
         }
     }

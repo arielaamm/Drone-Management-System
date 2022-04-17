@@ -19,15 +19,14 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid>
-            <Label x:Name="IDLabel" Content="ID"                    Margin="58,122,358,491" />
-            <Label x:Name="WeightLabel" Content="Weight"       Margin="58,177,323,435"/>
-            <Label x:Name="PriorityLabel" Content="Priority"      Margin="58,227,323,386" />
-            <Label x:Name="TargetLabel" Content="Target name"      Margin="58,283,284,330" />
+            <Label x:Name="IDLabel" Content="ID" Margin="58,122,358,491" />
+            <Label x:Name="WeightLabel" Content="Weight" Margin="58,177,323,435"/>
+            <Label x:Name="PriorityLabel" Content="Priority" Margin="58,227,323,386" />
+            <Label x:Name="TargetLabel" Content="Target name" Margin="58,283,284,330" />
             <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top"/>
             <ComboBox x:Name="WeightSelector" Margin="262,177,44,0" Height="38" VerticalAlignment="Top"/>
             <ComboBox x:Name="PrioritySelector" Margin="262,227,42,0" Height="37" VerticalAlignment="Top"/>
             <ComboBox x:Name="TargetSelector" Margin="262,283,42,0" Height="37" VerticalAlignment="Top"/>
-
 
             <Button x:Name="BntAdd" Content="Add the Parcel" HorizontalAlignment="Center" Margin="0,369,0,0" Width="192" FontWeight="Bold" Click="Button_Click_Add_Parcel" Height="50" VerticalAlignment="Top"/>
             <Button Content="close" Click="Button_Click"  HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,460,0,0" Width="258" Height="61"/>
