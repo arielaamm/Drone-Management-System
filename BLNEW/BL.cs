@@ -403,7 +403,7 @@ namespace BL
                     Longitude = customer.Position.Longitude,
                     Phone = customer.Phone,
                     Email = customer.Email,
-                    Password = customer.Password,
+                    Password= customer.Password,
                 });
             }
         }

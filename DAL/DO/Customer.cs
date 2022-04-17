@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DO
+﻿namespace DO
 {
     /// <summary>
     /// Customer in DAL.
@@ -40,5 +34,14 @@ namespace DO
         /// Gets or sets the Lattitude.
         /// </summary>
         public double Lattitude { set; get; }
+        /// <summary>
+        /// Gets or sets the Password.
+        /// </summary>
+        public string Password { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Email.
+        /// </summary>
+        public string Email { set; get; }
     }
 }

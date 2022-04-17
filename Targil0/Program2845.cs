@@ -2,16 +2,16 @@
 
 namespace Targil0
 {
-    partial class Program
+    internal partial class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             welcome2845();
             welcome5562();
             Console.ReadKey();
         }
         //מה מצב הסחה בשטחים? המצב בסדר
-        static partial void welcome5562();  
+        static partial void welcome5562();
         private static void welcome2845()
         {
             Console.WriteLine("enter your name:");

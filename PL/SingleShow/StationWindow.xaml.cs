@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -26,7 +16,8 @@ namespace PL
             get => (ObservableCollection<BO.StationToList>)GetValue(stationsDependency);
             set => SetValue(stationsDependency, value);
         }
-        static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
+
+        private static readonly DependencyProperty stationsDependency = DependencyProperty.Register(
             nameof(Station),
             typeof(ObservableCollection<BO.StationToList>),
             typeof(Window));
@@ -42,7 +33,7 @@ namespace PL
             if (id == null)
             {
                 new StationListWindow(bl).Show();
-                this.Close();
+                Close();
             }
             else
             {
@@ -62,7 +53,7 @@ namespace PL
         private void ButtonFechar_Click(object sender, RoutedEventArgs e)
         {
             new StationListWindow(bl).Show();
-            this.Close();
+            Close();
 
         }
     }

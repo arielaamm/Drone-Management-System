@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BO
 {
@@ -31,6 +27,15 @@ namespace BO
         /// </summary>
         public string Phone { set; get; }
 
+        /// <summary>
+        /// Gets or sets the Password.
+        /// </summary>
+        public string Password { set; get; }
+
+        /// <summary>
+        /// Gets or sets the Email.
+        /// </summary>
+        public string Email { set; get; }
         /// <summary>
         /// Gets or sets the Position.
         /// </summary>

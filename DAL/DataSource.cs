@@ -1,10 +1,7 @@
-﻿using DAL;
-using DO;
+﻿using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -160,6 +157,8 @@ namespace DAL
                     Longitude = GetRandomNumber(5, 0),
                     Lattitude = GetRandomNumber(7, 0),
                     IsActive = true,
+                    Email = "Customer" + i + "@gmail.com",
+                    Password = "0",
                 };
                 Config.staticId++;
                 customers.Add(c);
@@ -214,7 +213,6 @@ namespace DAL
                         drone.haveParcel = true;
                         drones[index] = drone;
                     }
-
                 }
 
                 Config.staticId++;

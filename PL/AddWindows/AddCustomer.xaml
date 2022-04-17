@@ -13,8 +13,8 @@
             <Label x:Name="IDLabel" Content="ID" Margin="37,54,155,324" />
             <Label x:Name="NameLabel" Content="Customer name" Margin="37,88,155,286"/>
             <Label x:Name="LongitudeLabel" Content="Longitude" Margin="37,124,155,258" />
-            <Label x:Name="LattitudeLabel" Content="Lattitude" Margin="37,160,155,212" />
-            <Label x:Name="PhoneLabel" Content="Phone" Margin="37,200,155,172" />
+            <Label x:Name="LattitudeLabel" Content="Lattitude" Margin="37,160,155,222" />
+            <Label x:Name="PhoneLabel" Content="Phone" Margin="37,200,155,181" />
 
 
             <TextBox x:Name="TextBoxID" MaxLength="5" Margin="171,54,29,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>

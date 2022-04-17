@@ -77,19 +77,21 @@ namespace BlApi
         /// The AttacheDrone.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
-        void AttacheDrone(int id);
+        void AttacheDrone(int DroneID);
+        void AttacheDroneParcelID(int ParcelID);
 
         /// <summary>
         /// The PickUpParcel.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void PickUpParcel(int id);
-
+        void PickUpParcelParcelID(int id);
         /// <summary>
         /// The Parceldelivery.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void Parceldelivery(int id);
+        void ParceldeliveryParcelID(int id);
 
         /// <summary>
         /// The FindStation.

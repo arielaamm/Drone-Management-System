@@ -5,9 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
-      d:DesignHeight="407" d:DesignWidth="320"
-      Title="AddParcel">
-
+      d:DesignHeight="407" d:DesignWidth="320">
     <Grid>
         <Grid>
             <Label x:Name="IDLabel" Content="ID"                    Margin="29,55,163,322" />
@@ -15,10 +13,6 @@
             <Label x:Name="PriorityLabel" Content="Priority"      Margin="29,125,163,256" />
             <Label x:Name="TargetLabel" Content="Target name"      Margin="29,162,163,210" />
             <Label x:Name="SenderLabel" Content="Sender name"              Margin="29,202,163,170" />
-
-
-
-
             <TextBox x:Name="TextBoxID" MaxLength="5" Margin="168,55,32,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="25" VerticalAlignment="Top"/>
             <ComboBox x:Name="WeightSelector" Margin="168,92,32,0" Height="25" VerticalAlignment="Top"/>
             <ComboBox x:Name="PrioritySelector" Margin="168,125,32,0" Width="120" Height="25" VerticalAlignment="Top"/>
