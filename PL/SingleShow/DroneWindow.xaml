@@ -40,7 +40,8 @@
                 <DataGridTextColumn Header="Lattitude" Binding="{Binding Position.Lattitude}" />
                 <DataGridTextColumn Header="Longitude" Binding="{Binding Position.Longitude}" />
             </DataGrid.Columns>
-        </DataGrid>  
+        </DataGrid>
         <Frame Grid.Column="1" Grid.Row="1" x:Name="dronepage" NavigationUIVisibility="Hidden" />
+        <Button x:Name ="Automatic" Content="Automatic" HorizontalAlignment="Left" Margin="47,0,0,0" VerticalAlignment="Center" Background="Blue" RenderTransformOrigin="0.197,1.535" Click="Button_Click"/>
     </Grid>
 </Window>
