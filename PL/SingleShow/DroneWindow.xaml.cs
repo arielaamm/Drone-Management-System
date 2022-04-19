@@ -43,6 +43,7 @@ namespace PL
             {
                 InitializeComponent();
                 this.bl = bl;
+                d = this.bl.FindDrone((int)id);
                 var t = this.bl.Drones().Where(a => id == a.ID);
                 Drone = new(t);
                 dronepage.Content = new ActionsDrone(bl, (int)id, this);
@@ -60,6 +61,7 @@ namespace PL
 
         }
         BackgroundWorker DroneWorker;
+        BO.Drone d;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DroneWorker = new BackgroundWorker();
@@ -68,17 +70,11 @@ namespace PL
         }
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BO.Drone drone = (BO.Drone)e.Argument;
             Action display = foo;
-            this.bl.Uploader((int)drone.ID, display, DroneWorker.CancellationPending == true);
-
-           
+            this.bl.Uploader((int)d.ID, display, DroneWorker.CancellationPending == true);
         }
         //private object Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) => e.UserState;
-        private void foo()
-        {
-
-        }
+        private void foo(){Console.WriteLine("iii");}
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled == true)

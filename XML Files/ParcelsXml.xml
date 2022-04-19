@@ -21,12 +21,12 @@
     <TargetId>11</TargetId>
     <Weight>MEDIUM</Weight>
     <Priority>SOS</Priority>
-    <DroneId>0</DroneId>
+    <DroneId>3</DroneId>
     <Requested>2022-04-19T13:04:24.5042798+03:00</Requested>
-    <Scheduled xsi:nil="true" />
+    <Scheduled>2022-04-20T00:00:53.6507082+03:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Status>BELONG</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>

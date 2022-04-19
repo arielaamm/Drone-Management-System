@@ -376,7 +376,7 @@ namespace DAL
                 d.Battery = Power()[4] * time;
                 if (d.Battery > 100)
                     d.Battery = 100;
-                d.Status = Status.FREE;
+                    d.Status = Status.FREE;//changed for simulator
                 DataSource.drones[index] = d;
 
                 index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
