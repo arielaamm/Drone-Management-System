@@ -21,11 +21,14 @@ namespace PL
             this.id = id;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneListWindow(bl).Show();
+            parent.Close();
+        }
         private void ReleRelease_from_charging(object sender, RoutedEventArgs e)
         {
-            double t = (time - DateTime.Now).Minutes;
+            double t = (DateTime.Now - time).Minutes;
 
             try
             {
@@ -81,7 +84,6 @@ namespace PL
             try
             {
                 bl.Parceldelivery(id);
-                bl.AttacheDrone(id);
             }
             catch (Exception ex)
             {

@@ -43,15 +43,23 @@ namespace PL
                 customerInParcelTarget.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)TargetSelector.SelectedItem).ID;
                 parcel.target = customerInParcelTarget;
                 if (parcel.sender.ID == parcel.target.ID)
-                    MessageBox.Show("you can't send a parcel to your self, try agine");
+                    MessageBox.Show("you can't send a parcel to your self, try again");
                 else
                 {
-                    bl.AddParcel(parcel);
-                    bl.AttacheDroneParcelID(parcel.ID);
-                    System.Threading.Thread.Sleep(100);
-                    bl.PickUpParcel(parcel.ID);
-                    System.Threading.Thread.Sleep(100);
-                    bl.Parceldelivery(parcel.ID);
+
+                    if ((from d in bl.Drones()
+                         where bl.FindDrone(d.ID).HaveParcel == false
+                         select d).Count() == 0)
+                        MessageBox.Show("Where is on free drone please try again letter");
+                    else
+                    {
+                        bl.AddParcel(parcel);
+                        bl.AttacheDroneParcelID(parcel.ID);
+                        System.Threading.Thread.Sleep(100);
+                        bl.PickUpParcelParcelID(parcel.ID);
+                        System.Threading.Thread.Sleep(100);
+                        bl.ParceldeliveryParcelID(parcel.ID);
+                    }
                 }
             }
             catch (Exception ex)
@@ -66,6 +74,8 @@ namespace PL
             }
             if (t < bl.Parcels().Count())
             {
+                MessageBox.Show("the parcel arrived Successfully");
+                new UserWindow(bl, customer).Show();
                 Close();
             }
         }

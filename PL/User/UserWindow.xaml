@@ -22,7 +22,7 @@
         <Button x:Name="Changelocation" Content="Change location" HorizontalAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" Click="Changelocation_Click"/>
         <Button x:Name="Changeemail" Content="Change email" HorizontalAlignment="Center" Margin="0,239,0,0" VerticalAlignment="Top" Click="Changeemail_Click"/>
         <Button x:Name="SingOut" Content="Sing out" HorizontalAlignment="Center" Margin="0,364,0,0" VerticalAlignment="Top" Click="SingOut_Click"/>
-        <TextBlock x:Name="txtName" HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Height="44" Width="372" FontFamily="Bold" FontSize="26"/>
+        <TextBlock x:Name="txtName" HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="372" FontFamily="Bold" FontSize="22"/>
         <TextBox x:Name="TextBoxLongitude" HorizontalAlignment="Center" Margin="0,438,0,0" VerticalAlignment="Top" Height="38" Width="88" Background="Transparent"
                                  materialDesign:HintAssist.Hint="Longitude"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"

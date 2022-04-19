@@ -4,11 +4,11 @@
     <IsActive>true</IsActive>
     <ID>18</ID>
     <SenderId>9</SenderId>
-    <TargetId>8</TargetId>
-    <Weight>MEDIUM</Weight>
-    <Priority>REGULAR</Priority>
+    <TargetId>11</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>FAST</Priority>
     <DroneId>0</DroneId>
-    <Requested>2022-04-15T12:45:42.0696274+03:00</Requested>
+    <Requested>2022-04-19T13:04:24.4986196+03:00</Requested>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
@@ -17,26 +17,12 @@
   <Parcel>
     <IsActive>true</IsActive>
     <ID>19</ID>
-    <SenderId>14</SenderId>
-    <TargetId>13</TargetId>
-    <Weight>HEAVY</Weight>
-    <Priority>FAST</Priority>
-    <DroneId>3</DroneId>
-    <Requested>2022-04-15T12:45:42.0728689+03:00</Requested>
-    <Scheduled>2022-04-15T12:45:42.0753448+03:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>BELONG</Status>
-  </Parcel>
-  <Parcel>
-    <IsActive>true</IsActive>
-    <ID>20</ID>
-    <SenderId>12</SenderId>
-    <TargetId>15</TargetId>
+    <SenderId>17</SenderId>
+    <TargetId>11</TargetId>
     <Weight>MEDIUM</Weight>
     <Priority>SOS</Priority>
     <DroneId>0</DroneId>
-    <Requested>2022-04-15T12:45:42.0754011+03:00</Requested>
+    <Requested>2022-04-19T13:04:24.5042798+03:00</Requested>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
@@ -44,14 +30,28 @@
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
-    <ID>21</ID>
-    <SenderId>16</SenderId>
-    <TargetId>8</TargetId>
-    <Weight>MEDIUM</Weight>
+    <ID>20</ID>
+    <SenderId>9</SenderId>
+    <TargetId>15</TargetId>
+    <Weight>LIGHT</Weight>
     <Priority>SOS</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-19T13:04:24.5042978+03:00</Requested>
+    <Scheduled>2022-04-19T13:04:24.510657+03:00</Scheduled>
+    <PickedUp>2022-04-19T13:05:35.2511587+03:00</PickedUp>
+    <Deliverd>2022-04-19T13:05:35.9231292+03:00</Deliverd>
+    <Status>DELIVERD</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>21</ID>
+    <SenderId>8</SenderId>
+    <TargetId>17</TargetId>
+    <Weight>HEAVY</Weight>
+    <Priority>REGULAR</Priority>
     <DroneId>4</DroneId>
-    <Requested>2022-04-15T12:45:42.0754029+03:00</Requested>
-    <Scheduled>2022-04-15T12:45:42.0754385+03:00</Scheduled>
+    <Requested>2022-04-19T13:04:24.5107925+03:00</Requested>
+    <Scheduled>2022-04-19T13:04:24.5108486+03:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
     <Status>BELONG</Status>
@@ -59,12 +59,12 @@
   <Parcel>
     <IsActive>true</IsActive>
     <ID>22</ID>
-    <SenderId>13</SenderId>
-    <TargetId>16</TargetId>
+    <SenderId>9</SenderId>
+    <TargetId>8</TargetId>
     <Weight>HEAVY</Weight>
-    <Priority>SOS</Priority>
+    <Priority>FAST</Priority>
     <DroneId>0</DroneId>
-    <Requested>2022-04-15T12:45:42.0754391+03:00</Requested>
+    <Requested>2022-04-19T13:04:24.5108503+03:00</Requested>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
@@ -73,13 +73,13 @@
   <Parcel>
     <IsActive>true</IsActive>
     <ID>23</ID>
-    <SenderId>13</SenderId>
-    <TargetId>14</TargetId>
-    <Weight>MEDIUM</Weight>
-    <Priority>SOS</Priority>
+    <SenderId>11</SenderId>
+    <TargetId>9</TargetId>
+    <Weight>LIGHT</Weight>
+    <Priority>REGULAR</Priority>
     <DroneId>5</DroneId>
-    <Requested>2022-04-15T12:45:42.07544+03:00</Requested>
-    <Scheduled>2022-04-15T12:45:42.0754409+03:00</Scheduled>
+    <Requested>2022-04-19T13:04:24.5108535+03:00</Requested>
+    <Scheduled>2022-04-19T13:04:24.5108553+03:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
     <Status>BELONG</Status>
@@ -87,57 +87,71 @@
   <Parcel>
     <IsActive>true</IsActive>
     <ID>24</ID>
-    <SenderId>16</SenderId>
-    <TargetId>15</TargetId>
-    <Weight>MEDIUM</Weight>
-    <Priority>SOS</Priority>
-    <DroneId>6</DroneId>
-    <Requested>2022-04-15T12:45:42.0754413+03:00</Requested>
-    <Scheduled>2022-04-15T12:45:42.075442+03:00</Scheduled>
+    <SenderId>15</SenderId>
+    <TargetId>8</TargetId>
+    <Weight>HEAVY</Weight>
+    <Priority>REGULAR</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-19T13:04:24.5108561+03:00</Requested>
+    <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
-    <Status>BELONG</Status>
+    <Status>CREAT</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
     <ID>25</ID>
-    <SenderId>8</SenderId>
-    <TargetId>14</TargetId>
-    <Weight>LIGHT</Weight>
+    <SenderId>11</SenderId>
+    <TargetId>9</TargetId>
+    <Weight>MEDIUM</Weight>
     <Priority>REGULAR</Priority>
-    <DroneId>7</DroneId>
-    <Requested>2022-04-15T12:45:42.0754424+03:00</Requested>
-    <Scheduled>2022-04-15T12:45:42.0754429+03:00</Scheduled>
+    <DroneId>0</DroneId>
+    <Requested>2022-04-19T13:04:24.510857+03:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Deliverd xsi:nil="true" />
+    <Status>CREAT</Status>
+  </Parcel>
+  <Parcel>
+    <IsActive>true</IsActive>
+    <ID>26</ID>
+    <SenderId>8</SenderId>
+    <TargetId>10</TargetId>
+    <Weight>MEDIUM</Weight>
+    <Priority>FAST</Priority>
+    <DroneId>6</DroneId>
+    <Requested>2022-04-19T13:04:24.5108578+03:00</Requested>
+    <Scheduled>2022-04-19T13:04:24.5108588+03:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
     <Status>BELONG</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
-    <ID>26</ID>
-    <SenderId>13</SenderId>
-    <TargetId>14</TargetId>
+    <ID>27</ID>
+    <SenderId>15</SenderId>
+    <TargetId>17</TargetId>
     <Weight>MEDIUM</Weight>
-    <Priority>SOS</Priority>
-    <DroneId>0</DroneId>
-    <Requested>2022-04-15T12:45:42.0754433+03:00</Requested>
-    <Scheduled xsi:nil="true" />
+    <Priority>FAST</Priority>
+    <DroneId>7</DroneId>
+    <Requested>2022-04-19T13:04:24.5108598+03:00</Requested>
+    <Scheduled>2022-04-19T13:04:24.5108611+03:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Status>BELONG</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
-    <ID>27</ID>
+    <ID>7797</ID>
     <SenderId>9</SenderId>
-    <TargetId>15</TargetId>
+    <TargetId>13</TargetId>
     <Weight>LIGHT</Weight>
-    <Priority>SOS</Priority>
+    <Priority>REGULAR</Priority>
     <DroneId>0</DroneId>
-    <Requested>2022-04-15T12:45:42.0754492+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Requested>2022-04-19T13:20:22.6923965+03:00</Requested>
+    <Scheduled>2022-04-19T13:20:25.2111099+03:00</Scheduled>
+    <PickedUp>2022-04-19T13:20:45.4782728+03:00</PickedUp>
+    <Deliverd>2022-04-19T13:50:58.9949436+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
 </ArrayOfParcel>

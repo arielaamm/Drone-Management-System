@@ -19,7 +19,11 @@ namespace PL
             this.id = id;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) => parent.Close();
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new CustomerListWindow(bl).Show();
+            parent.Close();
+        }
 
         private void UpdateBnt_Click(object sender, RoutedEventArgs e)
         {

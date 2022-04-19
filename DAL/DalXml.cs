@@ -382,9 +382,9 @@ namespace DAL
                             new XElement("CustomerName", customer.CustomerName),
                             new XElement("Phone", customer.Phone),
                             new XElement("Longitude", customer.Longitude),
-                            new XElement("Lattitude", customer.Lattitude)),
+                            new XElement("Lattitude", customer.Lattitude),
                             new XElement("Password", customer.Password),
-                            new XElement("Email", customer.Email)
+                            new XElement("Email", customer.Email))
                             );
                 CustomersRoot.Save(dir + CustomersPath);
             }
@@ -486,13 +486,10 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliverdParcel(int parcelID)
         {
+
             int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
             Parcel p = new();
             p = Parcellist().ToList()[indexParcel];
-            p.Deliverd = DateTime.Now;
-            p.DroneId = 0;
-            p.Status = StatusParcel.DELIVERD;
-            UpdateParcel(p);
 
             int indexDrone = Dronelist().ToList().FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
@@ -507,6 +504,12 @@ namespace DAL
             d.Status = Status.FREE;
             d.haveParcel = false;
             UpdateDrone(d);
+
+            TimeSpan span = new TimeSpan(0, 30, 0);
+            p.Deliverd = DateTime.Now + span;
+            p.DroneId = 0;
+            p.Status = StatusParcel.DELIVERD;
+            UpdateParcel(p);
         }
 
         /// <summary>
@@ -597,7 +600,7 @@ namespace DAL
                     throw new DroneNotChargingException("The drone is not charging at any station");
                 Drone d = new();
                 d = Dronelist().ToList()[index];
-                d.Battery = Power()[4] * time / 60;
+                d.Battery += Power()[4] * time / 60;
                 if (d.Battery > 100)
                     d.Battery = 100;
                 d.Status = Status.FREE;
@@ -786,7 +789,6 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer customer)
         {
-
             XElement CustomersRoot = LoadXml(CustomersPath);
             var Customer = LoadCustomersFromXML(CustomersRoot).ToList();
             int index = Customer.FindIndex(i => (i.ID == customer.ID));

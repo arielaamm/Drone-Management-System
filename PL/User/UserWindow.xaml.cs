@@ -13,7 +13,7 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            txtName.Text = "hello " + customer.CustomerName + "what do you want to do?";
+            txtName.Text = "hello " + customer.CustomerName + " what do you want to do?";
             this.customer = customer;
         }
 

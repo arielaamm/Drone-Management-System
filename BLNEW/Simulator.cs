@@ -82,7 +82,7 @@ namespace BL
                         Thread.Sleep(DELAY);
                         if (d.Battery == 100)
                         {
-                            bl.DroneOutCharge(droneId, 0.1);
+                            bl.DroneOutCharge(droneId, 60);
                             //i = 0;
                             break;
                         }

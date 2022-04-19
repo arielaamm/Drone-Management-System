@@ -513,7 +513,11 @@ namespace BL
                     if (Findparcel(t).PickedUp != null)
                         throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
                     else
+                    {
                         dal.PickupParcel(t);
+                        DroneToCharge(id);
+                        DroneOutCharge(id, 120);
+                    }
                 }
             }
             catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to pickup"); }
