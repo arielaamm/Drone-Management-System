@@ -21,7 +21,8 @@
         <ComboBox x:Name="StartingstationSeletor" Margin="174,167,26,0" Width="120" SelectionChanged="StartingstationSeletor_SelectionChanged" Height="25" VerticalAlignment="Top"/>
 
         <Button x:Name="BntAdd" Content="Add the drone" HorizontalAlignment="Left" Margin="85,238,0,0" Width="138" FontWeight="Bold" Click="Button_Click_Add_Drone" Height="32" VerticalAlignment="Top"/>
-        <Button Content="close" Margin="64,300,76,75" Click="Button_Click"/>
+        <Button x:Name="BntDelete" Content="Delete the drone" HorizontalAlignment="Left" Margin="80,289,0,0" Width="148" FontWeight="Bold" Click="Button_Click_Delete_Drone" Height="32" VerticalAlignment="Top" RenderTransformOrigin="0.505,1.16"/>
+        <Button Content="close" Margin="64,343,76,32" Click="Button_Click" RenderTransformOrigin="0.513,1.001"/>
 
     </Grid>
 </Page>

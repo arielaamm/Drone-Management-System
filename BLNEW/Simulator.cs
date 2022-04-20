@@ -75,6 +75,7 @@ namespace BL
                             {
                                 Thread.Sleep(DELAY);
                                 //d.Parcel.distance -= (DELAY / 1000) * speed;
+                                bl.DroneToCharge((int)d.ID);
                             }
 
                         }

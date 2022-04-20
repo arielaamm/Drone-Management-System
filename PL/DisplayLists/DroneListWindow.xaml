@@ -39,7 +39,7 @@
             <ComboBox x:Name="WightsSeletor" Grid.Column="1" Margin="40,19,0,0" VerticalAlignment="Top" Height="26" SelectionChanged="WeightSelector_SelectionChanged" ItemsSource="{Binding}" HorizontalAlignment="Left" Width="186"/>
             <Label Content="Wight" Grid.Column="1" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="43" Height="25" FontWeight="Bold" FontStretch="Medium"/>
 
-            <Button x:Name="AddDrone" Content="Add Drone" Grid.Column="2" Margin="82,19,82,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
+            <Button x:Name="AddDrone" Content="Edit list" Grid.Column="2" Margin="82,19,82,0" VerticalAlignment="Top" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
         <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding DroneList}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
