@@ -375,18 +375,20 @@ namespace DAL
                 d = DataSource.drones[index];
                 d.Battery = Power()[4] * time;
                 if (d.Battery > 100)
+                {
                     d.Battery = 100;
                     d.Status = Status.FREE;//changed for simulator
-                DataSource.drones[index] = d;
+                    DataSource.drones[index] = d;
 
-                index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
-                int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
-                DataSource.droneCharges.RemoveAt(index);
+                    index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+                    int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
+                    DataSource.droneCharges.RemoveAt(index);
 
-                Station s = new();
-                s = DataSource.stations[index];
-                s.BusyChargeSlots -= 1;
-                DataSource.stations[index] = s;
+                    Station s = new();
+                    s = DataSource.stations[index];
+                    s.BusyChargeSlots -= 1;
+                    DataSource.stations[index] = s;
+                }
             }
         }
 

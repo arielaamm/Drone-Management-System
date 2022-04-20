@@ -90,32 +90,5 @@ namespace PL
                 parent.Close();
             }
         }
-        
-        private void Button_Click_Delete_Drone(object sender, RoutedEventArgs e)
-        {
-            int c = bl.Drones().Count();
-            try
-            {
-                drone.ID = int.Parse(TextBoxID.Text);
-                bl.DeleteDrone(drone);
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType().ToString() == "BLExceptions.DoesNotExistException")
-                {
-                    MessageBox.Show(ex.Message + ", enter another ID");
-
-                }
-                else
-                    MessageBox.Show("Enter the data in the necessary places");
-            }
-            if (c > bl.Drones().Count())
-            {
-                MessageBox.Show("The drone was successfully Deleted");
-
-                new DroneWindow(bl, (int)drone.ID).Show();
-                parent.Close();
-            }
-        }
     }
 }

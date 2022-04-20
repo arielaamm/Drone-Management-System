@@ -55,7 +55,6 @@ namespace BL
                                     sta = FindStation(item.ID).Position;
                                 }
                             }
-                            dal.DroneOutCharge(i.DroneId);
                             tempDrone.Status = DO.Status.BELONG;
                             tempDrone.Lattitude = sta.Lattitude;
                             tempDrone.Longitude = sta.Longitude;
@@ -63,9 +62,16 @@ namespace BL
 
                         if ((i.Scheduled != null) && (i.Deliverd == null) && (i.PickedUp != null))//pickup not delivered
                         {
-                            tempDrone.Status = DO.Status.PICKUP;
-                            tempDrone.Longitude = dal.FindCustomers(i.SenderId).Longitude;
-                            tempDrone.Lattitude = dal.FindCustomers(i.SenderId).Lattitude;
+                            try
+                            {
+                                dal.DroneOutCharge(i.DroneId);
+                            }
+                            finally
+                            {
+                                tempDrone.Status = DO.Status.PICKUP;
+                                tempDrone.Longitude = dal.FindCustomers(i.SenderId).Longitude;
+                                tempDrone.Lattitude = dal.FindCustomers(i.SenderId).Lattitude;
+                            }
                         }
                         dal.UpdateDrone(tempDrone);
                     }
@@ -169,13 +175,19 @@ namespace BL
         }
         public static double PowerConsumption(double distance, Weight a)
         {
-            if (a == Weight.FREE)
-                return (5 * distance);
-            if (a == Weight.LIGHT)
-                return (7 * distance);
-            if (a == Weight.MEDIUM)
-                return (10 * distance);
-            return (12 * distance);
+            switch (a)
+            {
+                case Weight.FREE:
+                    return 5 * distance;
+                case Weight.LIGHT:
+                    return 7 * distance;
+                case Weight.MEDIUM:
+                    return 10 * distance;
+                case Weight.HEAVY:
+                    return 12 * distance;
+                default:
+                    return distance;
+            }
         }
         /// <summary>
         /// Distance.
@@ -514,9 +526,11 @@ namespace BL
                         throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
                     else
                     {
+
+                        //DroneToCharge(id);
+                        //DroneOutCharge(id, 120);
                         dal.PickupParcel(t);
-                        DroneToCharge(id);
-                        DroneOutCharge(id, 120);
+
                     }
                 }
             }

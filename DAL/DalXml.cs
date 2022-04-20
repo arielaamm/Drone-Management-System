@@ -602,20 +602,22 @@ namespace DAL
                 d = Dronelist().ToList()[index];
                 d.Battery += Power()[4] * time / 60;
                 if (d.Battery > 100)
+                {
                     d.Battery = 100;
-                d.Status = Status.FREE;
-                UpdateDrone(d);
+                    d.Status = Status.FREE;
+                    UpdateDrone(d);
 
-                index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
-                int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
-                var a = DroneChargelist().ToList();
-                a.RemoveAt(index);
-                XMLTools.SaveListToXMLSerializer(a, DroneChargesPath);
+                    index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+                    int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
+                    var a = DroneChargelist().ToList();
+                    a.RemoveAt(index);
+                    XMLTools.SaveListToXMLSerializer(a, DroneChargesPath);
 
-                Station s = new();
-                s = Stationlist().ToList()[indexStation];
-                s.BusyChargeSlots -= 1;
-                UpdateStation(s);
+                    Station s = new();
+                    s = Stationlist().ToList()[indexStation];
+                    s.BusyChargeSlots -= 1;
+                    UpdateStation(s);
+                }
             }
         }
 

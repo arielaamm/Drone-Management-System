@@ -47,7 +47,7 @@ namespace DAL
         /// </summary>
         internal static int ChargePerHour
         {
-            get { return 50; }
+            get { return 100; }
         }
 
         /// <summary>

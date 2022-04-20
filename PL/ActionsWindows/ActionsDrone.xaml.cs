@@ -19,6 +19,25 @@ namespace PL
             this.parent = parent;
             this.bl = bl;
             this.id = id;
+            if (bl.FindDrone(id).Status == BO.Status.BELONG)
+            {
+                AttacheDrone.Visibility = Visibility.Hidden;
+            }
+            if (bl.FindDrone(id).Status == BO.Status.PICKUP)
+            {
+                AttacheDrone.Visibility = Visibility.Hidden;
+                PickUpParcel.Visibility = Visibility.Hidden;
+            }
+            if (bl.FindDrone(id).Status == BO.Status.FREE)
+            {
+                ReleReleaseFromCharging.Visibility = Visibility.Hidden;
+                txtReleReleaseFromCharging.Visibility = Visibility.Hidden;
+            }
+            if (bl.FindDrone(id).Status == BO.Status.MAINTENANCE)
+            {
+                txtInsertingForCharging.Visibility = Visibility.Hidden;
+                InsertingForCharging.Visibility = Visibility.Hidden;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -28,7 +47,7 @@ namespace PL
         }
         private void ReleRelease_from_charging(object sender, RoutedEventArgs e)
         {
-            double t = (DateTime.Now - time).Minutes;
+            double t = (DateTime.Now - time).TotalMinutes;
 
             try
             {
@@ -90,6 +109,22 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
             //לשים סגירה
+        }
+        private void Button_Click_Delete_Drone(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var drone = bl.FindDrone(id);
+                bl.DeleteDrone(drone);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            new DroneListWindow(bl).Show();
+            parent.Close();
         }
     }
 }
