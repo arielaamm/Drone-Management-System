@@ -11,7 +11,7 @@ namespace PL
     {
         private readonly BlApi.IBL bl;
         private readonly int id;
-        private DateTime time;
+        private DateTime time = DateTime.MinValue;
         private readonly Window parent;
         public ActionsDrone(BlApi.IBL bl, int id, Window parent)
         {
@@ -52,6 +52,7 @@ namespace PL
             try
             {
                 bl.DroneOutCharge(id, t);
+                Reload();
             }
             catch (Exception ex)
             {
@@ -65,6 +66,7 @@ namespace PL
             {
                 bl.DroneToCharge(id);
                 time = DateTime.Now;
+                Reload();
             }
             catch (Exception ex)
             {
@@ -77,6 +79,7 @@ namespace PL
             try
             {
                 bl.AttacheDrone(id);
+                Reload();
             }
             catch (Exception ex)
             {
@@ -90,6 +93,7 @@ namespace PL
             try
             {
                 bl.PickUpParcel(id);
+                Reload();
             }
             catch (Exception ex)
             {
@@ -103,6 +107,7 @@ namespace PL
             try
             {
                 bl.Parceldelivery(id);
+                Reload();
             }
             catch (Exception ex)
             {
@@ -117,13 +122,17 @@ namespace PL
                 var drone = bl.FindDrone(id);
                 bl.DeleteDrone(drone);
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
             new DroneListWindow(bl).Show();
+            parent.Close();
+        }
+        private void Reload()
+        {
+            new DroneWindow(bl, id);
             parent.Close();
         }
     }

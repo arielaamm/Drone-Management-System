@@ -470,4 +470,23 @@ namespace DALExceptionscs
         {
         }
     }
+    [Serializable]
+    internal class DroneNotFollException : Exception
+    {
+        public DroneNotFollException()
+        {
+        }
+
+        public DroneNotFollException(string message) : base(message)
+        {
+        }
+
+        public DroneNotFollException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected DroneNotFollException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }

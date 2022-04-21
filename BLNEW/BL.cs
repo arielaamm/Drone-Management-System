@@ -35,29 +35,25 @@ namespace BL
                     if ((i.Status != DO.StatusParcel.DELIVERD) && (i.DroneId != 0))
                     {
                         tempDrone = dal.FindDrone(i.DroneId);
-
+                        tempDrone.Status = DO.Status.MAINTENANCE;
+                        dal.UpdateDrone(tempDrone);
+                        dal.DroneOutCharge((int)tempDrone.ID);// בשביל להוציא את הרחפן מהתחנה שהוא נמצא בה
                         tempDrone.Battery = random.Next(MinPower(FindDrone(i.DroneId), Findcustomer(i.TargetId), Findcustomer(i.SenderId)), 100);
                         if ((i.PickedUp == null) && (i.Scheduled != null))//belong not pickup
                         {//shortest station
-                            tempDrone.Status = DO.Status.MAINTENANCE;
-                            dal.UpdateDrone(tempDrone);
-                            Location sta = new()
-                            {
-                                Lattitude = 0,
-                                Longitude = 0,
-                            };
+                            int sta = 0;
                             double d = 0;
                             foreach (var item in FreeChargeslots())
                             {
                                 if (Distance(FindStation(item.ID).Position, Findcustomer(i.SenderId).Position) > d)
                                 {
                                     d = Distance(FindStation(item.ID).Position, Findcustomer(i.SenderId).Position);
-                                    sta = FindStation(item.ID).Position;
+                                    sta = FindStation(item.ID).ID;
                                 }
                             }
+
+                            dal.DroneToCharge((int)tempDrone.ID, sta);
                             tempDrone.Status = DO.Status.BELONG;
-                            tempDrone.Lattitude = sta.Lattitude;
-                            tempDrone.Longitude = sta.Longitude;
                         }
 
                         if ((i.Scheduled != null) && (i.Deliverd == null) && (i.PickedUp != null))//pickup not delivered
@@ -80,26 +76,26 @@ namespace BL
                 {
                     if (item.Status == DO.Status.FREE)
                     {
+                        tempDrone = dal.FindDrone((int)item.ID);
                         tempDrone.Status = DO.Status.MAINTENANCE;
                         dal.UpdateDrone(tempDrone);
                         dal.DroneOutCharge((int)item.ID);
-                        tempDrone = dal.FindDrone((int)item.ID);
                         tempDrone.Status = DO.Status.FREE;
                         int temp = random.Next(0, 2);
                         if (temp == 0)
                         {
-                            List<DO.Parcel> pa = new();
-                            pa = dal.Parcellist().ToList().FindAll(delegate (DO.Parcel p) { return p.Deliverd != null; });//Customer who received a package
-                            if (pa.Count == 0)
+                            List<DO.Parcel> parcels = new();
+                            parcels = dal.Parcellist().ToList().FindAll(delegate (DO.Parcel p) { return p.Deliverd != null; });//Customer who received a package
+                            if (parcels.Count == 0)
                             {
                                 tempDrone.Lattitude = dal.FindCustomers(Customers().ToList()[random.Next(0, Customers().Count() - 1)].ID).Lattitude;
                                 tempDrone.Longitude = dal.FindCustomers(Customers().ToList()[random.Next(0, Customers().Count() - 1)].ID).Longitude;
                             }
                             else
                             {
-                                int q = random.Next(0, pa.Count - 1);
-                                tempDrone.Lattitude = dal.FindCustomers(pa[q].TargetId).Lattitude;
-                                tempDrone.Longitude = dal.FindCustomers(pa[q].TargetId).Longitude;
+                                int q = random.Next(0, parcels.Count - 1);
+                                tempDrone.Lattitude = dal.FindCustomers(parcels[q].TargetId).Lattitude;
+                                tempDrone.Longitude = dal.FindCustomers(parcels[q].TargetId).Longitude;
                             }
                             tempDrone.Battery = 80;
                             dal.UpdateDrone(tempDrone);
@@ -131,6 +127,12 @@ namespace BL
             return instance;
         }
 
+
+        public void ChangeDronePosition(int startingPosition, int finalPosition, int DroneID)
+        {
+            var drone = FindDrone(DroneID);
+
+        }
         /// <summary>
         /// The MinPower.
         /// </summary>
@@ -520,17 +522,24 @@ namespace BL
             {
                 lock (dal)
                 {
-
-                    int t = (int)FindDrone(id).Parcel.ID;
+                    var Drone = FindDrone(id);
+                    int t = (int)Drone.Parcel.ID;
                     if (Findparcel(t).PickedUp != null)
-                        throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have picked up");
+                        throw new ParcelPastErroeException($"the {Drone.Parcel.ID} already have picked up");
                     else
                     {
-
-                        //DroneToCharge(id);
-                        //DroneOutCharge(id, 120);
+                        DateTime time = DateTime.Now;
+                        while (Drone.Battery < 100)
+                        {
+                            System.Threading.Thread.Sleep(500);
+                            Drone.Status =Status.MAINTENANCE;
+                            UpdateDrone(Drone);
+                            DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
+                            Drone = FindDrone(id);
+                            Drone.Status = Status.BELONG;
+                            UpdateDrone(Drone);
+                        }
                         dal.PickupParcel(t);
-
                     }
                 }
             }

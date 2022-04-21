@@ -474,7 +474,6 @@ namespace DAL
             d.Battery -= Distance * Power()[(int)d.Status];
             d.Longitude = FindCustomers(p.SenderId).Longitude;
             d.Lattitude = FindCustomers(p.SenderId).Lattitude;
-            DroneOutCharge((int)d.ID);
             d.Status = Status.PICKUP;
             UpdateDrone(d);
         }
@@ -561,15 +560,6 @@ namespace DAL
             int index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
             if (index != -1)
             {
-                index = Dronelist().ToList().FindIndex(i => i.ID == droneID);
-                if (Dronelist().ToList()[index].Status != Status.MAINTENANCE)
-                    throw new DroneNotChargingException("The drone is not charging at any station");
-                Drone d = new();
-                d = Dronelist().ToList()[index];
-                d.Battery = 100;
-                d.Status = Status.FREE;
-                UpdateDrone(d);
-
                 index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
                 int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
                 var a = DroneChargelist().ToList();
@@ -581,6 +571,14 @@ namespace DAL
                 s.BusyChargeSlots -= 1;
                 UpdateStation(s);
             }
+            index = Dronelist().ToList().FindIndex(i => i.ID == droneID);
+            if (Dronelist().ToList()[index].Status != Status.MAINTENANCE)
+                throw new DroneNotChargingException("The drone is not charging at any station");
+            Drone d = new();
+            d = Dronelist().ToList()[index];
+            d.Battery = 100;
+            d.Status = Status.FREE;
+            UpdateDrone(d);
         }
 
         /// <summary>
@@ -601,11 +599,10 @@ namespace DAL
                 Drone d = new();
                 d = Dronelist().ToList()[index];
                 d.Battery += Power()[4] * time / 60;
-                if (d.Battery > 100)
+                if (d.Battery >= 100)
                 {
                     d.Battery = 100;
                     d.Status = Status.FREE;
-                    UpdateDrone(d);
 
                     index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
                     int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
@@ -618,6 +615,7 @@ namespace DAL
                     s.BusyChargeSlots -= 1;
                     UpdateStation(s);
                 }
+                UpdateDrone(d);
             }
         }
 
