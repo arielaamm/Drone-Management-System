@@ -445,8 +445,10 @@ namespace BL
                 if (d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP)
                     throw new DroneInActionException($"the drone {id} is in the medal of an action");
                 else if (d.Battery < 20)
+                {
                     d.Battery = 100;
                     throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
+                }
                 else if (d.Status == DO.Status.MAINTENANCE)
                     throw new DroneIsAlreadyChargeException($"the drone {id} already charge");
                 else
