@@ -56,6 +56,7 @@ namespace BL
                             {
                                 Thread.Sleep(DELAY);
                                 bl.DroneToCharge((int)d.ID);
+
                                 //bl.AddBattery(droneId, -bl.GetElectricityPerKM((DELAY / 1000) * speed, d.Parcel.weight));
                                 //TODO bonus location
                             }
