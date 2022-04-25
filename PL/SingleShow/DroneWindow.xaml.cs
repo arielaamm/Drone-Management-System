@@ -62,7 +62,7 @@ namespace PL
         }
         BackgroundWorker DroneWorker;
         BO.Drone d;
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Automatic(object sender, RoutedEventArgs e)
         {
             DroneWorker = new BackgroundWorker();
             DroneWorker.DoWork += Worker_DoWork;

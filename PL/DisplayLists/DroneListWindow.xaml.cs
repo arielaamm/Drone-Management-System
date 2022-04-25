@@ -66,7 +66,10 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Reload();
-            new DroneWindow(bl).Show();
+            //new DroneWindow(bl).Show();
+            var mc = new DroneWindow(bl);//instance
+            mc.Show();
+            mc.Automatic.Visibility = Visibility.Hidden;
             Close();
 
         }
