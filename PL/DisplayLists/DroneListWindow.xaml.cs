@@ -67,9 +67,9 @@ namespace PL
         {
             Reload();
             //new DroneWindow(bl).Show();
-            var mc = new DroneWindow(bl);//instance
-            mc.Show();
-            mc.Automatic.Visibility = Visibility.Hidden;
+            var Mc = new DroneWindow(bl);
+            Mc.Show();
+            Mc.Automatic.Visibility = Visibility.Hidden;
             Close();
 
         }

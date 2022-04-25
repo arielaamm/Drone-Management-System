@@ -42,6 +42,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Frame Grid.Column="1" Grid.Row="1" x:Name="dronepage" NavigationUIVisibility="Hidden" />
-        <Button x:Name ="Automatic" Content="Automatic" HorizontalAlignment="Left" Margin="47,0,0,0" VerticalAlignment="Center" Background="Blue" RenderTransformOrigin="0.197,1.535" Click="Automatic"/>
+        <Button x:Name ="Automatic" Content="Automatic" HorizontalAlignment="Left" Margin="47,0,0,0" VerticalAlignment="Center" Background="Blue" RenderTransformOrigin="0.197,1.535" Click="Button_Click"/>
     </Grid>
 </Window>
