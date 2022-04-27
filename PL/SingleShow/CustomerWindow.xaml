@@ -31,17 +31,47 @@
             </StackPanel>
         </Grid>
 
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.0*"/>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="1.4*"/>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="1.4*"/>
 
-        <DataGrid x:Name="DataGird" Grid.Row="1" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Customer}" AutoGenerateColumns="False" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
-                <DataGridTextColumn Header="CustomerName" Binding="{Binding CustomerName}" />
-                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
-                <DataGridTextColumn Header="Sent And Delivered" Binding="{Binding NumFoParcelSentAndDelivered}" />
-                <DataGridTextColumn Header="Sent" Binding="{Binding NumFoParcelSent}" />
-                <DataGridTextColumn Header="OnWay" Binding="{Binding NumFoParcelOnWay}" />
-            </DataGrid.Columns>
-        </DataGrid>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="DataGird" Grid.Row="0" IsReadOnly="True" ItemsSource="{Binding Customer}" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="CustomerName" Binding="{Binding CustomerName}" />
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                    <DataGridTextColumn Header="Sent And Delivered" Binding="{Binding NumFoParcelSentAndDelivered}" />
+                    <DataGridTextColumn Header="Sent" Binding="{Binding NumFoParcelSent}" />
+                    <DataGridTextColumn Header="OnWay" Binding="{Binding NumFoParcelOnWay}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label Content="Parcels to me" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Height="32" Width="117" FontWeight="Bold"/>
+
+            <DataGrid x:Name="DataGirdParcelToMe" Grid.Row="2" IsReadOnly="True" ItemsSource="{Binding ParcelsToMe}" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="From" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <Label Content="Parcels from me" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Center" Height="32" Width="117" FontWeight="Bold"/>
+
+            <DataGrid x:Name="DataGirdParcelFromMe" Grid.Row="4" IsReadOnly="True" ItemsSource="{Binding ParcelsFromMe}"  AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="To" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
         <Frame Grid.Column="1"  x:Name="customerpage" NavigationUIVisibility="Hidden" Grid.Row="1" />
     </Grid>
 </Window>

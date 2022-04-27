@@ -11,7 +11,7 @@
         AllowsTransparency="True" 
         WindowStyle="None"
         DataContext="{Binding RelativeSource={RelativeSource self}}">
-    <Grid x:Name="MainGrid">  
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="50*"/>
@@ -35,10 +35,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="ReceivedSeletor" Grid.Column="0" Margin="40,19,40,3" SelectionChanged="ReceivedSeletor_SelectionChanged" ItemsSource="{Binding}" Text="Received" RenderTransformOrigin="0.492,0.548"/>
-            <Label Content="Received" Grid.Column="0" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="61" Height="22" FontWeight="Bold" FontStretch="Medium"/>
+            <Label Content="Received" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="61" Height="29" FontWeight="Bold" FontStretch="Medium"/>
 
             <ComboBox x:Name="OnWaySeletor" Grid.Column="1" Margin="40,19,40,0" VerticalAlignment="Top" Height="26" SelectionChanged="OnWaySeletor_SelectionChanged"/>
-            <Label Content="On the way" Grid.Column="1" HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" Width="73" Height="22" FontWeight="Bold" FontStretch="Medium"/>
+            <Label Content="On the way" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="73" Height="27" FontWeight="Bold" FontStretch="Medium" Margin="0,2,0,0"/>
 
             <Button x:Name="AddCustomer" Content="Add Customer" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.446,1.756" Height="26" Click="Button_Click" FontWeight="Bold"/>
 

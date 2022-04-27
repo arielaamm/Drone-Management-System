@@ -7,7 +7,7 @@
     <Longitude>0.2257924015753865</Longitude>
     <Lattitude>2.9847808396372857</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>2</BusyChargeSlots>
+    <BusyChargeSlots>3</BusyChargeSlots>
   </Station>
   <Station>
     <IsActive>true</IsActive>
