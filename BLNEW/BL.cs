@@ -472,12 +472,6 @@ namespace BL
             {
                 if (FindDrone(id).Status == Status.MAINTENANCE)
                 {
-                    Drone drone = FindDrone(id);
-                    var temp = dal.DroneChargelist().Where(i => i.DroneId == id).FirstOrDefault();
-                    Station station = FindStation(temp.StationId);
-                    int index = station.DroneChargingInStation.FindIndex(i => i.ID == id);
-                    station.DroneChargingInStation.RemoveAt(index);
-                    UpdateDrone(drone);
                     dal.DroneOutCharge(id, time);
                 }
                 else
@@ -532,17 +526,17 @@ namespace BL
                         throw new ParcelPastErroeException($"the {Drone.Parcel.ID} already have picked up");
                     else
                     {
-                        DateTime time = DateTime.Now;
-                        while (Drone.Battery < 100)
-                        {
-                            System.Threading.Thread.Sleep(500);
-                            Drone.Status =Status.MAINTENANCE;
-                            UpdateDrone(Drone);
-                            DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
-                            Drone = FindDrone(id);
-                            Drone.Status = Status.BELONG;
-                            UpdateDrone(Drone);
-                        }
+                        //DateTime time = DateTime.Now;
+                        //while (Drone.Battery < 100)
+                        //{
+                        //    System.Threading.Thread.Sleep(500);
+                        //    Drone.Status =Status.MAINTENANCE;
+                        //    UpdateDrone(Drone);
+                        //    DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
+                        //    Drone = FindDrone(id);
+                        //    Drone.Status = Status.BELONG;
+                        //    UpdateDrone(Drone);
+                        //}
                         dal.PickupParcel(t);
                     }
                 }

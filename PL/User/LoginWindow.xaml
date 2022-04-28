@@ -94,7 +94,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Phone"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
@@ -122,7 +122,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Longitude"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
@@ -136,7 +136,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Lattitude"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>
@@ -149,8 +149,8 @@
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
-                                 materialDesign:HintAssist.Hint="ID"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 materialDesign:HintAssist.Hint="ID" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
             </TextBlock>

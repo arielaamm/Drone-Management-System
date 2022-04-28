@@ -88,7 +88,7 @@
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
-                                 materialDesign:HintAssist.Hint="Phone"
+                                 materialDesign:HintAssist.Hint="Phone" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>
@@ -102,7 +102,7 @@
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Background="Transparent"
-                                 materialDesign:HintAssist.Hint="ID"
+                                 materialDesign:HintAssist.Hint="ID" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
                     </Underline>

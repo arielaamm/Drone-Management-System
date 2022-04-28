@@ -2,14 +2,14 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>false</haveParcel>
+    <haveParcel>true</haveParcel>
     <ID>3</ID>
-    <Model>MDL65</Model>
+    <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
-    <Status>MAINTENANCE</Status>
-    <Battery>20</Battery>
-    <Longitude>0.2257924015753865</Longitude>
-    <Lattitude>2.9847808396372857</Lattitude>
+    <Status>BELONG</Status>
+    <Battery>68</Battery>
+    <Longitude>2.3559261706452475</Longitude>
+    <Lattitude>2.801098824851726</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -18,9 +18,9 @@
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>87</Battery>
-    <Longitude>1.84770748105259</Longitude>
-    <Lattitude>1.6509744597836278</Lattitude>
+    <Battery>64</Battery>
+    <Longitude>1.88973544719151</Longitude>
+    <Lattitude>2.5590188743355773</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -29,30 +29,30 @@
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>47</Battery>
-    <Longitude>1.84770748105259</Longitude>
-    <Lattitude>1.6509744597836278</Lattitude>
+    <Battery>94</Battery>
+    <Longitude>1.88973544719151</Longitude>
+    <Lattitude>2.5590188743355773</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>true</haveParcel>
+    <haveParcel>false</haveParcel>
     <ID>6</ID>
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
-    <Status>BELONG</Status>
-    <Battery>80</Battery>
-    <Longitude>1.84770748105259</Longitude>
-    <Lattitude>1.6509744597836278</Lattitude>
+    <Status>FREE</Status>
+    <Battery>64.87612840845318</Battery>
+    <Longitude>1.8982794959555749</Longitude>
+    <Lattitude>6.166624125636473</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>true</haveParcel>
+    <haveParcel>false</haveParcel>
     <ID>7</ID>
-    <Model>MDL78</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
-    <Status>BELONG</Status>
-    <Battery>59</Battery>
-    <Longitude>0.2257924015753865</Longitude>
-    <Lattitude>2.9847808396372857</Lattitude>
+    <Status>FREE</Status>
+    <Battery>100</Battery>
+    <Longitude>1.88973544719151</Longitude>
+    <Lattitude>2.5590188743355773</Lattitude>
   </Drone>
 </ArrayOfDrone>

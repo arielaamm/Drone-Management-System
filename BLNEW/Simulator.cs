@@ -42,7 +42,7 @@ namespace BL
                         }
                         break;
                     case Status.BELONG:
-                        if (bl.Findparcel((int)(d.Parcel.ID)).PickedUp == null)
+                        if (bl.Findparcel((int)d.Parcel.ID).PickedUp == null)
                         {
                             double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOfSender), d.Parcel.weight);
                             if (a < d.Battery)
@@ -61,7 +61,8 @@ namespace BL
                                 //TODO bonus location
                             }
                         }
-                        else
+                        break;
+                    case Status.PICKUP:
                         {
                             double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOftarget), d.Parcel.weight);
                             if (a < d.Battery)
@@ -90,7 +91,24 @@ namespace BL
                             break;
                         }
                         //bl.AddBattery(droneId, (DELAY / 1000) * bl.ChargePerSecond);
-                        bl.DroneOutCharge((int)d.ID, DELAY / 1000);
+                        DateTime time = DateTime.Now;
+                        while (d.Battery < 100)
+                        {
+                            Thread.Sleep(500);
+                            bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
+                        }
+                        //bl.DroneOutCharge((int)d.ID, DELAY / 1000);
+                        DateTime dateTime = DateTime.Now;
+                        do
+                        {
+                            System.Threading.Thread.Sleep(500);
+                            d.Status = Status.MAINTENANCE;
+                            bl.UpdateDrone(d);
+                            bl.DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes);
+                            d = bl.FindDrone((int)d.ID);
+                            d.Status = Status.BELONG;
+                            bl.UpdateDrone(d);
+                        } while (d.Battery < 100);
                         break;
                 }
             }

@@ -504,8 +504,7 @@ namespace DAL
             d.haveParcel = false;
             UpdateDrone(d);
 
-            TimeSpan span = new TimeSpan(0, 30, 0);
-            p.Deliverd = DateTime.Now + span;
+            p.Deliverd = DateTime.Now;
             p.DroneId = 0;
             p.Status = StatusParcel.DELIVERD;
             UpdateParcel(p);
