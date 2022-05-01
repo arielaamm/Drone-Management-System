@@ -55,10 +55,11 @@ namespace PL
                     {
                         bl.AddParcel(parcel);
                         bl.AttacheDroneParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(2500);
                         bl.PickUpParcelParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(2500);
                         bl.ParceldeliveryParcelID(parcel.ID);
+                        System.Threading.Thread.Sleep(2500);
                     }
                 }
             }
@@ -72,7 +73,7 @@ namespace PL
                 else
                     MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            if (t < bl.Parcels().Count())
+            if (parcel.Deliverd != null)
             {
                 MessageBox.Show("the parcel arrived Successfully");
                 new UserWindow(bl, customer).Show();

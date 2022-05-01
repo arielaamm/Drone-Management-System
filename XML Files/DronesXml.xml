@@ -2,14 +2,14 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>true</haveParcel>
+    <haveParcel>false</haveParcel>
     <ID>3</ID>
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
-    <Status>BELONG</Status>
-    <Battery>39</Battery>
-    <Longitude>1.2259090581098149</Longitude>
-    <Lattitude>6.567930398307708</Lattitude>
+    <Status>FREE</Status>
+    <Battery>100</Battery>
+    <Longitude>2.4688499385811618</Longitude>
+    <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -18,7 +18,7 @@
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>84</Battery>
+    <Battery>38</Battery>
     <Longitude>2.4688499385811618</Longitude>
     <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
@@ -29,7 +29,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>42</Battery>
+    <Battery>59</Battery>
     <Longitude>2.4688499385811618</Longitude>
     <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
@@ -40,7 +40,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>63</Battery>
+    <Battery>66</Battery>
     <Longitude>2.4688499385811618</Longitude>
     <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
@@ -51,7 +51,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>92</Battery>
+    <Battery>66</Battery>
     <Longitude>2.4688499385811618</Longitude>
     <Lattitude>2.7595265823227937</Lattitude>
   </Drone>

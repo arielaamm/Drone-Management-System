@@ -104,6 +104,7 @@ namespace PL
         {
             try
             {
+                MessageBox.Show("Please wait while the drone Released...", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (time == DateTime.MinValue)
                     time = DateTime.Now;
                 do

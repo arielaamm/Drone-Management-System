@@ -5,16 +5,16 @@ using System;
 namespace ConsoleUI_BL
 {
     /// <summary>
-    /// Defines the <see cref="Program" />.
+    /// Defines the<see cref="Program" />.
     /// </summary>
     public class Program
     {
         /// <summary>
         /// The ChackID.
         /// </summary>
-        /// <param name="id">The id<see cref="int"/>.</param>
-        /// <param name="type">The type<see cref="string"/>.</param>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "id">The id<see cref="int"/>.</param>
+        /// <param name = "type">The type<see cref="string"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         /// <returns>dont find => -1, find => the index.</returns>
         public static int ChackID(int id, string type, BL.BL p)
         {
@@ -54,7 +54,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// add.
         /// </summary>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         public static void FunAddition(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
@@ -154,7 +154,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// up date.
         /// </summary>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         public static void FunUpdating(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
@@ -279,7 +279,7 @@ namespace ConsoleUI_BL
                     int droneID = int.Parse(Console.ReadLine());
                     if (ChackID(droneID, "d", p) == -1)
                     {
-                        throw new DoesNotExistException($"this id {droneID} dont exist");
+                        throw new DoesNotExistException($"this id {droneID} don't exist");
 
                     }
                     p.DroneToCharge(droneID);
@@ -297,7 +297,7 @@ namespace ConsoleUI_BL
                     int idDroneReleaseFromCharge = int.Parse(Console.ReadLine());
                     if (ChackID(idDroneReleaseFromCharge, "d", p) == -1)
                     {
-                        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} dont exist");
+                        throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} don't exist");
 
                     }
                     Console.WriteLine("how many hour the drone has charged (in full hours)");
@@ -316,7 +316,7 @@ namespace ConsoleUI_BL
                     }
                     int idDroneAttache = int.Parse(Console.ReadLine());
                     if (ChackID(idDroneAttache, "d", p) == -1)
-                        throw new DoesNotExistException($"this id {idDroneAttache} dont exist");
+                        throw new DoesNotExistException($"this id {idDroneAttache} don't exist");
                     if (p.FindDrone(idDroneAttache).HaveParcel)
                         throw new DroneAloreadyAttachedException($"this drone is already attached");
                     p.AttacheDrone(idDroneAttache);
@@ -363,7 +363,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// Display one obj.
         /// </summary>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         public static void FunDisplay(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to see ? choose");
@@ -510,7 +510,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// view full list.
         /// </summary>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         public static void FunListview(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to see ? choose");
@@ -561,12 +561,12 @@ namespace ConsoleUI_BL
                                 $"\tParcel Status: {item.Parcel.ParcelStatus}.\n" +
                                 $"\tpriority: {item.Parcel.priority}.\n" +
                                 $"\tweight: {item.Parcel.weight}.\n" +
-                                $"\tThe sender fo parcel:" +
+                                $"\tThe sender of parcel:" +
                                 $"\t\tSender ID: {item.Parcel.sender.ID}.\n" +
                                 $"\t\tSender name: {item.Parcel.sender.CustomerName}.\n" +
                                 $"\t\tSender Location: {item.Parcel.LocationOfSender.Lattitude}," +
                                 $"{item.Parcel.LocationOfSender.Longitude}\n" +
-                                $"\tThe receiver fo parcel:" +
+                                $"\tThe receiver of parcel:" +
                                 $"\t\tReceiver ID: {item.Parcel.target.ID}.\n" +
                                 $"\t\tReceiver name: {item.Parcel.target.CustomerName}.\n" +
                                 $"\t\tReceiver Location: {item.Parcel.LocationOftarget.Lattitude}," +
@@ -599,10 +599,10 @@ namespace ConsoleUI_BL
                                 $"\tweight: {item2.Weight}.\n" +
                                 $"\tpriority: {item2.Priority}.\n" +
                                 $"\tStatus: {item2.Status}.\n" +
-                                $"\tThe sender fo parcel:\n" +
+                                $"\tThe sender of parcel:\n" +
                                 $"\t\tSender ID: {item2.Sender.ID}.\n" +
                                 $"\t\tSender name: {item2.Sender.CustomerName}.\n" +
-                                $"\tThe receiver fo parcel:\n" +
+                                $"\tThe receiver of parcel:\n" +
                                 $"\t\tReceiver ID: {item2.Target.ID}.\n" +
                                 $"\t\tReceiver name: {item2.Target.CustomerName}.");
                             }
@@ -621,10 +621,10 @@ namespace ConsoleUI_BL
                                     $"\tweight: {item2.Weight}.\n" +
                                     $"\tpriority: {item2.Priority}.\n" +
                                     $"\tStatus: {item2.Status}.\n" +
-                                    $"\tThe sender fo parcel:\n" +
+                                    $"\tThe sender of parcel:\n" +
                                     $"\t\tSender ID: {item2.Sender.ID}.\n" +
                                     $"\t\tSender name: {item2.Sender.CustomerName}.\n" +
-                                    $"\tThe receiver fo parcel:\n" +
+                                    $"\tThe receiver of parcel:\n" +
                                     $"\t\tReceiver ID: {item2.Target.ID}.\n" +
                                     $"\t\tReceiver name: {item2.Target.CustomerName}.");
                             }
@@ -643,7 +643,7 @@ namespace ConsoleUI_BL
                             $"ID: {item.ID}.\n" +
                             "Sender:\n" +
                             $"\tSender ID: {item.sender.ID}\n" +
-                            $"\tSende Name: {item.sender.CustomerName}.\n" +
+                            $"\tSender Name: {item.sender.CustomerName}.\n" +
                             "Receiver:\n" +
                             $"\tReceiver ID: {item.target.ID}.\n" +
                             $"\tReceiver name: {item.target.CustomerName}.\n" +
@@ -668,7 +668,7 @@ namespace ConsoleUI_BL
                             $"ID: {item.ID}.\n" +
                             "Sender:\n" +
                             $"\tSender ID: {item.sender.ID}\n" +
-                            $"\tSende Name: {item.sender.CustomerName}.\n" +
+                            $"\tSender Name: {item.sender.CustomerName}.\n" +
                             "Receiver:\n" +
                             $"\tReceiver ID: {item.target.ID}.\n" +
                             $"\tReceiver name: {item.target.CustomerName}." +
@@ -714,12 +714,12 @@ namespace ConsoleUI_BL
         /// <summary>
         /// The Main.
         /// </summary>
-        /// <param name="args">The args<see cref="string[]"/>.</param>
+        /// <param name = "args">The args<see cref="string[]"/>.</param>
         public static void Main(string[] args)
         {
             BL.BL p = BL.BL.GetInstance();
             string Option = "0";
-            Console.WriteLine("Hey you got to ariel&babauv drone's");
+            Console.WriteLine("Hey you got to ariel & babauv drone's");
             Console.WriteLine("Choose what you want to do");
             Console.WriteLine("Type what you want to do from the list below");
             do
@@ -749,7 +749,7 @@ namespace ConsoleUI_BL
                             break;
                     };
                 }
-                catch (Exception ex)//catch all the exception and try agine
+                catch (Exception ex)
                 {
                     Console.WriteLine($"{ex.Message}");
                     Console.WriteLine("we doing to do it again");
@@ -761,8 +761,8 @@ namespace ConsoleUI_BL
         /// <summary>
         /// display the id of all the same obj.
         /// </summary>
-        /// <param name="type">The type<see cref="string"/>.</param>
-        /// <param name="p">The p<see cref="BL.BL"/>.</param>
+        /// <param name = "type">The type<see cref="string"/>.</param>
+        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
         public static void Viewid(string type, BL.BL p)
         {
             int count = 0;
