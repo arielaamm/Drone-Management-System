@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL"
+        xmlns:local="clr-namespace:PL" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="EntranceWindow" Height="420" Width="800"
         ResizeMode="NoResize" 
@@ -11,7 +12,6 @@
         AllowsTransparency="True" 
         WindowStyle="None">
     <Grid>
-        <Image
-            Source="C:\Users\arial_nzcskkl\Source\Repos\arielaamm\dotNet5782_2845_5562\PL\WhatsApp Image 2022-04-19 at 13.40.42.jpeg" Grid.RowSpan="1" Grid.ColumnSpan="1" Margin="-1,0,-1,0"/>
+        
     </Grid>
 </Window>

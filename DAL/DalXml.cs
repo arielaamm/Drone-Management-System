@@ -61,7 +61,7 @@ namespace DAL
         /// <summary>
         /// Defines the DronesPath.
         /// </summary>
-        internal string DronesPath = @"DronesXml.xml";
+        internal static string DronesPath = @"DronesXml.xml";
 
         /// <summary>
         /// Defines the StationsPath.

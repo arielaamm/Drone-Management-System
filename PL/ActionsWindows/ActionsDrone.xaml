@@ -11,8 +11,8 @@
       Title="ActionsPage">
 
     <Grid>
-
-        <Button x:Name="ReleReleaseFromCharging" Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="61,0,0,285" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="ReleRelease_from_charging">
+        <TextBox x:Name="WaitTextBox" Grid.Column="1" Visibility="Hidden" Text="Please wait while the drone loads..." IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center" Height="24" FontWeight="Bold"/>
+        <Button x:Name="ReleaseFromCharging" Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="61,0,0,285" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="Release_from_charging">
             <materialDesign:PackIcon Kind="BatteryCharging" Height="38" Width="46" VerticalAlignment="Center" />
         </Button>
         <Button x:Name="InsertingForCharging" Style="{StaticResource MaterialDesignFloatingActionLightButton}" ToolTip="MaterialDesignFloatingActionLightButton" Margin="200,0,0,285" HorizontalAlignment="Left" Width="56" Height="56" VerticalAlignment="Bottom" Click="Inserting_for_charging">
@@ -25,7 +25,7 @@
 
 
         <Label x:Name="txtInsertingForCharging" Content="Inserting for charging" Margin="168,37,0,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="122"/>
-        <Label x:Name="txtReleReleaseFromCharging" Content="Release from charging" Margin="0,37,168,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="129"/>
+        <Label x:Name="txtReleaseFromCharging" Content="Release from charging" Margin="0,37,168,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="129"/>
         <Button Content="close"  Click="Button_Click" Margin="0,350,0,0" HorizontalAlignment="Center" Width="228" Height="32" VerticalAlignment="Top"/>
     </Grid>
 </Page>

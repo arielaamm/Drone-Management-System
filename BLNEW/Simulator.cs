@@ -15,7 +15,7 @@ namespace BL
         {
             while (!checker)
             {
-                Drone d = new Drone();
+                Drone d;
                 d = bl.FindDrone(droneId);
                 switch (d.Status)
                 {
@@ -97,7 +97,6 @@ namespace BL
                             Thread.Sleep(500);
                             bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
                         }
-                        //bl.DroneOutCharge((int)d.ID, DELAY / 1000);
                         DateTime dateTime = DateTime.Now;
                         do
                         {

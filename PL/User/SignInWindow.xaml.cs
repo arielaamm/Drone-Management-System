@@ -33,7 +33,7 @@ namespace PL
                     Close();
                 }
                 else
-                    MessageBox.Show("this isn't the right password");
+                    MessageBox.Show("this isn't the right password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {

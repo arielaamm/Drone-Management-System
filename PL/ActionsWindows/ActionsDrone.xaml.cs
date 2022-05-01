@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -32,8 +33,8 @@ namespace PL
             }
             if (Drone.Status == BO.Status.FREE)
             {
-                ReleReleaseFromCharging.Visibility = Visibility.Hidden;
-                txtReleReleaseFromCharging.Visibility = Visibility.Hidden;
+                ReleaseFromCharging.Visibility = Visibility.Hidden;
+                txtReleaseFromCharging.Visibility = Visibility.Hidden;
             }
             if (Drone.Status == BO.Status.MAINTENANCE)
             {
@@ -47,16 +48,16 @@ namespace PL
             new DroneListWindow(bl).Show();
             parent.Close();
         }
-        private void ReleRelease_from_charging(object sender, RoutedEventArgs e)
+        private void Release_from_charging(object sender, RoutedEventArgs e)
         {
-            //double t = (DateTime.Now - time).TotalMinutes;
-
             try
             {
-                DateTime time = DateTime.Now;
+                MessageBox.Show("Please wait while the drone Released...", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (time == DateTime.MinValue)
+                    time = DateTime.Now;
                 do
                 {
-                    System.Threading.Thread.Sleep(500);
+                    Thread.Sleep(500);
                     Drone.Status = BO.Status.MAINTENANCE;
                     bl.UpdateDrone(Drone);
                     bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
@@ -64,15 +65,13 @@ namespace PL
                     Drone.Status = BO.Status.FREE;
                     bl.UpdateDrone(Drone);
                 } while (Drone.Battery < 100);
-                //bl.DroneOutCharge(id, t);
                 Reload();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
         private void Inserting_for_charging(object sender, RoutedEventArgs e)
         {
             try
@@ -83,7 +82,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -96,7 +95,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             //לשים סגירה
         }
@@ -105,7 +104,8 @@ namespace PL
         {
             try
             {
-                DateTime time = DateTime.Now;
+                if (time == DateTime.MinValue)
+                    time = DateTime.Now;
                 do
                 {
                     System.Threading.Thread.Sleep(500);
@@ -121,7 +121,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             //לשים סגירה
         }
@@ -135,7 +135,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             //לשים סגירה
         }
@@ -148,7 +148,7 @@ namespace PL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
             new DroneListWindow(bl).Show();

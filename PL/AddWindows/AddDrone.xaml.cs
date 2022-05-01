@@ -33,7 +33,7 @@ namespace PL
             }
             if (stationToLists.Count == 0)
             {
-                MessageBox.Show("There is no more room for a new drone");
+                MessageBox.Show("There is no more room for a new drone", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             StartingstationSeletor.ItemsSource = stationToLists;
         }
@@ -76,11 +76,11 @@ namespace PL
             {
                 if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
                 {
-                    MessageBox.Show(ex.Message + ", enter anther ID");
+                    MessageBox.Show(ex.Message + ", enter anther ID", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
                 else
-                    MessageBox.Show("Enter the data in the necessary places");
+                    MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             if (c < bl.Drones().Count())
             {

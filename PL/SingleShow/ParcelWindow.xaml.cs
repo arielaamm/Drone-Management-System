@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -28,24 +27,6 @@ namespace PL
             this.bl = bl;
             Parcel = new(this.bl.Parcels());
             parcelPage.Content = new AddParcel(bl, this);
-        }
-        public ParcelWindow(BlApi.IBL bl, int? id)
-        {
-            if (id == null)
-            {
-                new ParcelListWindow(bl).Show();
-                Close();
-            }
-            else
-            {
-                InitializeComponent();
-
-                this.bl = bl;
-                var t = this.bl.Parcels().Where(a => id == a.ID);
-                Parcel = new(t);
-                //parcelPage.Content = new ActionsParcel(bl, (int)id, this); //הורד כיוון שאין ל parcel פעולות
-
-            }
         }
 
         internal new void Close() => base.Close();

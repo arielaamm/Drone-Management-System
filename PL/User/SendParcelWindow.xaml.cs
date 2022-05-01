@@ -43,21 +43,21 @@ namespace PL
                 customerInParcelTarget.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)TargetSelector.SelectedItem).ID;
                 parcel.target = customerInParcelTarget;
                 if (parcel.sender.ID == parcel.target.ID)
-                    MessageBox.Show("you can't send a parcel to your self, try again");
+                    MessageBox.Show("you can't send a parcel to your self, try again", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
 
-                    if ((from d in bl.Drones()
-                         where bl.FindDrone(d.ID).HaveParcel == false
-                         select d).Count() == 0)
-                        MessageBox.Show("Where is on free drone please try again letter");
+                    if (!(from d in bl.Drones()
+                          where bl.FindDrone(d.ID).HaveParcel == false
+                          select d).Any())
+                        MessageBox.Show("Where is on free drone please try again letter", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     else
                     {
                         bl.AddParcel(parcel);
                         bl.AttacheDroneParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(100);
+                        System.Threading.Thread.Sleep(1000);
                         bl.PickUpParcelParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(100);
+                        System.Threading.Thread.Sleep(1000);
                         bl.ParceldeliveryParcelID(parcel.ID);
                     }
                 }
@@ -66,11 +66,11 @@ namespace PL
             {
                 if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
                 {
-                    MessageBox.Show(ex.Message + ", enter anther ID");
+                    MessageBox.Show(ex.Message + ", enter anther ID", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
                 else
-                    MessageBox.Show("Enter the data in the necessary places");
+                    MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             if (t < bl.Parcels().Count())
             {

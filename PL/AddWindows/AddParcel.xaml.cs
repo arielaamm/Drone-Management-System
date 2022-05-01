@@ -52,7 +52,7 @@ namespace PL
                 customerInParcelTarget.ID = bl.Customers().ToList().Find(c => c.CustomerName == (string)TargetSelector.SelectedItem).ID;
                 parcel.target = customerInParcelTarget;
                 if (parcel.sender.ID == parcel.target.ID)
-                    MessageBox.Show("you can't send a parcel to your self, try agine");
+                    MessageBox.Show("you can't send a parcel to your self, try again", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                     bl.AddParcel(parcel);
             }
@@ -60,16 +60,16 @@ namespace PL
             {
                 if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
                 {
-                    MessageBox.Show(ex.Message + ", enter anther ID");
+                    MessageBox.Show(ex.Message + ", enter anther ID", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
                 else
-                    MessageBox.Show("Enter the data in the necessary places");
+                    MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             if (t < bl.Parcels().Count())
             {
                 MessageBox.Show("The Parcel successfully added");
-                new ParcelWindow(bl, int.Parse(TextBoxID.Text)).Show();
+                new ParcelListWindow(bl).Show();
                 parent.Close();
 
 

@@ -46,7 +46,7 @@
 
             <Button x:Name="AddParcel" Content="Add Parcel" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Click="Button_Click" FontWeight="Bold"/>
         </Grid>
-        <DataGrid MouseDoubleClick="mousedoubleclick"  ItemsSource="{Binding Parcellist}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
+        <DataGrid ItemsSource="{Binding Parcellist}" AutoGenerateColumns="False" Grid.Row="2"  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="SenderName" Binding="{Binding SenderName}" />

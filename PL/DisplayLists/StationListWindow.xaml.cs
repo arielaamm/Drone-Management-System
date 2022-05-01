@@ -49,7 +49,7 @@ namespace PL
             }
             catch (Exception)
             {
-                MessageBox.Show("Click on properties only please");
+                MessageBox.Show("Click on properties only please", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         private void Reload()

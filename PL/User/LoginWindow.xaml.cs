@@ -26,7 +26,7 @@ namespace PL
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new Regex("[^0-9]+[^.]");
             e.Handled = regex.IsMatch(e.Text);
         }
         private void LetterValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -50,7 +50,7 @@ namespace PL
                 try
                 {
                     while (txtPhone.Text.Length != 10 && txtPhone.Text[0] != '0' && txtPhone.Text[1] != '5')
-                    { MessageBox.Show("Please enter a valid personal phone number"); }
+                    { MessageBox.Show("Please enter a valid personal phone number", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
                     BO.Location location = new BO.Location()
                     {
                         Lattitude = double.Parse(txtLattitude.Text),
@@ -69,11 +69,11 @@ namespace PL
                 {
                     if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
                     {
-                        MessageBox.Show(ex.Message + ", enter anther ID");
+                        MessageBox.Show(ex.Message + ", enter anther ID", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     }
                     else
-                        MessageBox.Show("Enter the data in the necessary places");
+                        MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 if (c.Count() < bl.Customers().Count())
                 {

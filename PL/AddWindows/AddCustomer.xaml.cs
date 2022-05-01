@@ -39,7 +39,7 @@ namespace PL
             try
             {
                 while (TextBoxPhone.Text.Length != 10 && TextBoxPhone.Text[0] != '0' && TextBoxPhone.Text[1] != '5')
-                { MessageBox.Show("Please enter a valid personal phone number"); }
+                { MessageBox.Show("Please enter a valid personal phone number", "Alert", MessageBoxButton.OK, MessageBoxImage.Error); }
                 BO.Location location = new BO.Location()
                 {
                     Lattitude = double.Parse(TextBoxLattitude.Text),
@@ -58,11 +58,11 @@ namespace PL
             {
                 if (ex.GetType().ToString() == "BLExceptions.AlreadyExistException")
                 {
-                    MessageBox.Show(ex.Message + ", enter anther ID");
+                    MessageBox.Show(ex.Message + ", enter anther ID", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
                 else
-                    MessageBox.Show("Enter the data in the necessary places");
+                    MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             if (c < bl.Customers().Count())
             {

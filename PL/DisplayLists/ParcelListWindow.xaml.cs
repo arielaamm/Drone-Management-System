@@ -81,20 +81,6 @@ namespace PL
             new ParcelWindow(bl).Show();
             Close();
         }
-        private void mousedoubleclick(object sender, MouseButtonEventArgs e)
-        {
-            var cb = sender as DataGrid;
-            BO.ParcelToList a = (BO.ParcelToList)cb.SelectedValue;
-            try
-            {
-                new ParcelWindow(bl, a.ID).Show();
-                Close();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Click on properties only please");
-            }
-        }
         private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();

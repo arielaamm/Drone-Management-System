@@ -7,52 +7,52 @@
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>68</Battery>
-    <Longitude>2.3559261706452475</Longitude>
-    <Lattitude>2.801098824851726</Lattitude>
+    <Battery>39</Battery>
+    <Longitude>1.2259090581098149</Longitude>
+    <Lattitude>6.567930398307708</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>true</haveParcel>
     <ID>4</ID>
-    <Model>MDL78</Model>
+    <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>64</Battery>
-    <Longitude>1.88973544719151</Longitude>
-    <Lattitude>2.5590188743355773</Lattitude>
+    <Battery>84</Battery>
+    <Longitude>2.4688499385811618</Longitude>
+    <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>true</haveParcel>
     <ID>5</ID>
-    <Model>MDL45</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>94</Battery>
-    <Longitude>1.88973544719151</Longitude>
-    <Lattitude>2.5590188743355773</Lattitude>
+    <Battery>42</Battery>
+    <Longitude>2.4688499385811618</Longitude>
+    <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>false</haveParcel>
+    <haveParcel>true</haveParcel>
     <ID>6</ID>
-    <Model>MDL78</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
-    <Status>FREE</Status>
-    <Battery>64.87612840845318</Battery>
-    <Longitude>1.8982794959555749</Longitude>
-    <Lattitude>6.166624125636473</Lattitude>
+    <Status>BELONG</Status>
+    <Battery>63</Battery>
+    <Longitude>2.4688499385811618</Longitude>
+    <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>false</haveParcel>
+    <haveParcel>true</haveParcel>
     <ID>7</ID>
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
-    <Status>FREE</Status>
-    <Battery>100</Battery>
-    <Longitude>1.88973544719151</Longitude>
-    <Lattitude>2.5590188743355773</Lattitude>
+    <Status>BELONG</Status>
+    <Battery>92</Battery>
+    <Longitude>2.4688499385811618</Longitude>
+    <Lattitude>2.7595265823227937</Lattitude>
   </Drone>
 </ArrayOfDrone>

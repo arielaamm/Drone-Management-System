@@ -127,12 +127,6 @@ namespace BL
             return instance;
         }
 
-
-        public void ChangeDronePosition(int startingPosition, int finalPosition, int DroneID)
-        {
-            var drone = FindDrone(DroneID);
-
-        }
         /// <summary>
         /// The MinPower.
         /// </summary>
@@ -177,19 +171,14 @@ namespace BL
         }
         public static double PowerConsumption(double distance, Weight a)
         {
-            switch (a)
+            return a switch
             {
-                case Weight.FREE:
-                    return 5 * distance;
-                case Weight.LIGHT:
-                    return 7 * distance;
-                case Weight.MEDIUM:
-                    return 10 * distance;
-                case Weight.HEAVY:
-                    return 12 * distance;
-                default:
-                    return distance;
-            }
+                Weight.FREE => 5 * distance,
+                Weight.LIGHT => 7 * distance,
+                Weight.MEDIUM => 10 * distance,
+                Weight.HEAVY => 12 * distance,
+                _ => distance,
+            };
         }
         /// <summary>
         /// Distance.
@@ -441,20 +430,21 @@ namespace BL
             lock (dal)
             {
 
-                DO.Drone d = dal.FindDrone(id);
-                if (d.Status == DO.Status.BELONG || d.Status == DO.Status.PICKUP)
+                Drone d = FindDrone(id);
+                if (d.Status == Status.BELONG || d.Status == Status.PICKUP)
                     throw new DroneInActionException($"the drone {id} is in the medal of an action");
-                else if (d.Battery < 20)
-                {
-                    d.Battery = 100;
-                    throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power");
-                }
-                else if (d.Status == DO.Status.MAINTENANCE)
+                else if (d.Status == Status.MAINTENANCE)
                     throw new DroneIsAlreadyChargeException($"the drone {id} already charge");
                 else
                 {
                     int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
-                    dal.DroneToCharge(id, StationID);
+                    if (d.Battery < PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight))
+                    {
+                        DeleteDrone(d);
+                        throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");
+                    }
+                    else
+                        dal.DroneToCharge(id, StationID);
 
                 }
             }
@@ -503,10 +493,14 @@ namespace BL
         }
         public void AttacheDroneParcelID(int ParcelID)
         {
-            lock (dal)
+            try
             {
-                dal.AttacheDrone(ParcelID);
+                lock (dal)
+                {
+                    dal.AttacheDrone(ParcelID);
+                }
             }
+            catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
 
         /// <summary>
@@ -541,7 +535,7 @@ namespace BL
                     }
                 }
             }
-            catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to pickup"); }
+            catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
         public void PickUpParcelParcelID(int id)
         {
@@ -552,7 +546,7 @@ namespace BL
                     dal.PickupParcel(id);
                 }
             }
-            catch (Exception) { throw new Exception(); }
+            catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
 
         /// <summary>
@@ -573,14 +567,18 @@ namespace BL
                         dal.DeliverdParcel(t);
                 }
             }
-            catch (Exception) { throw new ParcelPastErroeException($"there are no parcel to delivered"); }
+            catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
         public void ParceldeliveryParcelID(int id)
         {
-            lock (dal)
+            try
             {
-                dal.DeliverdParcel(id);
+                lock (dal)
+                {
+                    dal.DeliverdParcel(id);
+                }
             }
+            catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
         /// <summary>
         /// station search.
@@ -772,11 +770,11 @@ namespace BL
                     Password = c.Password,
                 };
                 List<ParcelInCustomer> TempFromCustomer = new();
-                ParcelInCustomer item = new();
                 foreach (var item1 in p)
                 {
                     if (item1.SenderId == id)
                     {
+                        ParcelInCustomer item = new();
                         item.ID = item1.ID;
                         item.Priority = (Priority)item1.Priority;
                         item.Weight = (Weight)item1.Weight;
@@ -797,11 +795,11 @@ namespace BL
                     }
                 }
                 List<ParcelInCustomer> TempToCustomer = new();
-                ParcelInCustomer item2 = new();
                 foreach (var item3 in p)
                 {
                     if (item3.TargetId == id)
                     {
+                        ParcelInCustomer item2 = new();
                         item2.ID = item3.ID;
                         item2.Priority = (Priority)item3.Priority;
                         item2.Weight = (Weight)item3.Weight;
@@ -908,8 +906,8 @@ namespace BL
                            ID = (int)c.ID,
                            CustomerName = c.CustomerName,
                            Phone = c.Phone,
-                           NumFoParcelSent = Findcustomer((int)c.ID).fromCustomer.Count,
-                           NumFoParcelOnWay = Findcustomer((int)c.ID).toCustomer.Count,
+                           NumFoParcelSent = Findcustomer((int)c.ID).fromCustomer.Count(i => i.Status != StatusParcel.DELIVERD),
+                           NumFoParcelOnWay = Findcustomer((int)c.ID).toCustomer.Count(i => i.Status != StatusParcel.DELIVERD),
                            NumFoParcelReceived = Findcustomer((int)c.ID).toCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                            NumFoParcelSentAndDelivered = Findcustomer((int)c.ID).fromCustomer.Count(i => i.Status == StatusParcel.DELIVERD),
                        };
