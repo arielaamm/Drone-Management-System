@@ -11,28 +11,29 @@
         AllowsTransparency="True" 
         WindowStyle="None"
         Height="650" Width="450">
-    <Grid>
+    <Grid >
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF00B9FF" Offset="1"/>
-                <GradientStop Color="#FF2DFBF2"/>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="2,0">
+                <GradientStop Color="#003B60" Offset="0.50154587"/>
+                <GradientStop Color="#07575B" Offset="0.697"/>
+                <GradientStop Color="#DFDFE6" Offset="0.99"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
                   Width="304" Height="546" Margin="0,24,0,0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="1.7*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Viewbox Width="100" Height="100" Margin="100,14,100,15">
-                <materialDesign:PackIcon Kind="AccountGroup" Height="469" Width="580"/>
+            <Viewbox Margin="94,14,102,45" Grid.RowSpan="2">
+                <materialDesign:PackIcon Kind="AccountGroup" Height="406" Width="459" HorizontalAlignment="Center"/>
             </Viewbox>
             <TextBlock Grid.Row="2" HorizontalAlignment="Center">
                     <Viewbox Width="25" Height="25">
@@ -44,7 +45,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"
                                  materialDesign:HintAssist.Hint="Username"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="3" HorizontalAlignment="Center">
@@ -70,7 +71,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
                                  Background="Transparent" FontSize="15" FontWeight="Bold" materialDesign:HintAssist.Hint="Password"
                                  materialDesign:HintAssist.HelperText="At least 4 characters"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" Width="220">
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" Width="220" CaretBrush="Black">
                         <PasswordBox.Resources>
                             <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                                 <Setter Property="Width" Value="200" />
@@ -95,7 +96,7 @@
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Phone"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="5" HorizontalAlignment="Center">
@@ -109,7 +110,7 @@
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Email"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="6" HorizontalAlignment="Center">
@@ -123,7 +124,7 @@
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Longitude"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="7" HorizontalAlignment="Center">
@@ -137,7 +138,7 @@
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="Lattitude"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="1" HorizontalAlignment="Center">
@@ -151,21 +152,32 @@
                                  Background="Transparent"
                                  materialDesign:HintAssist.Hint="ID" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewTextInput="NumberValidationTextBox"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
-            <Button x:Name="btnSignUp" Grid.Row="8" FontSize="20" Width="250" Height="50"
-                        Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans" Margin="5"
-                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
-                        Content="REGISTER" BorderThickness="2" HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center" Background="White"
-                        Click="btnSignUp_Click">
+            <Button x:Name="btnSignUp" Grid.Row="8" FontSize="20"
+                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="27,5,27,20"
+                        FontWeight="Bold" Content="REGISTER" BorderThickness="2" Click="btnSignUp_Click">
                 <Button.Style>
+
                     <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Width" Value="238"/>
+                                <Setter Property="Height" Value="55"/>
+                                <Setter Property="Background" Value="#F3FFEF"/>
+                                <Setter Property="BorderBrush" Value="#FF8D8D8D"/>
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Width" Value="230"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderBrush" Value="White"/>
+
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="40" BorderThickness="0">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -175,11 +187,12 @@
                 </Button.Style>
             </Button>
         </Grid>
-        <Button x:Name="btnSignIn"  FontSize="20" Width="106" Height="36"
-                    Foreground="#FF274D75" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,588,0,0"
-                    FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Content="Sign in" HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center" Background="#FF06C3FD"
-                    Click="btnSignIn_Click" AllowDrop="True" BorderThickness="0,0,0,0"/>
+        <TextBlock Text="Don't have an Account ? " HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Foreground="White" FontSize="20" Margin="75,0,0,37" Width="264"
+                   TextAlignment="Center"/>
+        <TextBlock Text="Sign Up" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   FontWeight="Bold" Foreground="#FFFFF0" Cursor="Hand" FontSize="20"
+                   MouseLeftButtonDown="btnSignIn_Click" Margin="313,0,0,37" Width="84"
+                   TextAlignment="Center"/>
     </Grid>
 </Window>

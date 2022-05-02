@@ -13,9 +13,11 @@
         Height="650" Width="450">
     <Grid>
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF00BAFF" Offset="1"/>
-                <GradientStop Color="#FF2DFBF0"/>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="2,0">
+                <GradientStop Color="#003B46" Offset="0.40154587"/>
+                <GradientStop Color="#66A5AD" Offset="0.791"/>
+                <GradientStop Color="#07475B" Offset="0.07"/>
+                <GradientStop Color="#B0DFE6" Offset="0.99"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid>
@@ -23,13 +25,50 @@
             <Label x:Name="WeightLabel" Content="Weight" Margin="58,177,323,435"/>
             <Label x:Name="PriorityLabel" Content="Priority" Margin="58,227,323,386" />
             <Label x:Name="TargetLabel" Content="Target name" Margin="58,283,284,330" />
-            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" CaretBrush="Black" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top"/>
             <ComboBox x:Name="WeightSelector" Margin="262,177,44,0" Height="38" VerticalAlignment="Top"/>
             <ComboBox x:Name="PrioritySelector" Margin="262,227,42,0" Height="37" VerticalAlignment="Top"/>
             <ComboBox x:Name="TargetSelector" Margin="262,283,42,0" Height="37" VerticalAlignment="Top"/>
 
-            <Button x:Name="BntAdd" Content="Add the Parcel" HorizontalAlignment="Center" Margin="0,369,0,0" Width="192" FontWeight="Bold" Click="Button_Click_Add_Parcel" Height="50" VerticalAlignment="Top"/>
-            <Button Content="close" Click="Button_Click"  HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,460,0,0" Width="258" Height="61"/>
+            <Button x:Name="BntAdd" Content="Add the Parcel" Height="52" FontSize="20" Width="226" 
+                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,436,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White" Click="Button_Click_Add_Parcel">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="close" Click="Button_Click"  Height="38" FontSize="20" Width="162" 
+                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,509,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
 
         </Grid>
     </Grid>

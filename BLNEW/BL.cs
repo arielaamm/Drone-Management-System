@@ -480,28 +480,45 @@ namespace BL
         {
             lock (dal)
             {
-                if (!FindDrone(DroneID).HaveParcel)
+                var drone = FindDrone(DroneID);
+                if (!drone.HaveParcel)
                 {
                     if (!ParcelsNotAssociated().Any())
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
                     var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i => i.Weight).First();
+                    Location locationSender = Findcustomer(Findparcel(parcel.ID).sender.ID).Position;
+                    if (drone.Battery < PowerConsumption(Distance(drone.Position, locationSender), drone.Weight))
+                    {
+                        DroneToCharge(DroneID);
+                        DateTime dateTime = DateTime.Now;
+                        do
+                        {
+                            System.Threading.Thread.Sleep(500);
+                            drone.Status = Status.MAINTENANCE;
+                            UpdateDrone(drone);
+                            DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes);
+                            drone = FindDrone((int)drone.ID);
+                            drone.Status = Status.BELONG;
+                            UpdateDrone(drone);
+                        } while (drone.Battery < 100);
+                    }
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
                     throw new DroneIsBusyException($"the drone {DroneID} in busy right new");
             }
         }
-        public void AttacheDroneParcelID(int ParcelID)
-        {
-            try
-            {
-                lock (dal)
-                {
-                    dal.AttacheDrone(ParcelID);
-                }
-            }
-            catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        }
+        //public void AttacheDroneParcelID(int ParcelID)
+        //{
+        //    try
+        //    {
+        //        lock (dal)
+        //        {
+        //            dal.AttacheDrone(ParcelID);
+        //        }
+        //    }
+        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
+        //}
 
         /// <summary>
         /// Collection of a parcel by drone.
@@ -514,10 +531,10 @@ namespace BL
             {
                 lock (dal)
                 {
-                    var Drone = FindDrone(id);
-                    int t = (int)Drone.Parcel.ID;
+                    var drone = FindDrone(id);
+                    int t = (int)drone.Parcel.ID;
                     if (Findparcel(t).PickedUp != null)
-                        throw new ParcelPastErroeException($"the {Drone.Parcel.ID} already have picked up");
+                        throw new ParcelPastErroeException($"the {drone.Parcel.ID} already have picked up");
                     else
                     {
                         //DateTime time = DateTime.Now;
@@ -537,17 +554,17 @@ namespace BL
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
-        public void PickUpParcelParcelID(int id)
-        {
-            try
-            {
-                lock (dal)
-                {
-                    dal.PickupParcel(id);
-                }
-            }
-            catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        }
+        //public void PickUpParcelParcelID(int id)
+        //{
+        //    try
+        //    {
+        //        lock (dal)
+        //        {
+        //            dal.PickupParcel(id);
+        //        }
+        //    }
+        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
+        //}
 
         /// <summary>
         /// Delivery of a parcel by drone.
@@ -560,26 +577,46 @@ namespace BL
             {
                 lock (dal)
                 {
-                    int t = (int)FindDrone(id).Parcel.ID;
-                    if (Findparcel(t).Deliverd != null)
-                        throw new ParcelPastErroeException($"the {FindDrone(id).Parcel.ID} already have delivered up");
+                    var d = FindDrone(id);
+                    if (Findparcel((int)d.Parcel.ID).Deliverd != null)
+                        throw new ParcelPastErroeException($"the {d.Parcel.ID} already have delivered up");
                     else
-                        dal.DeliverdParcel(t);
+                    {
+                        Location locationTarget = Findcustomer(Findparcel((int)d.Parcel.ID).target.ID).Position;
+                        if (d.Battery < PowerConsumption(Distance(d.Position, locationTarget), d.Weight))
+                        {
+                            DroneToCharge(id);
+                            DateTime dateTime = DateTime.Now;
+                            do
+                            {
+                                System.Threading.Thread.Sleep(500);
+                                d.Status = Status.MAINTENANCE;
+                                UpdateDrone(d);
+                                DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes);
+                                d = FindDrone((int)d.ID);
+                                d.Status = Status.BELONG;
+                                UpdateDrone(d);
+                            } while (d.Battery < 100);
+
+                        }
+                        dal.DeliverdParcel((int)d.Parcel.ID);
+                        DroneToCharge(id);
+                    }
                 }
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
-        public void ParceldeliveryParcelID(int id)
-        {
-            try
-            {
-                lock (dal)
-                {
-                    dal.DeliverdParcel(id);
-                }
-            }
-            catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        }
+        //public void ParceldeliveryParcelID(int id)
+        //{
+        //    try
+        //    {
+        //        lock (dal)
+        //        {
+        //            dal.DeliverdParcel(id);
+        //        }
+        //    }
+        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
+        //}
         /// <summary>
         /// station search.
         /// </summary>

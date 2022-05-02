@@ -13,15 +13,89 @@
         Height="650" Width="450">
     <Grid>
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF00B9FF" Offset="1"/>
-                <GradientStop Color="#FF2DFBF2"/>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="2,0">
+                <GradientStop Color="#003B46" Offset="0.50154587"/>
+                <GradientStop Color="#66A5AD" Offset="0.89"/>
+                <GradientStop Color="#07575B" Offset="0.697"/>
+                <GradientStop Color="#B0DFE6" Offset="0.99"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Button x:Name="SendParcel" Content="Send parcel" HorizontalAlignment="Center" Margin="0,303,0,0" VerticalAlignment="Top" Click="SendParcel_Click"/>
-        <Button x:Name="Changelocation" Content="Change location" HorizontalAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" Click="Changelocation_Click"/>
-        <Button x:Name="Changeemail" Content="Change email" HorizontalAlignment="Center" Margin="0,239,0,0" VerticalAlignment="Top" Click="Changeemail_Click"/>
-        <Button x:Name="SingOut" Content="Sing out" HorizontalAlignment="Center" Margin="0,364,0,0" VerticalAlignment="Top" Click="SingOut_Click"/>
+        <Button x:Name="SendParcel" Content="Send parcel" FontSize="20" Width="250" Height="50"
+                        Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,244,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White" Click="SendParcel_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="Changelocation" Content="Change location" FontSize="20" Width="250" Height="50"
+                        Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White" Click="Changelocation_Click" Margin="0,319,0,0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="Changeemail" Content="Change email" FontSize="20" Width="250" Height="50"
+                        Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,388,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White" Click="Changeemail_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="SingOut" Content="Sing out" FontSize="20" Width="250" Height="50"
+                        Foreground="#FF4184CC" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,457,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White" Click="SingOut_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
         <TextBlock x:Name="txtName" HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="372" FontFamily="Bold" FontSize="22"/>
         <TextBox x:Name="TextBoxLongitude" HorizontalAlignment="Center" Margin="0,438,0,0" VerticalAlignment="Top" Height="38" Width="88" Background="Transparent"
                                  materialDesign:HintAssist.Hint="Longitude"

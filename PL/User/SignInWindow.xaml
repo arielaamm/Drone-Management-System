@@ -12,9 +12,11 @@
         Height="650" Width="450">
     <Grid>
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF00B9FF" Offset="1"/>
-                <GradientStop Color="#FF2DFBF2"/>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="2,0">
+                <GradientStop Color="#003B46" Offset="0.50154587"/>
+                <GradientStop Color="#66A5AD" Offset="0.89"/>
+                <GradientStop Color="#07575B" Offset="0.697"/>
+                <GradientStop Color="#B0DFE6" Offset="0.99"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
@@ -39,7 +41,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"
                                  materialDesign:HintAssist.Hint="Username"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="2" HorizontalAlignment="Center">
@@ -65,7 +67,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
                                  Background="Transparent" FontSize="15" FontWeight="Bold" materialDesign:HintAssist.Hint="Password"
                                  materialDesign:HintAssist.HelperText="At least 4 characters"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent">
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black">
                         <PasswordBox.Resources>
                             <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                                 <Setter Property="Width" Value="220" />
@@ -87,7 +89,7 @@
                         <TextBox x:Name="txtPhone" FontSize="15" Width="220" FontWeight="Bold" BorderThickness="0"
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                 Background="Transparent"
+                                 Background="Transparent" CaretBrush="Black"
                                  materialDesign:HintAssist.Hint="Phone" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
@@ -101,7 +103,7 @@
                         <TextBox x:Name="txtID" FontSize="15" Width="220" FontWeight="Bold" BorderThickness="0"
                                  HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                 Background="Transparent"
+                                 Background="Transparent" CaretBrush="Black"
                                  materialDesign:HintAssist.Hint="ID" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>

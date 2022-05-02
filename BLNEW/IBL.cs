@@ -78,20 +78,20 @@ namespace BlApi
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void AttacheDrone(int DroneID);
-        void AttacheDroneParcelID(int ParcelID);
+        //void AttacheDroneParcelID(int ParcelID);
 
         /// <summary>
         /// The PickUpParcel.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void PickUpParcel(int id);
-        void PickUpParcelParcelID(int id);
+        //void PickUpParcelParcelID(int id);
         /// <summary>
-        /// The Parceldelivery.
+        /// The Parcel delivery.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void Parceldelivery(int id);
-        void ParceldeliveryParcelID(int id);
+        //void ParceldeliveryParcelID(int id);
 
         /// <summary>
         /// The FindStation.
@@ -108,14 +108,14 @@ namespace BlApi
         Drone FindDrone(int id);
 
         /// <summary>
-        /// The Findparcel.
+        /// The Find parcel.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Parcel"/>.</returns>
         Parcel Findparcel(int id);
 
         /// <summary>
-        /// The Findcustomer.
+        /// The Find customer.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Customer"/>.</returns>

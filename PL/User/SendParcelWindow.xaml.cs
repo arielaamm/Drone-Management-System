@@ -54,12 +54,8 @@ namespace PL
                     else
                     {
                         bl.AddParcel(parcel);
-                        bl.AttacheDroneParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(2500);
-                        bl.PickUpParcelParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(2500);
-                        bl.ParceldeliveryParcelID(parcel.ID);
-                        System.Threading.Thread.Sleep(2500);
+                        MessageBox.Show("The new package is going to be shipped with the first free drone");
+
                     }
                 }
             }
@@ -72,12 +68,6 @@ namespace PL
                 }
                 else
                     MessageBox.Show("Enter the data in the necessary places", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            if (parcel.Deliverd != null)
-            {
-                MessageBox.Show("the parcel arrived Successfully");
-                new UserWindow(bl, customer).Show();
-                Close();
             }
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
