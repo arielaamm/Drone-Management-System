@@ -456,13 +456,13 @@ namespace BL
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DroneOutCharge(int id, double time)
+        public void DroneOutCharge(int id, double time, bool b)
         {
             lock (dal)
             {
                 if (FindDrone(id).Status == Status.MAINTENANCE)
                 {
-                    dal.DroneOutCharge(id, time);
+                    dal.DroneOutCharge(id, time, b);
                 }
                 else
                 {
@@ -470,7 +470,6 @@ namespace BL
                 }
             }
         }
-
         /// <summary>
         /// Assign a parcel to a drone.
         /// </summary>
@@ -487,21 +486,19 @@ namespace BL
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
                     var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i => i.Weight).First();
                     Location locationSender = Findcustomer(Findparcel(parcel.ID).sender.ID).Position;
-                    if (drone.Battery < PowerConsumption(Distance(drone.Position, locationSender), drone.Weight))
+
+                    DateTime dateTime = DateTime.Now;
+                    do
                     {
-                        DroneToCharge(DroneID);
-                        DateTime dateTime = DateTime.Now;
-                        do
-                        {
-                            System.Threading.Thread.Sleep(500);
-                            drone.Status = Status.MAINTENANCE;
-                            UpdateDrone(drone);
-                            DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes);
-                            drone = FindDrone((int)drone.ID);
-                            drone.Status = Status.BELONG;
-                            UpdateDrone(drone);
-                        } while (drone.Battery < 100);
-                    }
+                        System.Threading.Thread.Sleep(500);
+                        drone.Status = Status.MAINTENANCE;
+                        UpdateDrone(drone);
+                        DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
+                        drone = FindDrone((int)drone.ID);
+                        drone.Status = Status.BELONG;
+                        UpdateDrone(drone);
+                    } while (drone.Battery < 100);
+
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
@@ -537,17 +534,20 @@ namespace BL
                         throw new ParcelPastErroeException($"the {drone.Parcel.ID} already have picked up");
                     else
                     {
-                        //DateTime time = DateTime.Now;
-                        //while (Drone.Battery < 100)
-                        //{
-                        //    System.Threading.Thread.Sleep(500);
-                        //    Drone.Status =Status.MAINTENANCE;
-                        //    UpdateDrone(Drone);
-                        //    DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
-                        //    Drone = FindDrone(id);
-                        //    Drone.Status = Status.BELONG;
-                        //    UpdateDrone(Drone);
-                        //}
+                        Location locationSnder = Findcustomer(Findparcel((int)drone.Parcel.ID).sender.ID).Position;
+
+                        DateTime dateTime = DateTime.Now;
+                        do
+                        {
+                            System.Threading.Thread.Sleep(500);
+                            drone.Status = Status.MAINTENANCE;
+                            UpdateDrone(drone);
+                            DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
+                            drone = FindDrone((int)drone.ID);
+                            drone.Status = Status.BELONG;
+                            UpdateDrone(drone);
+                        } while (drone.Battery < 100);
+
                         dal.PickupParcel(t);
                     }
                 }
@@ -583,25 +583,22 @@ namespace BL
                     else
                     {
                         Location locationTarget = Findcustomer(Findparcel((int)d.Parcel.ID).target.ID).Position;
-                        if (d.Battery < PowerConsumption(Distance(d.Position, locationTarget), d.Weight))
-                        {
-                            DroneToCharge(id);
-                            DateTime dateTime = DateTime.Now;
-                            do
-                            {
-                                System.Threading.Thread.Sleep(500);
-                                d.Status = Status.MAINTENANCE;
-                                UpdateDrone(d);
-                                DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes);
-                                d = FindDrone((int)d.ID);
-                                d.Status = Status.BELONG;
-                                UpdateDrone(d);
-                            } while (d.Battery < 100);
-
-                        }
-                        dal.DeliverdParcel((int)d.Parcel.ID);
-
+                        d.Status = Status.FREE;
+                        UpdateDrone(d);
                         DroneToCharge(id);
+                        DateTime dateTime = DateTime.Now;
+                        do
+                        {
+                            System.Threading.Thread.Sleep(500);
+                            d.Status = Status.MAINTENANCE;
+                            UpdateDrone(d);
+                            DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes, true);
+                            d = FindDrone((int)d.ID);
+                            d.Status = Status.PICKUP;
+                            UpdateDrone(d);
+                        } while (d.Battery < 100);
+
+                        dal.DeliverdParcel((int)FindDrone(id).Parcel.ID);
                     }
                 }
             }

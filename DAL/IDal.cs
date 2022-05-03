@@ -110,7 +110,7 @@ namespace DalApi
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        void DroneOutCharge(int droneID, double time);
+        void DroneOutCharge(int droneID, double time, bool b);
 
         /// <summary>
         /// The FindStation.

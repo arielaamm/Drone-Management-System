@@ -71,7 +71,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        void DroneOutCharge(int id, double time);
+        void DroneOutCharge(int id, double time, bool b);
 
         /// <summary>
         /// The AttacheDrone.

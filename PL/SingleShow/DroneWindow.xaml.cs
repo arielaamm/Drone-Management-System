@@ -12,7 +12,7 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
-
+        public bool run = true;
         internal ObservableCollection<BO.DroneToList> Drone
         {
             get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
@@ -62,19 +62,38 @@ namespace PL
 
         private BackgroundWorker DroneWorker;
         private readonly BO.Drone d;
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_ON(object sender, RoutedEventArgs e)
         {
             DroneWorker = new BackgroundWorker();
             DroneWorker.DoWork += Worker_DoWork;
+            Automatic.Click -= Button_Click_ON;
+            Automatic.Click += Button_Click_OFF;
+            Automatic.Content = "Regular";
+            run = true;
             DroneWorker.RunWorkerAsync();
+
+
         }
+        private void Button_Click_OFF(object sender, RoutedEventArgs e)
+        {
+            Automatic.Click += Button_Click_ON;
+            Automatic.Click -= Button_Click_OFF;
+            Automatic.Content = "Automatic";
+            run = false;
+        }
+        private bool GetRun() => run;
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Action display = foo;
-            bl.Uploader((int)d.ID, display, DroneWorker.CancellationPending == true);
+            try
+            {
+                bl.Uploader((int)d.ID, display, GetRun);
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message.ToString()); }
         }
         //private object Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) => e.UserState;
-        private void foo() { Drone = new(t); }
+        public static void foo() { MessageBox.Show("sasasasa"); }
 
     }
 }

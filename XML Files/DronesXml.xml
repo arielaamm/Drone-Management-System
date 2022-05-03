@@ -6,32 +6,32 @@
     <ID>3</ID>
     <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
-    <Status>MAINTENANCE</Status>
-    <Battery>12</Battery>
-    <Longitude>2.4688499385811618</Longitude>
-    <Lattitude>2.7595265823227937</Lattitude>
+    <Status>FREE</Status>
+    <Battery>37.064668375976325</Battery>
+    <Longitude>3.518732634148902</Longitude>
+    <Lattitude>6.815910710867453</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>true</haveParcel>
     <ID>4</ID>
-    <Model>MDL45</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>60</Battery>
-    <Longitude>2.4688499385811618</Longitude>
-    <Lattitude>2.7595265823227937</Lattitude>
+    <Battery>91</Battery>
+    <Longitude>4.939866824978901</Longitude>
+    <Lattitude>2.7728128725536223</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>true</haveParcel>
     <ID>5</ID>
-    <Model>MDL65</Model>
+    <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>91</Battery>
-    <Longitude>2.4688499385811618</Longitude>
-    <Lattitude>2.7595265823227937</Lattitude>
+    <Battery>61</Battery>
+    <Longitude>4.939866824978901</Longitude>
+    <Lattitude>2.7728128725536223</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -40,9 +40,9 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>12</Battery>
-    <Longitude>2.4688499385811618</Longitude>
-    <Lattitude>2.7595265823227937</Lattitude>
+    <Battery>59</Battery>
+    <Longitude>1.7342330593309518</Longitude>
+    <Lattitude>5.848242544498408</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -51,8 +51,8 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>85</Battery>
-    <Longitude>2.4688499385811618</Longitude>
-    <Lattitude>2.7595265823227937</Lattitude>
+    <Battery>48</Battery>
+    <Longitude>4.939866824978901</Longitude>
+    <Lattitude>2.7728128725536223</Lattitude>
   </Drone>
 </ArrayOfDrone>

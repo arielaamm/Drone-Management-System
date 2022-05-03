@@ -539,7 +539,7 @@ namespace DAL
             d.Status = Status.MAINTENANCE;
             double i = Power()[((int)d.Weight + 1) % 4];
             i *= Math.Sqrt(Math.Pow(d.Lattitude - s.Lattitude, 2) + Math.Pow(d.Longitude - s.Longitude, 2));
-            d.Battery = Math.Ceiling(i);
+            d.Battery -= Math.Ceiling(i);
             d.Lattitude = s.Lattitude;
             d.Longitude = s.Longitude;
             UpdateDrone(d);
@@ -585,7 +585,7 @@ namespace DAL
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DroneOutCharge(int droneID, double time)
+        public void DroneOutCharge(int droneID, double time, bool b = true) // 
         {
 
             int index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
@@ -597,11 +597,32 @@ namespace DAL
                 Drone d = new();
                 d = Dronelist().ToList()[index];
                 d.Battery += Power()[4] * time / 60;
-                if (d.Battery >= 100)
+                if (b)
                 {
-                    d.Battery = 100;
-                    d.Status = Status.FREE;
+                    if (d.Battery >= 100)
+                    {
+                        d.Battery = 100;
+                        d.Status = Status.FREE;
 
+                        index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+                        int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
+                        var a = DroneChargelist().ToList();
+                        a.RemoveAt(index);
+                        XMLTools.SaveListToXMLSerializer(a, DroneChargesPath);
+
+                        Station s = new();
+                        s = Stationlist().ToList()[indexStation];
+                        s.BusyChargeSlots -= 1;
+                        UpdateStation(s);
+                    }
+                }
+                else
+                {
+                    if (d.Battery >= 100)
+                    {
+                        d.Battery = 100;
+                        d.Status = Status.FREE;
+                    }
                     index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
                     int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
                     var a = DroneChargelist().ToList();
@@ -612,6 +633,7 @@ namespace DAL
                     s = Stationlist().ToList()[indexStation];
                     s.BusyChargeSlots -= 1;
                     UpdateStation(s);
+
                 }
                 UpdateDrone(d);
             }

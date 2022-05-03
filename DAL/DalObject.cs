@@ -362,7 +362,7 @@ namespace DAL
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        public void DroneOutCharge(int droneID, double time)
+        public void DroneOutCharge(int droneID, double time, bool b)
         {
 
             int index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);

@@ -60,7 +60,7 @@ namespace PL
                     Thread.Sleep(500);
                     Drone.Status = BO.Status.MAINTENANCE;
                     bl.UpdateDrone(Drone);
-                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
+                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes, true);
                     Drone = bl.FindDrone(id);
                     Drone.Status = BO.Status.FREE;
                     bl.UpdateDrone(Drone);
@@ -112,7 +112,7 @@ namespace PL
                     System.Threading.Thread.Sleep(500);
                     Drone.Status = BO.Status.MAINTENANCE;
                     bl.UpdateDrone(Drone);
-                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes);
+                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes, true);
                     Drone = bl.FindDrone(id);
                     Drone.Status = BO.Status.BELONG;
                     bl.UpdateDrone(Drone);
