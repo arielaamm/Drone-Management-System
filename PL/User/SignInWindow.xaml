@@ -41,7 +41,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"
                                  materialDesign:HintAssist.Hint="Username"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black" materialDesign:HintAssist.Foreground="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="2" HorizontalAlignment="Center">
@@ -67,7 +67,7 @@
                                  HorizontalAlignment="Center" VerticalAlignment="Center" 
                                  Background="Transparent" FontSize="15" FontWeight="Bold" materialDesign:HintAssist.Hint="Password"
                                  materialDesign:HintAssist.HelperText="At least 4 characters"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black">
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" CaretBrush="Black" materialDesign:HintAssist.Foreground="Black">
                         <PasswordBox.Resources>
                             <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                                 <Setter Property="Width" Value="220" />
@@ -92,7 +92,7 @@
                                  Background="Transparent" CaretBrush="Black"
                                  materialDesign:HintAssist.Hint="Phone" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" materialDesign:HintAssist.Foreground="Black"/>
                     </Underline>
             </TextBlock>
             <TextBlock Grid.Row="4" HorizontalAlignment="Center">
@@ -106,7 +106,7 @@
                                  Background="Transparent" CaretBrush="Black"
                                  materialDesign:HintAssist.Hint="ID" PreviewTextInput="NumberValidationTextBox"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent"/>
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Transparent" materialDesign:HintAssist.Foreground="Black"/>
                     </Underline>
             </TextBlock>
         </Grid>

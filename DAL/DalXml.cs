@@ -29,7 +29,6 @@ namespace DAL
             if (!File.Exists(dir + StationsPath))
                 XMLTools.SaveListToXMLSerializer(DataSource.stations, StationsPath);
             Initialization();
-            Console.WriteLine("11111");
         }
 
         /// <summary>
@@ -722,7 +721,7 @@ namespace DAL
         public IEnumerable<Parcel> ParcelNotAssociatedList()
         {
             return from Parcel in Parcellist()
-                   where Parcel.DroneId == 0 || Parcel.DroneId == 0 && Parcel.IsActive == true
+                   where Parcel.DroneId == 0 && Parcel.IsActive == true
                    select Parcel;
         }
 

@@ -600,6 +600,7 @@ namespace BL
 
                         }
                         dal.DeliverdParcel((int)d.Parcel.ID);
+
                         DroneToCharge(id);
                     }
                 }
@@ -704,16 +705,14 @@ namespace BL
                     };
 
                     parcelTransactiningTemp.ID = p.ID;
-                    parcelTransactiningTemp.ParcelStatus = p.PickedUp == null;
+                    parcelTransactiningTemp.ParcelStatus = p.Status == DO.StatusParcel.CREAT;
                     parcelTransactiningTemp.priority = (Priority)p.Priority;
                     parcelTransactiningTemp.weight = (Weight)p.Weight;
                     parcelTransactiningTemp.sender = Sender;
                     parcelTransactiningTemp.target = target;
                     parcelTransactiningTemp.LocationOfSender = locationSend;
                     parcelTransactiningTemp.LocationOftarget = locationTarget;
-                    parcelTransactiningTemp.distance = Distance(locationSend, locationTarget);
-
-
+                    //parcelTransactiningTemp.distance = Distance(locationSend, locationTarget);
                 }
                 newDrone.Parcel = parcelTransactiningTemp;
                 return newDrone;
@@ -1052,10 +1051,9 @@ namespace BL
         /// <param name="droneId">The droneId<see cref="int"/>.</param>
         /// <param name="display">The display<see cref="Action"/>.</param>
         /// <param name="checker">The checker<see cref="bool"/>.</param>
-        public void Uploader(int droneId, Action display, bool checker)
+        public void Uploader(int droneId, Action display, Func<bool> stopCheck)
         {
-            BL bl = new BL();
-            Simulator simulator = new Simulator(bl, droneId, display, checker);//constractor
+            Simulator simulator = new Simulator(droneId, display, stopCheck, this);//constractor
         }
     }
 }

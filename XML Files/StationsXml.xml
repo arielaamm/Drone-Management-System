@@ -16,6 +16,6 @@
     <Longitude>2.4688499385811618</Longitude>
     <Lattitude>2.7595265823227937</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>0</BusyChargeSlots>
+    <BusyChargeSlots>1</BusyChargeSlots>
   </Station>
 </ArrayOfStation>

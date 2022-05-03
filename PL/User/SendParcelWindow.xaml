@@ -25,10 +25,11 @@
             <Label x:Name="WeightLabel" Content="Weight" Margin="58,177,323,435"/>
             <Label x:Name="PriorityLabel" Content="Priority" Margin="58,227,323,386" />
             <Label x:Name="TargetLabel" Content="Target name" Margin="58,283,284,330" />
-            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" CaretBrush="Black" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top"/>
-            <ComboBox x:Name="WeightSelector" Margin="262,177,44,0" Height="38" VerticalAlignment="Top"/>
-            <ComboBox x:Name="PrioritySelector" Margin="262,227,42,0" Height="37" VerticalAlignment="Top"/>
-            <ComboBox x:Name="TargetSelector" Margin="262,283,42,0" Height="37" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" 
+                     CaretBrush="Black" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top" Foreground="Black"/>
+            <ComboBox x:Name="WeightSelector" Margin="262,177,44,0" Height="38" VerticalAlignment="Top" Foreground="Black"/>
+            <ComboBox x:Name="PrioritySelector" Margin="262,227,42,0" Height="37" VerticalAlignment="Top" Foreground="Black"/>
+            <ComboBox x:Name="TargetSelector" Margin="262,283,42,0" Height="37" VerticalAlignment="Top" Foreground="Black"/>
 
             <Button x:Name="BntAdd" Content="Add the Parcel" Height="52" FontSize="20" Width="226" 
                         Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,436,0,0"

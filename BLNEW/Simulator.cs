@@ -1,6 +1,7 @@
 ﻿using BLExceptions;
 using BO;
 using System;
+using System.Linq;
 using System.Threading;
 using static BL.BL;
 //ntc the delay
@@ -11,9 +12,9 @@ namespace BL
     {
         private readonly double speed = 60;//---km/h
         private readonly int DELAY = 1000; // whaiting time 1 sec(1000 mlsc)
-        public Simulator(BL bl, int droneId, Action display, bool checker)//constractor
+        public Simulator(int droneId, Action display, Func<bool> checker, BL bl)//constractor
         {
-            while (!checker)
+            while (checker() && bl.ParcelsNotAssociated().Any())
             {
                 Drone d;
                 d = bl.FindDrone(droneId);
@@ -42,7 +43,7 @@ namespace BL
                         }
                         break;
                     case Status.BELONG:
-                        if (bl.Findparcel((int)d.Parcel.ID).PickedUp == null)
+                        try
                         {
                             double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOfSender), d.Parcel.weight);
                             if (a < d.Battery)
@@ -55,31 +56,66 @@ namespace BL
                             else
                             {
                                 Thread.Sleep(DELAY);
+                                d.Status = Status.FREE;
+                                bl.UpdateDrone(d);
                                 bl.DroneToCharge((int)d.ID);
+                                DateTime time = DateTime.Now;
+                                do
+                                {
+                                    System.Threading.Thread.Sleep(500);
+                                    d.Status = Status.MAINTENANCE;
+                                    bl.UpdateDrone(d);
+                                    bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
+                                    d = bl.FindDrone((int)d.ID);
+                                    d.Status = Status.BELONG;
+                                    bl.UpdateDrone(d);
+                                } while (d.Battery <= 100);
 
                                 //bl.AddBattery(droneId, -bl.GetElectricityPerKM((DELAY / 1000) * speed, d.Parcel.weight));
                                 //TODO bonus location
                             }
                         }
+                        catch (ParcelPastErroeException)
+                        {
+                            Thread.Sleep(DELAY);
+                        }
                         break;
                     case Status.PICKUP:
                         {
-                            double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOftarget), d.Parcel.weight);
-                            if (a < d.Battery)
+                            try
                             {
-                                d.Parcel.distance = Distance(d.Position, d.Parcel.LocationOftarget);
-                                bl.Parceldelivery((int)d.Parcel.ID);
-                                //i = 0;
-                                Thread.Sleep((int)(Distance(d.Position, d.Parcel.LocationOfSender) / speed));
-                                d.Parcel.distance = 0;
+                                double a = PowerConsumption(Distance(d.Position, d.Parcel.LocationOftarget), d.Parcel.weight);
+                                if (a < d.Battery)
+                                {
+                                    d.Parcel.distance = Distance(d.Position, d.Parcel.LocationOftarget);
+                                    bl.Parceldelivery((int)d.Parcel.ID);
+                                    //i = 0;
+                                    Thread.Sleep((int)(Distance(d.Position, d.Parcel.LocationOfSender) / speed));
+                                    d.Parcel.distance = 0;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(DELAY);
+                                    d.Status = Status.FREE;
+                                    bl.UpdateDrone(d);
+                                    bl.DroneToCharge((int)d.ID);
+                                    DateTime time = DateTime.Now;
+                                    do
+                                    {
+                                        System.Threading.Thread.Sleep(500);
+                                        d.Status = Status.MAINTENANCE;
+                                        bl.UpdateDrone(d);
+                                        bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
+                                        d = bl.FindDrone((int)d.ID);
+                                        d.Status = Status.BELONG;
+                                        bl.UpdateDrone(d);
+                                    } while (d.Battery <= 100);
+                                }
                             }
-                            else
+                            catch (ParcelPastErroeException)
                             {
                                 Thread.Sleep(DELAY);
-                                //d.Parcel.distance -= (DELAY / 1000) * speed;
-                                bl.DroneToCharge((int)d.ID);
                             }
-
                         }
                         break;
                     case Status.MAINTENANCE:
@@ -91,23 +127,23 @@ namespace BL
                             break;
                         }
                         //bl.AddBattery(droneId, (DELAY / 1000) * bl.ChargePerSecond);
-                        DateTime time = DateTime.Now;
-                        while (d.Battery < 100)
-                        {
-                            Thread.Sleep(500);
-                            bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
-                        }
+                        //DateTime time = DateTime.Now;
+                        //while (d.Battery < 100)
+                        //{
+                        //    Thread.Sleep(500);
+                        //    bl.DroneOutCharge((int)d.ID, (DateTime.Now - time).TotalMinutes);
+                        //}
                         DateTime dateTime = DateTime.Now;
                         do
                         {
-                            System.Threading.Thread.Sleep(500);
+                            Thread.Sleep(500);
                             d.Status = Status.MAINTENANCE;
                             bl.UpdateDrone(d);
                             bl.DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes);
                             d = bl.FindDrone((int)d.ID);
                             d.Status = Status.BELONG;
                             bl.UpdateDrone(d);
-                        } while (d.Battery < 100);
+                        } while (d.Battery <= 100);
                         break;
                 }
             }

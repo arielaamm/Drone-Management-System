@@ -190,6 +190,6 @@ namespace BlApi
         /// <param name="droneId">The droneId<see cref="int"/>.</param>
         /// <param name="display">The display<see cref="Action"/>.</param>
         /// <param name="checker">The checker<see cref="bool"/>.</param>
-        public void Uploader(int droneId, Action display, bool checker);
+        public void Uploader(int droneId, Action display, Func<bool> stopCheck);
     }
 }
