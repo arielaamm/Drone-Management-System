@@ -548,7 +548,7 @@ namespace BL
                             UpdateDrone(drone);
                         } while (drone.Battery < 100);
 
-                        dal.PickupParcel(t);
+                        dal.PickupParcel((int)FindDrone(id).Parcel.ID);
                     }
                 }
             }
