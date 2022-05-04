@@ -487,18 +487,18 @@ namespace BL
                     var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i => i.Weight).First();
                     Location locationSender = Findcustomer(Findparcel(parcel.ID).sender.ID).Position;
 
-                    DateTime dateTime = DateTime.Now;
-                    do
-                    {
-                        DroneToCharge((int)drone.ID);
-                        System.Threading.Thread.Sleep(500);
+                    //DateTime dateTime = DateTime.Now;
+                    //do
+                    //{
+                    //    DroneToCharge((int)drone.ID);
+                    //    System.Threading.Thread.Sleep(500);
                         //drone.Status = Status.MAINTENANCE;
-                        UpdateDrone(drone);
-                        DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
-                        drone = FindDrone((int)drone.ID);
-                        drone.Status = Status.BELONG;
-                        UpdateDrone(drone);
-                    } while (drone.Battery < 100);
+                    //    UpdateDrone(drone);
+                    //    DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
+                    //    drone = FindDrone((int)drone.ID);
+                    //    drone.Status = Status.BELONG;
+                    //    UpdateDrone(drone);
+                    //} while (drone.Battery < 100);
 
                     dal.AttacheDrone(parcel.ID);
                 }
