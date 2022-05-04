@@ -71,16 +71,45 @@ namespace PL
             Automatic.Content = "Regular";
             run = true;
             DroneWorker.RunWorkerAsync();
+            DroneWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            DroneWorker.WorkerReportsProgress = true;
+            DroneWorker.WorkerSupportsCancellation = true;
+
 
 
         }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // e.Result throw System.InvalidOperationException
+                //resultLabel.Content = "Canceled!";
+            }
+            else if (e.Error != null)
+            {
+                // e.Result throw System.Reflection.TargetInvocationException
+               // resultLabel.Content = "Error: " + e.Error.Message; //Exception Message
+            }
+            else
+            {
+                
+            }
+        }
+
+
         private void Button_Click_OFF(object sender, RoutedEventArgs e)
         {
             Automatic.Click += Button_Click_ON;
             Automatic.Click -= Button_Click_OFF;
             Automatic.Content = "Automatic";
             run = false;
+            if (DroneWorker.WorkerSupportsCancellation == true)
+                // Cancel the asynchronous operation.
+                DroneWorker.CancelAsync();
         }
+
+
         private bool GetRun() => run;
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
