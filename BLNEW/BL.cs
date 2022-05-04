@@ -490,8 +490,9 @@ namespace BL
                     DateTime dateTime = DateTime.Now;
                     do
                     {
+                        DroneToCharge((int)drone.ID);
                         System.Threading.Thread.Sleep(500);
-                        drone.Status = Status.MAINTENANCE;
+                        //drone.Status = Status.MAINTENANCE;
                         UpdateDrone(drone);
                         DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
                         drone = FindDrone((int)drone.ID);
