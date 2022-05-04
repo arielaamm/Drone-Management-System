@@ -1,4 +1,6 @@
-﻿namespace DO
+﻿using System;
+
+namespace DO
 {
     /// <summary>
     /// Record fo drone charge in station in DAL.
@@ -14,5 +16,7 @@
         /// Gets or sets the StationId.
         /// </summary>
         public int StationId { set; get; }
+
+        public DateTime Insert { set; get; }
     }
 }

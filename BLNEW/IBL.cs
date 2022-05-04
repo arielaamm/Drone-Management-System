@@ -64,14 +64,14 @@ namespace BlApi
         /// The DroneToCharge.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
-        void DroneToCharge(int id);
+        void DroneToCharge(int id, bool b);
 
         /// <summary>
         /// The DroneOutCharge.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        void DroneOutCharge(int id, double time, bool b);
+        void DroneOutCharge(int id, DateTime time);
 
         /// <summary>
         /// The AttacheDrone.

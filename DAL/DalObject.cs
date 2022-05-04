@@ -89,6 +89,7 @@ namespace DAL
             {
                 DroneId = d.ID,
                 StationId = (int)s.ID,
+                Insert = DateTime.Now,
             };
             AddDroneCharge(temp);
         }
@@ -138,6 +139,7 @@ namespace DAL
             if (index != -1)
                 throw new AlreadyExistException("Already exist in the system");
             d.StationId = StationId;
+            d.Insert = DateTime.Now;
             DataSource.droneCharges.Add(d);
         }
 
@@ -362,7 +364,7 @@ namespace DAL
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        public void DroneOutCharge(int droneID, double time, bool b)
+        public void DroneOutCharge(int droneID, DateTime time)
         {
 
             int index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
@@ -373,22 +375,23 @@ namespace DAL
                     throw new DroneNotChargingException("The drone is not charging");
                 Drone d = new();
                 d = DataSource.drones[index];
-                d.Battery = Power()[4] * time;
+                var t = time - DataSource.droneCharges.Find(i => i.DroneId == droneID).Insert;
+                d.Battery = Power()[4] * t.TotalMinutes / 60;
                 if (d.Battery > 100)
                 {
                     d.Battery = 100;
                     d.Status = Status.FREE;//changed for simulator
                     DataSource.drones[index] = d;
-
-                    index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
-                    int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
-                    DataSource.droneCharges.RemoveAt(index);
-
-                    Station s = new();
-                    s = DataSource.stations[index];
-                    s.BusyChargeSlots -= 1;
-                    DataSource.stations[index] = s;
                 }
+                index = DataSource.droneCharges.FindIndex(i => i.DroneId == droneID);
+                int indexStation = DataSource.stations.FindIndex(i => i.ID == DataSource.droneCharges[index].StationId);
+                DataSource.droneCharges.RemoveAt(index);
+
+                Station s = new();
+                s = DataSource.stations[index];
+                s.BusyChargeSlots -= 1;
+                DataSource.stations[index] = s;
+
             }
         }
 

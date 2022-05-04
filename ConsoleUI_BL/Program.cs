@@ -282,7 +282,7 @@ namespace ConsoleUI_BL
                         throw new DoesNotExistException($"this id {droneID} don't exist");
 
                     }
-                    p.DroneToCharge(droneID);
+                    p.DroneToCharge(droneID, true);
                     break;
                 case "release from charging" or "5":
                     Console.WriteLine("enter droneID");
@@ -300,9 +300,7 @@ namespace ConsoleUI_BL
                         throw new DoesNotExistException($"this id {idDroneReleaseFromCharge} don't exist");
 
                     }
-                    Console.WriteLine("how many hour the drone has charged (in full hours)");
-                    int timeInCharge = int.Parse(Console.ReadLine());
-                    p.DroneOutCharge(idDroneReleaseFromCharge, timeInCharge);
+                    p.DroneOutCharge(idDroneReleaseFromCharge, DateTime.Now);
                     break;
                 case "Attache drone to parcel" or "6":
                     Console.WriteLine("enter drone's id");

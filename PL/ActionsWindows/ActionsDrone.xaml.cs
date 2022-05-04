@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using BLExceptions;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,7 +12,7 @@ namespace PL
     {
         private readonly BlApi.IBL bl;
         private readonly int id;
-        private BO.Drone Drone;
+        private readonly BO.Drone Drone;
         private DateTime time = DateTime.MinValue;
         private readonly Window parent;
         public ActionsDrone(BlApi.IBL bl, int id, Window parent)
@@ -53,18 +53,7 @@ namespace PL
             try
             {
                 MessageBox.Show("Please wait while the drone Released...", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                if (time == DateTime.MinValue)
-                    time = DateTime.Now;
-                do
-                {
-                    Thread.Sleep(500);
-                    Drone.Status = BO.Status.MAINTENANCE;
-                    bl.UpdateDrone(Drone);
-                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes, true);
-                    Drone = bl.FindDrone(id);
-                    Drone.Status = BO.Status.FREE;
-                    bl.UpdateDrone(Drone);
-                } while (Drone.Battery < 100);
+                bl.DroneOutCharge((int)Drone.ID, DateTime.Now);
                 Reload();
             }
             catch (Exception ex)
@@ -76,7 +65,7 @@ namespace PL
         {
             try
             {
-                bl.DroneToCharge(id);
+                bl.DroneToCharge(id, true);
                 time = DateTime.Now;
                 Reload();
             }
@@ -105,18 +94,22 @@ namespace PL
             try
             {
                 MessageBox.Show("Please wait while the drone Released...", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                if (time == DateTime.MinValue)
-                    time = DateTime.Now;
-                do
+                try
                 {
-                    System.Threading.Thread.Sleep(500);
                     Drone.Status = BO.Status.MAINTENANCE;
                     bl.UpdateDrone(Drone);
-                    bl.DroneOutCharge((int)Drone.ID, (DateTime.Now - time).TotalMinutes, true);
-                    Drone = bl.FindDrone(id);
+                    bl.DroneOutCharge((int)Drone.ID, DateTime.Now);
                     Drone.Status = BO.Status.BELONG;
                     bl.UpdateDrone(Drone);
-                } while (Drone.Battery < 100);
+                }
+                catch (DroneDontInChargingException)
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
                 bl.PickUpParcel(id);
                 Reload();
             }

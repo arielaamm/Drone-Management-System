@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DalApi
 {
@@ -110,7 +111,7 @@ namespace DalApi
         /// </summary>
         /// <param name="droneID">The droneID<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
-        void DroneOutCharge(int droneID, double time, bool b);
+        void DroneOutCharge(int droneID, DateTime time);
 
         /// <summary>
         /// The FindStation.

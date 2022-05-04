@@ -125,6 +125,7 @@ namespace DAL
                 {
                     DroneId = Config.staticId,
                     StationId = (int)stations[counter].ID,
+                    Insert = DateTime.Now,
                 };
                 int index = stations.FindIndex(i => i.ID == temp.StationId);
                 Station station = stations[index];

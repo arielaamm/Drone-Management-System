@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 namespace PL
@@ -89,11 +90,11 @@ namespace PL
             else if (e.Error != null)
             {
                 // e.Result throw System.Reflection.TargetInvocationException
-               // resultLabel.Content = "Error: " + e.Error.Message; //Exception Message
+                // resultLabel.Content = "Error: " + e.Error.Message; //Exception Message
             }
             else
             {
-                
+
             }
         }
 
@@ -110,7 +111,11 @@ namespace PL
         }
 
 
-        private bool GetRun() => run;
+        private bool GetRun()
+        {
+            Thread.Sleep(2500);
+            return run;
+        }
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Action display = foo;

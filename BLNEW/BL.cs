@@ -104,7 +104,7 @@ namespace BL
                         {
                             tempDrone.Battery = 80;
                             dal.UpdateDrone(tempDrone);
-                            DroneToCharge((int)tempDrone.ID);
+                            DroneToCharge((int)tempDrone.ID, false);
                         }
                     }
                 }
@@ -425,7 +425,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DroneToCharge(int id)
+        public void DroneToCharge(int id, bool b)
         {
             lock (dal)
             {
@@ -437,14 +437,26 @@ namespace BL
                     throw new DroneIsAlreadyChargeException($"the drone {id} already charge");
                 else
                 {
-                    int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
-                    if (d.Battery < PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight))
+                    try
+                    {
+                        int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
+                        if ((d.Battery < PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight)) && b)
+                        {
+                            DeleteDrone(d);
+                            throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");
+                        }
+                        else
+                            dal.DroneToCharge(id, StationID);
+                    }
+                    catch (ArgumentNullException)
                     {
                         DeleteDrone(d);
                         throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");
                     }
-                    else
-                        dal.DroneToCharge(id, StationID);
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message.ToString());
+                    }
 
                 }
             }
@@ -456,13 +468,13 @@ namespace BL
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <param name="time">The time<see cref="double"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DroneOutCharge(int id, double time, bool b)
+        public void DroneOutCharge(int id, DateTime time)
         {
             lock (dal)
             {
                 if (FindDrone(id).Status == Status.MAINTENANCE)
                 {
-                    dal.DroneOutCharge(id, time, b);
+                    dal.DroneOutCharge(id, time);
                 }
                 else
                 {
@@ -485,21 +497,11 @@ namespace BL
                     if (!ParcelsNotAssociated().Any())
                         throw new ThereIsNoParcelToAttachdException("There is no parcel to attached");
                     var parcel = ParcelsNotAssociated().OrderByDescending(i => i.Priority).OrderByDescending(i => i.Weight).First();
-                    Location locationSender = Findcustomer(Findparcel(parcel.ID).sender.ID).Position;
-
-                    //DateTime dateTime = DateTime.Now;
-                    //do
-                    //{
-                    //    DroneToCharge((int)drone.ID);
-                    //    System.Threading.Thread.Sleep(500);
-                        //drone.Status = Status.MAINTENANCE;
-                    //    UpdateDrone(drone);
-                    //    DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
-                    //    drone = FindDrone((int)drone.ID);
-                    //    drone.Status = Status.BELONG;
-                    //    UpdateDrone(drone);
-                    //} while (drone.Battery < 100);
-
+                    // אם אין לרחפן מספיק טעינה לבצע משלוח שיטוס לעמדת הטעינה הקרובה ויטען שם
+                    if (drone.Battery < PowerConsumption(Distance(Findcustomer(Findparcel(parcel.ID).sender.ID).Position, drone.Position), drone.Weight))
+                    {
+                        DroneToCharge((int)drone.ID, true);
+                    }
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
@@ -535,19 +537,18 @@ namespace BL
                         throw new ParcelPastErroeException($"the {drone.Parcel.ID} already have picked up");
                     else
                     {
-                        Location locationSnder = Findcustomer(Findparcel((int)drone.Parcel.ID).sender.ID).Position;
-
-                        DateTime dateTime = DateTime.Now;
-                        do
+                        double a = PowerConsumption(Distance(drone.Position, drone.Parcel.LocationOfSender), drone.Parcel.weight);
+                        while (drone.Battery < a)
                         {
-                            System.Threading.Thread.Sleep(500);
-                            drone.Status = Status.MAINTENANCE;
+                            drone.Status = Status.FREE;
                             UpdateDrone(drone);
-                            DroneOutCharge((int)drone.ID, (DateTime.Now - dateTime).TotalMinutes, true);
+                            DroneToCharge((int)drone.ID, false);
+                            System.Threading.Thread.Sleep(1000);
+                            DroneOutCharge((int)drone.ID, DateTime.Now);
                             drone = FindDrone((int)drone.ID);
                             drone.Status = Status.BELONG;
                             UpdateDrone(drone);
-                        } while (drone.Battery < 100);
+                        }
 
                         dal.PickupParcel((int)FindDrone(id).Parcel.ID);
                     }
@@ -578,26 +579,23 @@ namespace BL
             {
                 lock (dal)
                 {
-                    var d = FindDrone(id);
-                    if (Findparcel((int)d.Parcel.ID).Deliverd != null)
-                        throw new ParcelPastErroeException($"the {d.Parcel.ID} already have delivered up");
+                    var drone = FindDrone(id);
+                    if (Findparcel((int)drone.Parcel.ID).Deliverd != null)
+                        throw new ParcelPastErroeException($"the {drone.Parcel.ID} already have delivered up");
                     else
                     {
-                        Location locationTarget = Findcustomer(Findparcel((int)d.Parcel.ID).target.ID).Position;
-                        d.Status = Status.FREE;
-                        UpdateDrone(d);
-                        DroneToCharge(id);
-                        DateTime dateTime = DateTime.Now;
-                        do
+                        double a = PowerConsumption(Distance(drone.Position, drone.Parcel.LocationOftarget), drone.Parcel.weight);
+                        while (drone.Battery < a)
                         {
-                            System.Threading.Thread.Sleep(500);
-                            d.Status = Status.MAINTENANCE;
-                            UpdateDrone(d);
-                            DroneOutCharge((int)d.ID, (DateTime.Now - dateTime).TotalMinutes, true);
-                            d = FindDrone((int)d.ID);
-                            d.Status = Status.PICKUP;
-                            UpdateDrone(d);
-                        } while (d.Battery < 100);
+                            drone.Status = Status.FREE;
+                            UpdateDrone(drone);
+                            DroneToCharge((int)drone.ID, false);
+                            System.Threading.Thread.Sleep(1000);
+                            DroneOutCharge((int)drone.ID, DateTime.Now);
+                            drone = FindDrone((int)drone.ID);
+                            drone.Status = Status.PICKUP;
+                            UpdateDrone(drone);
+                        }
 
                         dal.DeliverdParcel((int)FindDrone(id).Parcel.ID);
                     }
@@ -605,17 +603,6 @@ namespace BL
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
-        //public void ParceldeliveryParcelID(int id)
-        //{
-        //    try
-        //    {
-        //        lock (dal)
-        //        {
-        //            dal.DeliverdParcel(id);
-        //        }
-        //    }
-        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        //}
         /// <summary>
         /// station search.
         /// </summary>
@@ -660,7 +647,7 @@ namespace BL
             {
                 DO.Drone d = dal.FindDrone(id);
                 ParcelTransactioning parcelTransactiningTemp = new();
-                parcelTransactiningTemp.ID = null;
+                parcelTransactiningTemp.ID = 0;
                 Drone newDrone = new();
                 newDrone.IsActive = d.IsActive;
                 newDrone.HaveParcel = d.haveParcel;
@@ -1036,7 +1023,7 @@ namespace BL
         {
             lock (dal)
             {
-                if (drone.Status == Status.MAINTENANCE && drone.Status == Status.FREE)
+                if (drone.Status == Status.MAINTENANCE || drone.Status == Status.FREE)
                     dal.DeleteDrone(dal.FindDrone((int)drone.ID));
                 else
                     throw new CantDeleteException($"you can't delete this drone: {drone.ID}");
