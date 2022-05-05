@@ -74,7 +74,7 @@ namespace BL
                 }
                 foreach (var item in dal.Dronelist())
                 {
-                    if (item.Status == DO.Status.FREE)
+                    if (item.Status == DO.Status.FREE && item.IsActive)
                     {
                         tempDrone = dal.FindDrone((int)item.ID);
                         tempDrone.Status = DO.Status.MAINTENANCE;
@@ -173,10 +173,10 @@ namespace BL
         {
             return a switch
             {
-                Weight.FREE => 5 * distance,
-                Weight.LIGHT => 7 * distance,
-                Weight.MEDIUM => 10 * distance,
-                Weight.HEAVY => 12 * distance,
+                Weight.FREE => 5 * distance +10,
+                Weight.LIGHT => 7 * distance +10,
+                Weight.MEDIUM => 10 * distance +10,
+                Weight.HEAVY => 12 * distance +10,
                 _ => distance,
             };
         }

@@ -16,6 +16,7 @@ namespace BL
             bool b = true;
             while (b)
             {
+                display();
                 b = checker();
                 Thread.Sleep(2500);
                 Drone drone;

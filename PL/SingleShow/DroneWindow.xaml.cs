@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BLExceptions;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 namespace PL
@@ -14,6 +14,9 @@ namespace PL
     {
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
         public bool run = true;
+        public int? id;
+        public BackgroundWorker DroneWorker = new BackgroundWorker();
+
         internal ObservableCollection<BO.DroneToList> Drone
         {
             get => (ObservableCollection<BO.DroneToList>)GetValue(dronesDependency);
@@ -41,19 +44,16 @@ namespace PL
             }
             else
             {
+                this.id=id;
                 InitializeComponent();
                 this.bl = bl;
                 d = this.bl.FindDrone((int)id);
-                var t = this.bl.Drones().Where(a => id == a.ID);
-                Drone = new(t);
+                UpDateAction();
                 dronepage.Content = new ActionsDrone(bl, (int)id, this);
             }
         }
         internal new void Close() => base.Close();
-        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
+        private void GridTitleBar_MouseDown(object sender, MouseButtonEventArgs e) => DragMove();
         private void ButtonFechar_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(bl).Show();
@@ -61,20 +61,21 @@ namespace PL
 
         }
 
-        private BackgroundWorker DroneWorker;
         private readonly BO.Drone d;
         private void Button_Click_ON(object sender, RoutedEventArgs e)
         {
-            DroneWorker = new BackgroundWorker();
             DroneWorker.DoWork += Worker_DoWork;
-            Automatic.Click -= Button_Click_ON;
-            Automatic.Click += Button_Click_OFF;
-            Automatic.Content = "Regular";
-            run = true;
             DroneWorker.RunWorkerAsync();
             DroneWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             DroneWorker.WorkerReportsProgress = true;
             DroneWorker.WorkerSupportsCancellation = true;
+            DroneWorker.ProgressChanged += Worker_ProgressChanged;
+
+            Automatic.Click -= Button_Click_ON;
+            Automatic.Click += Button_Click_OFF;
+            Automatic.Content = "Regular";
+            run = true;
+
 
 
 
@@ -84,17 +85,11 @@ namespace PL
         {
             if (e.Cancelled == true)
             {
-                // e.Result throw System.InvalidOperationException
-                //resultLabel.Content = "Canceled!";
+                UpDateAction();
             }
             else if (e.Error != null)
             {
-                // e.Result throw System.Reflection.TargetInvocationException
-                // resultLabel.Content = "Error: " + e.Error.Message; //Exception Message
-            }
-            else
-            {
-
+                MessageBox.Show("problem, he keep running");
             }
         }
 
@@ -105,29 +100,38 @@ namespace PL
             Automatic.Click -= Button_Click_OFF;
             Automatic.Content = "Automatic";
             run = false;
+            MessageBox.Show("please wait will the drone finish his last gob");
             if (DroneWorker.WorkerSupportsCancellation == true)
                 // Cancel the asynchronous operation.
                 DroneWorker.CancelAsync();
         }
 
 
-        private bool GetRun()
-        {
-            Thread.Sleep(2500);
-            return run;
-        }
+        private bool GetRun() => run;
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Action display = foo;
+            Action display = ReportProgress;
             try
             {
                 bl.Uploader((int)d.ID, display, GetRun);
             }
+            catch (DontHaveEnoughPowerException ex)
+            {
+                run = false;
+                MessageBox.Show(ex.Message.ToString());
+            }
             catch (Exception ex)
             { MessageBox.Show(ex.Message.ToString()); }
-        }
-        //private object Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) => e.UserState;
-        public static void foo() { MessageBox.Show("sasasasa"); }
 
+        }
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) => UpDateAction();
+        public void ReportProgress() => DroneWorker.ReportProgress(1, null);
+
+        private void UpDateAction()
+        {
+            Drone = new(bl.Drones().Where(a => id == a.ID));
+            if (!run)
+                MessageBox.Show($"Drone {id}: I'm done");
+        }
     }
 }

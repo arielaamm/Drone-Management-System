@@ -47,7 +47,7 @@ namespace DAL
         /// </summary>
         internal static int ChargePerHour
         {
-            get { return 6000; }
+            get { return 9000; }
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace DAL
         public static void Initialize()
         {
             Random rnd = new();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Station s = new()
                 {
