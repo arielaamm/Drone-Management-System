@@ -173,10 +173,10 @@ namespace BL
         {
             return a switch
             {
-                Weight.FREE => 5 * distance +10,
-                Weight.LIGHT => 7 * distance +10,
-                Weight.MEDIUM => 10 * distance +10,
-                Weight.HEAVY => 12 * distance +10,
+                Weight.FREE => 5 * distance +20,
+                Weight.LIGHT => 7 * distance +20,
+                Weight.MEDIUM => 10 * distance +20,
+                Weight.HEAVY => 12 * distance +20,
                 _ => distance,
             };
         }
@@ -440,7 +440,7 @@ namespace BL
                     try
                     {
                         int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
-                        if ((d.Battery < PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight)) && b)
+                        if ((d.Battery < (PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight)-20)) && b)
                         {
                             DeleteDrone(d);
                             throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");

@@ -15,7 +15,7 @@ namespace DAL
         /// </summary>
         internal static double Free
         {
-            get { return 5; }
+            get { return 2; }
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace DAL
         /// </summary>
         internal static double Light
         {
-            get { return 7; }
+            get { return 4; }
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace DAL
         /// </summary>
         internal static double Medium
         {
-            get { return 10; }
+            get { return 7; }
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace DAL
         /// </summary>
         internal static double Heavy
         {
-            get { return 12; }
+            get { return 10; }
         }
 
         /// <summary>
