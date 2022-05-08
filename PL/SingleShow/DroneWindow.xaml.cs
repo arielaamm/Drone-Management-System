@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 namespace PL
@@ -130,6 +131,7 @@ namespace PL
         private void UpDateAction()
         {
             Drone = new(bl.Drones().Where(a => id == a.ID));
+            Thread.Sleep(5000);
             if (!run)
                 MessageBox.Show($"Drone {id}: I'm done");
         }

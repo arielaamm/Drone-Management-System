@@ -17,6 +17,7 @@ namespace BL
             while (b)
             {
                 display();
+                Thread.Sleep(5000);
                 b = checker();
                 Drone drone;
                 drone = bl.FindDrone(droneId);
@@ -28,11 +29,12 @@ namespace BL
                             if (!bl.ParcelsNotAssociated().Any())
                             {
                                 bl.DroneToCharge(droneId, true);
-                                b=false;
+                                display();
                             }
                             try
                             {
                                 bl.AttacheDrone(droneId);
+                                display();
                             }
                             catch (DontHaveEnoughPowerException ex)
                             {
@@ -66,6 +68,7 @@ namespace BL
                                     throw new Exception(ex.Message);
                                 }
                                 bl.PickUpParcel(droneId);
+                                display();
 
                             }
                         }
@@ -81,6 +84,7 @@ namespace BL
                                 try
                                 {
                                     bl.Parceldelivery(droneId);
+                                    display();
                                 }
 
                                 catch (ParcelPastErroeException)
@@ -99,16 +103,14 @@ namespace BL
                         lock (bl)
                         {
                             DateTime dateTime = DateTime.Now;
-                            do
-                            {
-                                Thread.Sleep(500);
-                                drone.Status = Status.MAINTENANCE;
-                                bl.UpdateDrone(drone);
-                                bl.DroneOutCharge((int)drone.ID, DateTime.Now);
-                                drone = bl.FindDrone((int)drone.ID);
-                                drone.Status = Status.FREE;
-                                bl.UpdateDrone(drone);
-                            } while (drone.Battery < 100);
+                            Thread.Sleep(1000);
+                            drone.Status = Status.MAINTENANCE;
+                            bl.UpdateDrone(drone);
+                            bl.DroneOutCharge((int)drone.ID, DateTime.Now);
+                            drone = bl.FindDrone((int)drone.ID);
+                            drone.Status = Status.FREE;
+                            bl.UpdateDrone(drone);
+                            display();
                         }
                         break;
                 }
