@@ -432,7 +432,7 @@ namespace BL
 
                 Drone d = FindDrone(id);
                 if (d.Status == Status.BELONG || d.Status == Status.PICKUP)
-                    throw new DroneInActionException($"the drone {id} is in the medal of an action");
+                    throw new DroneInActionException($"drone {id} is in the medal of an action");
                 else if (d.Status == Status.MAINTENANCE)
                     throw new DroneIsAlreadyChargeException($"the drone {id} already charge");
                 else
@@ -443,7 +443,7 @@ namespace BL
                         if ((d.Battery < (PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight)-20)) && b)
                         {
                             DeleteDrone(d);
-                            throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");
+                            throw new DontHaveEnoughPowerException($"drone {id} don't have enough power to do anything\nSo he'll expload");
                         }
                         else
                             dal.DroneToCharge(id, StationID);
@@ -451,7 +451,7 @@ namespace BL
                     catch (ArgumentNullException)
                     {
                         DeleteDrone(d);
-                        throw new DontHaveEnoughPowerException($"the drone {id} don't have enough power to do any thing\nSoo he will delete");
+                        throw new DontHaveEnoughPowerException($"drone {id} don't have enough power to do anything\nSo he'll expload");
                     }
                     catch (Exception ex)
                     {
@@ -478,7 +478,7 @@ namespace BL
                 }
                 else
                 {
-                    throw new DroneDontInChargingException($"The Drone {id} Doesn't In Charging");
+                    throw new DroneDontInChargingException($"Drone {id} Doesn't In Charging");
                 }
             }
         }
@@ -505,7 +505,7 @@ namespace BL
                     dal.AttacheDrone(parcel.ID);
                 }
                 else
-                    throw new DroneIsBusyException($"the drone {DroneID} in busy right new");
+                    throw new DroneIsBusyException($"drone {DroneID} in busy right new");
             }
         }
         //public void AttacheDroneParcelID(int ParcelID)

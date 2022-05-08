@@ -14,9 +14,6 @@ namespace DAL
     /// </summary>
     public sealed class DalXml : DalApi.IDal
     {
-        /// <summary>
-        /// Prevents a default instance of the <see cref="DalXml"/> class from being created.
-        /// </summary>
         private DalXml()
         {
             DAL.DataSource.Initialize();
@@ -82,14 +79,6 @@ namespace DAL
         /// </summary>
         internal static string DroneChargesPath = @"DroneChargesXml.xml";
 
-        //static int GetID(XElement root, int add)
-        //{
-        //    string tempString = root.Element("staticId").Value;
-        //    int tempInt = Convert.ToInt32(tempString);
-        //    root.Element("staticId").Value = (tempInt + add).ToString();
-        //    root.Save(dir + @"config.xml");
-        //    return tempInt + add;
-        //}
         /// <summary>
         /// The GetRandomNumber.
         /// </summary>
@@ -214,7 +203,6 @@ namespace DAL
             try
             {
                 CustomersRoot.Add(XmlHelper.BuildElementToXml(c));
-
                 CustomersRoot.Save(dir + CustomersPath);
             }
             catch (Exception ex) { throw new XmlWriteException(ex.Message, ex); }

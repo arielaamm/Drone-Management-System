@@ -13,12 +13,10 @@ namespace BL
         private readonly int DELAY = 1000; // whaiting time 1 sec(1000 mlsc)
         public Simulator(int droneId, Action display, Func<bool> checker, BL bl)//constractor
         {
-            bool b = true;
-            while (b)
+            while (checker())
             {
                 display();
                 Thread.Sleep(2500);
-                b = checker();
                 Drone drone;
                 drone = bl.FindDrone(droneId);
                 switch (drone.Status)

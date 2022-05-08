@@ -3,100 +3,100 @@
   <Customer>
     <ID>10</ID>
     <IsActive>true</IsActive>
-    <Phone>0533837663</Phone>
+    <Phone>0592953054</Phone>
     <CustomerName>Customer0</CustomerName>
-    <Longitude>0.04274819048249512</Longitude>
-    <Lattitude>1.6252892090125428</Lattitude>
+    <Longitude>2.6702550880938096</Longitude>
+    <Lattitude>4.027425382299081</Lattitude>
     <Password>0</Password>
     <Email>Customer0@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>11</ID>
     <IsActive>true</IsActive>
-    <Phone>0582633256</Phone>
+    <Phone>0554738718</Phone>
     <CustomerName>Customer1</CustomerName>
-    <Longitude>2.9882684084532167</Longitude>
-    <Lattitude>3.613770679856544</Lattitude>
+    <Longitude>4.537964944978229</Longitude>
+    <Lattitude>6.252928879695446</Lattitude>
     <Password>0</Password>
     <Email>Customer1@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>12</ID>
     <IsActive>true</IsActive>
-    <Phone>0562991855</Phone>
+    <Phone>0557315717</Phone>
     <CustomerName>Customer2</CustomerName>
-    <Longitude>1.1874066880845495</Longitude>
-    <Lattitude>6.263528834685464</Lattitude>
+    <Longitude>1.3708410697853384</Longitude>
+    <Lattitude>0.4876092860883148</Lattitude>
     <Password>0</Password>
     <Email>Customer2@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>13</ID>
     <IsActive>true</IsActive>
-    <Phone>0581735476</Phone>
+    <Phone>0578433657</Phone>
     <CustomerName>Customer3</CustomerName>
-    <Longitude>2.8960406933427048</Longitude>
-    <Lattitude>0.9871376859895591</Lattitude>
+    <Longitude>0.5711696206457777</Longitude>
+    <Lattitude>1.2480493119210232</Lattitude>
     <Password>0</Password>
     <Email>Customer3@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>14</ID>
     <IsActive>true</IsActive>
-    <Phone>0540491377</Phone>
+    <Phone>0524753200</Phone>
     <CustomerName>Customer4</CustomerName>
-    <Longitude>4.285526626876335</Longitude>
-    <Lattitude>3.0825663200032736</Lattitude>
+    <Longitude>1.1256013117384174</Longitude>
+    <Lattitude>2.7999284517950978</Lattitude>
     <Password>0</Password>
     <Email>Customer4@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>15</ID>
     <IsActive>true</IsActive>
-    <Phone>0560871325</Phone>
+    <Phone>0512719005</Phone>
     <CustomerName>Customer5</CustomerName>
-    <Longitude>2.2818240091585666</Longitude>
-    <Lattitude>6.005672710019011</Lattitude>
+    <Longitude>3.247729441266381</Longitude>
+    <Lattitude>6.825249710970209</Lattitude>
     <Password>0</Password>
     <Email>Customer5@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>16</ID>
     <IsActive>true</IsActive>
-    <Phone>0512109211</Phone>
+    <Phone>0549120197</Phone>
     <CustomerName>Customer6</CustomerName>
-    <Longitude>4.583045947171303</Longitude>
-    <Lattitude>2.7850364976492887</Lattitude>
+    <Longitude>4.8272101976104125</Longitude>
+    <Lattitude>3.428172492155886</Lattitude>
     <Password>0</Password>
     <Email>Customer6@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>17</ID>
     <IsActive>true</IsActive>
-    <Phone>0523560587</Phone>
+    <Phone>0580439242</Phone>
     <CustomerName>Customer7</CustomerName>
-    <Longitude>3.0315354084742885</Longitude>
-    <Lattitude>3.301441277983338</Lattitude>
+    <Longitude>1.8879213449023298</Longitude>
+    <Lattitude>5.313681588188597</Lattitude>
     <Password>0</Password>
     <Email>Customer7@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>18</ID>
     <IsActive>true</IsActive>
-    <Phone>0577546682</Phone>
+    <Phone>0581180597</Phone>
     <CustomerName>Customer8</CustomerName>
-    <Longitude>3.8358128018844</Longitude>
-    <Lattitude>2.651883488358875</Lattitude>
+    <Longitude>4.419992600763213</Longitude>
+    <Lattitude>1.3453146402469436</Lattitude>
     <Password>0</Password>
     <Email>Customer8@gmail.com</Email>
   </Customer>
   <Customer>
     <ID>19</ID>
     <IsActive>true</IsActive>
-    <Phone>0551857473</Phone>
+    <Phone>0595019522</Phone>
     <CustomerName>Customer9</CustomerName>
-    <Longitude>0.3152585007787021</Longitude>
-    <Lattitude>1.2165697250592382</Lattitude>
+    <Longitude>2.7003802162131203</Longitude>
+    <Lattitude>4.077748369461739</Lattitude>
     <Password>0</Password>
     <Email>Customer9@gmail.com</Email>
   </Customer>

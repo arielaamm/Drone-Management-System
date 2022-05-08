@@ -4,12 +4,12 @@
     <IsActive>true</IsActive>
     <haveParcel>true</haveParcel>
     <ID>5</ID>
-    <Model>MDL45</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>55</Battery>
-    <Longitude>3.1937641525612044</Longitude>
-    <Lattitude>6.711258241772306</Lattitude>
+    <Battery>35</Battery>
+    <Longitude>2.8890449078236915</Longitude>
+    <Lattitude>5.583283704511487</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
@@ -17,42 +17,42 @@
     <ID>6</ID>
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
-    <Status>MAINTENANCE</Status>
-    <Battery>21.221579039394964</Battery>
-    <Longitude>2.1269848463716845</Longitude>
-    <Lattitude>3.1911345716524564</Lattitude>
+    <Status>BELONG</Status>
+    <Battery>77</Battery>
+    <Longitude>0.7397317168022184</Longitude>
+    <Lattitude>2.1966738878733825</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
-    <haveParcel>false</haveParcel>
+    <haveParcel>true</haveParcel>
     <ID>7</ID>
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
-    <Status>MAINTENANCE</Status>
-    <Battery>100</Battery>
-    <Longitude>3.394646909271668</Longitude>
-    <Lattitude>2.356757238207738</Lattitude>
+    <Status>BELONG</Status>
+    <Battery>52</Battery>
+    <Longitude>0.7397317168022184</Longitude>
+    <Lattitude>2.1966738878733825</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>false</haveParcel>
     <ID>8</ID>
-    <Model>MDL45</Model>
+    <Model>MDL78</Model>
     <Weight>LIGHT</Weight>
     <Status>MAINTENANCE</Status>
     <Battery>100</Battery>
-    <Longitude>3.394646909271668</Longitude>
-    <Lattitude>2.356757238207738</Lattitude>
+    <Longitude>2.8890449078236915</Longitude>
+    <Lattitude>5.583283704511487</Lattitude>
   </Drone>
   <Drone>
     <IsActive>true</IsActive>
     <haveParcel>false</haveParcel>
     <ID>9</ID>
-    <Model>MDL45</Model>
+    <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>MAINTENANCE</Status>
     <Battery>100</Battery>
-    <Longitude>3.1937641525612044</Longitude>
-    <Lattitude>6.711258241772306</Lattitude>
+    <Longitude>2.8890449078236915</Longitude>
+    <Lattitude>5.583283704511487</Lattitude>
   </Drone>
 </ArrayOfDrone>

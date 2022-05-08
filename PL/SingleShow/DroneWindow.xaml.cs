@@ -1,4 +1,5 @@
 ﻿using BLExceptions;
+using BO;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace PL
         public bool run = true;
         public int? id;
         public BackgroundWorker DroneWorker = new BackgroundWorker();
+        ObservableCollection<BO.DroneToList> drone;
 
         internal ObservableCollection<BO.DroneToList> Drone
         {
@@ -45,7 +47,7 @@ namespace PL
             }
             else
             {
-                this.id=id;
+                this.id = id;
                 InitializeComponent();
                 this.bl = bl;
                 d = this.bl.FindDrone((int)id);
@@ -66,7 +68,6 @@ namespace PL
         private void Button_Click_ON(object sender, RoutedEventArgs e)
         {
             DroneWorker.DoWork += Worker_DoWork;
-            DroneWorker.RunWorkerAsync();
             DroneWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             DroneWorker.WorkerReportsProgress = true;
             DroneWorker.WorkerSupportsCancellation = true;
@@ -77,16 +78,14 @@ namespace PL
             Automatic.Content = "Regular";
             run = true;
 
-
-
-
+            DroneWorker.RunWorkerAsync();
         }
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {
-                UpDateAction();
+                MessageBox.Show($"Drone {id}: I'm done");
             }
             else if (e.Error != null)
             {
@@ -101,7 +100,7 @@ namespace PL
             Automatic.Click -= Button_Click_OFF;
             Automatic.Content = "Automatic";
             run = false;
-            MessageBox.Show("please wait will the drone finish his last gob");
+            MessageBox.Show("please wait will the drone finish his last act");
             if (DroneWorker.WorkerSupportsCancellation == true)
                 // Cancel the asynchronous operation.
                 DroneWorker.CancelAsync();
@@ -114,6 +113,7 @@ namespace PL
             Action display = ReportProgress;
             try
             {
+
                 bl.Uploader((int)d.ID, display, GetRun);
             }
             catch (DontHaveEnoughPowerException ex)
@@ -125,13 +125,19 @@ namespace PL
             { MessageBox.Show(ex.Message.ToString()); }
 
         }
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) => UpDateAction();
-        public void ReportProgress() => DroneWorker.ReportProgress(1, null);
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) 
+        {
+            Drone = drone;
+        }
+        public void ReportProgress()
+        {
+            drone = new(bl.Drones().Where(a => id == a.ID));
+            DroneWorker.ReportProgress(1, null);
+        }
 
         private void UpDateAction()
         {
             Drone = new(bl.Drones().Where(a => id == a.ID));
-            Thread.Sleep(5000);
             if (!run)
                 MessageBox.Show($"Drone {id}: I'm done");
         }
