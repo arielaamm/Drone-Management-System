@@ -30,7 +30,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Drone , Mode=TwoWay}" AutoGenerateColumns="False" Grid.Row="1" >
+        <DataGrid x:Name="DataGird" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding Drone}" AutoGenerateColumns="False" Grid.Row="1" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" />

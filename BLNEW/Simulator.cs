@@ -17,7 +17,7 @@ namespace BL
             while (b)
             {
                 display();
-                Thread.Sleep(5000);
+                Thread.Sleep(2500);
                 b = checker();
                 Drone drone;
                 drone = bl.FindDrone(droneId);
