@@ -213,22 +213,25 @@ namespace DAL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AttacheDrone(int parcelID)
         {
-            int indexDrone = DataSource.drones.FindIndex(i => i.Status == Status.FREE);
+            int indexDrone = Dronelist().ToList().FindIndex(i =>
+                (i.Status == Status.FREE || i.Status == Status.MAINTENANCE)
+                && i.haveParcel == false);
             Drone d = new();
-            d = DataSource.drones[indexDrone];
+            d = Dronelist().ToList()[indexDrone];
             if (d.IsActive == false)
-                throw new DeleteException($"This drone can't attached: {d.ID}");
+                throw new DeleteException($"This drone can't attached: {d.ID}, he's offline");
+
             d.Status = Status.BELONG;
             d.haveParcel = true;
+            UpdateDrone(d);
 
-            int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
+            int indexParcel = Parcellist().ToList().FindIndex(i => i.ID == parcelID);
             Parcel p = new();
-            p = DataSource.parcels[indexParcel];
+            p = Parcellist().ToList()[indexParcel];
             p.DroneId = (int)d.ID;
             p.Status = StatusParcel.BELONG;
             p.Scheduled = DateTime.Now;
-            DataSource.parcels[indexParcel] = p;
-            DataSource.drones[indexDrone] = d;
+            UpdateParcel(p);
         }
 
         /// <summary>
@@ -270,11 +273,6 @@ namespace DAL
             int indexParcel = DataSource.parcels.FindIndex(i => i.ID == parcelID);
             Parcel p = new();
             p = DataSource.parcels[indexParcel];
-            p.Deliverd = DateTime.Now;
-            p.DroneId = 0;
-            p.Status = StatusParcel.DELIVERD;
-            DataSource.parcels[indexParcel] = p;
-
             int indexDrone = DataSource.drones.FindIndex(i => i.ID == p.DroneId);
             Drone d = new();
             d = DataSource.drones[indexDrone];
@@ -288,6 +286,13 @@ namespace DAL
             d.Status = Status.FREE;
             d.haveParcel = false;
             DataSource.drones[indexDrone] = d;
+
+            p.Deliverd = DateTime.Now;
+            p.DroneId = 0;
+            p.Status = StatusParcel.DELIVERD;
+            DataSource.parcels[indexParcel] = p;
+
+            
         }
 
         /// <summary>

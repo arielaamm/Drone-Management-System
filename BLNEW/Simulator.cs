@@ -53,7 +53,7 @@ namespace BL
                                 {
                                     drone.Status = BO.Status.MAINTENANCE;
                                     bl.UpdateDrone(drone);
-                                    bl.DroneOutCharge((int)drone.ID, DateTime.Now);
+                                    bl.DroneOutCharge((int)drone.ID, DateTime.Now);//need fixing
                                     drone.Status = BO.Status.BELONG;
                                     bl.UpdateDrone(drone);
                                 }
@@ -105,8 +105,6 @@ namespace BL
                             drone.Status = Status.MAINTENANCE;
                             bl.UpdateDrone(drone);
                             bl.DroneOutCharge((int)drone.ID, DateTime.Now);
-                            drone = bl.FindDrone((int)drone.ID);
-                            drone.Status = Status.FREE;
                             bl.UpdateDrone(drone);
                             display();
                         }

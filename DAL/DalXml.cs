@@ -429,12 +429,11 @@ namespace DAL
         {
             int indexDrone = Dronelist().ToList().FindIndex(i =>
                 (i.Status == Status.FREE || i.Status == Status.MAINTENANCE)
-                && i.haveParcel == false
-                && i.IsActive == true);
+                && i.haveParcel == false);
             Drone d = new();
             d = Dronelist().ToList()[indexDrone];
             if (d.IsActive == false)
-                throw new DeleteException($"This drone can't attached: {d.ID}");
+                throw new DeleteException($"This drone can't attached: {d.ID}, he's offline");
 
             d.Status = Status.BELONG;
             d.haveParcel = true;
@@ -558,7 +557,7 @@ namespace DAL
             int index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
             if (index != -1)
             {
-                index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
+                //index = DroneChargelist().ToList().FindIndex(i => i.DroneId == droneID);
                 int indexStation = Stationlist().ToList().FindIndex(i => i.ID == DroneChargelist().ToList()[index].StationId);
                 var a = DroneChargelist().ToList();
                 a.RemoveAt(index);

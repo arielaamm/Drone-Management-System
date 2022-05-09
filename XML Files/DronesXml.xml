@@ -7,7 +7,7 @@
     <Model>MDL65</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>35</Battery>
+    <Battery>40</Battery>
     <Longitude>2.8890449078236915</Longitude>
     <Lattitude>5.583283704511487</Lattitude>
   </Drone>
@@ -29,7 +29,7 @@
     <Model>MDL45</Model>
     <Weight>LIGHT</Weight>
     <Status>BELONG</Status>
-    <Battery>52</Battery>
+    <Battery>38</Battery>
     <Longitude>0.7397317168022184</Longitude>
     <Lattitude>2.1966738878733825</Lattitude>
   </Drone>

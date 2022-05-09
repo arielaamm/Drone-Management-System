@@ -532,8 +532,7 @@ namespace BL
                 lock (dal)
                 {
                     var drone = FindDrone(id);
-                    int t = (int)drone.Parcel.ID;
-                    if (Findparcel(t).PickedUp != null)
+                    if (Findparcel((int)drone.Parcel.ID).PickedUp != null)
                         throw new ParcelPastErroeException($"the {drone.Parcel.ID} already have picked up");
                     else
                     {
