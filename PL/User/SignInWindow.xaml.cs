@@ -40,5 +40,10 @@ namespace PL
                 MessageBox.Show(ex.Message.ToString());
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new LoginWindow().Show();
+        }
     }
 }

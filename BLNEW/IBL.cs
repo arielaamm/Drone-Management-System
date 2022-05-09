@@ -61,6 +61,11 @@ namespace BlApi
 
 #nullable disable
         /// <summary>
+        /// The DroneOutCharge.
+        /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        void DroneOutCharge(int id);
+        /// <summary>
         /// The DroneToCharge.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>

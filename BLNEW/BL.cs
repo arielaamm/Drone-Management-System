@@ -462,6 +462,21 @@ namespace BL
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DroneOutCharge(int id)
+        {
+            lock (dal)
+            {
+                if (FindDrone(id).Status == Status.MAINTENANCE)
+                {
+                    dal.DroneOutCharge(id);
+                }
+                else
+                {
+                    throw new DroneDontInChargingException($"Drone {id} Doesn't In Charging");
+                }
+            }
+        }
         /// <summary>
         /// Removing a drone from a charger.
         /// </summary>
@@ -508,18 +523,6 @@ namespace BL
                     throw new DroneIsBusyException($"drone {DroneID} in busy right new");
             }
         }
-        //public void AttacheDroneParcelID(int ParcelID)
-        //{
-        //    try
-        //    {
-        //        lock (dal)
-        //        {
-        //            dal.AttacheDrone(ParcelID);
-        //        }
-        //    }
-        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        //}
-
         /// <summary>
         /// Collection of a parcel by drone.
         /// </summary>
@@ -555,18 +558,6 @@ namespace BL
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
-        //public void PickUpParcelParcelID(int id)
-        //{
-        //    try
-        //    {
-        //        lock (dal)
-        //        {
-        //            dal.PickupParcel(id);
-        //        }
-        //    }
-        //    catch (Exception ex) { throw new Exception(ex.Message, ex); }
-        //}
-
         /// <summary>
         /// Delivery of a parcel by drone.
         /// </summary>
@@ -696,7 +687,6 @@ namespace BL
                     parcelTransactiningTemp.target = target;
                     parcelTransactiningTemp.LocationOfSender = locationSend;
                     parcelTransactiningTemp.LocationOftarget = locationTarget;
-                    //parcelTransactiningTemp.distance = Distance(locationSend, locationTarget);
                 }
                 newDrone.Parcel = parcelTransactiningTemp;
                 return newDrone;

@@ -431,10 +431,11 @@ namespace DAL
                 (i.Status == Status.FREE || i.Status == Status.MAINTENANCE)
                 && i.haveParcel == false);
             Drone d = new();
+            if (indexDrone == -1)
+                throw new DroneCantAttacheException("All of the drones are in action, please wait");
             d = Dronelist().ToList()[indexDrone];
             if (d.IsActive == false)
-                throw new DeleteException($"This drone can't attached: {d.ID}, he's offline");
-
+                throw new DeleteException($"This drone can't attached: {d.ID}, he's off line");
             d.Status = Status.BELONG;
             d.haveParcel = true;
             UpdateDrone(d);

@@ -3,6 +3,25 @@ using System.Runtime.Serialization;
 
 namespace DALExceptionscs
 {
+    [Serializable]
+    public class DroneCantAttacheException : Exception
+    {
+        public DroneCantAttacheException()
+        {
+        }
+
+        public DroneCantAttacheException(string message) : base(message)
+        {
+        }
+
+        public DroneCantAttacheException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        public DroneCantAttacheException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
     /// <summary>
     /// Defines the <see cref="AlreadyExistException" />.
     /// </summary>

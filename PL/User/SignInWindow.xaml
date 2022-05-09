@@ -129,5 +129,25 @@
                 </Style>
             </Button.Style>
         </Button>
+        <Button Content="close" Click="Button_Click"  Height="38" FontSize="20" Width="162" 
+                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,556,0,0"
+                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
+                        BorderThickness="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Background="White">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="25" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
     </Grid>
 </Window>
