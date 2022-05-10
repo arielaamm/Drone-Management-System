@@ -21,10 +21,14 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid>
-            <Label x:Name="IDLabel" Content="ID" Margin="58,122,358,491" />
-            <Label x:Name="WeightLabel" Content="Weight" Margin="58,177,323,435"/>
-            <Label x:Name="PriorityLabel" Content="Priority" Margin="58,227,323,386" />
-            <Label x:Name="TargetLabel" Content="Target name" Margin="58,283,284,330" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="451*"/>
+                <RowDefinition Height="199*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="IDLabel" Content="ID" Margin="58,122,358,292" />
+            <Label x:Name="WeightLabel" Content="Weight" Margin="58,177,323,236"/>
+            <Label x:Name="PriorityLabel" Content="Priority" Margin="58,227,323,187" />
+            <Label x:Name="TargetLabel" Content="Target name" Margin="58,283,284,131" />
             <TextBox x:Name="TextBoxID" MaxLength="5" Margin="262,122,42,0" Text="" TextWrapping="Wrap" 
                      CaretBrush="Black" PreviewTextInput="NumberValidationTextBox" Height="37" VerticalAlignment="Top" Foreground="Black"/>
             <ComboBox x:Name="WeightSelector" Margin="262,177,44,0" Height="38" VerticalAlignment="Top" Foreground="Black"/>
@@ -35,7 +39,7 @@
                         Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,436,0,0"
                         FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
                         BorderThickness="2" HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center" Background="White" Click="Button_Click_Add_Parcel">
+                        VerticalContentAlignment="Center" Background="White" Click="Button_Click_Add_Parcel" Grid.RowSpan="2">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">
@@ -52,10 +56,10 @@
             </Button>
 
             <Button Content="close" Click="Button_Click"  Height="38" FontSize="20" Width="162" 
-                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,509,0,0"
+                        Foreground="#FF378CE8" Cursor="Hand" FontFamily="Lucida Sans" Margin="0,58,0,0"
                         FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"
                         BorderThickness="2" HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center" Background="White">
+                        VerticalContentAlignment="Center" Background="White" Grid.Row="1">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">

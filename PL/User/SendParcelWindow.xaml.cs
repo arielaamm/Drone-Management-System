@@ -1,6 +1,4 @@
-﻿using BLExceptions;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,7 +11,6 @@ namespace PL
     /// </summary>
     public partial class SendParcelWindow : Window
     {
-        public BackgroundWorker DroneWorker = new BackgroundWorker();
         public bool run = false;
 
         private readonly BlApi.IBL bl = BL.BL.GetInstance();
@@ -50,17 +47,8 @@ namespace PL
                     MessageBox.Show("you can't send a parcel to your self, try again", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
-
-                    if (!(from d in bl.Drones()
-                          where bl.FindDrone(d.ID).HaveParcel == false
-                          select d).Any())
-                        MessageBox.Show("Where is on free drone please try again letter", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                    else
-                    {
-                        bl.AddParcel(parcel);
-                        MessageBox.Show("The new package is going to be shipped with the first free drone");
-                        Start();
-                    }
+                    bl.AddParcel(parcel);
+                    MessageBox.Show("The new package is going to be shipped with the first free drone");
                 }
             }
             catch (Exception ex)
@@ -83,48 +71,6 @@ namespace PL
         {
             new UserWindow(bl, customer).Show();
             Close();
-        }
-
-        public void Start()
-        {
-            DroneWorker.DoWork += Worker_DoWork;
-            DroneWorker.RunWorkerAsync();
-            DroneWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            DroneWorker.WorkerReportsProgress = true;
-            DroneWorker.WorkerSupportsCancellation = true;
-            run = true;
-            void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-            {
-                if (e.Cancelled == true)
-                {
-                    MessageBox.Show("your parcel arrived to her target");
-                }
-                else if (e.Error != null)
-                {
-                    MessageBox.Show("problem, he keep running");
-                }
-            }
-            bool GetRun() => run;
-            void Worker_DoWork(object sender, DoWorkEventArgs e)
-            {
-                foreach (var item in bl.Drones())
-                {
-                    Action display = foo;
-                    try
-                    {
-                        bl.Uploader(item.ID, display, GetRun);
-                    }
-                    catch (DontHaveEnoughPowerException ex)
-                    {
-                        run = false;
-                        MessageBox.Show(ex.Message.ToString());
-                    }
-                    catch (Exception ex)
-                    { MessageBox.Show(ex.Message.ToString()); }
-                }
-
-            }
-            void foo() { }
         }
     }
 }

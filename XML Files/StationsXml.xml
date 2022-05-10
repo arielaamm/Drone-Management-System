@@ -7,7 +7,7 @@
     <Longitude>1.007547481454698</Longitude>
     <Lattitude>6.015914210125764</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>3</BusyChargeSlots>
+    <BusyChargeSlots>1</BusyChargeSlots>
   </Station>
   <Station>
     <IsActive>true</IsActive>
@@ -25,7 +25,7 @@
     <Longitude>3.2202634160501242</Longitude>
     <Lattitude>2.0395877207813724</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>1</BusyChargeSlots>
+    <BusyChargeSlots>2</BusyChargeSlots>
   </Station>
   <Station>
     <IsActive>true</IsActive>
@@ -34,6 +34,6 @@
     <Longitude>0.049197035864552596</Longitude>
     <Lattitude>4.220843664473316</Lattitude>
     <ChargeSlots>5</ChargeSlots>
-    <BusyChargeSlots>1</BusyChargeSlots>
+    <BusyChargeSlots>2</BusyChargeSlots>
   </Station>
 </ArrayOfStation>
