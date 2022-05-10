@@ -2,12 +2,23 @@
 using DalApi;
 using DO;
 using System;
+
 namespace ConsoleUI
 {
+    /// <summary>
+    /// Defines the <see cref="Program" />.
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Defines the p.
+        /// </summary>
         private static readonly DalApi.IDal p = DalObject.GetInstance();
 
+        /// <summary>
+        /// The Viewid.
+        /// </summary>
+        /// <param name="type">The type<see cref="string"/>.</param>
         public static void Viewid(string type)
         {
             int count = 0;
@@ -47,6 +58,11 @@ namespace ConsoleUI
                     break;
             }
         }
+
+        /// <summary>
+        /// The FunAddition.
+        /// </summary>
+        /// <param name="pro">The pro<see cref="IDal"/>.</param>
         public static void FunAddition(IDal pro)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
@@ -75,7 +91,7 @@ namespace ConsoleUI
                     Console.WriteLine("enter customer name and a phone numer");
                     string customername = Console.ReadLine();
                     string phone = Console.ReadLine();
-                    Customer customer = new() { CustomerName = customername, Phone  = phone, IsActive = true };
+                    Customer customer = new() { CustomerName = customername, Phone = phone, IsActive = true };
                     pro.AddCustomer(customer);
                     break;
                 case "add parcel" or "4":
@@ -84,12 +100,16 @@ namespace ConsoleUI
                     int targetid = int.Parse(Console.ReadLine());
                     int parcelweight = int.Parse(Console.ReadLine());
                     int priority = int.Parse(Console.ReadLine());
-                    Parcel parcel = new() { SenderId = senderid, TargetId = targetid, Weight =  (Weight)parcelweight, Priority =  (Priority)priority, Requested= DateTime.Now };
+                    Parcel parcel = new() { SenderId = senderid, TargetId = targetid, Weight = (Weight)parcelweight, Priority = (Priority)priority, Requested = DateTime.Now };
                     pro.AddParcel(parcel);
                     break;
             }
         }
 
+        /// <summary>
+        /// The FunUpdating.
+        /// </summary>
+        /// <param name="pro">The pro<see cref="IDal"/>.</param>
         public static void FunUpdating(IDal pro)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
@@ -172,6 +192,10 @@ namespace ConsoleUI
             }
         }
 
+        /// <summary>
+        /// The FunDisplay.
+        /// </summary>
+        /// <param name="pro">The pro<see cref="DalApi.IDal"/>.</param>
         public static void FunDisplay(DalApi.IDal pro)
         {
             Console.WriteLine("OK, what do you want to display ? choose");
@@ -235,9 +259,12 @@ namespace ConsoleUI
                     Console.WriteLine($"DroneId: {p.DroneId}\nRequested: {p.Requested}\nScheduled: {p.Scheduled}\nPickedUp: {p.PickedUp}\nDeliverd: {p.Deliverd}");
                     break;
             }
-
         }
 
+        /// <summary>
+        /// The FunListview.
+        /// </summary>
+        /// <param name="pro">The pro<see cref="IDal"/>.</param>
         public static void FunListview(IDal pro)
         {
             Console.WriteLine("OK, which list you what to see ? choose");
@@ -288,6 +315,10 @@ namespace ConsoleUI
             }
         }
 
+        /// <summary>
+        /// The Main.
+        /// </summary>
+        /// <param name="args">The args<see cref="string[]"/>.</param>
         private static void Main(string[] args)
         {
             string Option = "0";

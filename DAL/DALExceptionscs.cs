@@ -3,25 +3,46 @@ using System.Runtime.Serialization;
 
 namespace DALExceptionscs
 {
+    /// <summary>
+    /// Defines the <see cref="DroneCantAttacheException" />.
+    /// </summary>
     [Serializable]
     public class DroneCantAttacheException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneCantAttacheException"/> class.
+        /// </summary>
         public DroneCantAttacheException()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneCantAttacheException"/> class.
+        /// </summary>
+        /// <param name="message">The message<see cref="string"/>.</param>
         public DroneCantAttacheException(string message) : base(message)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneCantAttacheException"/> class.
+        /// </summary>
+        /// <param name="message">The message<see cref="string"/>.</param>
+        /// <param name="innerException">The innerException<see cref="Exception"/>.</param>
         public DroneCantAttacheException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneCantAttacheException"/> class.
+        /// </summary>
+        /// <param name="info">The info<see cref="SerializationInfo"/>.</param>
+        /// <param name="context">The context<see cref="StreamingContext"/>.</param>
         public DroneCantAttacheException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
+
     /// <summary>
     /// Defines the <see cref="AlreadyExistException" />.
     /// </summary>
@@ -489,21 +510,42 @@ namespace DALExceptionscs
         {
         }
     }
+
+    /// <summary>
+    /// Defines the <see cref="DroneNotFollException" />.
+    /// </summary>
     [Serializable]
     internal class DroneNotFollException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneNotFollException"/> class.
+        /// </summary>
         public DroneNotFollException()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneNotFollException"/> class.
+        /// </summary>
+        /// <param name="message">The message<see cref="string"/>.</param>
         public DroneNotFollException(string message) : base(message)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneNotFollException"/> class.
+        /// </summary>
+        /// <param name="message">The message<see cref="string"/>.</param>
+        /// <param name="innerException">The innerException<see cref="Exception"/>.</param>
         public DroneNotFollException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DroneNotFollException"/> class.
+        /// </summary>
+        /// <param name="info">The info<see cref="SerializationInfo"/>.</param>
+        /// <param name="context">The context<see cref="StreamingContext"/>.</param>
         protected DroneNotFollException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }

@@ -14,6 +14,9 @@ namespace DAL
     /// </summary>
     public sealed class DalXml : DalApi.IDal
     {
+        /// <summary>
+        /// Prevents a default instance of the <see cref="DalXml"/> class from being created.
+        /// </summary>
         private DalXml()
         {
             DAL.DataSource.Initialize();
@@ -259,7 +262,7 @@ namespace DAL
         /// <summary>
         /// The UpdateDroneChecker.
         /// </summary>
-        /// <param name="c">The c<see cref="Drone"/>.</param>
+        /// <param name="d">The d<see cref="Drone"/>.</param>
         /// <returns>The <see cref="int"/>.</returns>
         public int UpdateDroneChecker(Drone d)
         {
@@ -269,6 +272,11 @@ namespace DAL
             throw new NameIsUsedException($"An existing user name or email on the system.");
         }
 
+        /// <summary>
+        /// The UpdateDroneChargeChecker.
+        /// </summary>
+        /// <param name="d">The d<see cref="DroneCharge"/>.</param>
+        /// <returns>The <see cref="int"/>.</returns>
         public int UpdateDroneChargeChecker(DroneCharge d)
         {
             int i = DroneChargelist().ToList().FindIndex(i => i.StationId == d.StationId);
@@ -416,10 +424,15 @@ namespace DAL
             XMLTools.Update(drone, UpdateDroneChecker(drone), DronesPath);
         }
 
+        /// <summary>
+        /// The UpdateDroneCharge.
+        /// </summary>
+        /// <param name="dronecharge">The dronecharge<see cref="DroneCharge"/>.</param>
         public void UpdateDroneCharge(DroneCharge dronecharge)
         {
             XMLTools.Update(dronecharge, UpdateDroneChargeChecker(dronecharge), DroneChargesPath);
         }
+
         /// <summary>
         /// The AttacheDrone.
         /// </summary>

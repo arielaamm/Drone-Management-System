@@ -40,6 +40,7 @@
         /// Gets or sets the NumFoParcelOnWay.
         /// </summary>
         public int NumFoParcelOnWay { set; get; }
+
         /// <summary>
         /// Gets or sets the Password.
         /// </summary>

@@ -13,7 +13,7 @@
 
         /// <summary>
         /// Gets or sets a value indicating whether ParcelStatus.
-        /// on the way - true, waiting to drone arrival - false
+        /// on the way - true, waiting to drone arrival - false.
         /// </summary>
         public bool ParcelStatus { set; get; }
 

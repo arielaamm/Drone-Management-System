@@ -12,9 +12,9 @@ namespace ConsoleUI_BL
         /// <summary>
         /// The ChackID.
         /// </summary>
-        /// <param name = "id">The id<see cref="int"/>.</param>
-        /// <param name = "type">The type<see cref="string"/>.</param>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="type">The type<see cref="string"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         /// <returns>dont find => -1, find => the index.</returns>
         public static int ChackID(int id, string type, BL.BL p)
         {
@@ -54,7 +54,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// add.
         /// </summary>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         public static void FunAddition(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to add ? choose");
@@ -154,7 +154,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// up date.
         /// </summary>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         public static void FunUpdating(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to update ? choose");
@@ -361,7 +361,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// Display one obj.
         /// </summary>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         public static void FunDisplay(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to see ? choose");
@@ -508,7 +508,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// view full list.
         /// </summary>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         public static void FunListview(BL.BL p)
         {
             Console.WriteLine("OK, what do you want to see ? choose");
@@ -712,7 +712,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// The Main.
         /// </summary>
-        /// <param name = "args">The args<see cref="string[]"/>.</param>
+        /// <param name="args">The args<see cref="string[]"/>.</param>
         public static void Main(string[] args)
         {
             BL.BL p = BL.BL.GetInstance();
@@ -759,8 +759,8 @@ namespace ConsoleUI_BL
         /// <summary>
         /// display the id of all the same obj.
         /// </summary>
-        /// <param name = "type">The type<see cref="string"/>.</param>
-        /// <param name = "p">The p<see cref="BL.BL"/>.</param>
+        /// <param name="type">The type<see cref="string"/>.</param>
+        /// <param name="p">The p<see cref="BL.BL"/>.</param>
         public static void Viewid(string type, BL.BL p)
         {
             int count = 0;

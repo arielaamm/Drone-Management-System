@@ -46,7 +46,6 @@ namespace BlApi
         /// <param name="drone">The drone<see cref="Drone"/>.</param>
         void UpdateDrone(Drone drone);
 
-#nullable enable
         /// <summary>
         /// The UpdateStation.
         /// </summary>
@@ -59,16 +58,17 @@ namespace BlApi
         /// <param name="customer">The customer<see cref="Customer"/>.</param>
         void UpdateCustomer(Customer customer);
 
-#nullable disable
         /// <summary>
         /// The DroneOutCharge.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void DroneOutCharge(int id);
+
         /// <summary>
         /// The DroneToCharge.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="b">The b<see cref="bool"/>.</param>
         void DroneToCharge(int id, bool b);
 
         /// <summary>
@@ -81,22 +81,20 @@ namespace BlApi
         /// <summary>
         /// The AttacheDrone.
         /// </summary>
-        /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="DroneID">The DroneID<see cref="int"/>.</param>
         void AttacheDrone(int DroneID);
-        //void AttacheDroneParcelID(int ParcelID);
 
         /// <summary>
         /// The PickUpParcel.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void PickUpParcel(int id);
-        //void PickUpParcelParcelID(int id);
+
         /// <summary>
         /// The Parcel delivery.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         void Parceldelivery(int id);
-        //void ParceldeliveryParcelID(int id);
 
         /// <summary>
         /// The FindStation.
@@ -186,15 +184,12 @@ namespace BlApi
         /// <param name="drone">The drone<see cref="Drone"/>.</param>
         public void DeleteDrone(Drone drone);
 
-        //----------------------------------
-        //simulator
-        //----------------------------------
         /// <summary>
         /// The Uploader.
         /// </summary>
         /// <param name="droneId">The droneId<see cref="int"/>.</param>
         /// <param name="display">The display<see cref="Action"/>.</param>
-        /// <param name="checker">The checker<see cref="bool"/>.</param>
+        /// <param name="stopCheck">The stopCheck<see cref="Func{bool}"/>.</param>
         public void Uploader(int droneId, Action display, Func<bool> stopCheck);
     }
 }

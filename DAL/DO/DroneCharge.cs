@@ -17,6 +17,9 @@ namespace DO
         /// </summary>
         public int StationId { set; get; }
 
+        /// <summary>
+        /// Gets or sets the Insert.
+        /// </summary>
         public DateTime Insert { set; get; }
     }
 }

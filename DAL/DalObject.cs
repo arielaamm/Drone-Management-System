@@ -291,8 +291,6 @@ namespace DAL
             p.DroneId = 0;
             p.Status = StatusParcel.DELIVERD;
             DataSource.parcels[indexParcel] = p;
-
-            
         }
 
         /// <summary>

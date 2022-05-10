@@ -34,6 +34,7 @@
         /// Gets or sets the Lattitude.
         /// </summary>
         public double Lattitude { set; get; }
+
         /// <summary>
         /// Gets or sets the Password.
         /// </summary>

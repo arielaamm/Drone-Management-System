@@ -36,6 +36,7 @@ namespace BO
         /// Gets or sets the Email.
         /// </summary>
         public string Email { set; get; }
+
         /// <summary>
         /// Gets or sets the Position.
         /// </summary>

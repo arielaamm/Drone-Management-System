@@ -169,17 +169,25 @@ namespace BL
                 return (int)i;
             }
         }
+
+        /// <summary>
+        /// The PowerConsumption.
+        /// </summary>
+        /// <param name="distance">The distance<see cref="double"/>.</param>
+        /// <param name="a">The a<see cref="Weight"/>.</param>
+        /// <returns>The <see cref="double"/>.</returns>
         public static double PowerConsumption(double distance, Weight a)
         {
             return a switch
             {
-                Weight.FREE => 5 * distance +20,
-                Weight.LIGHT => 7 * distance +20,
-                Weight.MEDIUM => 10 * distance +20,
-                Weight.HEAVY => 12 * distance +20,
+                Weight.FREE => 5 * distance + 20,
+                Weight.LIGHT => 7 * distance + 20,
+                Weight.MEDIUM => 10 * distance + 20,
+                Weight.HEAVY => 12 * distance + 20,
                 _ => distance,
             };
         }
+
         /// <summary>
         /// Distance.
         /// </summary>
@@ -190,6 +198,7 @@ namespace BL
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
+
         /// <summary>
         /// Add station.
         /// </summary>
@@ -220,7 +229,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Add drone.
+        /// Add drone..
         /// </summary>
         public readonly Random ran = new();
 
@@ -328,9 +337,6 @@ namespace BL
             }
         }
 
-        //---------------------------------------------------------------------------------
-        //updating functions:
-        //---------------------------------------------------------------------------------
         /// <summary>
         /// The UpdateParcel.
         /// </summary>
@@ -415,7 +421,7 @@ namespace BL
                     Longitude = customer.Position.Longitude,
                     Phone = customer.Phone,
                     Email = customer.Email,
-                    Password= customer.Password,
+                    Password = customer.Password,
                 });
             }
         }
@@ -424,6 +430,7 @@ namespace BL
         /// Inserting a drone from a charger.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
+        /// <param name="b">The b<see cref="bool"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneToCharge(int id, bool b)
         {
@@ -440,7 +447,7 @@ namespace BL
                     try
                     {
                         int StationID = Stations().OrderBy(i => Distance(FindStation(i.ID).Position, FindDrone(id).Position)).First().ID;
-                        if ((d.Battery < (PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight)-20)) && b)
+                        if ((d.Battery < (PowerConsumption(Distance(FindStation(StationID).Position, d.Position), d.Weight) - 20)) && b)
                         {
                             DeleteDrone(d);
                             throw new DontHaveEnoughPowerException($"drone {id} don't have enough power to do anything\nSo he'll expload");
@@ -462,6 +469,10 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// The DroneOutCharge.
+        /// </summary>
+        /// <param name="id">The id<see cref="int"/>.</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneOutCharge(int id)
         {
@@ -477,6 +488,7 @@ namespace BL
                 }
             }
         }
+
         /// <summary>
         /// Removing a drone from a charger.
         /// </summary>
@@ -497,6 +509,7 @@ namespace BL
                 }
             }
         }
+
         /// <summary>
         /// Assign a parcel to a drone.
         /// </summary>
@@ -523,6 +536,7 @@ namespace BL
                     throw new DroneIsBusyException($"drone {DroneID} in busy right new");
             }
         }
+
         /// <summary>
         /// Collection of a parcel by drone.
         /// </summary>
@@ -558,6 +572,7 @@ namespace BL
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
+
         /// <summary>
         /// Delivery of a parcel by drone.
         /// </summary>
@@ -593,6 +608,7 @@ namespace BL
             }
             catch (Exception ex) { throw new Exception(ex.Message, ex); }
         }
+
         /// <summary>
         /// station search.
         /// </summary>
@@ -1024,7 +1040,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId">The droneId<see cref="int"/>.</param>
         /// <param name="display">The display<see cref="Action"/>.</param>
-        /// <param name="checker">The checker<see cref="bool"/>.</param>
+        /// <param name="stopCheck">The stopCheck<see cref="Func{bool}"/>.</param>
         public void Uploader(int droneId, Action display, Func<bool> stopCheck)
         {
             Simulator simulator = new Simulator(droneId, display, stopCheck, this);//constractor
