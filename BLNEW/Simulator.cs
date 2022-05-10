@@ -10,14 +10,18 @@ namespace BL
     public class Simulator
     {
         private readonly double speed = 60;//---km/h
-        private readonly int DELAY = 1000; // whaiting time 1 sec(1000 mlsc)
-        public Simulator(int droneId, Action display, Func<bool> checker, BL bl)//constractor
+        private readonly int DELAY = 1000; // waiting time 1 sec(1000 mlsc)
+        public static double Distance(Location a, Location b)
+        {
+            return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
+        }
+        public Simulator(int droneId, Action display, Func<bool> checker, BL bl)//contractor
         {
             while (checker())
             {
                 display();
-                Thread.Sleep(2500);
                 Drone drone;
+                Thread.Sleep(2000);
                 drone = bl.FindDrone(droneId);
                 switch (drone.Status)
                 {
@@ -56,6 +60,7 @@ namespace BL
                                     bl.DroneOutCharge((int)drone.ID);//need fixing
                                     drone.Status = BO.Status.BELONG;
                                     bl.UpdateDrone(drone);
+
                                 }
                                 catch (DroneDontInChargingException ex)
                                 {
@@ -66,6 +71,7 @@ namespace BL
                                     throw new Exception(ex.Message);
                                 }
                                 bl.PickUpParcel(droneId);
+                                Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Position)+1000/speed));
                                 display();
 
                             }
@@ -82,9 +88,9 @@ namespace BL
                                 try
                                 {
                                     bl.Parceldelivery(droneId);
+                                    Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Parcel.LocationOftarget)+1000/speed));
                                     display();
                                 }
-
                                 catch (ParcelPastErroeException)
                                 {
                                     Thread.Sleep(DELAY);
@@ -105,6 +111,8 @@ namespace BL
                             drone.Status = Status.MAINTENANCE;
                             bl.UpdateDrone(drone);
                             bl.DroneOutCharge((int)drone.ID, DateTime.Now);
+                            drone = bl.FindDrone((int)drone.ID);
+                            drone.Status = Status.FREE;
                             bl.UpdateDrone(drone);
                             display();
                         }

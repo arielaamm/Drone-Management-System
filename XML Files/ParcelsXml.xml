@@ -9,10 +9,10 @@
     <Priority>FAST</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3038264+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:39:20.4860717+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:39:23.0534485+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:39:35.1063679+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -23,10 +23,10 @@
     <Priority>SOS</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3048009+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:38:16.0258151+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:38:18.59324+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:38:21.1451166+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -37,10 +37,10 @@
     <Priority>SOS</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3048055+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:38:23.7000827+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:38:26.2548347+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:38:28.8028786+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -49,12 +49,12 @@
     <TargetId>12</TargetId>
     <Weight>HEAVY</Weight>
     <Priority>SOS</Priority>
-    <DroneId>5</DroneId>
+    <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3048061+03:00</Requested>
     <Scheduled>2022-05-09T17:36:09.3085283+03:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>BELONG</Status>
+    <PickedUp>2022-05-10T08:55:17.5228692+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:55:17.5819608+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -65,10 +65,10 @@
     <Priority>SOS</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3086177+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:38:31.3667696+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:38:33.951874+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:38:42.8264072+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -93,10 +93,10 @@
     <Priority>SOS</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.308643+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:38:45.4072991+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:39:03.7724245+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:39:17.9137928+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -107,10 +107,10 @@
     <Priority>FAST</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3086438+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:39:37.6829374+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:39:48.6781148+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:40:16.4919131+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -121,10 +121,10 @@
     <Priority>FAST</Priority>
     <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3086446+03:00</Requested>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>CREAT</Status>
+    <Scheduled>2022-05-10T08:40:19.0666997+03:00</Scheduled>
+    <PickedUp>2022-05-10T08:40:21.6448618+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:40:35.8008305+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
   <Parcel>
     <IsActive>true</IsActive>
@@ -133,11 +133,11 @@
     <TargetId>15</TargetId>
     <Weight>HEAVY</Weight>
     <Priority>SOS</Priority>
-    <DroneId>7</DroneId>
+    <DroneId>0</DroneId>
     <Requested>2022-05-09T17:36:09.3086456+03:00</Requested>
     <Scheduled>2022-05-09T17:36:09.3086471+03:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Deliverd xsi:nil="true" />
-    <Status>BELONG</Status>
+    <PickedUp>2022-05-10T08:54:50.7588561+03:00</PickedUp>
+    <Deliverd>2022-05-10T08:54:50.8131444+03:00</Deliverd>
+    <Status>DELIVERD</Status>
   </Parcel>
 </ArrayOfParcel>
