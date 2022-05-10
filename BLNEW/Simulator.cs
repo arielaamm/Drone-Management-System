@@ -3,18 +3,43 @@ using BO;
 using System;
 using System.Linq;
 using System.Threading;
-//ntc the delay
 
+//ntc the delay
 namespace BL
 {
+    /// <summary>
+    /// Defines the <see cref="Simulator" />.
+    /// </summary>
     public class Simulator
     {
+        /// <summary>
+        /// Defines the speed.
+        /// </summary>
         private readonly double speed = 60;//---km/h
-        private readonly int DELAY = 1000; // waiting time 1 sec(1000 mlsc)
+
+        /// <summary>
+        /// Defines the DELAY.
+        /// </summary>
+        private readonly int DELAY = 1000;// waiting time 1 sec(1000 mlsc)
+
+        /// <summary>
+        /// The Distance.
+        /// </summary>
+        /// <param name="a">The a<see cref="Location"/>.</param>
+        /// <param name="b">The b<see cref="Location"/>.</param>
+        /// <returns>The <see cref="double"/>.</returns>
         public static double Distance(Location a, Location b)
         {
             return Math.Sqrt(Math.Pow(a.Lattitude - b.Lattitude, 2) + Math.Pow(a.Longitude - b.Longitude, 2));
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Simulator"/> class.
+        /// </summary>
+        /// <param name="droneId">The droneId<see cref="int"/>.</param>
+        /// <param name="display">The display<see cref="Action"/>.</param>
+        /// <param name="checker">The checker<see cref="Func{bool}"/>.</param>
+        /// <param name="bl">The bl<see cref="BL"/>.</param>
         public Simulator(int droneId, Action display, Func<bool> checker, BL bl)//contractor
         {
             while (checker())
@@ -71,7 +96,7 @@ namespace BL
                                     throw new Exception(ex.Message);
                                 }
                                 bl.PickUpParcel(droneId);
-                                Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Position)+1000/speed));
+                                Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Position) + 1000 / speed));
                                 display();
 
                             }
@@ -88,7 +113,7 @@ namespace BL
                                 try
                                 {
                                     bl.Parceldelivery(droneId);
-                                    Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Parcel.LocationOftarget)+1000/speed));
+                                    Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Parcel.LocationOftarget) + 1000 / speed));
                                     display();
                                 }
                                 catch (ParcelPastErroeException)
