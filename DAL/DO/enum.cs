@@ -4,9 +4,10 @@
     /// Enum file
     /// </summary>
     public enum Weight
-    { <summary>
-      /// Defines the LIGHT.
-      /// </summary>
+    {
+        ///<summary>
+        /// Defines the LIGHT.
+        /// </summary>
         LIGHT = 0,
         /// <summary>
         /// Defines the MEDIUM.
@@ -22,7 +23,7 @@
     /// Defines the Priority.
     /// </summary>
     public enum Priority
-    { <summary>
+    { ///<summary>
       /// Defines the REGULAR.
       /// </summary>
         REGULAR = 0,
@@ -40,7 +41,7 @@
     /// Defines the Model.
     /// </summary>
     public enum Model
-    { <summary>
+    { ///<summary>
       /// Defines the MDL65.
       /// </summary>
         MDL65 = 0,
@@ -58,7 +59,7 @@
     /// Defines the Status.
     /// </summary>
     public enum Status
-    { <summary>
+    { ///<summary>
       /// Defines the CREAT.
       /// </summary>
         FREE = 0,
@@ -80,9 +81,10 @@
     /// Defines the StatusParcel.
     /// </summary>
     public enum StatusParcel
-    { <summary>
-      /// Defines the CREAT.
-      /// </summary>
+    {
+        ///<summary>
+        /// Defines the CREAT.
+        /// </summary>
         CREAT = 0,
         /// <summary>
         /// Defines the BELONG.
