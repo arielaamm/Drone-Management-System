@@ -71,7 +71,7 @@ namespace BL
                                     throw new Exception(ex.Message);
                                 }
                                 bl.PickUpParcel(droneId);
-                                Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Position) + 1000 / speed));
+                                Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Position)+1000/speed));
                                 display();
 
                             }
@@ -88,10 +88,37 @@ namespace BL
                                 try
                                 {
                                     bl.Parceldelivery(droneId);
-                                    Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Parcel.LocationOftarget) + 1000 / speed));
+                                    Thread.Sleep((int)(Distance(drone.Parcel.LocationOfSender, drone.Parcel.LocationOftarget)+1000/speed));
                                     display();
                                 }
                                 catch (ParcelPastErroeException)
                                 {
                                     Thread.Sleep(DELAY);
                                 }
+
+                                catch (Exception ex)
+                                {
+                                    new Exception(ex.Message.ToString());
+                                }
+                            }
+                        }
+                        break;
+                    case Status.MAINTENANCE:
+                        lock (bl)
+                        {
+                            DateTime dateTime = DateTime.Now;
+                            Thread.Sleep(1000);
+                            drone.Status = Status.MAINTENANCE;
+                            bl.UpdateDrone(drone);
+                            bl.DroneOutCharge((int)drone.ID, DateTime.Now);
+                            drone = bl.FindDrone((int)drone.ID);
+                            drone.Status = Status.FREE;
+                            bl.UpdateDrone(drone);
+                            display();
+                        }
+                        break;
+                }
+            }
+        }
+    }
+}
