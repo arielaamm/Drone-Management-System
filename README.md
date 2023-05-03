@@ -77,4 +77,4 @@ The user interface includes several screens to manage customers and drones:
 This demo project provides a simple example of how to manage customers and drones in C# and XAML using the MVVM design pattern and move. It includes a basic data service, unit tests, and a user interface to manage customers and drones. You can use this project as a starting point for building more complex applications that require data management functionality.
 
 Credits
-This demo project was created by [Your Name]. If you have any questions or feedback, please contact me at [Your Email].
+This demo project was created by Ariel Moreshet. If you have any questions or feedback, please contact me at [arialaamm@gmail.cm=om].
