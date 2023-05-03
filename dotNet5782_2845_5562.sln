@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52BD873F-F3E4-4DBB-8CD0-D1CB4BAF6DA5}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		סיכום בונוסים.docx = סיכום בונוסים.docx
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{CC5EBC83-D1F3-4458-A7BE-F729D11625DD}"
