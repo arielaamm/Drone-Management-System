@@ -63,7 +63,7 @@ The user interface includes several screens to manage customers and drones:
 
 1. Customer List: This screen displays a list of all customers in the system. Clicking on a customer opens the Customer Details screen.
 
-2.Customer Details: This screen displays the details of a selected customer, including their name, email address, and ID. It also includes a list of all drones assigned to the customer. From this screen, you can edit the customer's information or assign a new drone to the customer.
+2. Customer Details: This screen displays the details of a selected customer, including their name, email address, and ID. It also includes a list of all drones assigned to the customer. From this screen, you can edit the customer's information or assign a new drone to the customer.
 
 3. Drone List: This screen displays a list of all drones in the system. Clicking on a drone opens the Drone Details screen.
 
