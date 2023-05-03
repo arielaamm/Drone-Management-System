@@ -1,4 +1,4 @@
-# dotNet5782_2845_5562
+# Drone Management System
 
 # Customer and Drone Management System Demo
 This demo project is a simple application written in C# and XAML, designed to showcase a customer and drone management system. The application allows the user to create, edit and delete parcels and also lets the manager manage the drones and clients.
