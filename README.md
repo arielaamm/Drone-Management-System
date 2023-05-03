@@ -4,15 +4,15 @@
 This demo project is a simple application written in C# and XAML, designed to showcase a customer and drone management system. The application allows the user to create, edit and delete parcels and also lets the manager manage the drones and clients.
 
 ## Features
-Add new customers to the system
-Edit existing customer information
-Delete customers from the system
-Add new drones to the system
-Edit existing drone information
-Delete drones from the system
-View a list of all customers in the system
-View a list of all drones in the system
-View a list of all drones assigned to a particular customer
+* Add new customers to the system
+* Edit existing customer information
+* Delete customers from the system
+* Add new drones to the system
+* Edit existing drone information
+* Delete drones from the system
+* View a list of all customers in the system
+* View a list of all drones in the system
+* View a list of all drones assigned to a particular customer
 ## Installation
 To run the application, follow these steps:
 
@@ -74,7 +74,7 @@ The user interface includes several screens to manage customers and drones:
 6. Add Drone: This screen allows you to add a new drone to the system. It includes fields to enter the drone's name and email address, as well as a dropdown to select the customer the drone is assigned to.
 
 # Conclusion
-This demo project provides a simple example of how to manage customers and drones in C# and XAML using the MVVM design pattern and move. It includes a basic data service, unit tests, and a user interface to manage customers and drones. You can use this project as a starting point for building more complex applications that require data management functionality.
+This demo project provides a simple example of how to manage customers and drones in C# and XAML using the MVVM design pattern and more. It includes a basic data service, unit tests, and a user interface to manage customers and drones. You can use this project as a starting point for building more complex applications that require data management functionality.
 
 Credits
 This demo project was created by Ariel Moreshet and Yair Babaov. If you have any questions or feedback, please contact me at arialaamm@gmail.com - Ariel, yair.babayov@gmail.com - Yair.
